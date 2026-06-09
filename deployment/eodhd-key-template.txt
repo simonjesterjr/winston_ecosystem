@@ -1,0 +1,13 @@
+# EODHD API Key Placement (once user supplies it)
+#
+# Copy this file to a non-tracked location (e.g. eodhd.env or add to your podman secret / compose env_file).
+# Do NOT commit the real key.
+#
+# The key will be read by data_manager (via Rails credentials, ENV, or a small initializer that looks in the documented ecosystem spot).
+#
+# Example for compose env_file:
+# EODHD_API_KEY=PUT_YOUR_REAL_KEY_HERE_FROM_EODHD.COM
+#
+# After the key is placed and compose is using it, DM's EodhdClient should be able to call the EODHD historical endpoint successfully.
+#
+# This file lives in ecosystem/deployment/ so it is part of the permanent, always-referenced deployment knowledge.
