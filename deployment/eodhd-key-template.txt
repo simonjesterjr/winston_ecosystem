@@ -1,13 +1,22 @@
-# EODHD API Key Placement (once user supplies it)
+# EODHD API token placement (NOT the API URL)
 #
-# Copy this file to a non-tracked location (e.g. eodhd.env or add to your podman secret / compose env_file).
-# Do NOT commit the real key.
+# Copy to eodhd.env (never commit the real token).
 #
-# The key will be read by data_manager (via Rails credentials, ENV, or a small initializer that looks in the documented ecosystem spot).
+# Your api_token from https://eodhd.com — looks like: 6a24509831ebb1.76963503
+# EODHD_API_KEY=your_token_here
 #
-# Example for compose env_file:
-# EODHD_API_KEY=PUT_YOUR_REAL_KEY_HERE_FROM_EODHD.COM
+# Optional alias for commodity downloads (same token is fine for most plans):
+# EODHD_COMMODITY_API_KEY=your_token_here
 #
-# After the key is placed and compose is using it, DM's EodhdClient should be able to call the EODHD historical endpoint successfully.
+# WRONG — do not paste endpoint URLs as the key:
+# EODHD_COMMODITY_API_KEY=https://eodhd.com/api/commodities/historical/{CODE}
 #
-# This file lives in ecosystem/deployment/ so it is part of the permanent, always-referenced deployment knowledge.
+# Commodity FRED API endpoint (DM calls this for you):
+#   GET https://eodhd.com/api/commodities/historical/WTI?api_token=YOUR_TOKEN&interval=daily
+#
+# Commodity ETF API (standard EOD):
+#   GET https://eodhd.com/api/eod/GLD.US?api_token=YOUR_TOKEN
+#
+# Local dev URLs:
+# DATA_MANAGER_URL=http://localhost:3001
+# WUT_BASE_URL=http://localhost:3000

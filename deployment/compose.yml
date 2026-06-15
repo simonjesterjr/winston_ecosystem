@@ -1,0 +1,116 @@
+# Sawtooth / Winston ecosystem — root Podman Compose
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+
+  dm_postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: sawtooth
+      POSTGRES_PASSWORD: sawtooth
+      POSTGRES_DB: data_manager_dev
+    volumes:
+      - dm_postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    restart: unless-stopped
+
+  wut_postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: sawtooth
+      POSTGRES_PASSWORD: sawtooth
+      POSTGRES_DB: winston_unit_test_dev
+    volumes:
+      - wut_postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+    restart: unless-stopped
+
+  data_manager:
+    build:
+      context: ./data_manager
+      dockerfile: Containerfile
+    command: bin/rails server -b 0.0.0.0 -p 3000
+    ports:
+      - "3001:3000"
+    env_file:
+      - ./winston_ecosystem/deployment/eodhd.env
+    environment:
+      RAILS_ENV: development
+      REDIS_URL: redis://redis:6379/0
+      DB_HOST: dm_postgres
+      DB_NAME: data_manager_dev
+      DB_USER: sawtooth
+      DB_PASSWORD: sawtooth
+      WUT_BASE_URL: http://winston_unit_test:3000
+      DM_DATA_PATH: /app/data/markets
+      DM_RECONCILE_ON_BOOT: "true"
+    volumes:
+      - ./data_manager:/app
+      - dm_data:/app/data
+    depends_on:
+      - redis
+      - dm_postgres
+      - winston_unit_test
+    restart: unless-stopped
+
+  data_manager_sidekiq:
+    build:
+      context: ./data_manager
+      dockerfile: Containerfile
+    command: bundle exec sidekiq
+    env_file:
+      - ./winston_ecosystem/deployment/eodhd.env
+    environment:
+      RAILS_ENV: development
+      REDIS_URL: redis://redis:6379/0
+      DB_HOST: dm_postgres
+      DB_NAME: data_manager_dev
+      DB_USER: sawtooth
+      DB_PASSWORD: sawtooth
+      WUT_BASE_URL: http://winston_unit_test:3000
+      DM_DATA_PATH: /app/data/markets
+    volumes:
+      - ./data_manager:/app
+      - dm_data:/app/data
+    depends_on:
+      - redis
+      - dm_postgres
+      - data_manager
+    restart: unless-stopped
+
+  winston_unit_test:
+    build:
+      context: ./winston_unit_test
+      dockerfile: Containerfile
+    command: bin/rails server -b 0.0.0.0 -p 3000
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_ENV: development
+      REDIS_URL: redis://redis:6379/1
+      DB_HOST: wut_postgres
+      DB_NAME: winston_unit_test_dev
+      DB_USER: sawtooth
+      DB_PASSWORD: sawtooth
+    volumes:
+      - ./winston_unit_test:/app
+      - dm_data:/dm_data:ro
+    depends_on:
+      - redis
+      - wut_postgres
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+  dm_postgres_data:
+  wut_postgres_data:
+  dm_data:
