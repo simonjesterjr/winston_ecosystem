@@ -1,0 +1,33 @@
+# Mirror of monolith config/sidekiq_schedule.yml — keep in sync with ecosystem/ai/schedule/manifest.yaml
+# Loaded by Sidekiq workers on boot (not by Cromwell).
+
+data_manager:
+  daily_data_sync:
+    cron: "30 15 * * 1-5 America/Denver"
+    class: DailyDataOrchestratorJob
+    active_job: true
+    queue: default
+  weekend_data_sync:
+    cron: "0 8 * * 6 America/Denver"
+    class: WeekendDataSyncJob
+    active_job: true
+    queue: default
+
+winston_v2:
+  daily_analysis:
+    cron: "30 16 * * 1-5 America/Denver"
+    class: DailyAnalysisJob
+    active_job: true
+    queue: default
+
+winston_unit_test:
+  daily_operations:
+    cron: "0 6 * * * America/Denver"
+    class: DailyOperationsJob
+    active_job: true
+    queue: default
+  active_accounts_backup:
+    cron: "0 0 * * * America/Denver"
+    class: ActiveAccountsBackupJob
+    active_job: true
+    queue: default

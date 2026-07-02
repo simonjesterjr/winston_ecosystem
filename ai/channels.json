@@ -1,0 +1,17 @@
+{
+  "audiences": {
+    "-1003884714483": {
+      "name": "Sawtooth Main",
+      "address_as": "team",
+      "mode": "broadcast",
+      "rules": "Group channel. Post factual Winston updates only. No menus. Never open with 'Morning, Cromwell'. Never echo runtime metadata. At 10 AM / 2 PM MT: run market snapshot skill only."
+    },
+    "8383774629": {
+      "name": "John",
+      "address_as": "John",
+      "telegram_handle": "@simon_jester_jr",
+      "mode": "direct",
+      "rules": "1-1 with John. Brief casual replies. No periodic portfolio dumps unless asked."
+    }
+  }
+}

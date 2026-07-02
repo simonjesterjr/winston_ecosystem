@@ -1,0 +1,81 @@
+{
+  "planPath": "plans/winston-mcp-next-steps.md",
+  "status": "pending",
+  "blockedBy": ["plans/winston-mcp-immediate.md"],
+  "tasks": [
+    {
+      "id": 1,
+      "subject": "Phase 1: Port real daily analysis services from WUT to Wv2 (SignalEvaluation, ReportBuilder, TaskGenerator, strategies)",
+      "status": "completed"
+    },
+    {
+      "id": 2,
+      "subject": "Phase 1: DailyAnalysisJob produces real signals, journals, operations_tasks with idempotency guards",
+      "status": "completed",
+      "blockedBy": [1]
+    },
+    {
+      "id": 3,
+      "subject": "Phase 1: Update MCP perform_daily_analysis + get_report with rich structured output",
+      "status": "completed",
+      "note": "DailyAnalysisResponseBuilder + sync evaluate API; MCP defaults sync=true",
+      "blockedBy": [2]
+    },
+    {
+      "id": 4,
+      "subject": "Phase 1: Verification — WUT backtest → Wv2 import → daily analysis signal parity on same parquet",
+      "status": "completed",
+      "note": "signal_evaluation_parity_spec + bin/verify-daily-analysis-parity (--compose for smoke)",
+      "blockedBy": [3]
+    },
+    {
+      "id": 5,
+      "subject": "Phase 2: CromwellNotifier real webhook POST + payload schema in ecosystem/interfaces/",
+      "status": "pending"
+    },
+    {
+      "id": 6,
+      "subject": "Phase 2: MCP confirmation tools (confirm_journal, mark_task_done) + journal state machine",
+      "status": "pending",
+      "blockedBy": [5]
+    },
+    {
+      "id": 7,
+      "subject": "Phase 2: Stable report artifacts + link references in notifications and MCP responses",
+      "status": "pending",
+      "blockedBy": [5]
+    },
+    {
+      "id": 8,
+      "subject": "Phase 3: MCP server maturity — richer schemas, progress, error payloads, audit log",
+      "status": "pending"
+    },
+    {
+      "id": 9,
+      "subject": "Phase 3: Additional MCP tools (list_pending_actions, get_journal, request_full_dm_sync)",
+      "status": "pending",
+      "blockedBy": [8]
+    },
+    {
+      "id": 10,
+      "subject": "Phase 4: nanobot/Cromwell polish — canonical instance, ollama recipes, heartbeat daily briefing",
+      "status": "pending"
+    },
+    {
+      "id": 11,
+      "subject": "Phase 5: Cross-monolith ops — dm:sync_from_consumers solid, WUT vetted-TS listing for smarter transfer",
+      "status": "pending"
+    },
+    {
+      "id": 12,
+      "subject": "Phase 6: Ecosystem docs — full MCP contract, Cromwell notification v1 schema, deployment AI section",
+      "status": "pending"
+    },
+    {
+      "id": 13,
+      "subject": "Phase 6: End-to-end verification script — Telegram-driven Cromwell day simulation",
+      "status": "pending",
+      "blockedBy": [4, 6, 7]
+    }
+  ]
+}

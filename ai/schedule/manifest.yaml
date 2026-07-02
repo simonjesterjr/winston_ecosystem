@@ -1,0 +1,108 @@
+# Winston / Cromwell recurring tasks — authoritative catalog
+# Skills reference task ids here; do not duplicate schedules inside SKILL.md
+version: "1.0"
+
+timezones:
+  backend: America/Denver
+  nyse_session_mt: "7:30 AM - 2:00 PM MT (9:30 AM - 4:00 PM Eastern)"
+
+tasks:
+  - id: dm_daily_sync
+    owner: sidekiq
+    service: data_manager
+    job: DailyDataOrchestratorJob
+    cron: "30 15 * * 1-5"
+    tz: America/Denver
+    description: EODHD refresh for union of WUT+Wv2 /internal/active_markets
+    depends_on: []
+    status: active
+
+  - id: dm_weekend_sync
+    owner: sidekiq
+    service: data_manager
+    job: WeekendDataSyncJob
+    cron: "0 8 * * 6"
+    tz: America/Denver
+    description: Saturday parquet refresh (same symbol union as dm_daily_sync)
+    status: active
+
+  - id: wv2_daily_analysis
+    owner: sidekiq
+    service: winston_v2
+    job: DailyAnalysisJob
+    cron: "30 16 * * 1-5"
+    tz: America/Denver
+    description: Expire stale actions, analyze, write Cromwell JSON + PDF
+    depends_on: [dm_daily_sync]
+    produces:
+      - storage/cromwell_notifications/wv2_{date}.json
+      - storage/reports/wv2_{date}.pdf
+    status: active
+
+  - id: wut_daily_operations
+    owner: sidekiq
+    service: winston_unit_test
+    job: DailyOperationsJob
+    cron: "0 6 * * *"
+    tz: America/Denver
+    audience: wut_operations_ui
+    description: ActiveAccount signal eval + tasks for Winston Operations UI (not Cromwell)
+    status: active
+
+  - id: wut_active_accounts_backup
+    owner: sidekiq
+    service: winston_unit_test
+    job: ActiveAccountsBackupJob
+    cron: "0 0 * * *"
+    tz: America/Denver
+    audience: wut_operations_ui
+    status: active
+
+  - id: cromwell_dm_sync_relay
+    owner: cromwell_cron
+    cron: "35,45 15 * * 1-5"
+    tz: America/Denver
+    channel: "telegram:-1003884714483"
+    skills: [winston-dm-sync-events]
+    mcp: [dm_get_cromwell_events]
+    depends_on: [dm_daily_sync]
+    status: active
+
+  - id: cromwell_eod_delivery
+    owner: cromwell_cron
+    cron: "35 16 * * 1-5"
+    tz: America/Denver
+    channel: "telegram:-1003884714483"
+    skills: [winston-daily-ops, winston-report-delivery]
+    mcp: [wv2_get_daily_activity_report]
+    mcp_args: { fetch_only: true }
+    depends_on: [wv2_daily_analysis]
+    status: active
+
+  - id: cromwell_market_snapshot_open
+    owner: cromwell_cron
+    cron: "30 7 * * 1-5"
+    tz: America/Denver
+    channel: "telegram:-1003884714483"
+    skills: [winston-market-snapshot, winston-heartbeat]
+    mcp: [wv2_market_snapshot]
+    window: "NYSE open (7:30 AM MT)"
+    status: active
+
+  - id: cromwell_market_snapshot_hourly
+    owner: cromwell_cron
+    cron: "0 8-14 * * 1-5"
+    tz: America/Denver
+    channel: "telegram:-1003884714483"
+    skills: [winston-market-snapshot, winston-heartbeat]
+    mcp: [wv2_market_snapshot]
+    window: "7:30 AM-2:00 PM MT session; hourly on the hour 8 AM-2 PM"
+    note: "ATR breach filter requires Phase D live quotes"
+    status: active
+
+  - id: wut_weekend_correlation
+    owner: sidekiq
+    service: winston_unit_test
+    job: CorrelationAnalysisJob
+    status: planned
+    description: Deferred — weekend correlation testing
