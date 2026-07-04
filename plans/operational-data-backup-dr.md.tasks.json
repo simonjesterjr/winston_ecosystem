@@ -1,0 +1,65 @@
+{
+  "planPath": "plans/operational-data-backup-dr.md",
+  "status": "pending",
+  "tasks": [
+    {
+      "id": 1,
+      "subject": "Phase 1: Inventory all backup targets (volumes, bind mounts, sizes) and assign P0–P3 tiers",
+      "status": "pending"
+    },
+    {
+      "id": 2,
+      "subject": "Phase 1: Define target RPO/RTO for parquet, Postgres, and full stack restore",
+      "status": "pending",
+      "blockedBy": [1]
+    },
+    {
+      "id": 3,
+      "subject": "Phase 2: Design on-server archive layout and manifest.json schema",
+      "status": "pending",
+      "blockedBy": [1]
+    },
+    {
+      "id": 4,
+      "subject": "Phase 2: Implement bin/backup-sawtooth (pg_dump + parquet archive + bind mounts + manifest)",
+      "status": "pending",
+      "blockedBy": [3]
+    },
+    {
+      "id": 5,
+      "subject": "Phase 2: Schedule periodic backups and on-server retention policy",
+      "status": "pending",
+      "blockedBy": [4]
+    },
+    {
+      "id": 6,
+      "subject": "Phase 3: Evaluate off-site options (cloud, encrypted media, private repo) and pick primary destination",
+      "status": "pending",
+      "note": "Operator input required for credentials, billing, physical media"
+    },
+    {
+      "id": 7,
+      "subject": "Phase 3: Implement encrypted off-site transfer and remote manifest verification",
+      "status": "pending",
+      "blockedBy": [4, 6]
+    },
+    {
+      "id": 8,
+      "subject": "Phase 4: Write DR runbook (empty volumes → restore → compose up → DM reconcile → smoke tests)",
+      "status": "pending",
+      "blockedBy": [4]
+    },
+    {
+      "id": 9,
+      "subject": "Phase 4: Execute first DR drill and record actual RTO and gaps (session report)",
+      "status": "pending",
+      "blockedBy": [8]
+    },
+    {
+      "id": 10,
+      "subject": "Phase 5: Optimize backup/restore from drill findings; align WUT ActiveAccountsBackupJob with ecosystem policy",
+      "status": "pending",
+      "blockedBy": [9]
+    }
+  ]
+}
