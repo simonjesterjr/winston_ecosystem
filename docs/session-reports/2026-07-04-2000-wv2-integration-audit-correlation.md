@@ -168,7 +168,7 @@ _None._
 
 - [ ] DM integration audit mirror — owner: next session — ticket: `docs/tickets/2026-07-02-dm-integration-audit-mirror.md`
 - [ ] Cromwell `winston-audit-trail` skill — owner: next session — ticket: `docs/tickets/2026-07-02-cromwell-audit-trail-skill.md`
-- [ ] Version root `compose.yml` + `bin/` smoke scripts — owner: operator — due: when deployment repo strategy decided
+- [ ] Version root `compose.yml` + `bin/` smoke scripts — owner: operator — **task:** `plans/winston-mcp-next-steps.md.tasks.json` id 16
 
 ---
 

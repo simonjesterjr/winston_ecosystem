@@ -31,40 +31,47 @@
     {
       "id": 5,
       "subject": "Phase 2: CromwellNotifier real webhook POST + payload schema in ecosystem/interfaces/",
-      "status": "pending"
+      "status": "completed",
+      "note": "CromwellWebhookClient + winston_mcp /webhook/cromwell + cromwell-notification-v1.md"
     },
     {
       "id": 6,
       "subject": "Phase 2: MCP confirmation tools (confirm_journal, mark_task_done) + journal state machine",
-      "status": "pending",
+      "status": "completed",
+      "note": "JournalConfirmationService + wv2_confirm_journal / wv2_mark_task_done / list_pending_actions",
       "blockedBy": [5]
     },
     {
       "id": 7,
       "subject": "Phase 2: Stable report artifacts + link references in notifications and MCP responses",
-      "status": "pending",
+      "status": "completed",
+      "note": "ReportArtifactBuilder manifest + report_links in notifier and evaluate response",
       "blockedBy": [5]
     },
     {
       "id": 8,
       "subject": "Phase 3: MCP server maturity — richer schemas, progress, error payloads, audit log",
-      "status": "pending"
+      "status": "completed",
+      "note": "2026-07-02: audit.py, errors.py, rate_limit.py, progress.py, tools_schema.py; interfaces v0.3; bin/test-mcp-{audit-smoke,maturity}. Deferred: config-driven managed portfolios, signed auth (plan scope boundary). Fast follow: docs/tickets/2026-07-02-{wv2,dm,cromwell}-*.md"
     },
     {
       "id": 9,
       "subject": "Phase 3: Additional MCP tools (list_pending_actions, get_journal, request_full_dm_sync)",
-      "status": "pending",
+      "status": "completed",
+      "note": "2026-07-02: wv2_get_journal, wv2_get_portfolio_status, wv2_list_trading_strategies, dm_request_full_sync; Wv2/DM internals; bin/test-mcp-task9-smoke",
       "blockedBy": [8]
     },
     {
       "id": 10,
-      "subject": "Phase 4: nanobot/Cromwell polish — canonical instance, ollama recipes, heartbeat daily briefing",
-      "status": "pending"
+      "subject": "Phase 4: nanobot/Cromwell polish — canonical instance, ollama recipes, cron-driven EOD delivery",
+      "status": "pending",
+      "note": "2026-07-04 partial: dream cron removed; gateway heartbeat disabled (HEARTBEAT.md); manifest.yaml authoritative; nanobot PDF auto-delivery + per-task message context; 4:30 PM MT analysis gate. Remaining: close-out ticket docs/tickets/2026-07-04-cromwell-cron-heartbeat-closeout.md; ollama recipes; multi-principal separation."
     },
     {
       "id": 11,
       "subject": "Phase 5: Cross-monolith ops — dm:sync_from_consumers solid, WUT vetted-TS listing for smarter transfer",
-      "status": "pending"
+      "status": "pending",
+      "note": "DM DailyDataOrchestratorJob active in manifest (3:30 PM MT). Verify end-to-end with data_manager_sidekiq running in compose."
     },
     {
       "id": 12,
@@ -76,6 +83,27 @@
       "subject": "Phase 6: End-to-end verification script — Telegram-driven Cromwell day simulation",
       "status": "pending",
       "blockedBy": [4, 6, 7]
+    },
+    {
+      "id": 14,
+      "subject": "Phase 5: Sidekiq workers in compose — verify dm/wv2/wut workers run scheduled jobs per manifest",
+      "status": "pending",
+      "note": "Services exist in compose.yml (data_manager_sidekiq, winston_v2_sidekiq, winston_unit_test_sidekiq). See ecosystem/deployment/README.md + docs/tickets/2026-07-02-compose-orchestrator-unification.md for bring-up.",
+      "blockedBy": [11]
+    },
+    {
+      "id": 15,
+      "subject": "Phase 2+: ManagedTask + Principal models in Wv2, MCP tools, Cromwell todo workflow",
+      "status": "pending",
+      "note": "Not implemented; narrative in plans/cromwell-ai-skills-part2.md (Principal todo tracking). Distinct from basic operations_tasks in daily analysis.",
+      "blockedBy": [6]
+    },
+    {
+      "id": 16,
+      "subject": "Deployment: version sawtooth root compose.yml and bin/ smoke scripts in git",
+      "status": "pending",
+      "note": "Workspace root (compose.yml, bin/test-*-smoke) is outside monolith repos — audit mounts (WV2_INTEGRATION_AUDIT_DIR) and bin/test-wv2-integration-audit-smoke may not travel with clone-only workflow. Decide home: ecosystem/deployment/, meta-repo, or sync runbook. See docs/session-reports/2026-07-04-2000-wv2-integration-audit-correlation.md §14 item 3; related docs/tickets/2026-07-02-compose-orchestrator-unification.md.",
+      "blockedBy": [12]
     }
   ]
 }
