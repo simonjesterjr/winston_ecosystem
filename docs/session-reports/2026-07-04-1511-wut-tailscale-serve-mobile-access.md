@@ -50,14 +50,15 @@
 
 ### Commits
 
-- _(pending /wrap commit)_
+- `ee23c3b` (winston_unit_test) — Enable WUT access via Tailscale Serve at /wut subpath
+- `d9ff97e` (data_manager) — Add deployment-agnostic Tailscale host authorization initializer
+- `028fd08` (ecosystem) — Add session report: WUT Tailscale Serve mobile access
 
 ### Branch / PR state at sign-off
 
-- `winston_unit_test` main — dirty → committing this session's files only
-- `data_manager` main — dirty (session files + unrelated pre-existing changes; commit session files only)
-- `ecosystem` main — session report only
-- Pushed: pending
+- `winston_unit_test` main — clean, pushed
+- `data_manager` main — clean for session files (other local changes remain unstaged)
+- `ecosystem` main — clean for session report, pushed
 - PR: not opened
 
 ---
