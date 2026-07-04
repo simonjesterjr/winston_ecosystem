@@ -34,6 +34,7 @@ Before a workflow, read the matching skill from `skills/`:
 | Send or fetch the daily report | `winston-report-delivery` (also always loaded) |
 | Create / activate / add market | `winston-portfolio-lifecycle` |
 | Promote WUT backtest to live | `winston-wut-to-wv2` |
+| MCP error / `ref:` trace / "what went wrong?" | `winston-audit-trail` |
 
 MCP tool schemas: `ecosystem/interfaces/winston-mcp-tools.md` (reference only; do not duplicate in chat).
 

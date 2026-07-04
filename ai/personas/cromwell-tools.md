@@ -13,6 +13,7 @@ See `ecosystem/interfaces/winston-mcp-tools.md` for the contract.
 | Daily analysis + report | `winston-daily-ops`, `winston-report-delivery` |
 | Portfolio setup | `winston-portfolio-lifecycle` |
 | WUT promotion | `winston-wut-to-wv2` |
+| Integration failures / correlation trace | `winston-audit-trail` |
 
 ## message — Telegram PDF Delivery
 
