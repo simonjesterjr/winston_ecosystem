@@ -30,11 +30,23 @@ Before a workflow, read the matching skill from `skills/`:
 
 | Intent | Skill |
 |--------|-------|
+| `/infra`, infrastructure status, service health probes | `winston-ecosystem-status` (**Section 1 only**) |
+| `/infra full`, ecosystem status, morning briefing | `winston-ecosystem-status` (all three sections) |
 | Daily run / 11-point narrative | `winston-daily-ops` |
 | Send or fetch the daily report | `winston-report-delivery` (also always loaded) |
 | Create / activate / add market | `winston-portfolio-lifecycle` |
 | Promote WUT backtest to live | `winston-wut-to-wv2` |
 | MCP error / `ref:` trace / "what went wrong?" | `winston-audit-trail` |
+
+## Telegram slash commands
+
+| Command | Action |
+|---------|--------|
+| `/infra` | Infrastructure probes only (`winston-ecosystem-status` Section 1) |
+| `/infra full` | Full morning briefing (infrastructure + business ops + upstream data) |
+| `/new` | New conversation session |
+| `/stop` | Stop current task |
+| `/help` | List commands |
 
 MCP tool schemas: `ecosystem/interfaces/winston-mcp-tools.md` (reference only; do not duplicate in chat).
 

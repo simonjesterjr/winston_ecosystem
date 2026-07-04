@@ -2,6 +2,29 @@
   "version": 1,
   "jobs": [
     {
+      "id": "ecosystem-status-daily",
+      "name": "ecosystem-status-daily",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "atMs": null,
+        "everyMs": null,
+        "expr": "0 6 * * *",
+        "tz": "America/Denver"
+      },
+      "payload": {
+        "kind": "system_event",
+        "message": "6:00 AM MT daily morning briefing for Sawtooth Main. Skills: winston-ecosystem-status, winston-heartbeat. Three sections in order: (1) Infrastructure — probe wv2_list_portfolios, wut_list_portfolios, dm_get_cromwell_events limit 1; report ok/unreachable per service; DB inferred from probes; backups not implemented (say so); container-level pending Sidekiq watchdog; lead with failures. (2) Business ops — portfolios, pending actions, Mon-Fri yesterday fetch_only EOD recap, today's schedule. (3) Business data — prior trading day EODHD sync: count symbol_updated from dm_get_cromwell_events sync_complete run; format 'Winston updated N markets from upstream sources (EODHD) on DATE'; if prior day log unavailable state known gap honestly. Address team. FORBIDDEN: perform_daily_analysis, market_snapshot, Runtime Context, menus, full tables, inventing statuses, reusing prior tool results.",
+        "deliver": true,
+        "channel": "telegram",
+        "to": "-1003884714483"
+      },
+      "state": { "nextRunAtMs": null, "lastRunAtMs": null, "lastStatus": null, "lastError": null },
+      "createdAtMs": 1782000000000,
+      "updatedAtMs": 1782000000000,
+      "deleteAfterRun": false
+    },
+    {
       "id": "market-snapshot-open",
       "name": "market-snapshot-open",
       "enabled": true,

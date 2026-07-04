@@ -59,6 +59,7 @@ All work continues to respect: core monoliths runnable standalone; AI layer stri
    - DM already has good Wv2 symmetry; ensure the generalized `dm:sync_from_consumers` (or equivalent) is solid and exposed as an MCP tool too if useful ("make sure all my portfolios have fresh data").
    - WUT side: expose a minimal internal endpoint or MCP-facilitated path for "list recent good backtest runs / vetted TS" so transfer tool can be smarter ("transfer the best vetted trend portfolio from last month").
    - Sidekiq visibility for MCP-triggered jobs (the evaluate tool already enqueues; surface job ids/status in tool responses).
+   - **Ecosystem health watchdog (Sidekiq, not Cromwell):** independent Telegram alerts when core services or the Cromwell gateway are down. Cromwell's 6 AM briefing (`cromwell_ecosystem_status_daily`) covers narrative infrastructure probes + business status; authoritative container/DB checks belong in a DM Sidekiq job. Ticket: [`docs/tickets/2026-07-04-sidekiq-ecosystem-health-watchdog.md`](../docs/tickets/2026-07-04-sidekiq-ecosystem-health-watchdog.md). Related: `dm_get_cromwell_events` needs optional `date` for prior-day EODHD market-count line.
    - Governance UI in Wv2 gets light updates only as side-effect (e.g. show "last MCP invocation" or link to the Cromwell notification JSONs). UIs remain secondary.
 
 6. **Documentation & Ecosystem**:

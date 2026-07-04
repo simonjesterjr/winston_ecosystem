@@ -16,6 +16,9 @@ This directory is the **authoritative catalog** of recurring tasks across the Sa
 **Cromwell cron owns all periodic Telegram posts** (DM relay, EOD report, market snapshots). The nanobot gateway heartbeat (`gateway.heartbeat.enabled`) stays **false** — do not re-enable it for Sawtooth Main broadcasts. `HEARTBEAT.md` is a pointer to this directory only; it must not duplicate cron job definitions. When adding a new recurring Telegram task, edit `manifest.yaml` + `cromwell-cron.json`, then `bin/seed-cromwell-workspace --force-cron`.
 
 ```text
+Daily 6:00 AM MT:
+  Cromwell cron  → morning briefing (infrastructure probes, business ops, prior-day EODHD sync summary)
+
 M-F (America/Denver):
   3:30 PM  DM Sidekiq     → EODHD sync for all WUT+Wv2 portfolio symbols (+ Cromwell event log)
   3:35/3:45 PM Cromwell cron → relay DM events via dm_get_cromwell_events

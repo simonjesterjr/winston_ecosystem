@@ -65,7 +65,7 @@
       "id": 10,
       "subject": "Phase 4: nanobot/Cromwell polish — canonical instance, ollama recipes, cron-driven EOD delivery",
       "status": "pending",
-      "note": "2026-07-04 partial: dream cron removed; gateway heartbeat disabled (HEARTBEAT.md); manifest.yaml authoritative; nanobot PDF auto-delivery + per-task message context; 4:30 PM MT analysis gate; cron-heartbeat closeout verified (docs/tickets/2026-07-04-cromwell-cron-heartbeat-closeout.md Done). Remaining: ollama recipes; multi-principal separation."
+      "note": "2026-07-04 partial: dream cron removed; gateway heartbeat disabled (HEARTBEAT.md); manifest.yaml authoritative; nanobot PDF auto-delivery + per-task message context; 4:30 PM MT analysis gate; cron-heartbeat closeout verified (docs/tickets/2026-07-04-cromwell-cron-heartbeat-closeout.md Done). 2026-07-04: cromwell_ecosystem_status_daily 6 AM morning briefing (infrastructure probes + business ops + EODHD sync line) — skill winston-ecosystem-status. Remaining: ollama recipes; multi-principal separation."
     },
     {
       "id": 11,
@@ -104,6 +104,13 @@
       "status": "pending",
       "note": "Workspace root (compose.yml, bin/test-*-smoke) is outside monolith repos — audit mounts (WV2_INTEGRATION_AUDIT_DIR) and bin/test-wv2-integration-audit-smoke may not travel with clone-only workflow. Decide home: ecosystem/deployment/, meta-repo, or sync runbook. See docs/session-reports/2026-07-04-2000-wv2-integration-audit-correlation.md §14 item 3; related docs/tickets/2026-07-02-compose-orchestrator-unification.md.",
       "blockedBy": [12]
+    },
+    {
+      "id": 17,
+      "subject": "Phase 5: Sidekiq ecosystem health watchdog — independent Telegram alerts when Cromwell/core services down",
+      "status": "pending",
+      "note": "Ticket docs/tickets/2026-07-04-sidekiq-ecosystem-health-watchdog.md. DM Sidekiq job ~6:05 AM MT; HTTP probes + direct Bot API. Complements Cromwell 6 AM narrative briefing. Child: dm_get_cromwell_events date= for prior-day EODHD market count; backup line when operational-data-backup-dr Phase 2 ships.",
+      "blockedBy": [14]
     }
   ]
 }

@@ -79,6 +79,23 @@ tasks:
     depends_on: [wv2_daily_analysis]
     status: active
 
+  - id: cromwell_ecosystem_status_daily
+    owner: cromwell_cron
+    cron: "0 6 * * *"
+    tz: America/Denver
+    channel: "telegram:-1003884714483"
+    skills: [winston-ecosystem-status, winston-heartbeat]
+    mcp:
+      - wv2_list_portfolios
+      - wv2_list_pending_actions
+      - wv2_get_daily_activity_report
+      - wut_list_portfolios
+      - dm_get_cromwell_events
+    mcp_args: { fetch_only: true }
+    window: "6:00 AM MT — infrastructure + business morning briefing"
+    note: "Infrastructure probes via MCP; authoritative container/DB/backup checks deferred to Sidekiq watchdog ticket"
+    status: active
+
   - id: cromwell_market_snapshot_open
     owner: cromwell_cron
     cron: "30 7 * * 1-5"

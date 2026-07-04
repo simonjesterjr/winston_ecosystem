@@ -49,6 +49,9 @@ Then restart the bot:
 - `winston-report-delivery` — PDF report delivery (`always: true`)
 - `winston-portfolio-lifecycle` — create, add market, activate
 - `winston-wut-to-wv2` — promote backtest configs to live
+- `winston-ecosystem-status` — 6 AM morning briefing + `/infra` on-demand (infrastructure probes)
+
+**Telegram commands:** `/infra` (fast infrastructure probes), `/infra full` (full briefing). See `ai/README.md` at sawtooth root for Cromwell bot test matrix.
 
 Part 2 backlog (confirmation loop, data health, RAG, etc.) is documented in the Part 2 plan under `ecosystem/plans/`.
 
