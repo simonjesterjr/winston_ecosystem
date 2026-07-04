@@ -11,6 +11,10 @@ This directory is the **authoritative catalog** of recurring tasks across the Sa
 | **Skills** | `ecosystem/ai/skills/` | Playbooks linked from manifest by `skills:` — **no duplicate cron times** |
 | **HEARTBEAT.md** | Cromwell workspace | Pointer to this directory; heartbeat gateway stays **disabled** |
 
+### Cron vs gateway heartbeat
+
+**Cromwell cron owns all periodic Telegram posts** (DM relay, EOD report, market snapshots). The nanobot gateway heartbeat (`gateway.heartbeat.enabled`) stays **false** — do not re-enable it for Sawtooth Main broadcasts. `HEARTBEAT.md` is a pointer to this directory only; it must not duplicate cron job definitions. When adding a new recurring Telegram task, edit `manifest.yaml` + `cromwell-cron.json`, then `bin/seed-cromwell-workspace --force-cron`.
+
 ```text
 M-F (America/Denver):
   3:30 PM  DM Sidekiq     → EODHD sync for all WUT+Wv2 portfolio symbols (+ Cromwell event log)

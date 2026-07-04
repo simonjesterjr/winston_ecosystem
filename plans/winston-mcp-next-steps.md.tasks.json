@@ -65,7 +65,7 @@
       "id": 10,
       "subject": "Phase 4: nanobot/Cromwell polish — canonical instance, ollama recipes, cron-driven EOD delivery",
       "status": "pending",
-      "note": "2026-07-04 partial: dream cron removed; gateway heartbeat disabled (HEARTBEAT.md); manifest.yaml authoritative; nanobot PDF auto-delivery + per-task message context; 4:30 PM MT analysis gate. Remaining: close-out ticket docs/tickets/2026-07-04-cromwell-cron-heartbeat-closeout.md; ollama recipes; multi-principal separation."
+      "note": "2026-07-04 partial: dream cron removed; gateway heartbeat disabled (HEARTBEAT.md); manifest.yaml authoritative; nanobot PDF auto-delivery + per-task message context; 4:30 PM MT analysis gate; cron-heartbeat closeout verified (docs/tickets/2026-07-04-cromwell-cron-heartbeat-closeout.md Done). Remaining: ollama recipes; multi-principal separation."
     },
     {
       "id": 11,
