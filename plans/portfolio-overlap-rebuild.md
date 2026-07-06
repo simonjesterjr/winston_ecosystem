@@ -1,0 +1,131 @@
+# Portfolio Overlap Controls and Rebuild Plan
+
+**Status:** Active  
+**Updated:** 2026-07-06
+
+## Goal
+
+Build four trend-following portfolios from four seed markets, with enforced exclusivity and overlap limits, expanded historical data via DM random acquisition, and paginated WUT Data Sets UI.
+
+## Seed → Portfolio mapping
+
+| Seed | Portfolio | Target size |
+|------|-----------|-------------|
+| AMAT | Portfolio Red | 7–9 markets |
+| TSMC | Portfolio Blue | 9–11 markets |
+| GLTR | Portfolio Orange | 12–15 markets |
+| CPER | Portfolio White | 16–20 markets |
+
+Each seed anchors **exactly one** portfolio. A seed must not appear as a member of any other portfolio.
+
+## Overlap rules
+
+1. **Seed exclusivity** — `AMAT`, `TSMC`, `GLTR`, `CPER` each belong only to their named portfolio.
+2. **Bilateral 25% cap** — for any two finalized portfolios A and B:
+   - `|A ∩ B| / |A| ≤ 0.25`
+   - `|A ∩ B| / |B| ≤ 0.25`
+
+Enforced in WUT via `PortfolioOverlapPolicy`, wired into `PortfolioCorrelationBuilder` and `portfolios:build_correlation`.
+
+**Effective membership:** overlap counts strip *alien seeds* (seeds that belong to another portfolio) from each side before computing fractions. Seed exclusivity is enforced separately. This prevents a stale peer (e.g. Red still holding TSMC) from blocking all diversifier picks.
+
+## Status (2026-07-06)
+
+| Phase | Status |
+|-------|--------|
+| 1 — Overlap controls | Done (`PortfolioOverlapPolicy`, `PortfolioRegistry`, builder + rake) |
+| 2 — Data Sets pagination | Done (15/page) |
+| 3 — DM random acquisition | **Done** — 300 acquired via one-off `podman run` on latest image (2026-07-06) |
+| 4 — Rebuild Red | **Done** — see below |
+| 5 — Rebuild Blue | **Done** — see below |
+| 6 — Vet + export | Pending (Blue vetting is next after DM batch) |
+
+### Portfolio Red (rebuilt)
+
+- **Seed:** AMAT only (no TSMC, GLTR, CPER)
+- **Markets (9):** AMAT, CDE, MSFT, MSOS, PHYMF, ROKU, URA, VXX, XLV
+- **Overlap vs Blue:** 0 shared (0% bilateral)
+- **Diversification:** Strong (mean \|r\| ≈ 0.21)
+- **Sidecar:** `portfolio_configs/portfolio-red-sidecar.json`
+
+### Portfolio Blue (rebuilt)
+
+- **Seed:** TSMC only (no AMAT, GLTR, CPER)
+- **Markets (11):** AAL, AMZN, GLD, GOOGL, JNJ, PG, RXT, TSLA, TSMC, WMT, XLE
+- **Overlap vs Red:** 0 shared (0% bilateral)
+- **Diversification:** Strong (mean \|r\| ≈ 0.12)
+- **Sidecar:** `portfolio_configs/portfolio-blue-sidecar.json`
+- **Registry:** `portfolio_configs/registry.json`
+
+Candidate pool had to expand beyond the 15 DM-suitable symbols (WUT markets with `DmCoverage` ≥1000 bars, excluding peer effective membership and alien seeds) because the suitable-only pool capped builds at 8 markets under overlap rules.
+
+## Next steps (one at a time)
+
+1. ~~Rebuild Red~~ — done
+2. ~~DM random batch~~ — done (300 ok, 0 failed; suitable 15→18)
+3. **Blue vetting** — `portfolios:vet_trend` for Portfolio Blue (next)
+
+## Phase 1 — Controls (WUT)
+
+- `PortfolioOverlapPolicy` — seed exclusivity + bilateral overlap math
+- `PortfolioRegistry` — reads/writes `portfolio_configs/registry.json` for finalized portfolios
+- Extend `PortfolioCorrelationBuilder` to filter candidates during greedy selection
+- Extend rake env: `PEERS` (comma-separated portfolio names to check overlap against)
+
+## Phase 2 — Data Sets UI pagination
+
+- Paginate `DataSetsController#index` at **15 markets per page** (same pattern as `PortfolioBuilderController#paginate_collection`)
+- Update `data_sets/index.html.erb` with page controls
+- Preserve `q`, `market_tab`, and `page` in link params
+
+## Phase 3 — Expand historical data (DM)
+
+- Run `dm:symbol_registry:acquire_random_batch[300]` via compose (never one-off podman volumes)
+- Target ≥30 suitable symbols before Red/Blue rebuild; ≥50 before Orange/White
+- Suitability evaluated post-acquire per `ecosystem/docs/business-context/winston-market-suitability.md`
+
+## Phase 4 — Rebuild Portfolio Red
+
+```bash
+env NAME="Portfolio Red" SEED=AMAT MIN=7 MAX=9 \
+  CANDIDATES="..." PEERS="" \
+  SIDECAR_PATH=/portfolio_configs/portfolio-red-sidecar.json \
+  bin/rails portfolios:build_correlation
+```
+
+- AMAT seed only; exclude TSMC, GLTR, CPER from candidates
+- Register in `portfolio_configs/registry.json`
+
+## Phase 5 — Rebuild Portfolio Blue
+
+```bash
+env NAME="Portfolio Blue" SEED=TSMC MIN=9 MAX=11 \
+  CANDIDATES="..." PEERS="Portfolio Red" \
+  SIDECAR_PATH=/portfolio_configs/portfolio-blue-sidecar.json \
+  bin/rails portfolios:build_correlation
+```
+
+- TSMC seed only; exclude AMAT, GLTR, CPER
+- ≤25% bilateral overlap vs finalized Red
+
+## Phase 6 — Vet + export
+
+- Re-run `portfolios:vet_trend` for Red and Blue
+- Export configured portfolios to `portfolio_configs/` and Wv2 when ready
+
+## Deferred
+
+- Orange (GLTR) and White (CPER) builds — after suitable pool ≥50
+- Wv2 paper-trading gaps (auto-execute, pyramid, etc.)
+
+## Commands reference
+
+```bash
+# DM (always via compose)
+./bin/compose exec -T data_manager bin/rails dm:symbol_registry:acquire_random_batch[300]
+./bin/compose exec -T data_manager bin/rails dm:symbol_registry:summary
+
+# WUT
+./bin/compose exec -T winston_unit_test env NAME="Portfolio Blue" SEED=TSMC ... bin/rails portfolios:build_correlation
+./bin/compose exec -T winston_unit_test env PORTFOLIO="Portfolio Blue" bin/rails portfolios:vet_trend
+```

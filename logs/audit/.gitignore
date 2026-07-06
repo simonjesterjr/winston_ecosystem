@@ -1,0 +1,5 @@
+# Integration log contents — structure and contracts live in ecosystem docs (ADR-004).
+# (Root .gitignore also blankets logs/ for defense-in-depth.)
+*.jsonl
+webhook/*.json
+# No placeholders (.gitkeep etc.) are tracked under logs/ — dirs materialize on first write.

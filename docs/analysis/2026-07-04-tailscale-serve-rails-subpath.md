@@ -56,12 +56,10 @@ TAILSCALE_HOSTNAME=sawtooth-ai
 
 | File | Role |
 |------|------|
-| `config/initializers/relative_url_root.rb` | Sets `relative_url_root`, ActionCable `url` → `/wut/cable` |
-| `lib/tailscale_script_name.rb` | Middleware: `env[Rack::SCRIPT_NAME] = "/wut"` |
+| `config/initializers/relative_url_root.rb` | Boot-time `relative_url_root`, ActionCable url, default script_name + middleware insert (always-/wut/ edge) |
+| `lib/tailscale_script_name.rb` | Sets `SCRIPT_NAME`; also strips leading `/wut` from `PATH_INFO` when present (so direct `localhost:3000/wut/...` and tailscale-IP `/wut/...` work) |
 
-Rails 7 reads `RAILS_RELATIVE_URL_ROOT` at boot, but **link helpers still fail** without `SCRIPT_NAME` middleware because views merge `request.script_name` (empty after Serve strips the path) over `default_url_options`.
-
-**Why assets broke on mobile:** `stylesheet_link_tag` uses `relative_url_root` → `/wut/assets/...` ✅. Nav `link_to` used empty `script_name` → `/data_sets` ❌.
+The app is intentionally configured at boot to always emit `/wut/...` asset, link, and cable references. The middleware ensures routing still succeeds for both Serve (prefix stripped upstream) and direct subpath entry.
 
 ## Internal APIs unaffected
 
@@ -90,16 +88,24 @@ tailscale serve status
 
 Host-auth initializers for DM and Wv2 are already on `main`; DM image needs **rebuild** (no bind mount). Subpath middleware is **WUT-only** until copied.
 
-## Local dev trade-off
+## Local / direct access
 
-With `RAILS_RELATIVE_URL_ROOT=/wut` set, `http://localhost:3000` also generates `/wut/...` links. Intentional on Tailscale nodes. Unset env for pure local dev without Serve.
+`RAILS_RELATIVE_URL_ROOT=/wut` (plus the stripper in the middleware) means the UI and all asset references are consistently under `/wut/`.
 
-## Verification smoke
+- `http://localhost:3000/wut/` (or tailscale IP + `/wut/`) works directly and produces identical HTML to the MagicDNS `/wut/` path.
+- Bare root (`:3000/`) still loads (or is redirected to `/wut/`) but the emitted links/assets are `/wut/...` for consistency.
+- Internal compose calls to `/internal/*` (no prefix) continue to work unchanged.
+
+## Verification smoke (always /wut/)
 
 ```bash
+# Direct subpath entry (localhost or tailscale IP) — same shape as domain
+curl -s http://localhost:3000/wut/ | grep -o 'href="/wut/[^"]*"' | head -3
+curl -s http://localhost:3000/wut/ | grep -o 'href="/wut/assets[^"]*"' | head -1
+
 curl -sk -o /dev/null -w "%{http_code}\n" https://sawtooth-ai.tail944ffb.ts.net/wut/
 curl -sk https://sawtooth-ai.tail944ffb.ts.net/wut/ | grep -o 'href="/wut/data_sets"'
-curl -sk -o /dev/null -w "%{http_code}\n" https://sawtooth-ai.tail944ffb.ts.net/wut/data_sets
+
 curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1:3000/internal/active_markets
 ```
 
