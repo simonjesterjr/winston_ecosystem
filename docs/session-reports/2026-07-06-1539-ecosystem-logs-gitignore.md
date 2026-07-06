@@ -169,7 +169,7 @@
 
 - [ ] Review and (if approved) `git push --force-with-lease origin main` to publish the cleaned history — owner: user — due: before next clone by others.
 - [ ] Consider whether to split the bundled docs out of `4d63a38` via rebase or leave as-is — owner: user.
-- [ ] Optionally add similar log hygiene notes or patterns to the top-level sawtooth `.gitignore` or other monolith AGENTS.md hints (low priority).
+- [ ] Optionally add similar log hygiene notes or patterns to the top-level sawtooth `.gitignore` or other monolith AGENTS.md hints (low priority). See: `docs/tickets/2026-07-06-propagate-ecosystem-log-hygiene.md`
 
 ---
 
