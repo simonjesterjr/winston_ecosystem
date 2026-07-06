@@ -1,6 +1,6 @@
 # Winston MCP Tool Contract (Initial — for Cromwell bot / nanobot access)
 
-**Version**: v0.1 (2026-06-12, immediate plan)
+**Version**: v0.4 (2026-07-02, task 9 additional MCP tools)
 **Owner**: Wv2 (with coordination via DM and WUT for transfer/sync)
 **Transport**: Primarily stdio MCP (launched by nanobot per its documented mcpServers config). HTTP/SSE supported for testing/direct clients.
 **Security model**: The MCP server (winston_mcp) runs inside the podman network. It only talks to the monoliths' internal endpoints over compose DNS. No direct DB or broad fs access. All calls are logged/auditable. Nanobot enforces channel allowFrom before tool use.
@@ -100,18 +100,96 @@ Tools are named with `wv2_` prefix for clarity (future DM/WUT/Cromwell tools wil
 **Data Manager (DM) tools:**
 - `dm_get_cromwell_events` — sync activity log (`sync_started`, `consumer_sync_started`, `symbol_updated`, `sync_complete`). Cromwell posts `event.message` to Telegram during the 3:30 PM MT window. Source: `GET /internal/cromwell_notifications` on DM.
 
-**Convenience / discovery tools** (also immediate):
-- `wv2_market_snapshot` — latest EOD close/volume/atr_17 for symbols in active portfolios (DM parquet; not live intraday; no internet quotes).
-- `wv2_list_portfolios` — returns active + summary (id, name, markets, capital_base, linked strategy).
-- `wv2_list_pending_actions` — operations_tasks that are still pending.
-- `wv2_get_portfolio_status` (id/name) — cash events summary, current positions, recent journals.
-- `wv2_list_trading_strategies` — the reusable methodology definitions (for transfer/apply flows).
-- `wv2_activate_portfolio` / `deactivate_portfolio` — mirror the existing internal + rake surface.
+**Phase 2 — Confirmation loop** (bidirectional Cromwell ↔ Wv2):
+
+13. **wv2_confirm_journal**
+    - Purpose: Execute a draft journal — opens/closes positions, updates signed `flow`, marks linked task completed.
+    - Inputs: `{ "journal_id": 44, "execution_price": 198.5, "units": 10, "notes": "filled via IB", "fulfillment_type": "stock", "fulfillment_details": {} }`
+    - Source: `POST /internal/journals/confirm`
+    - Returns: `{ "status": "ok", "journal": {...}, "task": {...}, "capital_base": 25100.0 }` (idempotent if already executed)
+
+14. **wv2_mark_task_done**
+    - Purpose: Complete an operations task; defaults to confirming the linked journal first.
+    - Inputs: `{ "task_id": 12, "confirm_journal": true, "execution_price": 198.5, "units": 10, "notes": "..." }`
+    - Source: `POST /internal/tasks/complete`
+
+15. **wv2_list_pending_actions**
+    - Purpose: List actionable pending tasks (within `ActionItemWindow`).
+    - Inputs: `{ "portfolio_id_or_name": "...", "as_of": "YYYY-MM-DD" }`
+    - Source: `GET /internal/pending_actions`
+
+**Task 9 — Discovery + inquiry** (implemented):
+
+16. **wv2_get_journal**
+    - Inputs: `{ "journal_id": 44 }`
+    - Source: `GET /internal/journals/:id`
+
+17. **wv2_get_portfolio_status**
+    - Inputs: `{ "portfolio_id_or_name": "...", "journal_limit": 10 }`
+    - Source: `GET /internal/portfolio_status`
+    - Returns: portfolio summary, cash_events, positions, recent_journals
+
+18. **wv2_list_trading_strategies**
+    - Inputs: `{}`
+    - Source: `GET /internal/trading_strategies`
+
+19. **dm_request_full_sync**
+    - Purpose: DM discovers symbols from WUT + Wv2 and acquires parquet for all.
+    - Inputs: `{ "async": true, "notify_cromwell": true }` — default async enqueues `EcosystemSyncRequestJob`
+    - Source: `POST /internal/ecosystem_sync` on DM
+    - Sync path (`async: false`) may run many minutes; poll `dm_get_cromwell_events` when async.
+
+**Other convenience tools**:
+- `wv2_market_snapshot` — latest EOD close/volume/atr_17 (DM parquet).
+- `wv2_list_portfolios` — active + summary.
+- `wv2_list_pending_actions` — see tool 15 above.
+- `wv2_activate_portfolio` / `deactivate_portfolio` — mirror internal + rake surface.
+
+## Correlation IDs and audit (Phase 3 — ADR-004)
+
+Every tool invocation:
+
+- MCP generates `correlation_id` (UUID4). Callers may pass optional `parent_correlation_id` to chain tools in one Cromwell turn.
+- MCP strips `parent_correlation_id` before forwarding args to monolith `/internal/*` endpoints.
+- MCP sends headers on all monolith HTTP calls:
+  - `X-Correlation-Id: <uuid>`
+  - `X-Parent-Correlation-Id: <uuid>` (omitted when null)
+- Every tool response includes `_meta`:
+
+```json
+"_meta": {
+  "correlation_id": "550e8400-e29b-41d4-a716-446655440000",
+  "parent_correlation_id": "7c9e6679-7425-40de-944b-e07fc1f90ae7"
+}
+```
+
+**Ecosystem Audit Log:** append-only JSONL at `ecosystem/logs/audit/mcp/mcp_audit_YYYYMMDD.jsonl` (one line per tool call). Cromwell webhook receipts land in `ecosystem/logs/audit/webhook/`. Monolith application logs stay local.
+
+Design: `docs/business-context/mcp-audit-correlation-design.md`. Wv2/DM echo headers in notifications (fast follow).
 
 ## Error Shape (All Tools)
+
 ```json
-{ "status": "error", "code": "not_found|sync_failed|analysis_failed|invalid_input|...", "message": "...", "details": { ... } }
+{
+  "status": "error",
+  "code": "http_error|internal_error|unknown_tool|rate_limited|...",
+  "tool": "wv2_perform_daily_analysis",
+  "message": "Human-readable summary",
+  "http_status": 422,
+  "retry_guidance": "Actionable next step for the agent or principal",
+  "retry_after_seconds": 45,
+  "details": { "body_preview": "..." },
+  "_meta": { "correlation_id": "...", "parent_correlation_id": "..." }
+}
 ```
+
+## Rate limiting (expensive tools)
+
+Default limited tools: `wv2_perform_daily_analysis`, `wv2_get_daily_activity_report`, `wv2_sync_data`, `wut_run_daily_operations`. Env: `MCP_RATE_LIMIT_TOOLS`, `MCP_RATE_LIMIT_WINDOW_SEC` (default 120), `MCP_RATE_LIMIT_MAX` (default 4).
+
+## Long-running tools / progress
+
+Expensive tools set `_meta.long_running`, `estimated_duration_seconds`, and `progress_note`. Progress lines append to the same `mcp_audit_*.jsonl` with `"event": "progress"` and the same `correlation_id`.
 
 ## Contract Evolution
 - This lives in `ecosystem/interfaces/`. Bump version on material change.

@@ -204,6 +204,9 @@ For any session that produced code or decisions: §1 Goal, §2 Work, §3 Code, �
 
 ## After saving
 
-Tell the user the report path, then offer:
-1. Draft stakeholder messages from §12 (use `/stakeholder` skill).
-2. Open tickets for deferred items in §6 (use `/record` skill).
+Tell the user the report path.
+
+- If invoked as part of **`/wrap`**, defer follow-up filing to wrap **Step 2 — Follow-up promotion** (interactive ticket/task capture).
+- If invoked standalone, offer:
+  1. Walk §6 / §14 follow-ups one at a time (same prompts as wrap Step 2), or shortcuts `create all tickets` / `create all tasks` / `skip all`.
+  2. Draft stakeholder messages from §12 (use `/stakeholder` skill).

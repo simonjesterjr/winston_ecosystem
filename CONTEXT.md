@@ -96,6 +96,22 @@ _Avoid_: daily run (ambiguous with DM download run), evaluation alone
 An agent-callable operation exposed by `winston_mcp` — narrow, auditable surface for Cromwell to act on Wv2/DM.
 _Avoid_: API alone (internal APIs exist separately; MCP is the agent surface)
 
+**Correlation ID**:
+A unique identifier for one **MCP Tool** invocation, used to trace that call through monolith internals, **Cromwell** notifications, and operator-facing replies.
+_Avoid_: request_id alone (Rails HTTP tag; not the cross-layer trace), trace_id (too generic)
+
+**Parent Correlation ID**:
+An optional identifier linking a child **MCP Tool** invocation to an earlier call in the same **Cromwell** turn or workflow (e.g. evaluate → confirm journal).
+_Avoid_: session_id (implies nanobot session scope; parent is invocation-level chaining)
+
+**Ecosystem Audit Log**:
+The cross-monolith integration audit trail under `ecosystem/logs/audit/` — **Integration Log** entries only (MCP invocations, webhook delivery, internal API access at coordination boundaries). Not monolith application logs; Rails, Sidekiq, and app runtime errors stay in each monolith with local log rolling.
+_Avoid_: audit log alone (ambiguous with Rails request logs), container stdout (ephemeral), dumping all app errors centrally
+
+**Integration Log**:
+A single append-only record in the **Ecosystem Audit Log** describing one cross-boundary action (e.g. one **MCP Tool** call, one Cromwell webhook POST, one DM→consumer notify).
+_Avoid_: application log (monolith-internal debug), journal (trading domain record)
+
 ## Relationships
 
 - A **Portfolio** has many **Books** (one per **Market**)
@@ -104,6 +120,8 @@ _Avoid_: API alone (internal APIs exist separately; MCP is the agent surface)
 - **DM** maintains **DataCoverage** metadata that reflects parquet reality after **Reconciliation**
 - **WUT** exports **Configured Portfolio** JSON → **Wv2** imports and creates **Portfolio** + **CashEvent**
 - **Cromwell** receives webhooks/notifications from **DM** and **Wv2**; invokes **MCP Tools** for actions
+- Each **MCP Tool** invocation has a **Correlation ID**; chained calls in one turn may share a **Parent Correlation ID**
+- **Integration Log** entries land in the **Ecosystem Audit Log**; **Cromwell** and agents read them to trace coordination failures
 - **DownloadRun** belongs to **DM**; tracks acquisition orchestration
 
 ## Example dialogue
@@ -118,4 +136,5 @@ _Avoid_: API alone (internal APIs exist separately; MCP is the agent surface)
 
 - "account" can mean broker account, Portfolio, or Cromwell principal — resolved: use **Portfolio** for trading config, **Cromwell principal** for the human operator.
 - "sync" is overloaded — resolved: **Data Acquisition** (DM←EODHD); **Reconciliation** (parquet→PG metadata); **Symbol Demand** (consumers→DM discovery). WUT `Operations::DataSync` (Yahoo→activities) is legacy, not the target model.
+- "audit log" is overloaded — resolved: **Ecosystem Audit Log** = integration/coordination events only; monolith application errors and request logs remain local per monolith.
 - "strategy" alone is overloaded — resolved: **TradingStrategy** for the reusable methodology entity; strategy class names (e.g. `Breakout20DayStrategy`) are implementation identifiers.
