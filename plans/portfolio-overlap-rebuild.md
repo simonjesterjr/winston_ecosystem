@@ -38,7 +38,7 @@ Enforced in WUT via `PortfolioOverlapPolicy`, wired into `PortfolioCorrelationBu
 | 3 — DM random acquisition | **Done** — 300 acquired via one-off `podman run` on latest image (2026-07-06) |
 | 4 — Rebuild Red | **Done** — see below |
 | 5 — Rebuild Blue | **Done** — see below |
-| 6 — Vet + export | Pending (Blue vetting is next after DM batch) |
+| 6 — Vet + export | Blue vetted + exported (`portfolio-blue.json`, run 23) |
 
 ### Portfolio Red (rebuilt)
 
@@ -63,7 +63,7 @@ Candidate pool had to expand beyond the 15 DM-suitable symbols (WUT markets with
 
 1. ~~Rebuild Red~~ — done
 2. ~~DM random batch~~ — done (300 ok, 0 failed; suitable 15→18)
-3. **Blue vetting** — `portfolios:vet_trend` for Portfolio Blue (next)
+3. ~~Blue vetting~~ — done (winner: `SwingBreakout5DayStrategy` + `VolatilityExitStrategy`, run 23)
 
 ## Phase 1 — Controls (WUT)
 
