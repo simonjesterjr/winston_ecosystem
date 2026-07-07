@@ -9,7 +9,7 @@
 |-----------|-------|
 | Entries | 6 breakout classes (see `PortfolioTrendVetter::ENTRY_STRATEGY_CLASSES`) |
 | Exits | 2 per entry: **opposite breakout** (same class, paired) + **VolatilityExitStrategy** |
-| Combinations | 12 (6 × 2), full 5-year window, no screening subset |
+| Combinations | 12 (6 × 2); default **25% screening** + top 5 finals on full overlap (see two-phase below) |
 | Starting capital | **$10,000** per backtest |
 | Ranking | `practical_sharpe_ratio` (with viability gates on export — see trade-ready doc) |
 
@@ -40,8 +40,18 @@
 - **Trade-Ready Portfolio** — passes viability gates
 - **Observation Portfolio** — sub-breakeven winner; Wv2 paper/regime only
 
+## Two-phase vet doctrine (2026-07-07)
+
+1. **Screen fast** — `DATE_SUBSET_PCT=25` (default), `optimization_mode`, early-abort on deep drawdown; rank combos on recent window.
+2. **Finals** — top `SCREENING_TOP_N` survivors on **full market overlap**; still `optimization_mode` (no per-combo persisted runs).
+3. **Validate winner** — one full persisted backtest on full overlap in `PortfolioTrendVetter#vet!`; export + viability gates use this run.
+
+Optional `VET_YEARS` / `VET_START_DATE` floor the overlap window for experiments. Trade-ready export should use the winner validation run on full overlap unless explicitly documented otherwise.
+
+See: `docs/tickets/2026-07-07-accelerate-portfolio-vet-optimization.md`
+
 ## Open (later passes)
 
-- Confirmational entries, combined exits, screening subset tuning
+- Confirmational entries, combined exits, further screening tuning
 - Ranking fallback when `practical_sharpe_ratio` is null
 - Regime filters, membership vs strategy post-mortem template
