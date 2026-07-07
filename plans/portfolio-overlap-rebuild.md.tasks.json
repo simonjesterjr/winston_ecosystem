@@ -32,8 +32,8 @@
     {
       "id": 5,
       "subject": "Define portfolio trading-strategy evaluation framework (defaults, optimization, viability gates)",
-      "status": "pending",
-      "note": "P0 — docs/tickets/2026-07-07-portfolio-trading-strategy-evaluation-framework.md; blocks Wv2 handoff"
+      "status": "in_progress",
+      "note": "P0 ~60% — first-pass doctrine in docs/analysis/portfolio-trading-strategy-evaluation.md; WUT: FIRST_PASS_BASE_CONFIG, 6x2 paired_opposite_exit, max 4 markets, 12-pos swap. Remaining: export_kind + viability gates in vet_trend, null-Sharpe fallback, env config, re-vet Red/Blue. Ticket: docs/tickets/2026-07-07-portfolio-trading-strategy-evaluation-framework.md"
     }
   ]
 }

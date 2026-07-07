@@ -1,10 +1,12 @@
 # Ticket: Portfolio trading-strategy evaluation framework (priority)
 
-**Status:** Proposed
+**Status:** In progress (~60% — first-pass doctrine + WUT core; export gates + re-vet pending)
 
 **Priority:** P0 — blocks Wv2 handoff for trend portfolios
 
 **Date:** 2026-07-07
+
+**Last updated:** 2026-07-07 (first-pass implementation session)
 
 **Context:** Blue vet (`portfolios:vet_trend`) completed with catastrophic metrics across all six entry strategies. The current “evaluate TS for a portfolio” path is too narrow and undocumented for production decisions.
 
@@ -31,14 +33,37 @@ We do not have an ecosystem-approved answer to:
 | `PortfolioSignalOptimization` UI | `ranking_metric`, screening %, strategy multi-select | Not wired into `vet_trend` rake |
 | `ecosystem/CONTEXT.md` | Daily analysis requires linked TradingStrategy | No lab vetting contract |
 
-### Current `PortfolioTrendVetter` defaults (code)
+### First-pass `PortfolioTrendVetter` defaults (implemented — see analysis doc)
 
-- `initial_capital`: 20_000
-- `risk_percentage`: 0.02 (exported as 2%)
-- `ranking_metric`: `practical_sharpe_ratio` (alternatives: `total_return`, `max_drawdown` in model only)
-- Entry grid: `Breakout20/50/5/55Day`, `SwingBreakout5Day`, `Breakout50DayNoHistory`
-- Exit: `VolatilityExitStrategy` only
+- `initial_capital`: **10_000** (`FIRST_PASS_BASE_CONFIG`)
+- `risk_percentage`: 0.02 (static)
+- `ranking_metric`: `practical_sharpe_ratio`
+- Entry grid: 6 breakout classes (unchanged list)
+- Exit grid: **paired opposite breakout** + **VolatilityExitStrategy** (12 combos via `paired_opposite_exit`)
+- Position rules: 5 pyramid/market, 12 positions/portfolio, 4 markets, 13th-signal swap (`PositionSwapEvaluator`)
+- Stops: ATR (`atr_multiplier: 2`), trail `move_to_last_entry`
 - Screening: 100% date range (no subset) in vet rake
+
+Canonical reference: [`docs/analysis/portfolio-trading-strategy-evaluation.md`](../analysis/portfolio-trading-strategy-evaluation.md)
+
+## Progress (2026-07-07)
+
+| Deliverable | Status |
+|-------------|--------|
+| Analysis doc (first-pass grid + fixed components) | **Done** |
+| Viability gates doc (placeholders) | **Done** (grill session — `trade-ready-viability-gates.md`) |
+| CONTEXT.md glossary (Trade-Ready / Observation / etc.) | **Done** (grill session) |
+| WUT: 6×2 exit grid (`paired_opposite_exit`) | **Done** |
+| WUT: first-pass base config in `PortfolioTrendVetter` | **Done** |
+| WUT: max 4 markets + 12-position swap logic | **Done** (migration + `PositionSwapEvaluator`; inline ATR ER for swap — full ER post-backtest) |
+| WUT: specs for vetter / optimizer / swap | **Done** (not run in CI this session — local bundle issue) |
+| WUT: `export_kind` enforcement (trade_ready vs observation) | **Not done** |
+| WUT: viability gate check on export | **Not done** |
+| WUT: ranking fallback when Sharpe is null | **Not done** |
+| WUT: `vet_trend` env vars (ranking metric, config file) | **Not done** |
+| Re-vet Red or Blue with new doctrine | **Not done** — blocked on migrate + deploy WUT changes |
+| Plan Phase 7 write-up in `portfolio-overlap-rebuild.md` | **Not done** |
+| Blue vet post-mortem template | **Not done** |
 
 ## Proposed deliverables
 

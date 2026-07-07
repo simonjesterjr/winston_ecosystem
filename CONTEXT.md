@@ -76,9 +76,33 @@ _Avoid_: job alone (Sidekiq job is different), batch (too generic)
 A monolith that reads DM parquet (WUT, Wv2). Registered in DM with base URL and verification status.
 _Avoid_: client (ambiguous), subscriber
 
-**Configured Portfolio**:
-A portable JSON export from WUT representing a vetted backtest configuration ready for Wv2 import.
-_Avoid_: portfolio config (acceptable alias), backtest result (the run is the source; the config is the export)
+**Portfolio Signal Optimization**:
+WUT lab process that compares **TradingStrategy** combinations on a **Portfolio**'s **Books** and ranks winners (e.g. `PortfolioSignalOptimization`, `portfolios:vet_trend`).
+_Avoid_: vet alone (ambiguous with viability approval), backtest (single run is one trial inside optimization)
+
+**Optimization Candidate**:
+The winning strategy-and-params from **Portfolio Signal Optimization** on a **Portfolio**; a draft result, not yet approved for handoff.
+_Avoid_: Trade-Ready Portfolio (that label requires viability gates), vetted (implies economic approval)
+
+**Viability Gates**:
+Minimum backtest criteria an **Optimization Candidate** must pass before WUT may export it as a **Trade-Ready Portfolio**.
+_Avoid_: vet (optimization completion is not gate passage), profitable (gates are thresholds, not a guarantee in live markets)
+
+**Trade-Ready Portfolio**:
+A portable JSON export from WUT that passed **viability gates** and is ready for Wv2 import as a promoted configuration.
+_Avoid_: Configured Portfolio (legacy alias — use **Trade-Ready Portfolio**), portfolio config alone (too vague), optimization export (that is an **Optimization Candidate** until gates pass)
+
+**Observation Portfolio**:
+A portable JSON export from WUT for an **Optimization Candidate** that did not pass trade-ready gates — imported to Wv2 for **Paper Trading** and regime observation only, not promotion to live capital.
+_Avoid_: Trade-Ready Portfolio (requires breakeven gates), live portfolio (no real-money implication)
+
+**Operational Portfolio**:
+A **Portfolio** hosted in Wv2 (imported, inactive or active) used for **Daily Analysis** and market observation — not synonymous with live broker capital.
+_Avoid_: live portfolio (implies real money), production portfolio (environment-specific)
+
+**Paper Trading**:
+Simulated trading and signal tracking without broker execution — journals and positions for observation and regime testing, not real-money fills.
+_Avoid_: backtest alone (historical replay in WUT), demo (too informal)
 
 **CashEvent**:
 Capital injection or adjustment on a Wv2 Portfolio (e.g. initial_capital on import). Feeds risk sizing in daily analysis.
@@ -118,7 +142,8 @@ _Avoid_: application log (monolith-internal debug), journal (trading domain reco
 - A **Portfolio** applies one **TradingStrategy** (loose coupling — strategy is a separate entity)
 - **DM** produces **Winston EOD Standard** parquet per **Market**; **Consumers** (WUT, Wv2) read it
 - **DM** maintains **DataCoverage** metadata that reflects parquet reality after **Reconciliation**
-- **WUT** exports **Configured Portfolio** JSON → **Wv2** imports and creates **Portfolio** + **CashEvent**
+- **WUT** runs **Portfolio Signal Optimization** → **Optimization Candidate** → (viability gates) → **Trade-Ready Portfolio** JSON *or* **Observation Portfolio** JSON → **Wv2** imports an **Operational Portfolio** + **CashEvent** + linked **TradingStrategy**
+- An **Operational Portfolio** in Wv2 may be inactive, paper-observed, or live — import does not imply real-money trading
 - **Cromwell** receives webhooks/notifications from **DM** and **Wv2**; invokes **MCP Tools** for actions
 - Each **MCP Tool** invocation has a **Correlation ID**; chained calls in one turn may share a **Parent Correlation ID**
 - **Integration Log** entries land in the **Ecosystem Audit Log**; **Cromwell** and agents read them to trace coordination failures
@@ -126,8 +151,11 @@ _Avoid_: application log (monolith-internal debug), journal (trading domain reco
 
 ## Example dialogue
 
-> **Dev:** "When a **Configured Portfolio** moves from **WUT** to **Wv2**, does the **TradingStrategy** come with it?"
+> **Dev:** "When a **Trade-Ready Portfolio** moves from **WUT** to **Wv2**, does the **TradingStrategy** come with it?"
 > **Domain expert:** "Yes — the JSON includes strategy names and risk params. **Wv2** creates or updates a **TradingStrategy** by name, then links it to the new **Portfolio**. The **Markets** list becomes **Books**."
+
+> **Dev:** "Can a losing backtest still reach **Wv2**?"
+> **Domain expert:** "Yes — as an **Observation Portfolio** for **Paper Trading** and regime watching. **Trade-Ready Portfolio** is the breakeven+ export path for promoted configs."
 
 > **Dev:** "Who calculates **ATR-17**?"
 > **Domain expert:** "**DM** — always. Consumers read it from **Winston EOD Standard** parquet. **WUT** used to calculate locally; that path is legacy for new work."
@@ -138,3 +166,6 @@ _Avoid_: application log (monolith-internal debug), journal (trading domain reco
 - "sync" is overloaded — resolved: **Data Acquisition** (DM←EODHD); **Reconciliation** (parquet→PG metadata); **Symbol Demand** (consumers→DM discovery). WUT `Operations::DataSync` (Yahoo→activities) is legacy, not the target model.
 - "audit log" is overloaded — resolved: **Ecosystem Audit Log** = integration/coordination events only; monolith application errors and request logs remain local per monolith.
 - "strategy" alone is overloaded — resolved: **TradingStrategy** for the reusable methodology entity; strategy class names (e.g. `Breakout20DayStrategy`) are implementation identifiers.
+- "vetted" / "export" overloaded — resolved: optimization complete → **Optimization Candidate**; breakeven+ gates → **Trade-Ready Portfolio**; sub-breakeven observation → **Observation Portfolio**; Wv2 hosting → **Operational Portfolio** (may be paper-only).
+- "Configured Portfolio" — resolved: legacy term; canonical name is **Trade-Ready Portfolio**.
+- "ready for Wv2" vs "ready for live money" — resolved: Wv2 import elevates observation (**Paper Trading**, **Daily Analysis**); live broker execution is a later, explicit step.
