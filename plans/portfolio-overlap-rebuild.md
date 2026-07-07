@@ -134,9 +134,22 @@ env NAME="Portfolio Blue" SEED=TSMC MIN=9 MAX=11 \
 ## Commands reference
 
 ```bash
-# DM (always via compose)
+# DM — ALWAYS use compose (never one-off `podman run` with custom volumes)
+# Recreate on latest image after any DM code changes (e.g. symbol registry):
+#   (stop ai dependents first if they block container removal)
+podman stop winston_mcp nanobot_cromwell || true
+podman rm -f data_manager data_manager_sidekiq
+./bin/compose build data_manager data_manager_sidekiq
+./bin/compose up -d data_manager data_manager_sidekiq
+./bin/compose exec -T data_manager bin/rails db:migrate
+./bin/compose exec -T data_manager bin/rails dm:symbol_registry:summary
+
+# Normal ops
 ./bin/compose exec -T data_manager bin/rails dm:symbol_registry:acquire_random_batch[300]
 ./bin/compose exec -T data_manager bin/rails dm:symbol_registry:summary
+
+# Verify volume is the correct one (sawtooth_sawtooth_dm_data) after recreate:
+#   podman inspect data_manager --format '{{range .Mounts}}{{.Name}} -> {{.Destination}}{{end}}'
 
 # WUT
 ./bin/compose exec -T winston_unit_test env NAME="Portfolio Blue" SEED=TSMC ... bin/rails portfolios:build_correlation
