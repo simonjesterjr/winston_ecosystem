@@ -118,12 +118,13 @@
 - Blue vet export crash — attribute fixes applied; `portfolio-blue.json` written
 
 ### Deferred
-- **Recreate compose `data_manager` on latest image** — service lacks `SymbolRegistryEntry` at runtime; use one-off `podman run` until fixed
-- **Portfolio Orange (GLTR) and White (CPER)** — not started; need ≥50 suitable symbols per plan
-- **Portfolio Red vetting** — not run this session
-- **Blue membership / strategy viability** — vet complete but results catastrophic; revisit markets or strategies
-- **Wv2 import / paper trading** — export exists; live gaps (auto-execute, pyramid) still deferred
-- **DM↔WUT registry metadata sync** — ticket draft exists: `docs/tickets/2026-07-06-dm-wut-registry-metadata-sync-followups.md`
+- **Recreate compose `data_manager` on latest image** — See: `docs/tickets/2026-07-07-recreate-data-manager-compose-container.md`
+- **Portfolio Red vetting** — See: `docs/tickets/2026-07-07-vet-portfolio-red-trend.md` (blocked by strategy evaluation framework)
+- **Blue membership / strategy viability** — See: `docs/tickets/2026-07-07-revisit-portfolio-blue-membership-strategy.md`
+- **Portfolio Orange (GLTR) and White (CPER)** — See: `docs/tickets/2026-07-07-build-portfolio-orange-white.md`
+- **Portfolio trading-strategy evaluation framework (P0)** — See: `docs/tickets/2026-07-07-portfolio-trading-strategy-evaluation-framework.md`; plan task #5 in `plans/portfolio-overlap-rebuild.md.tasks.json`
+- **Wv2 import / paper trading** — blocked until strategy framework; live gaps still deferred
+- **DM↔WUT registry metadata sync** — `docs/tickets/2026-07-06-dm-wut-registry-metadata-sync-followups.md`
 
 ---
 
@@ -207,11 +208,13 @@ _None._
 
 ## 14. Follow-up Actions
 
-- [ ] Recreate `data_manager` compose container on latest image — owner: operator
-- [ ] Vet Portfolio Red (`portfolios:vet_trend`) — owner: operator
-- [ ] Revisit Blue membership or strategy params given -98% vet — owner: operator
-- [ ] Build Portfolio Orange (GLTR) and White (CPER) when suitable pool ≥50 — owner: operator
-- [ ] Import `portfolio-blue.json` to Wv2 when economics acceptable — owner: operator
+- [x] Filed tickets + plan tasks (2026-07-07) — see `docs/tickets/2026-07-07-*.md`, `plans/portfolio-overlap-rebuild.md.tasks.json`
+- [ ] Recreate `data_manager` compose container — ticket `2026-07-07-recreate-data-manager-compose-container.md`
+- [ ] **P0:** Portfolio trading-strategy evaluation framework — ticket `2026-07-07-portfolio-trading-strategy-evaluation-framework.md`
+- [ ] Vet Portfolio Red — ticket `2026-07-07-vet-portfolio-red-trend.md` (after #5)
+- [ ] Revisit Blue membership/strategy — ticket `2026-07-07-revisit-portfolio-blue-membership-strategy.md`
+- [ ] Build Orange + White — ticket `2026-07-07-build-portfolio-orange-white.md`
+- [ ] Import to Wv2 — blocked until strategy framework + viability gates
 
 ---
 

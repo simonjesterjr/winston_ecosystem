@@ -59,11 +59,23 @@ Enforced in WUT via `PortfolioOverlapPolicy`, wired into `PortfolioCorrelationBu
 
 Candidate pool had to expand beyond the 15 DM-suitable symbols (WUT markets with `DmCoverage` ≥1000 bars, excluding peer effective membership and alien seeds) because the suitable-only pool capped builds at 8 markets under overlap rules.
 
-## Next steps (one at a time)
+## Next steps
+
+Tracked in `portfolio-overlap-rebuild.md.tasks.json` and `docs/tickets/2026-07-07-*.md`.
+
+| # | Item | Ticket | Priority |
+|---|------|--------|----------|
+| 1 | Recreate compose `data_manager` on latest image | [recreate-data-manager](../docs/tickets/2026-07-07-recreate-data-manager-compose-container.md) | — |
+| 5 | **Portfolio trading-strategy evaluation framework** | [evaluation-framework](../docs/tickets/2026-07-07-portfolio-trading-strategy-evaluation-framework.md) | **P0** |
+| 2 | Vet Portfolio Red | [vet-red](../docs/tickets/2026-07-07-vet-portfolio-red-trend.md) | blocked by #5 |
+| 3 | Revisit Blue membership/strategy | [revisit-blue](../docs/tickets/2026-07-07-revisit-portfolio-blue-membership-strategy.md) | blocked by #5 |
+| 4 | Build Orange + White (suitable ≥50) | [orange-white](../docs/tickets/2026-07-07-build-portfolio-orange-white.md) | blocked by #1, #5 |
+
+### Completed
 
 1. ~~Rebuild Red~~ — done
 2. ~~DM random batch~~ — done (300 ok, 0 failed; suitable 15→18)
-3. ~~Blue vetting~~ — done (winner: `SwingBreakout5DayStrategy` + `VolatilityExitStrategy`, run 23)
+3. ~~Blue vetting~~ — done (winner: `SwingBreakout5DayStrategy` + `VolatilityExitStrategy`, run 23; economics poor — do not import to Wv2 yet)
 
 ## Phase 1 — Controls (WUT)
 
@@ -115,8 +127,9 @@ env NAME="Portfolio Blue" SEED=TSMC MIN=9 MAX=11 \
 
 ## Deferred
 
-- Orange (GLTR) and White (CPER) builds — after suitable pool ≥50
+- Orange (GLTR) and White (CPER) builds — see ticket `2026-07-07-build-portfolio-orange-white.md`
 - Wv2 paper-trading gaps (auto-execute, pyramid, etc.)
+- Wv2 import for Red/Blue — blocked until trading-strategy evaluation framework (P0 ticket)
 
 ## Commands reference
 
