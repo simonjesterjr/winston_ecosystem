@@ -5,35 +5,39 @@
     {
       "id": 1,
       "subject": "Recreate compose data_manager on latest image",
-      "status": "pending",
-      "note": "See docs/tickets/2026-07-07-recreate-data-manager-compose-container.md; session 2026-07-06-2020-portfolio-overlap-pipeline"
+      "status": "completed",
+      "note": "Done 2026-07-07/08 — dm:symbol_registry:* works via compose"
     },
     {
       "id": 2,
       "subject": "Vet Portfolio Red (portfolios:vet_trend)",
-      "status": "pending",
-      "blockedBy": [5],
-      "note": "See docs/tickets/2026-07-07-vet-portfolio-red-trend.md; use podman exec -d for long runs"
+      "status": "completed",
+      "note": "PBR 25: Breakout50DayNoHistory + VolatilityExit; +636% / 64% DD; export_kind=observation. PBR show HTTP 200 after DM SOT."
     },
     {
       "id": 3,
       "subject": "Revisit Portfolio Blue membership/strategy given -98% vet",
       "status": "pending",
-      "blockedBy": [5],
-      "note": "See docs/tickets/2026-07-07-revisit-portfolio-blue-membership-strategy.md"
+      "note": "export_kind=observation; membership/strategy revisit still open"
     },
     {
       "id": 4,
-      "subject": "Build Portfolio Orange (GLTR) and White (CPER) when suitable pool ≥50",
-      "status": "pending",
-      "blockedBy": [1, 5],
-      "note": "See docs/tickets/2026-07-07-build-portfolio-orange-white.md; 18 suitable as of 2026-07-06"
+      "subject": "Build Portfolio Orange (GLTR) and White (CPER)",
+      "status": "completed",
+      "note": "2026-07-08: Orange 15 mkts mean|r|~0.17; White 20 mkts mean|r|~0.105; all bilateral ≤25%; seeds exclusive; suitable=51. Vet still open (Phase D)."
     },
     {
       "id": 5,
       "subject": "Define portfolio trading-strategy evaluation framework (defaults, optimization, viability gates)",
       "status": "in_progress",
-      "note": "P0 ~60% — first-pass doctrine in docs/analysis/portfolio-trading-strategy-evaluation.md; WUT: FIRST_PASS_BASE_CONFIG, 6x2 paired_opposite_exit, max 4 markets, 12-pos swap. Remaining: export_kind + viability gates in vet_trend, null-Sharpe fallback, env config, re-vet Red/Blue. Ticket: docs/tickets/2026-07-07-portfolio-trading-strategy-evaluation-framework.md"
+      "note": "P0 ~90% — TradeReadyViabilityGates + export_kind; null-Sharpe→total_return; RANKING_METRIC env. Remaining: Blue post-mortem; optional Orange/White vets as first consumers of gates."
+    },
+    {
+      "id": 6,
+      "subject": "Vet Portfolio Orange and White (portfolios:vet_trend)",
+      "status": "pending",
+      "blockedBy": [5],
+      "note": "Use first-pass grid + viability gates; expect multi-hour runs; export_kind labeling automatic"
     }
   ]
 }

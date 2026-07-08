@@ -1,35 +1,34 @@
 # Ticket: Vet Portfolio Red trend strategies
 
-**Status:** Proposed
+**Status:** Done (2026-07-07 vet; 2026-07-08 viability labeling)
 
 **Date:** 2026-07-07
 
-**Context:** [`2026-07-06-2020-portfolio-overlap-pipeline`](../session-reports/2026-07-06-2020-portfolio-overlap-pipeline.md). Portfolio Red rebuilt under overlap rules; Blue vetting completed (run 23). Red vet not run.
+**Context:** [`2026-07-06-2020-portfolio-overlap-pipeline`](../session-reports/2026-07-06-2020-portfolio-overlap-pipeline.md). Portfolio Red rebuilt under overlap rules.
 
 **Current Red membership (9):** AMAT, CDE, MSFT, MSOS, PHYMF, ROKU, URA, VXX, XLV
 
-## Problem
+## Result (PBR 25 / winner validation)
 
-Red has no `portfolios:vet_trend` optimization or Wv2 export. Cannot compare Red vs Blue economics or proceed to handoff.
-
-## Scope
-
-1. Run vet detached (multi-hour): `podman exec -d winston_unit_test sh -c 'env PORTFOLIO="Portfolio Red" EXPORT=/portfolio_configs/portfolio-red.json bin/rails portfolios:vet_trend >> /portfolio_configs/portfolio-red-vet.log 2>&1'`
-2. Monitor `PortfolioSignalOptimization` progress for portfolio id 6.
-3. Export `portfolio_configs/portfolio-red.json` on success.
-4. Record winner strategy, return, drawdown, trades in sidecar or session note.
+| Field | Value |
+|-------|-------|
+| Winner entry | `Breakout50DayNoHistoryStrategy` |
+| Winner exit | `VolatilityExitStrategy` |
+| Total return | **+636.3%** |
+| Max drawdown | **64.0%** |
+| Trades | 1051 |
+| Sharpe | null |
+| `export_kind` | **observation** (failed max_drawdown ≤ 50%) |
+| Export | `portfolio_configs/portfolio-red.json` |
+| Log | `portfolio_configs/portfolio-red-vet.log` |
 
 ## Acceptance
 
-- Optimization completes 6/6 without stuck `running` state.
-- `portfolio_configs/portfolio-red.json` exists with markets matching Red Books.
-- Results summarized in plan or follow-on ticket if economics are poor (see trading-strategy evaluation ticket).
-
-## Depends on
-
-- Trading-strategy evaluation framework ticket if Red vet also shows catastrophic losses — may need revised defaults before treating export as Wv2-ready.
+- [x] Optimization completed (screening + finals + winner PBR)
+- [x] Export exists with Red markets
+- [x] Economics recorded; not trade-ready — observation only for Wv2 paper
 
 ## Related
 
-- Plan task #2
-- WUT: `lib/tasks/portfolio_trend_vet.rake`, `PortfolioTrendVetter`
+- Plan task #2 (completed)
+- WUT: `lib/tasks/portfolio_trend_vet.rake`, `PortfolioTrendVetter`, `TradeReadyViabilityGates`

@@ -1,6 +1,6 @@
 # Ticket: Recreate compose `data_manager` on latest image
 
-**Status:** Proposed
+**Status:** Done (2026-07-07/08)
 
 **Date:** 2026-07-07
 

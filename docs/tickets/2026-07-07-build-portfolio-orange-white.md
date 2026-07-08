@@ -1,12 +1,14 @@
 # Ticket: Build Portfolio Orange and White
 
-**Status:** Proposed
+**Status:** Membership done (2026-07-08); Phase D vet pending
 
 **Date:** 2026-07-07
 
-**Context:** [`portfolio-overlap-rebuild`](../../plans/portfolio-overlap-rebuild.md). Red and Blue finalized in registry. Orange (GLTR, 12–15 markets) and White (CPER, 16–20 markets) not started.
+**Last updated:** 2026-07-08
 
-**Gate:** Plan requires **≥50 suitable** symbols in DM registry before Orange/White builds. Current suitable count: **18** (after 300-symbol batch).
+**Context:** [`portfolio-overlap-rebuild`](../../plans/portfolio-overlap-rebuild.md). All four seed portfolios in registry.
+
+**Gate:** ≥50 suitable **met** (suitable **51** after 3×300 acquire batches).
 
 ## Problem
 
@@ -40,21 +42,32 @@ env NAME="Portfolio White" SEED=CPER MIN=16 MAX=20 \
   ...
 ```
 
-### Phase D — Vet (after trading-strategy framework)
+### Phase D — Vet (pending)
 
-Run `portfolios:vet_trend` for Orange and White only after viability criteria are defined.
+```bash
+env PORTFOLIO="Portfolio Orange" EXPORT=/portfolio_configs/portfolio-orange.json \
+  bin/rails portfolios:vet_trend
+env PORTFOLIO="Portfolio White" EXPORT=/portfolio_configs/portfolio-white.json \
+  bin/rails portfolios:vet_trend
+```
+
+## Results (membership)
+
+| Portfolio | Markets | Seed | mean \|r\| | Sidecar |
+|-----------|---------|------|-----------|---------|
+| Orange | 15 | GLTR | 0.171 | `portfolio-orange-sidecar.json` |
+| White | 20 | CPER | 0.105 | `portfolio-white-sidecar.json` |
+
+All bilateral overlaps ≤25%; seeds exclusive. See plan status table.
 
 ## Acceptance
 
-- Orange and White in WUT with seed exclusivity and ≤25% bilateral overlap vs all peers.
-- Sidecars + registry updated.
-- Suitable count logged when gate is met.
-
-## Blocked by
-
-- Suitable pool < 50 (Phase A)
-- Trading-strategy evaluation framework (vetting economics)
+- [x] Orange and White in WUT with seed exclusivity and ≤25% bilateral overlap vs all peers
+- [x] Sidecars + registry updated
+- [x] Suitable count ≥50 (51)
+- [ ] Phase D vet + export_kind labeling
 
 ## Related
 
-- Plan task #4
+- Plan task #4 (membership completed), task #6 (vet)
+- Perf fix this session: `MarketCorrelationCalculator` DmCoverage date bounds + process-level close series cache (greedy builds no longer multi-hour reloads)

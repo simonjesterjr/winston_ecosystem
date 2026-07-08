@@ -50,8 +50,14 @@ Optional `VET_YEARS` / `VET_START_DATE` floor the overlap window for experiments
 
 See: `docs/tickets/2026-07-07-accelerate-portfolio-vet-optimization.md`
 
+## Implemented (2026-07-08)
+
+- Ranking fallback when `practical_sharpe_ratio` is null → sort by `total_return`
+- `TradeReadyViabilityGates` + `export_kind` on `PortfolioTrendVetter` export
+- `RANKING_METRIC` env on `portfolios:vet_trend`
+
 ## Open (later passes)
 
 - Confirmational entries, combined exits, further screening tuning
-- Ranking fallback when `practical_sharpe_ratio` is null
-- Regime filters, membership vs strategy post-mortem template
+- Regime filters, membership vs strategy post-mortem template (Blue)
+- Re-threshold viability gates after more portfolio vets

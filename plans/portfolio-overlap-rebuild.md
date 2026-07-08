@@ -1,7 +1,7 @@
 # Portfolio Overlap Controls and Rebuild Plan
 
 **Status:** Active  
-**Updated:** 2026-07-06
+**Updated:** 2026-07-08 (Orange + White membership complete)
 
 ## Goal
 
@@ -29,26 +29,34 @@ Enforced in WUT via `PortfolioOverlapPolicy`, wired into `PortfolioCorrelationBu
 
 **Effective membership:** overlap counts strip *alien seeds* (seeds that belong to another portfolio) from each side before computing fractions. Seed exclusivity is enforced separately. This prevents a stale peer (e.g. Red still holding TSMC) from blocking all diversifier picks.
 
-## Status (2026-07-06)
+## Status (2026-07-08)
 
 | Phase | Status |
 |-------|--------|
 | 1 — Overlap controls | Done (`PortfolioOverlapPolicy`, `PortfolioRegistry`, builder + rake) |
 | 2 — Data Sets pagination | Done (15/page) |
-| 3 — DM random acquisition | **Done** — 300 acquired via one-off `podman run` on latest image (2026-07-06) |
-| 4 — Rebuild Red | **Done** — see below |
-| 5 — Rebuild Blue | **Done** — see below |
-| 6 — Vet + export | Blue vetted + exported (`portfolio-blue.json`, run 23) |
+| 3 — DM random acquisition | **Done for ≥50 gate** — suitable **51** (3×300 batches 2026-07-08); acquired 1532 |
+| 4 — Rebuild Red | **Done** |
+| 5 — Rebuild Blue | **Done** |
+| 6 — Vet + export | Red **Done** (PBR 25, observation); Blue **Done** (run 23, observation); Orange/White vet pending |
+| 7 — Strategy evaluation doctrine | **~90%** — gates + export_kind + null-Sharpe fallback + RANKING_METRIC env |
+| 8 — Orange + White membership | **Done** — both registered; all bilateral ≤25%; seeds exclusive |
 
-### Portfolio Red (rebuilt)
+**Unblocked:** DM parquet is source of truth for portfolio path; scheduled jobs will not re-duplicate DM data (2026-07-08 SOT closeout).
+
+### Portfolio Red (rebuilt + vetted)
 
 - **Seed:** AMAT only (no TSMC, GLTR, CPER)
 - **Markets (9):** AMAT, CDE, MSFT, MSOS, PHYMF, ROKU, URA, VXX, XLV
 - **Overlap vs Blue:** 0 shared (0% bilateral)
 - **Diversification:** Strong (mean \|r\| ≈ 0.21)
 - **Sidecar:** `portfolio_configs/portfolio-red-sidecar.json`
+- **Vet winner (PBR 25):** `Breakout50DayNoHistoryStrategy` + `VolatilityExitStrategy`
+- **Economics:** Return **+636%**, max DD **64%**, trades 1051, Sharpe null
+- **Export:** `portfolio_configs/portfolio-red.json` — **`export_kind: observation`** (failed drawdown gate ≤50%)
+- **Wv2:** Paper/regime only — not trade-ready
 
-### Portfolio Blue (rebuilt)
+### Portfolio Blue (rebuilt + vetted)
 
 - **Seed:** TSMC only (no AMAT, GLTR, CPER)
 - **Markets (11):** AAL, AMZN, GLD, GOOGL, JNJ, PG, RXT, TSLA, TSMC, WMT, XLE
@@ -56,8 +64,39 @@ Enforced in WUT via `PortfolioOverlapPolicy`, wired into `PortfolioCorrelationBu
 - **Diversification:** Strong (mean \|r\| ≈ 0.12)
 - **Sidecar:** `portfolio_configs/portfolio-blue-sidecar.json`
 - **Registry:** `portfolio_configs/registry.json`
+- **Vet winner (run 23):** `SwingBreakout5DayStrategy` + `VolatilityExitStrategy`
+- **Economics:** Return **−98%**, max DD **100%** — catastrophic
+- **Export:** `portfolio_configs/portfolio-blue.json` — **`export_kind: observation`**
+- **Follow-up:** membership/strategy revisit ticket still open
 
-Candidate pool had to expand beyond the 15 DM-suitable symbols (WUT markets with `DmCoverage` ≥1000 bars, excluding peer effective membership and alien seeds) because the suitable-only pool capped builds at 8 markets under overlap rules.
+### Portfolio Orange (built 2026-07-08)
+
+- **Seed:** GLTR only
+- **Markets (15):** AAPL, BITQ, COPR, FPA, GLTR, IBM, MSOS, NVDA, RXT, SMH, VXX, WMT, XLF, XLK, ZROZ
+- **Diversification:** Strong (mean \|r\| ≈ 0.171)
+- **Sidecar:** `portfolio_configs/portfolio-orange-sidecar.json`
+- **Vet:** not run yet
+
+### Portfolio White (built 2026-07-08)
+
+- **Seed:** CPER only
+- **Markets (20):** CIZ, CMDT, COPR, CPER, DBE, GOOGL, IWF, OILK, PHYMF, PPLT, PTF, ROKU, SOXX, TAGS, TESL, TILL, WMT, XLB, YOLO, ZROZ
+- **Diversification:** mean \|r\| ≈ 0.105 (low pairwise correlation)
+- **Sidecar:** `portfolio_configs/portfolio-white-sidecar.json`
+- **Vet:** not run yet
+
+### Bilateral overlaps (all ≤25%)
+
+| Pair | Shared | Fractions |
+|------|--------|-----------|
+| Red ∩ Blue | ∅ | 0% / 0% |
+| Red ∩ Orange | MSOS, VXX | 22.2% / 13.3% |
+| Red ∩ White | PHYMF, ROKU | 22.2% / 10.0% |
+| Blue ∩ Orange | RXT, WMT | 18.2% / 13.3% |
+| Blue ∩ White | GOOGL, WMT | 18.2% / 10.0% |
+| Orange ∩ White | COPR, WMT, ZROZ | 20.0% / 15.0% |
+
+Candidate pool expanded beyond DM-suitable-only (WUT markets with `DmCoverage` ≥1000 bars) because suitable-only pools cap builds under overlap rules.
 
 ## Next steps
 
@@ -65,17 +104,22 @@ Tracked in `portfolio-overlap-rebuild.md.tasks.json` and `docs/tickets/2026-07-0
 
 | # | Item | Ticket | Priority |
 |---|------|--------|----------|
-| 1 | Recreate compose `data_manager` on latest image | [recreate-data-manager](../docs/tickets/2026-07-07-recreate-data-manager-compose-container.md) | — |
-| 5 | **Portfolio trading-strategy evaluation framework** | [evaluation-framework](../docs/tickets/2026-07-07-portfolio-trading-strategy-evaluation-framework.md) | **P0** |
-| 2 | Vet Portfolio Red | [vet-red](../docs/tickets/2026-07-07-vet-portfolio-red-trend.md) | blocked by #5 |
-| 3 | Revisit Blue membership/strategy | [revisit-blue](../docs/tickets/2026-07-07-revisit-portfolio-blue-membership-strategy.md) | blocked by #5 |
-| 4 | Build Orange + White (suitable ≥50) | [orange-white](../docs/tickets/2026-07-07-build-portfolio-orange-white.md) | blocked by #1, #5 |
+| 1 | Recreate compose `data_manager` on latest image | [recreate-data-manager](../docs/tickets/2026-07-07-recreate-data-manager-compose-container.md) | **Done** |
+| 5 | **Portfolio trading-strategy evaluation framework** | [evaluation-framework](../docs/tickets/2026-07-07-portfolio-trading-strategy-evaluation-framework.md) | **P0 ~90%** |
+| 2 | Vet Portfolio Red | [vet-red](../docs/tickets/2026-07-07-vet-portfolio-red-trend.md) | **Done** (PBR 25, observation) |
+| 3 | Revisit Blue membership/strategy | [revisit-blue](../docs/tickets/2026-07-07-revisit-portfolio-blue-membership-strategy.md) | open |
+| 4 | Build Orange + White | [orange-white](../docs/tickets/2026-07-07-build-portfolio-orange-white.md) | **Done** (membership); vet pending |
+| 6 | Vet Orange + White (`portfolios:vet_trend`) | orange-white ticket Phase D | next |
 
 ### Completed
 
 1. ~~Rebuild Red~~ — done
-2. ~~DM random batch~~ — done (300 ok, 0 failed; suitable 15→18)
-3. ~~Blue vetting~~ — done (winner: `SwingBreakout5DayStrategy` + `VolatilityExitStrategy`, run 23; economics poor — do not import to Wv2 yet)
+2. ~~DM random batch~~ — suitable 51 ≥50 gate
+3. ~~Blue vetting~~ — done (observation only)
+4. ~~Red vetting~~ — done (PBR 25; observation — DD gate)
+5. ~~DM compose recreate~~ — symbol registry rakes work via compose
+6. ~~Eval framework core~~ — gates, export_kind, null-Sharpe fallback, RANKING_METRIC
+7. ~~Orange + White membership~~ — done 2026-07-08
 
 ## Phase 1 — Controls (WUT)
 
@@ -93,7 +137,7 @@ Tracked in `portfolio-overlap-rebuild.md.tasks.json` and `docs/tickets/2026-07-0
 ## Phase 3 — Expand historical data (DM)
 
 - Run `dm:symbol_registry:acquire_random_batch[300]` via compose (never one-off podman volumes)
-- Target ≥30 suitable symbols before Red/Blue rebuild; ≥50 before Orange/White
+- Target ≥30 suitable symbols before Red/Blue rebuild; ≥50 before Orange/White (aspirational — builds may use expanded WUT coverage pool)
 - Suitability evaluated post-acquire per `ecosystem/docs/business-context/winston-market-suitability.md`
 
 ## Phase 4 — Rebuild Portfolio Red
@@ -124,12 +168,48 @@ env NAME="Portfolio Blue" SEED=TSMC MIN=9 MAX=11 \
 
 - Re-run `portfolios:vet_trend` for Red and Blue
 - Export configured portfolios to `portfolio_configs/` and Wv2 when ready
+- **Gate:** `export_kind` must be `trade_ready` before live capital; `observation` allowed for paper
+
+## Phase 7 — Strategy evaluation doctrine
+
+Canonical docs:
+
+- `docs/analysis/portfolio-trading-strategy-evaluation.md`
+- `docs/business-context/trade-ready-viability-gates.md`
+
+WUT implementation:
+
+| Piece | Status |
+|-------|--------|
+| `FIRST_PASS_BASE_CONFIG` + 6×2 exit grid | Done |
+| Screening defaults (25% / top 5) | Done |
+| `TradeReadyViabilityGates` | Done |
+| `export_kind` on JSON export | Done |
+| Null-Sharpe → total_return ranking fallback | Done |
+| `RANKING_METRIC` env on `vet_trend` | Done |
+| Blue membership post-mortem | Open (ticket #3) |
+
+## Phase 8 — Orange + White
+
+```bash
+env NAME="Portfolio Orange" SEED=GLTR MIN=12 MAX=15 \
+  PEERS="Portfolio Red,Portfolio Blue" \
+  CANDIDATES="..." SIDECAR_PATH=/portfolio_configs/portfolio-orange-sidecar.json \
+  bin/rails portfolios:build_correlation
+
+env NAME="Portfolio White" SEED=CPER MIN=16 MAX=20 \
+  PEERS="Portfolio Red,Portfolio Blue,Portfolio Orange" \
+  CANDIDATES="..." SIDECAR_PATH=/portfolio_configs/portfolio-white-sidecar.json \
+  bin/rails portfolios:build_correlation
+```
+
+Vet with `portfolios:vet_trend` after membership locked; label exports via viability gates.
 
 ## Deferred
 
-- Orange (GLTR) and White (CPER) builds — see ticket `2026-07-07-build-portfolio-orange-white.md`
 - Wv2 paper-trading gaps (auto-execute, pyramid, etc.)
-- Wv2 import for Red/Blue — blocked until trading-strategy evaluation framework (P0 ticket)
+- Wv2 import for Red/Blue — observation only until gates pass (or membership/strategy revisit)
+- Parallel combo optimization (Phase 3 of accelerate ticket)
 
 ## Commands reference
 
@@ -151,7 +231,9 @@ podman rm -f data_manager data_manager_sidekiq
 # Verify volume is the correct one (sawtooth_sawtooth_dm_data) after recreate:
 #   podman inspect data_manager --format '{{range .Mounts}}{{.Name}} -> {{.Destination}}{{end}}'
 
-# WUT
+# WUT — build + vet
 ./bin/compose exec -T winston_unit_test env NAME="Portfolio Blue" SEED=TSMC ... bin/rails portfolios:build_correlation
-./bin/compose exec -T winston_unit_test env PORTFOLIO="Portfolio Blue" bin/rails portfolios:vet_trend
+./bin/compose exec -T winston_unit_test env PORTFOLIO="Portfolio Red" \
+  EXPORT=/portfolio_configs/portfolio-red.json RANKING_METRIC=practical_sharpe_ratio \
+  bin/rails portfolios:vet_trend
 ```

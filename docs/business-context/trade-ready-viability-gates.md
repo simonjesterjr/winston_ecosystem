@@ -26,11 +26,16 @@ Failure on any gate → export path is **Observation Portfolio** only (if export
 - Membership overlap / seed exclusivity — portfolio assembly rules, not strategy viability.
 - Winston market suitability — DM symbol rules, not backtest economics.
 
+## Implementation (WUT)
+
+- Service: `TradeReadyViabilityGates` (`winston_unit_test/app/services/trade_ready_viability_gates.rb`)
+- Wired into `PortfolioTrendVetter#export_run!` and `portfolios:vet_trend` summary output
+- Export JSON fields: top-level `export_kind`, nested `vetting.viability`
+
 ## Open work
 
 - Backtesting revisit ticket: tune **TradingStrategy** components comprehensively before trusting gates.
-- Implement gate enforcement in WUT export (`PortfolioTrendVetter`, `portfolios:vet_trend`).
-- Add JSON `export_kind`: `trade_ready` | `observation` on portfolio config files.
+- Blue membership post-mortem (observation economics catastrophic — strategy vs membership).
 
 ## Related
 

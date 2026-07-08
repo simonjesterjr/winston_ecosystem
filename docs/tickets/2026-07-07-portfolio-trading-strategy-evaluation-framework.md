@@ -1,12 +1,12 @@
 # Ticket: Portfolio trading-strategy evaluation framework (priority)
 
-**Status:** In progress (~60% — first-pass doctrine + WUT core; export gates + re-vet pending)
+**Status:** In progress (~90% — gates + export_kind + ranking fallback done; Blue post-mortem open)
 
-**Priority:** P0 — blocks Wv2 handoff for trend portfolios
+**Priority:** P0 — blocks Wv2 trade-ready handoff for trend portfolios
 
 **Date:** 2026-07-07
 
-**Last updated:** 2026-07-07 (first-pass implementation session)
+**Last updated:** 2026-07-08 (viability gates + export_kind + null-Sharpe fallback)
 
 **Context:** Blue vet (`portfolios:vet_trend`) completed with catastrophic metrics across all six entry strategies. The current “evaluate TS for a portfolio” path is too narrow and undocumented for production decisions.
 
@@ -46,24 +46,25 @@ We do not have an ecosystem-approved answer to:
 
 Canonical reference: [`docs/analysis/portfolio-trading-strategy-evaluation.md`](../analysis/portfolio-trading-strategy-evaluation.md)
 
-## Progress (2026-07-07)
+## Progress (2026-07-08)
 
 | Deliverable | Status |
 |-------------|--------|
 | Analysis doc (first-pass grid + fixed components) | **Done** |
-| Viability gates doc (placeholders) | **Done** (grill session — `trade-ready-viability-gates.md`) |
-| CONTEXT.md glossary (Trade-Ready / Observation / etc.) | **Done** (grill session) |
+| Viability gates doc (placeholders) | **Done** (`trade-ready-viability-gates.md`) |
+| CONTEXT.md glossary (Trade-Ready / Observation / etc.) | **Done** |
 | WUT: 6×2 exit grid (`paired_opposite_exit`) | **Done** |
 | WUT: first-pass base config in `PortfolioTrendVetter` | **Done** |
-| WUT: max 4 markets + 12-position swap logic | **Done** (migration + `PositionSwapEvaluator`; inline ATR ER for swap — full ER post-backtest) |
-| WUT: specs for vetter / optimizer / swap | **Done** (not run in CI this session — local bundle issue) |
-| WUT: `export_kind` enforcement (trade_ready vs observation) | **Not done** |
-| WUT: viability gate check on export | **Not done** |
-| WUT: ranking fallback when Sharpe is null | **Not done** |
-| WUT: `vet_trend` env vars (ranking metric, config file) | **Not done** |
-| Re-vet Red or Blue with new doctrine | **Not done** — blocked on migrate + deploy WUT changes |
-| Plan Phase 7 write-up in `portfolio-overlap-rebuild.md` | **Not done** |
-| Blue vet post-mortem template | **Not done** |
+| WUT: max 4 markets + 12-position swap logic | **Done** |
+| WUT: specs for vetter / optimizer / swap / gates | **Done** (gates + null-Sharpe specs green 2026-07-08) |
+| WUT: `export_kind` enforcement (trade_ready vs observation) | **Done** (`TradeReadyViabilityGates` + export JSON) |
+| WUT: viability gate check on export | **Done** |
+| WUT: ranking fallback when Sharpe is null | **Done** (falls back to `total_return`) |
+| WUT: `vet_trend` `RANKING_METRIC` env | **Done** |
+| Re-vet Red with new doctrine | **Done** (PBR 25 → observation; DD 64% > 50%) |
+| Plan Phase 7 write-up | **Done** |
+| Blue vet post-mortem template | **Not done** (ticket revisit-blue) |
+| Apply `export_kind` to existing Red/Blue JSON | **Done** (both observation) |
 
 ## Proposed deliverables
 
