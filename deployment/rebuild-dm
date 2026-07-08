@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+#
+# bin/rebuild-dm — rebuild and recreate data_manager + data_manager_sidekiq only.
+#
+# Use when DM image layers change (Gemfile, Containerfile, system packages, native
+# gems). Day-to-day Ruby/Rails edits under data_manager/{app,lib,config,...} do
+# NOT need this: root compose.yml bind-mounts ./data_manager into both services
+# (same pattern as WUT/Wv2). Keep data_manager/bin/* executable (git mode 100755)
+# or bind-mount will mask the image's chmod +x and break `bin/rails`.
+#
+# Usage (from sawtooth root):
+#   ./bin/rebuild-dm
+#   ./bin/rebuild-dm --no-cache
+#
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+NO_CACHE=()
+if [[ "${1:-}" == "--no-cache" ]]; then
+  NO_CACHE=(--no-cache)
+fi
+
+# Guard against the historical bind-mount footgun (non-executable host bin/*).
+if [[ -d data_manager/bin ]]; then
+  chmod +x data_manager/bin/* 2>/dev/null || true
+fi
+
+echo ">>> Building data_manager image ${NO_CACHE[*]:-(cached)}"
+./bin/compose build "${NO_CACHE[@]}" data_manager
+
+echo ">>> Recreating data_manager + data_manager_sidekiq"
+# Sidekiq reuses the same build context/image name as data_manager in compose;
+# recreate both so workers pick up new gems/layers. --no-deps keeps redis/pg up.
+./bin/compose up -d --no-deps data_manager data_manager_sidekiq
+
+echo ">>> Smoke: bin/rails -v"
+./bin/compose exec -T data_manager bin/rails -v
+
+echo ">>> Done. For ordinary code edits, just restart or wait for reloader:"
+echo "    ./bin/compose restart data_manager data_manager_sidekiq"

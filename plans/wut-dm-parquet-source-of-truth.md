@@ -138,3 +138,26 @@ See the detailed session plan for expanded verification commands and success met
 - AGENTS.md files (read ecosystem/ first)
 
 This plan supersedes the session copy as the permanent record. Implementation must follow a revised version that addresses the adversary findings.
+
+## Manager Final Phase Closeout (2026-07-08)
+
+**Status update:** Core effort (this plan + main ticket 2026-07-07-wut-dm-parquet-source-of-truth-no-duplication.md + related 07-07/07-08 tickets + issue) **COMPLETED and closed**.
+
+- Workers synthesized: E2E (sims + prior), gaps/fix (audit-refactor 1130, expected-return 0030, views-repull 1500, data-sets-ui 1505, remaining-services 1510, controller-cleanup 1515, MIV/model clusters), ticket closing.
+- Manager verifications (live on running stack): deltas ACT/MIV=0 on importer/loader/render/ops/ER paths for SPY (1797 bars) + QQQ; loader Bar id=nil + baked indicators (20+ cols); result reader+load_bars re-pull; pure registry UI/actions; thin importer; DM branches in runners/ops/models/controllers; no new local parquets/activities on DM flows. Reconciled counts match DM/WUT.
+- Invariants hold per principles/02, CONTEXT, plan ACs: no heavy TS in PG for new DM data; DM owns indicators; pure registry; composite (market_id, bar_date) + Bar; loader truth; re-pull for views; legacy isolated.
+- ACs met (loaders, identity, no-Activity creation, runners/daily/ER/views/ingest/UI, tests/verif, docs).
+- Deferred (non-blocking for close): full zero-delta RSpec expansion, complete documented manual E2E smoke (ticket), any historical activity purge (not required), full schema cleanup for activity_id columns.
+- **Outside-UI callers (rakes/jobs) audit (2026-07-08):** COMPLETED — see `ecosystem/docs/tickets/2026-07-08-audit-outside-ui-callers-rakes-jobs.md`. Central guard on `DataDownloader.download_and_save` (DM → thin importer, no activities); parquet rake write tasks abort on DM; DatasetLoader skips DM activity materialization; legacy scripts annotated. Scheduled jobs claim: no DM duplication paths remain. Residual: manual `parquet:import_csv` warn-only, FRED local normalize intentional, options/LEAPs Yahoo.
+- **Ops follow-up completed (2026-07-08):** DM dev bind-mount **Option A** enabled in root `compose.yml` (same as WUT/Wv2). Root cause of old `bin/rails` permission denied was non-executable host `data_manager/bin/*` (git `100644`); fixed to `100755`. Helper: `./bin/rebuild-dm` for Gemfile/Containerfile only. See ticket `docs/tickets/2026-07-08-dm-bind-mount-decision.md`.
+
+**Handoff evidence:** See manager response writeup, live commands output, session reports 2026-07-07/08, main ticket. Next after: portfolio-overlap etc (see ecosystem/plans/).
+
+Absolute paths:
+- Plan: /home/johnkoisch/Documents/com/sawtooth/ecosystem/plans/wut-dm-parquet-source-of-truth.md
+- Main ticket: /home/johnkoisch/Documents/com/sawtooth/ecosystem/docs/tickets/2026-07-07-wut-dm-parquet-source-of-truth-no-duplication.md
+- Issue: /home/johnkoisch/Documents/com/sawtooth/ecosystem/docs/issues/2026-07-07-wut-dm-sync-buttons-duplicate-data.md
+- Key impl: /home/johnkoisch/Documents/com/sawtooth/winston_unit_test/app/services/dm_parquet_loader.rb , data_set_dm_importer.rb , lib/parquet_data/readers/backtest_results_reader.rb
+- WUT docs updated: /home/johnkoisch/Documents/com/sawtooth/winston_unit_test/docs/parquet_data.md , data_reconciliation.md
+
+Recommend: /wrap or new session report in ecosystem/docs/session-reports/ for this manager closeout.

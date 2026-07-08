@@ -23,6 +23,16 @@ bin/seed-cromwell-workspace
 ./bin/compose --profile ai up -d nanobot_cromwell
 ```
 
+### DM source bind-mount (dev)
+
+Root `compose.yml` bind-mounts `./data_manager` into `data_manager` and `data_manager_sidekiq` (same as WUT/Wv2). Keep `data_manager/bin/*` executable (`git` mode `100755`) or rootless Podman will hit permission denied on `bin/rails`.
+
+- Code-only edits: live (restart Sidekiq if needed).
+- Image layers (Gemfile/Containerfile): `./bin/rebuild-dm` or  
+  `./bin/compose build data_manager && ./bin/compose up -d data_manager data_manager_sidekiq`
+
+See `data_manager/README.md` and ticket `docs/tickets/2026-07-08-dm-bind-mount-decision.md`.
+
 ### M-F schedule (Mountain Time)
 
 | Time | Service | Task |

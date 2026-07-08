@@ -113,7 +113,9 @@ podman logs --tail 20 data_manager_sidekiq   # should NOT show connection_pool A
 
 For live EODHD sync: `EODHD_API_KEY` set in `ecosystem/deployment/eodhd.env` and DM container recreated after edits.
 
-After changing DM code: `./bin/compose build data_manager && ./bin/compose up -d --no-deps data_manager data_manager_sidekiq`
+After changing DM **image layers** (Gemfile/Containerfile/native gems): `./bin/rebuild-dm`  
+or `./bin/compose build data_manager && ./bin/compose up -d --no-deps data_manager data_manager_sidekiq`.  
+Ordinary Ruby/Rails edits are bind-mounted live (keep `data_manager/bin/*` executable).
 
 ### Automated integration test (recommended)
 

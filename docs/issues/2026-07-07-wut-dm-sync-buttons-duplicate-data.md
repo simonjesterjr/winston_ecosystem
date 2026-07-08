@@ -1,4 +1,4 @@
-**Status:** Open
+**Status:** Fixed (duplication paths eliminated; DM source of truth; see evidence)
 
 # Issue: WUT "Load Full Data from DM" and "Sync" buttons duplicate data from DM into local WUT storage and activities table
 
@@ -72,6 +72,30 @@ The buttons mislead the user into thinking data stays in DM.
 
 See the plan for the full remediation (make DM parquet primary, provide compatibility for `market.activities` expressions via loaders + sparse stubs or refactor, overhaul data_sets UI to be DM-metadata only, remove hydration from sync paths, add missing_data-style readiness).
 
-This issue should be closed when the duplication paths for DM data are removed and the UI reflects the principles.
+This issue is now closed (see Manager note + Closure below; duplication paths removed + UI reflects principles; all ACs from related main ticket met).
 
-**Cross-linked to the plan and tickets above.**
+**Cross-linked to:** the plan, main ticket (strong evidence), all 2026-07-08 sub-tickets (Completed), and 2026-07-08 session reports.
+
+## Manager note + Closure (2026-07-08, post all clusters + restart)
+
+**Strong evidence duplication paths eliminated (DM now source of truth for registry + consumption):**
+
+- **UI/buttons:** Removed/replaced hydration. Now "Request DM refresh" only (acquire + DmRegistrySynchronizer metadata sync). See data_sets views (_market_row, index, show, _dm_discovery), controller (sync_from_dm, add_from_dm, update_all_data, create all call request_... only; no DataSetDmSyncJob / importer full). "Update All Data" now registry sync. (Delivered in 2026-07-08-1505-wut-dm-parquet-data-sets-ui.md; directly resolves this issue.)
+- **Ingestion:** DataSetDmImporter: DM if/else: ONLY DmParquetIngester.ingest + comment "do NOT duplicate bars into local... or activities". No Pipeline.save_price/calculated, no sync_to_activities!. SyncRunner thin. (2026-07-08-1510 report)
+- **Write guards everywhere:** backtest_activities_loader#sync_to_activities! returns early for DM (no Activity/MIV rows). data_downloader skips MIV/calc. All creation (BIV if id.nil?, PassedSignal, journals via bar_date) guarded.
+- **Consumption/registry:** data_sets now reads from DmParquetLoader for show/export; stats/freshness from DmCoverage. All runners/ops/ER/views/models/controllers use loader + (market_id, date) or reader re-pull for DM. No .activities for DM.
+- **Verification (deltas=0, no dup, re-pull):** 
+  - Multiple live runs on real DM SPY parquet (1798+ bars): before/after Activity.count delta=0, MIV=0 on import/backtest/ER/ops/render paths (see 2026-07-08-1130 table, 0030 ER, 1500 views, 2330 core, 1510 services).
+  - Spec: data_set_dm_importer_spec "DM source of truth (no duplication)" asserts 0 growth + not received Pipeline/sync.
+  - Re-pull confirmed: views use reader market_key + DmParquetLoader; charts/tables show correct OHLCV/ATR from DM.
+  - Local parquets untouched for DM; no new writes.
+  - Post-restart 2026-07-08: invariants hold across all clusters (audit-refactor, views-repull, remaining, controller-cleanup, ER, data-sets-ui) + manager integration.
+- Cross links: main ticket (2026-07-07-...) has full AC evidence + "Deltas: ACT=0, MIV=0"; sub-tickets e2e-smoke, miv-handling, model-cleanup, zero-delta-specs, docs-update all Completed with verifs; plan; 2026-07-08 session reports; Wv2 reference.
+
+**UI now reflects principles:** Pure DM registry view (DataCoverage pointer). No misleading "load into WUT". DM is manager/source; WUT reads.
+
+**Dupe paths for DM data removed:** Old bridge isolated to legacy non-DM. Issue root cause fully remediated.
+
+**Recommend close:** Human re-smoke on running system (bin/compose up; visit /wut/data_sets; request refresh for SPY; run backtest; verify no activity growth + views render from DM) per "post human verification". All automated + report verifs passed.
+
+**Related closed tickets:** See the 2026-07-08-* and main 2026-07-07-wut-dm-parquet-source-of-truth-no-duplication.md (strong evidence section).
