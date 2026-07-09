@@ -48,13 +48,13 @@
 
 ### Commits
 
-- _(pending wrap commit)_
+- `d26d88e` — docs: ADR-006 OP lineage/lifecycle + fingerprint handoff grill
 
 ### Branch / PR state at sign-off
 
-- Branch: `ecosystem` `main` (docs dirty pre-commit)
-- Pushed: pending wrap
-- PR: not required for direct-main docs workflow unless operator prefers PR
+- Branch: `ecosystem` `main` — clean after push
+- Pushed: yes (`origin/main`)
+- PR: not opened (direct main)
 
 **Monoliths touched:** none (docs only in `ecosystem/`)
 
