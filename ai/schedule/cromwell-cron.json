@@ -13,11 +13,16 @@
         "tz": "America/Denver"
       },
       "payload": {
-        "kind": "system_event",
+        "kind": "agent_turn",
         "message": "6:00 AM MT daily morning briefing for Sawtooth Main. Skills: winston-ecosystem-status, winston-heartbeat. Three sections in order: (1) Infrastructure — probe wv2_list_portfolios, wut_list_portfolios, dm_get_cromwell_events limit 1; report ok/unreachable per service; DB inferred from probes; backups not implemented (say so); container-level pending Sidekiq watchdog; lead with failures. (2) Business ops — portfolios, pending actions, Mon-Fri yesterday fetch_only EOD recap, today's schedule. (3) Business data — prior trading day EODHD sync: count symbol_updated from dm_get_cromwell_events sync_complete run; format 'Winston updated N markets from upstream sources (EODHD) on DATE'; if prior day log unavailable state known gap honestly. Address team. FORBIDDEN: perform_daily_analysis, market_snapshot, Runtime Context, menus, full tables, inventing statuses, reusing prior tool results.",
-        "deliver": true,
-        "channel": "telegram",
-        "to": "-1003884714483"
+        "deliver": false,
+        "channel": null,
+        "to": null,
+        "channelMeta": {},
+        "sessionKey": "telegram:-1003884714483",
+        "originChannel": "telegram",
+        "originChatId": "-1003884714483",
+        "originMetadata": {}
       },
       "state": { "nextRunAtMs": null, "lastRunAtMs": null, "lastStatus": null, "lastError": null },
       "createdAtMs": 1782000000000,
@@ -36,11 +41,16 @@
         "tz": "America/Denver"
       },
       "payload": {
-        "kind": "system_event",
+        "kind": "agent_turn",
         "message": "7:30 AM MT NYSE open snapshot. Skills: winston-market-snapshot, winston-heartbeat. Call wv2_market_snapshot with {} — fresh tool call required. One short paragraph; last EOD closes with dates. ATR movers vs staid message when breach data available; else note session check pending live quotes. Address team. FORBIDDEN: perform_daily_analysis, get_daily_activity_report, Runtime Context, menus, reusing prior tool results.",
-        "deliver": true,
-        "channel": "telegram",
-        "to": "-1003884714483"
+        "deliver": false,
+        "channel": null,
+        "to": null,
+        "channelMeta": {},
+        "sessionKey": "telegram:-1003884714483",
+        "originChannel": "telegram",
+        "originChatId": "-1003884714483",
+        "originMetadata": {}
       },
       "state": { "nextRunAtMs": null, "lastRunAtMs": null, "lastStatus": null, "lastError": null },
       "createdAtMs": 1782000000000,
@@ -59,11 +69,16 @@
         "tz": "America/Denver"
       },
       "payload": {
-        "kind": "system_event",
+        "kind": "agent_turn",
         "message": "Hourly MT market snapshot (8 AM-2 PM MT, NYSE session). Skills: winston-market-snapshot, winston-heartbeat. Call wv2_market_snapshot with {} — fresh tool call required. Movers >1 ATR when tool returns atr_breach; else brief staid/funny line. Address team. FORBIDDEN: perform_daily_analysis, get_daily_activity_report, other MCP tools, Runtime Context, menus, reusing prior tool results.",
-        "deliver": true,
-        "channel": "telegram",
-        "to": "-1003884714483"
+        "deliver": false,
+        "channel": null,
+        "to": null,
+        "channelMeta": {},
+        "sessionKey": "telegram:-1003884714483",
+        "originChannel": "telegram",
+        "originChatId": "-1003884714483",
+        "originMetadata": {}
       },
       "state": { "nextRunAtMs": null, "lastRunAtMs": null, "lastStatus": null, "lastError": null },
       "createdAtMs": 1782000000000,
@@ -82,11 +97,16 @@
         "tz": "America/Denver"
       },
       "payload": {
-        "kind": "system_event",
+        "kind": "agent_turn",
         "message": "3:35/3:45 PM MT DM sync relay. Skill: winston-dm-sync-events. Tool: dm_get_cromwell_events only. Post each new event.message to Sawtooth Main. Track event ids delivered today. FORBIDDEN: other tools, menus.",
-        "deliver": true,
-        "channel": "telegram",
-        "to": "-1003884714483"
+        "deliver": false,
+        "channel": null,
+        "to": null,
+        "channelMeta": {},
+        "sessionKey": "telegram:-1003884714483",
+        "originChannel": "telegram",
+        "originChatId": "-1003884714483",
+        "originMetadata": {}
       },
       "state": { "nextRunAtMs": null, "lastRunAtMs": null, "lastStatus": null, "lastError": null },
       "createdAtMs": 1782000000000,
@@ -105,11 +125,16 @@
         "tz": "America/Denver"
       },
       "payload": {
-        "kind": "system_event",
+        "kind": "agent_turn",
         "message": "4:35 PM MT EOD delivery for Sawtooth Main. Skills: winston-daily-ops, winston-report-delivery. Call wv2_get_daily_activity_report with fetch_only true. Do NOT call wv2_perform_daily_analysis. Wv2 Sidekiq already ran analysis at 4:30 PM. Todos only from tool payload. FORBIDDEN: Runtime Context, Active Tasks checklist, generic Next Steps menu.",
-        "deliver": true,
-        "channel": "telegram",
-        "to": "-1003884714483"
+        "deliver": false,
+        "channel": null,
+        "to": null,
+        "channelMeta": {},
+        "sessionKey": "telegram:-1003884714483",
+        "originChannel": "telegram",
+        "originChatId": "-1003884714483",
+        "originMetadata": {}
       },
       "state": { "nextRunAtMs": null, "lastRunAtMs": null, "lastStatus": null, "lastError": null },
       "createdAtMs": 1782000000000,

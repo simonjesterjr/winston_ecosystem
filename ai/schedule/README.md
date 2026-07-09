@@ -15,6 +15,36 @@ This directory is the **authoritative catalog** of recurring tasks across the Sa
 
 **Cromwell cron owns all periodic Telegram posts** (DM relay, EOD report, market snapshots). The nanobot gateway heartbeat (`gateway.heartbeat.enabled`) stays **false** — do not re-enable it for Sawtooth Main broadcasts. `HEARTBEAT.md` is a pointer to this directory only; it must not duplicate cron job definitions. When adding a new recurring Telegram task, edit `manifest.yaml` + `cromwell-cron.json`, then `bin/seed-cromwell-workspace --force-cron`.
 
+### Nanobot 0.2.x session binding (required)
+
+As of **nanobot-ai 0.2.x**, cron jobs that should post to Telegram must be **session-bound `agent_turn` payloads**. Legacy `system_event` + `deliver: true` + `channel`/`to` jobs are **skipped** at runtime with:
+
+```text
+unbound agent cron job must be recreated from a chat session
+```
+
+Required payload shape (Sawtooth Main group):
+
+| Field | Value |
+|-------|--------|
+| `kind` | `agent_turn` |
+| `sessionKey` | `telegram:-1003884714483` |
+| `originChannel` | `telegram` |
+| `originChatId` | `-1003884714483` |
+| `deliver` / `channel` / `to` | must be `false` / `null` / `null` (delivery routes via origin session) |
+
+Only special system names (`dream`, `heartbeat`) still use unbound `system_event` handling. Do not convert Sawtooth broadcast jobs back to `system_event`.
+
+### MCP SSRF whitelist (required for winston_mcp)
+
+nanobot 0.2.x blocks private/internal MCP URLs unless `tools.ssrf_whitelist` includes the compose network CIDRs. Without it, startup logs:
+
+```text
+MCP server 'winston': blocked unsafe URL http://winston_mcp:8088/sse
+```
+
+Runtime config (`ai/data/cromwell-bot/config.json`) must include e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`. See `ai/configs/nanobot-cromwell.example.json`.
+
 ```text
 Daily 6:00 AM MT:
   Cromwell cron  → morning briefing (infrastructure probes, business ops, prior-day EODHD sync summary)
