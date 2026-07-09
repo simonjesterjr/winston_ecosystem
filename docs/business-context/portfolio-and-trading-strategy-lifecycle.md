@@ -46,9 +46,12 @@ Confirmation flow (future MCP tools): principal confirms journals → capital_ba
 
 ## WUT lab lifecycle (reference)
 
-1. Create backtest run with strategy params and markets
-2. Vet results (optionally promote to first-class TradingStrategy entity in WUT)
-3. Export JSON when satisfied
-4. Hand off to Wv2 (see `wut-to-wv2-handoff.md`)
+1. Create backtest run with strategy params and markets **or** run **Portfolio Signal Optimization** / `portfolios:vet_trend`
+2. After the **validation** PortfolioBacktestRun completes, WUT auto-upserts a fingerprinted first-class **TradingStrategy** and a **TradingStrategy Selection** (outcomes + portfolio link). Manual promote from completed runs still works.
+3. Fingerprint = full run methodology + date range + constraints; excludes portfolio name, membership (Books), and initial capital. Same fingerprint across portfolios increments selection counts for regime insight.
+4. Export JSON when satisfied (`/trading_strategies`, `wut:strategies:export_config`, or portfolio export from vet)
+5. Hand off to Wv2 (see `wut-to-wv2-handoff.md`)
+
+Backfill existing validation runs: `bin/rails trading_strategies:capture_validation_runs` (optional `PBR_IDS=`, `PORTFOLIO=`, `DRY_RUN=1`).
 
 WUT remains the **mature reference** for how these services work (`winston_unit_test/docs/architecture.md`).

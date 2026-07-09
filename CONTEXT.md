@@ -49,8 +49,12 @@ A named trading account configuration: capital, risk params, linked markets (Boo
 _Avoid_: account (ambiguous with broker account), fund
 
 **TradingStrategy**:
-Reusable methodology — entry/exit strategy names, risk evaluation, ATR multipliers, pyramid rules. Can be shared across Portfolios. Strategy class names must exist in the monolith's StrategyRegistry; unknown classes skip the portfolio (`unsupported_strategy`).
+Reusable methodology — entry/exit strategy names, risk evaluation, ATR multipliers, pyramid rules, and (in WUT lab fingerprints) the full validation-run config window and constraints. Can be shared across Portfolios. Strategy class names must exist in the monolith's StrategyRegistry; unknown classes skip the portfolio (`unsupported_strategy`). In WUT, auto-captured after **Portfolio Signal Optimization** validation backtests via a content **fingerprint** (portfolio membership/name/capital excluded); each win is a **TradingStrategy Selection**.
 _Avoid_: strategy alone (too generic), config (implementation term)
+
+**TradingStrategy Selection**:
+A record that a fingerprinted **TradingStrategy** was the validation winner for a **Portfolio** (links portfolio, validation run, optimization, outcome metrics, `export_kind`). Used for frequency/regime insight (“won on N portfolios”), not as a separate export entity.
+_Avoid_: Optimization Candidate (candidate is pre-capture draft), win alone
 
 **Winston EOD Standard**:
 The canonical parquet format DM produces and consumers read. OHLCV + baked-in derivatives (ATR-17, supported MAs). Consumers must read `atr_17` from parquet; missing column triggers portfolio skip (`missing_data`).
@@ -150,7 +154,7 @@ _Avoid_: blocking page (request waits for complete analytical load), full_histor
 - A **Portfolio** applies one **TradingStrategy** (loose coupling — strategy is a separate entity)
 - **DM** produces **Winston EOD Standard** parquet per **Market**; **Consumers** (WUT, Wv2) read it
 - **DM** maintains **DataCoverage** metadata that reflects parquet reality after **Reconciliation**
-- **WUT** runs **Portfolio Signal Optimization** → **Optimization Candidate** → (viability gates) → **Trade-Ready Portfolio** JSON *or* **Observation Portfolio** JSON → **Wv2** imports an **Operational Portfolio** + **CashEvent** + linked **TradingStrategy**
+- **WUT** runs **Portfolio Signal Optimization** → **Optimization Candidate** → validation backtest → fingerprinted **TradingStrategy** + **TradingStrategy Selection** → (viability gates) → **Trade-Ready Portfolio** JSON *or* **Observation Portfolio** JSON → **Wv2** imports an **Operational Portfolio** + **CashEvent** + linked **TradingStrategy**
 - An **Operational Portfolio** in Wv2 may be inactive, paper-observed, or live — import does not imply real-money trading
 - **Cromwell** receives webhooks/notifications from **DM** and **Wv2**; invokes **MCP Tools** for actions
 - Each **MCP Tool** invocation has a **Correlation ID**; chained calls in one turn may share a **Parent Correlation ID**
