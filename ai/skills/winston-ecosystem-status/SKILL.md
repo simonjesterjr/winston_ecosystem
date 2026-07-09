@@ -31,7 +31,7 @@ Post with **three sections in order** when running the full briefing (infrastruc
 
 ## Section 1 — Infrastructure
 
-Authoritative container/DB/backup checks are **not** available via MCP yet (see ticket `ecosystem/docs/tickets/2026-07-04-sidekiq-ecosystem-health-watchdog.md`). Use **reachability probes** and state gaps explicitly.
+**Authoritative infra alerts** (including nanobot/ollama/MCP down) are owned by DM Sidekiq `EcosystemHealthCheckJob` — not this skill. It posts Telegram at **:10 hourly** (degraded only) and **6:05 AM MT daily** (always). See `ecosystem/docs/tickets/2026-07-04-sidekiq-ecosystem-health-watchdog.md`. This briefing remains the **narrative** layer via MCP reachability probes.
 
 ### MCP probes (fresh call each run)
 
@@ -41,14 +41,14 @@ Authoritative container/DB/backup checks are **not** available via MCP yet (see 
 | WUT | `wut_list_portfolios` | winston_unit_test app + wut_postgres reachable |
 | DM | `dm_get_cromwell_events` with `limit: 1` | data_manager app reachable |
 
-**Cannot probe from Cromwell today:** `nanobot_cromwell`, `winston_mcp`, `ollama`, `redis`, `postgres` (DM), Sidekiq workers, container run state. Do not invent container statuses — say "container-level: pending Sidekiq watchdog" when not verifiable.
+**Cannot probe from Cromwell:** container run state, Sidekiq workers, `redis`/`postgres` health. Do not invent container statuses. If this message posted, Telegram gateway was up for this turn; independent AI-layer liveness is the Sidekiq watchdog.
 
 ### Infrastructure lines to include
 
 - **Services:** one line each for DM / Wv2 / WUT — `ok` or `unreachable` from probe result (include error snippet if failed).
 - **Databases:** infer from monolith probes (e.g. "Wv2 DB: ok (list_portfolios succeeded)") — not a direct PG health check.
 - **Backups:** `not implemented` — ecosystem-wide backup/DR is planned (`ecosystem/plans/operational-data-backup-dr.md`); WUT `ActiveAccountsBackupJob` is partial only. One short line; do not claim backup success.
-- **Cromwell layer:** note that this message proves the Telegram gateway ran; MCP/winston_mcp container health is not independently verified here.
+- **Cromwell layer:** this message proves the gateway ran; note that Sidekiq watchdog owns independent AI-stack alerts.
 
 Lead with failures: if any probe fails, put **Infrastructure: degraded** at the top and name what is down before business sections.
 

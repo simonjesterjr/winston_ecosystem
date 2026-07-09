@@ -191,6 +191,34 @@ The AI services in root `compose.yml` use the hardening attributes evaluated fro
 
 Never commit real Telegram tokens. Follow the advice in `ai/nanobot/Containerfile` comments and nanobot's own SECURITY.md (0600 on config.json, strict allowFrom, etc.).
 
+### Ecosystem health watchdog (DM Sidekiq — independent of Cromwell)
+
+When `nanobot_cromwell` or Ollama is down, Cromwell cron cannot alert. A **Sidekiq job on Data Manager** probes HTTP health and posts Telegram directly via the Bot API.
+
+| Item | Detail |
+|------|--------|
+| Job | `EcosystemHealthCheckJob` |
+| Schedule | `:10` every hour (degraded-only Telegram); **6:05 AM MT** daily (always post) |
+| Probes | DM, WUT, Wv2, `winston_mcp` `/health`, Ollama `/`, nanobot `/health` |
+| Secrets | `ecosystem/deployment/watchdog.env` (gitignored) |
+
+```bash
+# One-time
+cp ecosystem/deployment/watchdog-env-template.txt ecosystem/deployment/watchdog.env
+# set ECOSYSTEM_WATCHDOG_TELEGRAM_TOKEN + ECOSYSTEM_WATCHDOG_TELEGRAM_CHAT_ID
+./bin/compose up -d data_manager_sidekiq
+
+# Manual smoke
+./bin/compose exec -T data_manager_sidekiq bin/rails runner \
+  'pp EcosystemHealthCheckJob.perform_now("daily")'
+```
+
+Nanobot must listen on `0.0.0.0` (`gateway.host` in `ai/data/cromwell-bot/config.json`) so other containers can reach `/health`. Host publish stays `127.0.0.1:18790`.
+
+### CPU-only LLM notes (sawtooth-ai)
+
+This host has **no discrete GPU** (Raphael iGPU only). Ollama runs 100% CPU. Preferred Cromwell model: `cromwell-qwen2.5:3b` (`ai/ollama/Modelfile.cromwell-cpu`, `num_ctx` 8192). Keep-alive is `OLLAMA_KEEP_ALIVE=24h` in compose. See `ecosystem/docs/tickets/2026-07-09-cromwell-cpu-only-llm-tuning.md` and ops note in `ecosystem/ai/schedule/README.md` (avoid backtests at top-of-hour MT).
+
 ### Files that implement the layer (all outside the deprecated openclawd-stack)
 - `ai/mcp_winston/` — the MCP component (Containerfile + pyproject + server.py)
 - `ai/nanobot/Containerfile` — tiny pip-install based image (no source tree copy)

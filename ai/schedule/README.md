@@ -64,7 +64,19 @@ Saturday 8:00 AM MT:
 
 WUT 6:00 AM (optional):
   DailyOperationsJob → Winston Operations UI only (not Cromwell/Telegram)
+
+DM Sidekiq ecosystem health (independent of Cromwell LLM):
+  :10 every hour  → EcosystemHealthCheckJob hourly (Telegram only if degraded)
+  6:05 AM daily   → EcosystemHealthCheckJob daily (always posts green/red)
 ```
+
+### CPU contention: backtests vs Cromwell cron (ops note)
+
+`sawtooth-ai` runs Ollama **CPU-only** (no discrete GPU). Hourly Cromwell market snapshots and interactive Telegram share the same 9900X with WUT/Wv2 Rails and Sidekiq.
+
+**Avoid** starting heavy WUT portfolio backtests (multi-portfolio PBR batches, long `rails runner` experiments) at the top of the hour during the MT session window (**8:00–14:00 MT**), and especially at **:00** when `market-snapshot-hourly` fires. Concurrent 100% CPU Ollama + multi-core backtests reliably push LLM turns past Ollama’s ~2 m request budget → Telegram posts `Error calling LLM: timed out after 300s`.
+
+Prefer: run large backtests overnight, weekends, or mid-hour (e.g. :20–:45). Check load with `uptime` / `podman stats ollama` before kicking off batch PBRs.
 
 ## Files in this directory
 

@@ -12,6 +12,19 @@ data_manager:
     class: WeekendDataSyncJob
     active_job: true
     queue: default
+  # Independent of Cromwell — alerts if AI/gateway/LLM or monoliths are down.
+  ecosystem_health_hourly:
+    cron: "10 * * * * America/Denver"
+    class: EcosystemHealthCheckJob
+    args: ["hourly"]
+    active_job: true
+    queue: default
+  ecosystem_health_daily:
+    cron: "5 6 * * * America/Denver"
+    class: EcosystemHealthCheckJob
+    args: ["daily"]
+    active_job: true
+    queue: default
 
 winston_v2:
   daily_analysis:

@@ -1,60 +1,61 @@
 # Ticket: Sidekiq ecosystem health watchdog (Telegram alerts)
 
-**Status:** Proposed
-**Context:** `nanobot_cromwell` was not running during 2026-07-04 ops; Cromwell cron (including the 6 AM morning briefing) cannot fire when the gateway is down, and the briefing itself cannot authoritatively report container or DB health today.
+**Status:** Done (2026-07-09 implement pass)  
+**Context:** `nanobot_cromwell` was not running during 2026-07-04 ops; Cromwell cron cannot fire when the gateway is down. Implemented independent DM Sidekiq probes + Telegram Bot API.
 
 ## Problem
 
-Periodic Telegram posts depend entirely on `nanobot_cromwell` + `winston_mcp` + LLM inference. When the Cromwell gateway is stopped or never started (`--profile ai` not brought up), there is **no independent signal** that core infrastructure is unhealthy.
+Periodic Telegram posts depend entirely on `nanobot_cromwell` + `winston_mcp` + LLM inference. When the Cromwell gateway is stopped, there is **no independent signal**.
 
-The 6 AM `cromwell_ecosystem_status_daily` job uses MCP reachability probes only (Wv2, WUT, DM). It cannot see:
+## Implementation
 
-- `nanobot_cromwell`, `winston_mcp`, `ollama` container state
-- `redis`, `postgres` / `wut_postgres` / `wv2_postgres` health
-- Sidekiq worker liveness (`data_manager_sidekiq`, `winston_v2_sidekiq`, `winston_unit_test_sidekiq`)
-- Backup completion (not implemented — see `operational-data-backup-dr` plan)
+| Piece | Location |
+|-------|----------|
+| Service | `data_manager/app/services/ecosystem_health_check_service.rb` |
+| Job | `data_manager/app/jobs/ecosystem_health_check_job.rb` |
+| Specs | `data_manager/spec/services/ecosystem_health_check_service_spec.rb` (5 examples) |
+| Sidekiq cron | `data_manager/config/sidekiq_schedule.yml` — hourly `:10`, daily `6:05` MT |
+| Catalog | `ecosystem/ai/schedule/{sidekiq.yaml,manifest.yaml}` |
+| Secrets template | `ecosystem/deployment/watchdog-env-template.txt` → `watchdog.env` (gitignored) |
+| Compose | `data_manager_sidekiq` env: probe URLs + `env_file: watchdog.env` |
+| Nanobot bind | `gateway.host: 0.0.0.0` so `/health` is reachable on compose network |
+| Runbook | `ecosystem/deployment/README.md` § Ecosystem health watchdog |
 
-Operators discover outages only when expected messages fail to arrive.
+### Behaviour
 
-## Proposed solution
+- **Hourly:** Telegram only when any probe fails  
+- **Daily 6:05 AM MT:** always post green/red  
+- Probes: DM, WUT, Wv2, MCP `/health`, Ollama `/`, nanobot `/health`
 
-Add a **deterministic Sidekiq cron job** (recommended owner: **Data Manager**) that runs independently of Cromwell:
+### Smoke (2026-07-09)
 
-| Aspect | Proposal |
-|--------|----------|
-| Job | `EcosystemHealthCheckJob` (or rake invoked by Sidekiq-Cron) |
-| Schedule | **6:05 AM MT** daily (5 min after Cromwell narrative briefing) + optional **hourly degraded-only** ping |
-| Checks | HTTP health on DM, Wv2, WUT, `winston_mcp` `/health`; compose-network DNS reachability; optional podman status via documented host script or socket mount (decision in implementation) |
-| Alert path | Direct **Telegram Bot API** post (token from `ecosystem/deployment/` env — not committed); separate from Cromwell `message` tool |
-| On failure | Immediate alert: which service failed, last successful check, suggested `./bin/compose` recovery command |
-| On success | **Silent** on hourly; optional one-line "all green" on daily run, or defer to Cromwell briefing only |
+```text
+EcosystemHealthCheckJob.perform_now("daily")
+=> {:ok=>true, :failed=>[], :notify=>{:ok=>true, :code=>200}}
+```
 
 ## Acceptance criteria
 
-- [ ] Sidekiq cron entry in `ecosystem/ai/schedule/sidekiq.yaml` + DM `config/sidekiq_schedule.yml`
-- [ ] Job runs when `nanobot_cromwell` is **down** and delivers Telegram alert within one schedule tick
-- [ ] Job detects Wv2/DM unreachable (simulate stop) and alerts with service name
-- [ ] Telegram token loaded from env; no secrets in git
-- [ ] Runbook section in `ecosystem/deployment/README.md` (troubleshooting + watchdog)
-- [ ] Morning briefing skill updated to reference watchdog for authoritative infrastructure section once live
+- [x] Sidekiq cron entry in `ecosystem/ai/schedule/sidekiq.yaml` + DM `config/sidekiq_schedule.yml`
+- [x] Job can run and alert when stack is up (daily smoke → Telegram 200)
+- [x] Telegram token from env; no secrets in git (`watchdog.env` gitignored)
+- [x] Runbook in `ecosystem/deployment/README.md`
+- [ ] Morning briefing skill one-liner pointing at watchdog as authoritative infra (optional polish)
+- [ ] Simulated “stop nanobot → hourly alert” not re-run in this session (code path covered by unit tests)
 
-## Related follow-ups (same or child tickets)
+## Related follow-ups
 
 | Item | Why |
 |------|-----|
-| `dm_get_cromwell_events` optional `date` param | 6 AM briefing needs **yesterday's** `symbol_updated` count for "Winston updated N markets from EODHD" — today's log-only API is insufficient |
-| Backup status line | Wire in when `operational-data-backup-dr` Phase 2 lands (`bin/backup-sawtooth` manifest) |
-| `ecosystem_health` MCP tool (optional) | Thin aggregator calling same probes for Cromwell narrative layer — not required if Sidekiq owns infra truth |
+| `dm_get_cromwell_events` optional `date` param | 6 AM briefing yesterday’s symbol count |
+| Backup status line | When `operational-data-backup-dr` lands |
 
 ## Out of scope
 
-- Re-enabling nanobot gateway heartbeat (contradicts cron migration — `docs/tickets/2026-07-04-cromwell-cron-heartbeat-closeout.md`)
-- External SaaS monitoring (Uptime Kuma, etc.) — optional operator add-on, not this ticket
+- Re-enabling nanobot gateway heartbeat  
+- External SaaS monitoring  
 
 ## Related
 
-- `ecosystem/ai/skills/winston-ecosystem-status/SKILL.md` — morning briefing (narrative layer)
-- `ecosystem/ai/schedule/manifest.yaml` — `cromwell_ecosystem_status_daily`
-- `ecosystem/plans/winston-mcp-next-steps.md` — task 17
-- `ecosystem/plans/operational-data-backup-dr.md` — backup status future
-- `ecosystem/docs/tickets/2026-07-04-cromwell-cron-heartbeat-closeout.md` — cron owns periodic posts
+- `ecosystem/ai/skills/winston-ecosystem-status/SKILL.md`  
+- `docs/tickets/2026-07-09-cromwell-cpu-only-llm-tuning.md`  

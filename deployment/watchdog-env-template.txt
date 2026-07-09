@@ -1,0 +1,12 @@
+# Ecosystem health watchdog — Telegram alert credentials
+#
+# Copy to watchdog.env (gitignored via *.env):
+#   cp ecosystem/deployment/watchdog-env-template.txt ecosystem/deployment/watchdog.env
+#   # edit token + chat id
+#   ./bin/compose up -d data_manager_sidekiq
+#
+# Uses the same Cromwell bot token is fine, or a dedicated bot.
+# Chat id is usually the Sawtooth Main group (negative) or your DM user id.
+
+ECOSYSTEM_WATCHDOG_TELEGRAM_TOKEN=YOUR_BOT_TOKEN_FROM_BOTFATHER
+ECOSYSTEM_WATCHDOG_TELEGRAM_CHAT_ID=-1003884714483

@@ -58,6 +58,27 @@ tasks:
     audience: wut_operations_ui
     status: active
 
+  - id: dm_ecosystem_health_hourly
+    owner: sidekiq
+    service: data_manager
+    job: EcosystemHealthCheckJob
+    cron: "10 * * * *"
+    tz: America/Denver
+    description: >
+      Deterministic HTTP probes (DM/WUT/Wv2/MCP/Ollama/nanobot). Telegram only when
+      degraded. Independent of Cromwell LLM so outages are not silent.
+    status: active
+
+  - id: dm_ecosystem_health_daily
+    owner: sidekiq
+    service: data_manager
+    job: EcosystemHealthCheckJob
+    cron: "5 6 * * *"
+    tz: America/Denver
+    description: >
+      Daily health summary (always posts). 5 min after Cromwell morning briefing window.
+    status: active
+
   - id: cromwell_dm_sync_relay
     owner: cromwell_cron
     cron: "35,45 15 * * 1-5"
