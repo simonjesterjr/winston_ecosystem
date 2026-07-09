@@ -15,23 +15,31 @@ This **loose coupling** lets one TradingStrategy apply to multiple Portfolios an
 
 ## Lifecycle states (Wv2)
 
+Authoritative detail: **`wv2-operational-portfolio-lifecycle.md`** and **ADR-006**.
+
 ```
-[imported/inactive] → activate → [active, evaluated daily] → deactivate → [inactive]
+[imported/inactive] → Active (attention) → Engaged (any Journal) → Closed
+                         │                      │
+                         │                 shape change → successor A′
+                         │                 capital → CashEvent
+                         └─ Capital Activation ($X real) → new OP series
 ```
 
-- **Inactive:** exists in PG, excluded from Daily Analysis cron
-- **Active:** included in `DailyAnalysisJob` and Cromwell notifications
-- **Evaluate:** one-shot analysis (may auto-activate if configured)
+- **Inactive:** exists in PG, excluded from Daily Analysis
+- **Active:** attention priority — Daily Analysis + human task surface (mutex by seed_name / Books)
+- **Engaged:** any Journal; Books/TS frozen until close or successor rebalance
+- **Closed:** signals stop; history kept
+- **Execution Mode** `paper` | `real` independent of Active and export_kind
 
 ## TradingStrategy lifecycle
 
 ```
-[WUT vetted] → export JSON → [Wv2 imported] → apply to Portfolio(s)
+[WUT fingerprint capture] → export JSON → [Wv2 import: lineage by fingerprint]
                                     ↓
-                            update-by-name on re-import
+              same fingerprint (pre-engagement) update | new fingerprint auto-fork
 ```
 
-Strategies can be activated/deactivated independently of Portfolios (see `wv2:trading_strategies:*` rake tasks).
+Lab identity = fingerprint; ops display names use seed + short suffix. See `wut-to-wv2-handoff.md`.
 
 ## Daily analysis outputs (active Portfolio)
 
@@ -50,8 +58,8 @@ Confirmation flow (future MCP tools): principal confirms journals → capital_ba
 2. After the **validation** PortfolioBacktestRun completes, WUT auto-upserts a fingerprinted first-class **TradingStrategy** and a **TradingStrategy Selection** (outcomes + portfolio link). Manual promote from completed runs still works.
 3. Fingerprint = full run methodology + date range + constraints; excludes portfolio name, membership (Books), and initial capital. Same fingerprint across portfolios increments selection counts for regime insight.
 4. Export JSON when satisfied (`/trading_strategies`, `wut:strategies:export_config`, or portfolio export from vet)
-5. Hand off to Wv2 (see `wut-to-wv2-handoff.md`)
+5. Hand off to Wv2 (see `wut-to-wv2-handoff.md`); ops lifecycle after import: `wv2-operational-portfolio-lifecycle.md`
 
 Backfill existing validation runs: `bin/rails trading_strategies:capture_validation_runs` (optional `PBR_IDS=`, `PORTFOLIO=`, `DRY_RUN=1`).
 
-WUT remains the **mature reference** for how these services work (`winston_unit_test/docs/architecture.md`).
+WUT remains the **mature reference** for lab services (`winston_unit_test/docs/architecture.md`). Wv2 owns operational engagement hygiene (ADR-006).

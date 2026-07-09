@@ -21,12 +21,12 @@ The data acquisition monolith. Owns EODHD download, parquet production, derivati
 _Avoid_: data service, downloader (too narrow)
 
 **winston_unit_test (WUT)**:
-The backtesting and daily-operations lab monolith. Mature reference for data sync, portfolios, strategies, and Sidekiq patterns.
-_Avoid_: unit test (misleading — it is a full trading app), test env
+The backtesting and laboratory monolith — candidate selection for markets, strategies, **TradingStrategy**, portfolios, risk, and signals before operational engagement. Mature reference for data sync, portfolios, strategies, and Sidekiq patterns.
+_Avoid_: unit test (misleading — it is a full trading app), test env, production ops (that is **Wv2**)
 
 **winston_v2 (Wv2)**:
-The live operational trading monolith. Portfolios, daily analysis, journals, MCP agent surface.
-_Avoid_: production (environment-specific), v2 alone (ambiguous without WUT context)
+The operational trading monolith — **Daily Analysis**, journals, human tasking (paper or real), MCP agent surface. Past theory: hygiene of engaged portfolios protects risk and performance evaluation.
+_Avoid_: production (environment-specific), v2 alone (ambiguous without WUT context), lab (that is **WUT**)
 
 **Cromwell**:
 The agentic coordinator — todos, reports, daily orchestration, Telegram/MCP interface. Not a monolith today; runtime lives in `ai/` with nanobot + MCP.
@@ -49,11 +49,11 @@ A named trading account configuration: capital, risk params, linked markets (Boo
 _Avoid_: account (ambiguous with broker account), fund
 
 **TradingStrategy**:
-Reusable methodology — entry/exit strategy names, risk evaluation, ATR multipliers, pyramid rules, and (in WUT lab fingerprints) the full validation-run config window and constraints. Can be shared across Portfolios. Strategy class names must exist in the monolith's StrategyRegistry; unknown classes skip the portfolio (`unsupported_strategy`). In WUT, auto-captured after **Portfolio Signal Optimization** validation backtests via a content **fingerprint** (portfolio membership/name/capital excluded); each win is a **TradingStrategy Selection**.
+Reusable methodology — entry/exit strategy names, risk evaluation, ATR multipliers, pyramid rules, and (in WUT) the full validation-run config window and constraints. Can be shared across Portfolios. Strategy class names must exist in the monolith's StrategyRegistry; unknown classes skip the portfolio (`unsupported_strategy`). **Identity is dual:** in **WUT** lab, content **fingerprint** is the canonical identity (portfolio name/membership/capital excluded); at handoff/**Wv2**, **name** is the human label and default lookup, while fingerprint/WUT TS id are **provenance** that must not be silently discarded. A **different fingerprint is a different methodology** — not an in-place edit of the prior recipe. In WUT, auto-captured after **Portfolio Signal Optimization** validation backtests; each win is a **TradingStrategy Selection**.
 _Avoid_: strategy alone (too generic), config (implementation term)
 
 **TradingStrategy Selection**:
-A record that a fingerprinted **TradingStrategy** was the validation winner for a **Portfolio** (links portfolio, validation run, optimization, outcome metrics, `export_kind`). Used for frequency/regime insight (“won on N portfolios”), not as a separate export entity.
+A record that a fingerprinted **TradingStrategy** was the validation winner for a **Portfolio** (links portfolio, validation run, optimization, outcome metrics, `export_kind`). Used for frequency/regime insight (“won on N portfolios”), not as a separate export entity. **WUT-only** — does not cross the handoff as its own artifact.
 _Avoid_: Optimization Candidate (candidate is pre-capture draft), win alone
 
 **Winston EOD Standard**:
@@ -105,19 +105,43 @@ A portable JSON export from WUT for an **Optimization Candidate** that did not p
 _Avoid_: Trade-Ready Portfolio (requires breakeven gates), live portfolio (no real-money implication)
 
 **Operational Portfolio**:
-A **Portfolio** hosted in Wv2 (imported, inactive or active) used for **Daily Analysis** and market observation — not synonymous with live broker capital.
-_Avoid_: live portfolio (implies real money), production portfolio (environment-specific)
+A **Portfolio** hosted in Wv2 used for **Daily Analysis** and human tasking — past lab theory and into **execution** (paper or real). Not end-to-end automated broker fills. One lab seed may yield multiple operational implementations (different **TradingStrategy** fingerprints); each keeps its own journals/performance. When fingerprint is present, display name includes a short fingerprint suffix on first import. **WUT** is the candidate-selection lab; **Wv2** is the operational component.
+_Avoid_: live portfolio (implies real money only), production portfolio (environment-specific)
+
+**Active** (portfolio):
+Operator-selected attention priority: included in **Daily Analysis** and the human task surface (paper or real trade prompts). Not “automated live trading.” Many inactive OPs per seed are normal (regime archive). Second **Active** without force is blocked when (1) same **seed_name** or (2) identical **Books** set as another Active OP. Short dual-active experiments use force.
+_Avoid_: live (money), enabled (vague), running (sounds like a job)
+
+**Engaged Operational Portfolio**:
+An **Operational Portfolio** that has any **Journal** (paper or real intent). Methodology (**TradingStrategy**) and **Books** are immutable until **Closed** or successor **Rebalance**; capital may still change via **CashEvent**. Re-import must not mutate an engaged portfolio.
+_Avoid_: active alone (Active is attention; Engaged is journal lock), in use (vague)
+
+**Closed Operational Portfolio**:
+An **Operational Portfolio** deliberately ended so it no longer participates in signal evaluation; prior journals/performance remain for regime history. Closing means signals on that OP+TS combo are no longer meaningful going forward. **Close preconditions split by intent:** **Paper Trading** may soft-close (mark closed, stop signals, leave historical open residue for human cleanup). **Real-intent** trading requires flat (no open positions; pending journals resolved) before close, unless an explicit force-flatten path is used.
+_Avoid_: deleted (history should remain), deactivated alone (inactive ≠ closed)
+
+**Rebalance** (operational):
+A deliberate change to an **Operational Portfolio** while operating in **Wv2** (not lab re-vet in **WUT**). **Policy split:** capital adjustments are **CashEvents** on the same OP (in-place series). **Shape changes** (Books membership and/or **TradingStrategy** / fingerprint) take the **successor path**: close or end A for signals, open A′ linked as successor — journals stay on A. Never silent re-import mutation of an **Engaged** OP.
+_Avoid_: re-import (file handoff), optimize (WUT lab), treating capital top-up as a full rebalance
+
+**Execution Mode**:
+Explicit intent on an **Operational Portfolio**: `paper` or `real`. Default **paper** on import. Independent of `export_kind` (economic promotion) and **Active** (attention). Branches close preconditions and human task framing; does not by itself automate broker fills. Moving to real capital is always a **new OP series** (successor A′): new initial **CashEvent** for committed capital — never paper terminal equity. Paper A is **not auto-closed** (should close for hygiene; humans may leave it running). Dual **Active** same seed still needs force.
+_Avoid_: deriving mode from Active or export_kind alone; promoting paper→real in place on the same capital series
+
+**Capital Activation**:
+Operator command (e.g. Telegram: “Activate Portfolio Red + TS… with initial capital $X”) that opens a **new** **Operational Portfolio** series for a chosen seed+TS fingerprint with a stated initial **CashEvent**, default **Execution Mode** `real` and **Active** true. Requires **Trade-Ready** provenance (or explicit force override) — observation-only paper series cannot open real capital by default. Distinct from only flipping the **Active** flag. Does not rewrite the paper series’ journals or capital_base; does not auto-close or auto-deactivate paper A. If paper A (or any same **seed_name** / identical **Books**) is already **Active**, requires explicit force to keep dual attention.
+_Avoid_: Activate alone (ambiguous with Active flag), promote in place
 
 **Paper Trading**:
-Simulated trading and signal tracking without broker execution — journals and positions for observation and regime testing, not real-money fills.
-_Avoid_: backtest alone (historical replay in WUT), demo (too informal)
+Simulated execution and signal tracking without broker fills — **Execution Mode** `paper`. Still **execution** for hygiene: journals lock OP+TS shape. Import never implies evaluation: land inactive until explicit **Active**. Soft-close allowed. Wv2 tasks a human; it does not automate fills end-to-end.
+_Avoid_: backtest alone (historical replay in WUT), demo (too informal), theory (paper in Wv2 is post-theory)
 
 **CashEvent**:
 Capital injection or adjustment on a Wv2 Portfolio (e.g. initial_capital on import). Feeds risk sizing in daily analysis.
 _Avoid_: deposit (broker term), funding event
 
 **Journal**:
-A proposed or confirmed trade action record in Wv2 daily analysis — entry, exit, pyramid, with flow/mtm/risk sizing.
+A proposed or confirmed trade action record in Wv2 daily analysis — entry, exit, pyramid, with flow/mtm/risk sizing. Any journal (paper or not) **engages** the **Operational Portfolio** and freezes its tradeable shape until **Closed**.
 _Avoid_: log (too generic), trade (Journal is the draft; confirmed execution is separate)
 
 **Daily Analysis**:
@@ -155,7 +179,10 @@ _Avoid_: blocking page (request waits for complete analytical load), full_histor
 - **DM** produces **Winston EOD Standard** parquet per **Market**; **Consumers** (WUT, Wv2) read it
 - **DM** maintains **DataCoverage** metadata that reflects parquet reality after **Reconciliation**
 - **WUT** runs **Portfolio Signal Optimization** → **Optimization Candidate** → validation backtest → fingerprinted **TradingStrategy** + **TradingStrategy Selection** → (viability gates) → **Trade-Ready Portfolio** JSON *or* **Observation Portfolio** JSON → **Wv2** imports an **Operational Portfolio** + **CashEvent** + linked **TradingStrategy**
-- An **Operational Portfolio** in Wv2 may be inactive, paper-observed, or live — import does not imply real-money trading
+- Handoff JSON may carry fingerprint / WUT TS id as **provenance**. When fingerprint is present, **Operational Portfolio** and **TradingStrategy** display names always include a **short fingerprint suffix** (e.g. `Portfolio Red · a1b2c3d4`) — including the first import. **Lineage match key** is the full fingerprint (stored on both OP and TS), not reconstructed display name. Import resolution: (1) same fingerprint → update that pair; (2) no fingerprint match, bare seed-name OP exists **and** Books symbols match → **adopt** (attach fingerprint, rename to suffix form, update); (3) else → **auto-fork** new OP+TS. Legacy JSON with no fingerprint may still update by bare seed name
+- Performance of an **Operational Portfolio** under **Paper Trading** is a **regime heuristic** for that **TradingStrategy** fingerprint, not a property of the lab seed name alone
+- Import always lands **Operational Portfolios** inactive regardless of `export_kind`; missing `export_kind` is treated as **Observation Portfolio**. Explicit **Active** selects which OPs enter **Daily Analysis** and the human attention queue. Hygiene mutex (unless force): at most one **Active** OP per **seed_name**, and at most one **Active** OP per identical **Books** symbol set. Many inactive regime variants may coexist. Import does not imply real-money trading or automated execution
+- First **Journal** on an OP **engages** it: Books + TS immutable until **Closed** or successor **Rebalance**; capital may still move via **CashEvent**. Lifecycle sketch: imported/inactive → **Active** (not engaged) → **Engaged** (any Journal) → **Closed** (optional successor A′). Shape rebalance = close A + open A′ (link successor); capital-only = CashEvent on A. **Close:** paper may soft-close; real-intent requires flat first (optional force-flatten). Same-fingerprint re-import may update only **pre-engagement** OPs. **WUT** proposes candidates; **Wv2** executes and preserves evaluation integrity
 - **Cromwell** receives webhooks/notifications from **DM** and **Wv2**; invokes **MCP Tools** for actions
 - Each **MCP Tool** invocation has a **Correlation ID**; chained calls in one turn may share a **Parent Correlation ID**
 - **Integration Log** entries land in the **Ecosystem Audit Log**; **Cromwell** and agents read them to trace coordination failures
@@ -165,10 +192,31 @@ _Avoid_: blocking page (request waits for complete analytical load), full_histor
 ## Example dialogue
 
 > **Dev:** "When a **Trade-Ready Portfolio** moves from **WUT** to **Wv2**, does the **TradingStrategy** come with it?"
-> **Domain expert:** "Yes — the JSON includes strategy names and risk params. **Wv2** creates or updates a **TradingStrategy** by name, then links it to the new **Portfolio**. The **Markets** list becomes **Books**."
+> **Domain expert:** "Yes — methodology travels in the JSON. **Wv2** creates an **Operational Portfolio** + **TradingStrategy** (fingerprinted names when provenance is present), Books from markets, and initial **CashEvent**. Import stays inactive until you mark it **Active**."
+
+> **Dev:** "Can I keep two Portfolio Red fingerprints both **Active**?"
+> **Domain expert:** "Only with force — hygiene first. Archive variants stay inactive; dual-active is a short experiment, not the default. Wv2 is an observation post that tasks humans, not an autotrader."
+
+> **Dev:** "We re-vet and re-import while Portfolio Red already has paper journals. Update the strategy params?"
+> **Domain expert:** "No — any **Journal** **engages** the OP. Shape is frozen until **Closed**. Close the old series (signals no longer meaningful), then import/activate a new OP+TS for the new candidate. Otherwise risk and performance series are corrupted."
+
+> **Dev:** "Is paper trading still 'lab'?"
+> **Domain expert:** "No — lab is **WUT**. Paper in **Wv2** is operational execution without broker fills. Hygiene rules still apply."
+
+> **Dev:** "We need to drop ROKU from an engaged Red and change the exit strategy."
+> **Domain expert:** "That's a shape **Rebalance** — successor path. Close A (signals on A stop), open A′ without ROKU and with the new TS. Journals stay on A so performance isn't rewritten. Capital top-ups alone are just **CashEvents** on A. Soft-close vs flat-required follows **Execution Mode** (`paper` vs `real`), not export_kind."
+
+> **Dev:** "Paper Red ran $20K → $45K. We want to go real with the same TS."
+> **Domain expert:** "**Capital Activation**: open real A′ with a new initial **CashEvent** for committed capital (e.g. $13,986) — not paper terminal equity. A′ defaults **Active** + `real`. Requires trade-ready provenance or force. Paper A is not auto-closed or auto-deactivated; dual **Active** on the same seed needs force. Journals on A and A′ stay separate series."
 
 > **Dev:** "Can a losing backtest still reach **Wv2**?"
-> **Domain expert:** "Yes — as an **Observation Portfolio** for **Paper Trading** and regime watching. **Trade-Ready Portfolio** is the breakeven+ export path for promoted configs."
+> **Domain expert:** "Yes — as an **Observation Portfolio** for **Paper Trading** and regime watching. **Trade-Ready Portfolio** is the breakeven+ export path for promoted configs. Either way, import leaves the **Operational Portfolio** inactive until you explicitly activate it."
+
+> **Dev:** "If two portfolios win the same methodology fingerprint in **WUT**, do we get two strategies in **Wv2**?"
+> **Domain expert:** "In **WUT**, one fingerprinted **TradingStrategy** and two **TradingStrategy Selections**. In **Wv2**, each import still carries a display name; same fingerprint/provenance can share methodology, but two lab seeds usually still create two **Operational Portfolios** because Books/capital differ."
+
+> **Dev:** "We re-vet Portfolio Red and get a new fingerprint. Do we overwrite the Wv2 portfolio?"
+> **Domain expert:** "No — that would erase the prior regime sample. Default import **auto-forks**: new **TradingStrategy** + new **Operational Portfolio** named with a short fingerprint suffix (e.g. `Portfolio Red · a1b2c3d4`). Prior paper lineage stays. Overwrite/update-by-name only when provenance is the same fingerprint (or legacy import with no fingerprint)."
 
 > **Dev:** "Who calculates **ATR-17**?"
 > **Domain expert:** "**DM** — always. Consumers read it from **Winston EOD Standard** parquet. **WUT** used to calculate locally; that path is legacy for new work."
@@ -180,8 +228,16 @@ _Avoid_: blocking page (request waits for complete analytical load), full_histor
 - "audit log" is overloaded — resolved: **Ecosystem Audit Log** = integration/coordination events only; monolith application errors and request logs remain local per monolith.
 - "strategy" alone is overloaded — resolved: **TradingStrategy** for the reusable methodology entity; strategy class names (e.g. `Breakout20DayStrategy`) are implementation identifiers.
 - "vetted" / "export" overloaded — resolved: optimization complete → **Optimization Candidate**; breakeven+ gates → **Trade-Ready Portfolio**; sub-breakeven observation → **Observation Portfolio**; Wv2 hosting → **Operational Portfolio** (may be paper-only).
-- "Configured Portfolio" — resolved: legacy term; canonical name is **Trade-Ready Portfolio**.
+- "Configured Portfolio" — resolved: legacy term; canonical name is **Trade-Ready Portfolio** (or **Observation Portfolio** when gates fail). Prefer those over “configured portfolio” in new docs.
 - "ready for Wv2" vs "ready for live money" — resolved: Wv2 import elevates observation (**Paper Trading**, **Daily Analysis**); live broker execution is a later, explicit step.
+- "TradingStrategy identity" across monoliths — resolved: **WUT** = content fingerprint (lab). **Handoff/Wv2** = seed label + short fingerprint suffix on display names when fingerprint is present; **full fingerprint on OP + TS** is the lineage match key (short suffix is display-only). Import: same fingerprint → update; bare seed + matching Books → adopt/rename; else auto-fork. No fingerprint (legacy) ⇒ bare-name update path.
+- "Active" vs "observation" vs "live money" — resolved: **Active** = attention priority for **Daily Analysis** + human tasking. **Execution Mode** (`paper` \| `real`) is capital intent (default paper). `export_kind` is WUT economic promotion (observation vs trade_ready). All three are independent. Second **Active** requires force if same **seed_name** or identical **Books** set. Wv2 tasks humans; not an end-to-end autotrader.
+- "paper vs theory" / mutate-after-import — resolved: **WUT** = candidate selection lab; **Wv2** = operations. Any **Journal** **engages** an OP (immutable TS/Books/risk until **Closed**, pending explicit **Rebalance** rules). Paper journals count. Re-import must not rewrite an engaged series.
+- **Rebalance** — resolved: capital → **CashEvent** in place; Books/TS shape change → successor path (close A, open A′, journals stay on A). Silent re-import must not reshape an **Engaged** OP.
+- **Close preconditions** — resolved: **Execution Mode** `paper` = soft-close allowed; `real` = flat-required (force-flatten optional). Engagement lock still applies to both (any journal freezes shape).
+- **Execution Mode** — resolved: explicit `paper` \| `real` on OP (default paper); not derived from Active or export_kind. Real capital starts via **Capital Activation**: new OP + new initial **CashEvent**; paper series is not auto-closed (recommended close). Never in-place capital rewrite of the paper series.
+- "**Activate**" (Telegram/operator speech) — resolved: often means **Capital Activation** (new series + capital $X), not merely setting the **Active** attention flag. Prefer the term **Capital Activation** in docs; UI/Telegram may still say “activate … with capital”.
+- **Capital Activation** defaults — resolved: new OP `real` + **Active**; paper A untouched; dual **Active** same seed/Books requires force (“keep paper running”). Real mode requires **Trade-Ready** provenance unless force override; observation-only stays paper by default.
 - "DmCoverage" (and variants: dm_coverage, DmCoverage model/association) was used in WUT and Wv2 for the local consumer mirror of DM's metadata — resolved: converge on the canonical **DataCoverage** term everywhere. Deprecate and remove consumer-specific naming variants (DmCoverage, etc.). Consumers maintain a local **DataCoverage** (as their view of available DM parquet via Reconciliation). Glossary definition of **DataCoverage** is authoritative for the concept (DM-owned metadata describing parquet reality).
 - "`activities` table" / `market.activities` (and `Activity` records) in WUT was the carrier for market time-series (OHLCV + indicators) — resolved: for DM-sourced **Market** data this is **very temporary** and deprecated. DM parquet (via **Winston EOD Standard** + **DataCoverage**) is the authoritative source. All references (positions, trading_signals, backtest_indicator_values, passed_signals, market_indicator_values, etc.) must be refactored to use composite `(market_id, date)` keys + **Bar** objects from the DM loader. No DB table row for bar identity (use composite or non-persisted derivative). No long-lived shim. Call sites for creation (e.g. Position/TradingSignal/BIV construction) and usage (risk, expected return, charts, views) updated to loader + composite. "Just use DM to pull the data again" at render time using stored (market, date). Backtest result views pull via loader from stored (market, date); backtest runs have dedicated result parquet storage. All legacy non-DM records are defunct and deprecated; there is no historical or legacy relationship that we need to curate. The `activities` table itself is deprecated for market time-series and can eventually be removed or emptied for DM symbols (and legacy paths as they are cleaned).
 - The `belongs_to :activity` on Position, TradingSignal, PassedSignal, BacktestIndicatorValue, MarketIndicatorValue, MarketMovingAverage, etc. is to be removed or fully deprecated for DM-sourced data. Refactor creation and usage sites to use the composite key + Bar (from the DM loader). The association remains only for truly legacy non-DM records. However, with the integration of DM all legacy non-DM records are defunct and can be considered deprecated. There is no historical or legacy relationship that we need to curate.
