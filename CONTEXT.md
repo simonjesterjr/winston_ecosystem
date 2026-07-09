@@ -140,6 +140,10 @@ _Avoid_: audit log alone (ambiguous with Rails request logs), container stdout (
 A single append-only record in the **Ecosystem Audit Log** describing one cross-boundary action (e.g. one **MCP Tool** call, one Cromwell webhook POST, one DM→consumer notify).
 _Avoid_: application log (monolith-internal debug), journal (trading domain record)
 
+**Responsive Page**:
+A human UI route that returns a usable first response quickly; heavy data is progressive (Hotwire frames/streams) or asynchronous (Sidekiq / ActiveJob), not loaded fully inside the original request. Summary cells prefer **DataCoverage** and aggregates over full history loads.
+_Avoid_: blocking page (request waits for complete analytical load), full_history on index
+
 ## Relationships
 
 - A **Portfolio** has many **Books** (one per **Market**)
@@ -152,6 +156,7 @@ _Avoid_: application log (monolith-internal debug), journal (trading domain reco
 - Each **MCP Tool** invocation has a **Correlation ID**; chained calls in one turn may share a **Parent Correlation ID**
 - **Integration Log** entries land in the **Ecosystem Audit Log**; **Cromwell** and agents read them to trace coordination failures
 - **DownloadRun** belongs to **DM**; tracks acquisition orchestration
+- Human UI routes across monoliths are **Responsive Pages** (ADR-005): snappy shell first; progressive/async data second
 
 ## Example dialogue
 

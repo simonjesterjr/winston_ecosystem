@@ -11,7 +11,7 @@ Before planning, designing, or coding any cross-monolith change, read:
 - `hints/` — gotchas and cues
 - `CONTEXT.md` — domain glossary (canonical terms)
 - `docs/README.md` — filing guide for dated work artifacts
-- `docs/adr/` — architecture decision records (ADR-001..003 seeded)
+- `docs/adr/` — architecture decision records (ADR-001..005; see especially ADR-005 responsive user pages)
 - `docs/business-context/` — domain rules and explainers
 
 ## What lives here vs monolith repos
