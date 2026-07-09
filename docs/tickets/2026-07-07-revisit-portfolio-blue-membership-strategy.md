@@ -4,7 +4,11 @@
 
 **Date:** 2026-07-07
 
+**Last updated:** 2026-07-09 — still open after Orange/White observation vets
+
 **Context:** Blue vet completed in [`2026-07-06-2020-portfolio-overlap-pipeline`](../session-reports/2026-07-06-2020-portfolio-overlap-pipeline.md). All six entry strategies lost heavily; winner `SwingBreakout5DayStrategy` still **-98.3%** return, **100%** max drawdown (run 23). Export exists at `portfolio_configs/portfolio-blue.json` but is **not Wv2-ready**.
+
+**2026-07-09 update:** Orange and White also finished first-pass vet as **observation** (high DD, modest positive return) — see [`2026-07-09-1308-orange-white-vet-trend`](../session-reports/2026-07-09-1308-orange-white-vet-trend.md). Blue remains the worst economics of the four; membership/strategy revisit still required. Cross-portfolio doctrine review filed as `2026-07-09-first-pass-doctrine-gates-review.md`.
 
 **Current Blue membership (11):** AAL, AMZN, GLD, GOOGL, JNJ, PG, RXT, TSLA, TSMC, WMT, XLE
 

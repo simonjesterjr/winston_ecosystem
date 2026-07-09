@@ -38,7 +38,7 @@ Enforced in WUT via `PortfolioOverlapPolicy`, wired into `PortfolioCorrelationBu
 | 3 — DM random acquisition | **Done for ≥50 gate** — suitable **51** (3×300 batches 2026-07-08); acquired 1532 |
 | 4 — Rebuild Red | **Done** |
 | 5 — Rebuild Blue | **Done** |
-| 6 — Vet + export | Red **Done** (PBR 25, observation); Blue **Done** (run 23, observation); Orange/White vet pending |
+| 6 — Vet + export | Red **Done** (PBR 25, observation); Blue **Done** (run 23, observation); Orange **Done** (opt#33 / PBR 41, observation); White **Done** (opt#36 / PBR 40, observation) |
 | 7 — Strategy evaluation doctrine | **~90%** — gates + export_kind + null-Sharpe fallback + RANKING_METRIC env |
 | 8 — Orange + White membership | **Done** — both registered; all bilateral ≤25%; seeds exclusive |
 
@@ -75,7 +75,9 @@ Enforced in WUT via `PortfolioOverlapPolicy`, wired into `PortfolioCorrelationBu
 - **Markets (15):** AAPL, BITQ, COPR, FPA, GLTR, IBM, MSOS, NVDA, RXT, SMH, VXX, WMT, XLF, XLK, ZROZ
 - **Diversification:** Strong (mean \|r\| ≈ 0.171)
 - **Sidecar:** `portfolio_configs/portfolio-orange-sidecar.json`
-- **Vet:** not run yet
+- **Vet winner (opt#33 / PBR 41, 2026-07-09):** `Breakout5DayStrategy` + paired opposite `Breakout5DayStrategy`
+- **Economics (validation):** Return **+7.2%**, max DD **96%**, trades 1912, Sharpe null
+- **Export:** `portfolio_configs/portfolio-orange.json` — **`export_kind: observation`** (failed drawdown gate ≤50%)
 
 ### Portfolio White (built 2026-07-08)
 
@@ -83,7 +85,9 @@ Enforced in WUT via `PortfolioOverlapPolicy`, wired into `PortfolioCorrelationBu
 - **Markets (20):** CIZ, CMDT, COPR, CPER, DBE, GOOGL, IWF, OILK, PHYMF, PPLT, PTF, ROKU, SOXX, TAGS, TESL, TILL, WMT, XLB, YOLO, ZROZ
 - **Diversification:** mean \|r\| ≈ 0.105 (low pairwise correlation)
 - **Sidecar:** `portfolio_configs/portfolio-white-sidecar.json`
-- **Vet:** not run yet
+- **Vet winner (opt#36 / PBR 40, 2026-07-09):** `Breakout50DayStrategy` + `VolatilityExitStrategy`
+- **Economics (validation):** Return **+7.3%**, max DD **94%**, trades 738, Sharpe null
+- **Export:** `portfolio_configs/portfolio-white.json` — **`export_kind: observation`** (failed drawdown gate ≤50%)
 
 ### Bilateral overlaps (all ≤25%)
 
@@ -109,7 +113,7 @@ Tracked in `portfolio-overlap-rebuild.md.tasks.json` and `docs/tickets/2026-07-0
 | 2 | Vet Portfolio Red | [vet-red](../docs/tickets/2026-07-07-vet-portfolio-red-trend.md) | **Done** (PBR 25, observation) |
 | 3 | Revisit Blue membership/strategy | [revisit-blue](../docs/tickets/2026-07-07-revisit-portfolio-blue-membership-strategy.md) | open |
 | 4 | Build Orange + White | [orange-white](../docs/tickets/2026-07-07-build-portfolio-orange-white.md) | **Done** (membership); vet pending |
-| 6 | Vet Orange + White (`portfolios:vet_trend`) | orange-white ticket Phase D | next |
+| 6 | Vet Orange + White (`portfolios:vet_trend`) | orange-white ticket Phase D | **Done** (both observation) |
 
 ### Completed
 
@@ -120,6 +124,7 @@ Tracked in `portfolio-overlap-rebuild.md.tasks.json` and `docs/tickets/2026-07-0
 5. ~~DM compose recreate~~ — symbol registry rakes work via compose
 6. ~~Eval framework core~~ — gates, export_kind, null-Sharpe fallback, RANKING_METRIC
 7. ~~Orange + White membership~~ — done 2026-07-08
+8. ~~Orange + White vet_trend~~ — done 2026-07-09 (both observation; DD gate)
 
 ## Phase 1 — Controls (WUT)
 

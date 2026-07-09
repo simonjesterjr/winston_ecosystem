@@ -35,9 +35,9 @@
     {
       "id": 6,
       "subject": "Vet Portfolio Orange and White (portfolios:vet_trend)",
-      "status": "pending",
+      "status": "completed",
       "blockedBy": [5],
-      "note": "Use first-pass grid + viability gates; expect multi-hour runs; export_kind labeling automatic"
+      "note": "2026-07-09: Orange opt#33 PBR41 observation (Breakout5Day+paired opposite, +7.2% / 96% DD). White opt#36 PBR40 observation (Breakout50Day+VolExit, +7.3% / 94% DD). Perf fixes: describe_columns memoize + build_activities_by_date once-per-market."
     }
   ]
 }

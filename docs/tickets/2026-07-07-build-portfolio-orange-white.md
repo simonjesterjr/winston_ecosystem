@@ -1,10 +1,10 @@
 # Ticket: Build Portfolio Orange and White
 
-**Status:** Membership done (2026-07-08); Phase D vet pending
+**Status:** Done (membership 2026-07-08; Phase D vet 2026-07-09)
 
 **Date:** 2026-07-07
 
-**Last updated:** 2026-07-08
+**Last updated:** 2026-07-09
 
 **Context:** [`portfolio-overlap-rebuild`](../../plans/portfolio-overlap-rebuild.md). All four seed portfolios in registry.
 
@@ -65,7 +65,7 @@ All bilateral overlaps ≤25%; seeds exclusive. See plan status table.
 - [x] Orange and White in WUT with seed exclusivity and ≤25% bilateral overlap vs all peers
 - [x] Sidecars + registry updated
 - [x] Suitable count ≥50 (51)
-- [ ] Phase D vet + export_kind labeling
+- [x] Phase D vet + export_kind labeling (both observation; see session 2026-07-09-1308)
 
 ## Related
 
