@@ -17,6 +17,8 @@ Wrap up this session for a clean restart. Do these in order; stop and ask if any
 1. **Session report** — Run the `session-report` skill. Save to `docs/session-reports/`.
 2. **Follow-up promotion** — Interactive backlog capture from the report (see below). Do not skip silently; always offer this step before commit.
 3. **Commit** — Stage only files this session actually touched (never `git add .` — avoids secrets and build artefacts). Commit with a clear message.
+
+   In this multi-monolith workspace, traverse by monolith (see "Multi-monolith / independent git repos" section below). Use precise relative paths under each monolith's git root.
 4. **Push** — Push the branch. If a PR is open, push to it; otherwise ask before opening a new one.
 5. **Merge (unless `no-merge`)** — If the user passed `no-merge`, stop after push. Otherwise follow the repo's branching conventions in `CONTRIBUTING.md` or `AGENTS.md`.
 6. **Cleanup** — If using a worktree, remove it and delete the local branch after merge. Confirm `git worktree list` and `git branch` are clean.
@@ -56,6 +58,24 @@ Interpret replies flexibly: "yes" → ticket; "task" / "plan" → `.tasks.json`;
 - If there is uncommitted or unpushed work you cannot account for, STOP and show `git status` before deleting branches or worktrees.
 - Never delete the branch you are currently on without switching first.
 - Cross-monolith work: commit in each repo that was touched; session report goes in `ecosystem/docs/session-reports/`.
+
+## Multi-monolith / independent git repos (this workspace)
+
+The sawtooth root is a **workspace**, *not* a single git repo.
+
+Each majestic monolith (`winston_unit_test/`, `data_manager/`, `winston_v2/`, `winston/`, etc.) is its own independent git repository.
+
+- `git` commands at the root will fail or see nothing ("no .git at root").
+- Correct pattern: `cd <monolith> && git ...` **or** use `GIT_DIR=<monolith>/.git GIT_WORK_TREE=<monolith> git ...`
+- When wrapping:
+  1. The agent maintains the exact list of files it edited this session (from search_replace + write calls).
+  2. Group those files by top-level monolith directory.
+  3. For each monolith:
+     - Attempt `cd <monolith> && git add <only the relative files from this session> && git commit ...`
+     - If the terminal environment does not reflect the edits as dirty (common with container bind-mounts + agent FS layers), fall back to printing a clean "Run on your host shell" block with the precise commands.
+  4. The `ecosystem/` tree (plans, reports, CONTEXT.md, etc.) sits outside the monolith gits. Wrap will always emit a separate note/command for committing reports/docs from the workspace/host shell.
+
+Never do broad `git add .` or `git add -A`. Always use the precise per-session file list.
 
 ## Usage
 
