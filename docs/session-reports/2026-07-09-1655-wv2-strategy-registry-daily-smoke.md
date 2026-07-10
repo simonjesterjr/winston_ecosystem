@@ -60,12 +60,13 @@
 
 ### Commits
 
-- _Pending wrap commit(s)._
+- `winston_v2` `cd6d631` — Fix StrategyRegistry so breakout and catalog strategies load  
+- `ecosystem` `0f70e2a` — docs: session report and tickets for Wv2 StrategyRegistry daily smoke  
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` (both repos) — dirty until wrap commits  
-- Pushed: pending wrap  
+- Branch: `main` (both repos) — clean after wrap push  
+- Pushed: yes (origin/main)  
 - PR: not opened (direct main workflow)
 
 ---
