@@ -52,12 +52,12 @@
 
 ### Commits
 
-- _(filled at wrap)_  
+- `65e4b1f` — docs: deactivate Wv2 demos for Portfolio Red focus  
 
 ### Branch / PR state at sign-off
 
-- Branch: `ecosystem` `main` — pending wrap commit  
-- Pushed: pending wrap  
+- Branch: `ecosystem` `main` — clean after push  
+- Pushed: yes (`origin/main`)  
 - PR: not opened (direct main)
 
 **Monoliths touched:** none for application code. `winston_v2` DB active flags only. Docs in `ecosystem/`. Host-only `portfolio_configs/README.md` (workspace volume, not in any monolith git).
