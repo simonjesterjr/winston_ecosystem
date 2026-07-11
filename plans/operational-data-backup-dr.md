@@ -34,6 +34,17 @@ There is no periodic off-site backup and no exercised restore path. A real DR dr
 - Estimate sizes and growth (symbol count, journal history).
 - Define target **RPO** (how stale is acceptable) and **RTO** (how long until trading ops resume).
 
+**P2 — Wv2 daily report package (durable ops evidence):**
+
+| Path | Contents |
+|------|----------|
+| `winston_v2/storage/cromwell_notifications/wv2_YYYYMMDD.json` | Canonical structured daily payload |
+| `winston_v2/storage/reports/wv2_YYYYMMDD.md` | Expert markdown archive |
+| `winston_v2/storage/reports/wv2_YYYYMMDD.pdf` | Multi-page PDF (Telegram Sawtooth Main) |
+| `winston_v2/storage/reports/wv2-YYYYMMDD.manifest.json` | Links + checksums |
+
+Include entire `storage/reports/` and `storage/cromwell_notifications/` trees in Phase 2 bind-mount archive. RPO ~1 trading day is acceptable; never drop a pair already delivered to Telegram.
+
 ### Phase 2 — On-server backup automation
 
 - Design timestamped archive layout (e.g. `backups/sawtooth/YYYYMMDD-HHMM/`).

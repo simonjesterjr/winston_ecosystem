@@ -1,8 +1,8 @@
 # Cromwell Notification Schema v1
 
-**Version**: 1.1 (2026-07-04) — additive `correlation_id` / `parent_correlation_id` when MCP triggers analysis  
+**Version**: 1.2 (2026-07-10) — additive `portfolio_chapters`, `next_steps`, `markdown_path`, multi-page PDF, `telegram_delivery` (Sawtooth Main)  
 **Owner**: Wv2 (`CromwellNotifier`) + DM (`DmCromwellNotifier` events)  
-**Transport**: File stub (always) + optional HTTP POST webhook (`CROMWELL_WEBHOOK_URL`)
+**Transport**: File stub (always) + optional HTTP POST webhook (`CROMWELL_WEBHOOK_URL`) + Telegram PDF to Sawtooth Main (`TelegramReportDelivery`)
 
 ## Wv2 `daily_complete` payload
 
@@ -54,12 +54,45 @@ Written to `winston_v2/storage/cromwell_notifications/wv2_YYYYMMDD.json` and POS
     "pending_tasks": 0
   },
   "pdf_path": "storage/reports/wv2_20260617.pdf",
+  "markdown_path": "storage/reports/wv2_20260617.md",
   "telegram_media_path": "/root/.nanobot/workspace/wv2_reports/wv2_20260617.pdf",
   "pdf_exists": true,
+  "pdf_page_count": 4,
+  "portfolio_chapters": [
+    {
+      "name": "Portfolio Red",
+      "initial_capital": 10000,
+      "capital_base": 10000,
+      "equity_series": [{ "date": "2021-03-17", "equity": 10000, "cash": 10000, "open_mtm": 0 }],
+      "equity_metrics": { "return_pct": 0, "max_drawdown_pct": 0, "end_equity": 10000 },
+      "next_steps": [],
+      "open_positions": [],
+      "exposure_by_symbol": [],
+      "status": "evaluated"
+    }
+  ],
+  "next_steps": {
+    "global": [
+      { "priority": 1, "portfolio": "Portfolio Red", "market": "AMAT", "action": "enter", "reason": "…", "task_id": 12 }
+    ],
+    "by_portfolio": { "Portfolio Red": [] }
+  },
   "generated_at": "2026-06-17T22:30:00Z",
-  "webhook_delivery": { "delivered": true, "status": 200, "url": "http://winston_mcp:8088/webhook/cromwell" }
+  "webhook_delivery": { "delivered": true, "status": 200, "url": "http://winston_mcp:8088/webhook/cromwell" },
+  "telegram_delivery": { "delivered": true, "channel": "sawtooth_main", "chat_id": "-1003884714483", "telegram_message_id": 123 }
 }
 ```
+
+### v1.2 report package
+
+| Artifact | Path |
+|----------|------|
+| JSON | `storage/cromwell_notifications/wv2_YYYYMMDD.json` |
+| Markdown | `storage/reports/wv2_YYYYMMDD.md` |
+| PDF (1 summary + 1 page/portfolio) | `storage/reports/wv2_YYYYMMDD.pdf` |
+| Manifest | `storage/reports/wv2-YYYYMMDD.manifest.json` |
+
+**Telegram:** final PDF is delivered to **Sawtooth Main** (`chat_id=-1003884714483`) via `TelegramReportDelivery` when bot token env is present. Set `WV2_TELEGRAM_DELIVER=0` to skip.
 
 ### v1.1 correlation fields (additive, MCP-triggered flows only)
 

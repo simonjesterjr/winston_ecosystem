@@ -1,33 +1,37 @@
 # Ticket: Redesign Wv2 daily activity report PDF layout
 
-**Status:** Proposed
-**Context:** Task 7 in `winston-mcp-next-steps.md.tasks.json` delivered basic PDF generation (`DailyActivityReportPdfRenderer`) and stable report links. Layout polish and stakeholder-ready design were discussed in session only (2026-07 Cromwell/Telegram work).
+**Status:** In progress → largely delivered (2026-07-10 multi-page expert package)
+
+**Context:** Task 7 delivered basic PDF. 2026-07-10 plan expands to multi-page expert reports with equity graphs, markdown archive, and Telegram Sawtooth Main delivery.
 
 ## Problem
 
-The current one-page PDF (`storage/reports/wv2_YYYYMMDD.pdf`) is functional but not presentation-quality. Telegram inline summary (Cromwell LLM) and the PDF should tell the same story; the PDF is the durable artifact principals may forward or archive.
+The original one-page PDF was dense lists only — no per-portfolio pages, no equity graphs, no markdown archive, weak phone usability.
 
 ## Goal
 
-Redesign `winston_v2/app/services/daily_activity_report_pdf_renderer.rb` for clarity, scanability, and brand-consistent tables — without changing the underlying report JSON schema.
+Expert, phone-openable **report package**:
+
+- Markdown + multi-page PDF (1 summary + 1 page per Active portfolio)
+- Equity curves from initial capital; exposure charts
+- Next steps global + per portfolio
+- Final PDF sent to **Sawtooth Main** Telegram channel
 
 ## Acceptance criteria
 
-- [ ] Design brief captured (section outline, typography, table columns) — reference `wv2_20260617.pdf` or mock
-- [ ] PDF renders from existing `storage/cromwell_notifications/wv2_YYYYMMDD.json` payload
-- [ ] MT display boundaries use `TimeZoneConverter` (UTC in DB; MT at display only)
-- [ ] Graceful fallback unchanged: JSON report still works if Prawn fails
-- [ ] Cromwell `telegram_media_path` / MCP `wv2_get_daily_activity_report_pdf` unchanged contract
-- [ ] Smoke: generate PDF for a known date in compose and attach via Cromwell delivery path
-
-## Out of scope
-
-- Changing daily analysis logic or notification payload shape
-- HTML report variant (unless explicitly added as follow-on ticket)
+- [x] Multi-page PDF: summary + one page per portfolio
+- [x] Equity series + Prawn charts
+- [x] Markdown archive under `storage/reports/wv2_YYYYMMDD.md`
+- [x] Manifest includes md/pdf/json + telegram_channel
+- [x] `TelegramReportDelivery` → Sawtooth Main (`-1003884714483`)
+- [x] Additive payload `portfolio_chapters` / `next_steps` (schema v1.2)
+- [ ] Compose smoke: 2021-03-17 Red/Orange/Blue package + Telegram confirm
+- [x] Backup plan inventories report paths as P2
 
 ## Related
 
 - `winston_v2/app/services/daily_activity_report_pdf_renderer.rb`
-- `winston_v2/app/services/daily_report_schedule.rb` — 4:30 PM MT analysis gate
-- `ecosystem/plans/winston-mcp-next-steps.md.tasks.json` — task 7 (basic PDF, completed)
-- Session context: Cromwell auto-delivery in `openclawd-stack/nanobot/nanobot/agent/loop.py`
+- `winston_v2/app/services/daily_activity_report_markdown_renderer.rb`
+- `winston_v2/app/services/telegram_report_delivery.rb`
+- `ecosystem/interfaces/cromwell-notification-v1.md` v1.2
+- `ecosystem/plans/operational-data-backup-dr.md`

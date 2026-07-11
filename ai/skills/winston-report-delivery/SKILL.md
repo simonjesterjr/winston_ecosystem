@@ -27,8 +27,9 @@ always: true
 
 ## Delivery channel
 
-- **Scheduled EOD report**: post to **Sawtooth Main** — `message` with `channel=telegram`, `chat_id=-1003884714483`.
-- **1-1 explicit request**: reply in the current session.
+- **Always deliver the final PDF to Sawtooth Main** for scheduled EOD and historical/demo report packages — `message` with `channel=telegram`, `chat_id=-1003884714483` (or `media=[telegram_media_path]`).
+- Wv2 also posts the PDF via Bot API `sendDocument` to Sawtooth Main when `TelegramReportDelivery` has credentials (`WV2_TELEGRAM_BOT_TOKEN` / watchdog token + chat id defaulting to `-1003884714483`). Check `telegram_delivery` on the notification JSON.
+- **1-1 explicit request**: still reply in the current session **and** ensure Sawtooth Main received the PDF when the user asked for “the daily report” to the group.
 
 ## Playbook
 
