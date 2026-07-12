@@ -52,12 +52,16 @@
 
 ### Commits
 
-- _Pending wrap push — see wrap output below_
+| Repo | SHA | Message |
+|------|-----|---------|
+| ecosystem | `d4695d4` | Add corr_v2 PCS plan, ADR-007, cohort ops report, and follow-up tickets |
+| winston_unit_test | `122c9b2` | feat(wut): corr_v2, PCS snapshots, litmus, transparency UI, daily score |
+| winston_v2 | `ca9254a` | feat(wv2): WUT PCS client and DAR correlation scores section |
 
 ### Branch / PR state at sign-off
 
-- Ecosystem / WUT / Wv2: `main` — commit+push in wrap  
-- PR: not opened (direct main per wrap default unless asked)
+- Ecosystem / WUT / Wv2: `main` — committed + pushed in wrap  
+- PR: not opened (direct main)
 
 ---
 
@@ -200,11 +204,11 @@
 
 ## 14. Follow-up Actions
 
-- [ ] Build Portfolios correlation dashboard — ticket  
-- [ ] Re-vet Blank/Rust for trade_ready — ticket  
-- [ ] Wv2 evaluate smoke for six — ticket  
-- [ ] PCS business-context doc — ticket  
-- [ ] Commit/push ecosystem, WUT, Wv2 (wrap)  
+- [ ] Build Portfolios correlation dashboard — [`docs/tickets/2026-07-12-wut-portfolio-correlation-dashboard.md`](../tickets/2026-07-12-wut-portfolio-correlation-dashboard.md)
+- [ ] Re-vet Blank/Rust for trade_ready — [`docs/tickets/2026-07-12-re-vet-blank-rust-trade-ready.md`](../tickets/2026-07-12-re-vet-blank-rust-trade-ready.md)
+- [ ] Wv2 evaluate smoke for six — [`docs/tickets/2026-07-12-wv2-six-cohort-evaluate-smoke.md`](../tickets/2026-07-12-wv2-six-cohort-evaluate-smoke.md)
+- [ ] PCS business-context doc — [`docs/tickets/2026-07-12-pcs-business-context-doc.md`](../tickets/2026-07-12-pcs-business-context-doc.md)
+- [x] Commit/push ecosystem, WUT, Wv2 (wrap)  
 
 ---
 
