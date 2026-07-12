@@ -102,6 +102,14 @@ Enforced in WUT via `PortfolioOverlapPolicy`, wired into `PortfolioCorrelationBu
 
 Candidate pool expanded beyond DM-suitable-only (WUT markets with `DmCoverage` ≥1000 bars) because suitable-only pools cap builds under overlap rules.
 
+## Related plan (2026-07-11)
+
+Correlation methodology hardening, **Portfolio Correlation Score** time series, DAR integration, and **new** cohorts Green/Pink/Blank/Rust:
+
+→ [`portfolio-correlation-methodology-and-score.md`](./portfolio-correlation-methodology-and-score.md)
+
+Orange/White membership flaws (twins, COPR dilution, theme drift) are addressed there; this plan remains the historical rebuild record for Red/Blue/Orange/White.
+
 ## Next steps
 
 Tracked in `portfolio-overlap-rebuild.md.tasks.json` and `docs/tickets/2026-07-07-*.md`.

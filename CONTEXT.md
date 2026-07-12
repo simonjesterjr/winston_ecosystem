@@ -172,6 +172,22 @@ _Avoid_: application log (monolith-internal debug), journal (trading domain reco
 A human UI route that returns a usable first response quickly; heavy data is progressive (Hotwire frames/streams) or asynchronous (Sidekiq / ActiveJob), not loaded fully inside the original request. Summary cells prefer **DataCoverage** and aggregates over full history loads.
 _Avoid_: blocking page (request waits for complete analytical load), full_history on index
 
+**Portfolio Correlation Score (PCS)**:
+A versioned 0–100 composite summarizing diversification quality of a **Portfolio**’s **Books**. Primary driver is worst pairwise absolute correlation (max \|r\|) and high-pair count; mean pairwise \|r\| is secondary. Used for lab build acceptance, handoff provenance, and operational time-series monitoring — not a **TradingStrategy** performance metric. **WUT** is the system of record that computes and stores the score time series; **Wv2** consumes snapshots via a WUT client when operator surfaces need them (e.g. **Daily Activity Report**).
+_Avoid_: correlation alone (ambiguous with pairwise r or audit Correlation ID), diversification rating alone (UI label without time series), mean correlation alone (can be diluted by junk series), recomputing divergent formulas in Wv2 without WUT
+
+**Correlation Snapshot**:
+A point-in-time record of a **Portfolio Correlation Score** plus transparent components (max \|r\|, mean \|r\|, high pairs, date window, methodology version) for a **Portfolio** on an as-of date. Produced by **WUT**; may be embedded at handoff and fetched again by **Wv2**.
+_Avoid_: sidecar alone (build artifact; snapshot is the durable observation), heatmap alone (visual, not the stored score)
+
+**Correlation Methodology Version**:
+An immutable recipe identifier for how **Portfolio Correlation Score** and build constraints are computed (windows, quality gates, max-pairwise cap, weights). Changing the recipe requires a new version; historical snapshots keep their original version.
+_Avoid_: strategy fingerprint (that is **TradingStrategy** identity), algorithm alone (too vague)
+
+**Daily Activity Report (DAR)**:
+The operator-facing Wv2 daily narrative (markdown/PDF) summarizing **Active** **Operational Portfolios** after **Daily Analysis** — status, next steps, equity context, and (when present) **Portfolio Correlation Score** time series.
+_Avoid_: daily analysis alone (the job; DAR is the report), Cromwell notification alone (transport payload; DAR is the human document)
+
 ## Relationships
 
 - A **Portfolio** has many **Books** (one per **Market**)
@@ -188,6 +204,8 @@ _Avoid_: blocking page (request waits for complete analytical load), full_histor
 - **Integration Log** entries land in the **Ecosystem Audit Log**; **Cromwell** and agents read them to trace coordination failures
 - **DownloadRun** belongs to **DM**; tracks acquisition orchestration
 - Human UI routes across monoliths are **Responsive Pages** (ADR-005): snappy shell first; progressive/async data second
+- A **Portfolio**’s **Books** yield a **Correlation Snapshot** under a **Correlation Methodology Version**; **WUT** is source of truth for the **Portfolio Correlation Score** time series (scheduled after DM data readiness)
+- Handoff JSON may carry a baseline **Correlation Snapshot**; **Wv2** pulls latest/history from **WUT** via client when **Daily Activity Report** or other tasking needs PCS; may **flag** degradation for operator review (shape change still follows **Rebalance** / successor rules — score does not auto-mutate **Books** or auto-open a successor)
 
 ## Example dialogue
 

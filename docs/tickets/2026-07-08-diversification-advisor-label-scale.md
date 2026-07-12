@@ -1,27 +1,39 @@
-# Ticket: Fix PortfolioDiversificationAdvisor labels for low mean |r|
+# Ticket: Diversification advisor labels (clarified)
 
-**Status:** Proposed
+**Status:** Done (clarified; transparency shipped in Phase 2–3)  
+**Date:** 2026-07-08  
+**Clarified:** 2026-07-11  
+**Closed:** 2026-07-12  
 
-**Date:** 2026-07-08
+**Context:** Session and plan [`portfolio-correlation-methodology-and-score`](../../plans/portfolio-correlation-methodology-and-score.md).
 
-**Context:** Session [`2026-07-08-1744-portfolio-overlap-orange-white-eval-gates`](../session-reports/2026-07-08-1744-portfolio-overlap-orange-white-eval-gates.md). Portfolio White mean |r| ≈ 0.105 was labeled **Weak Diversification**; Orange mean |r| ≈ 0.171 was **Strong Diversification**. Low pairwise correlation should usually mean *stronger* diversification.
+## Original problem statement
 
-## Problem
+Portfolio White mean |r| ≈ 0.105 was labeled **Weak Diversification**; Orange mean |r| ≈ 0.171 was **Strong Diversification**. Suspected inverted labels.
 
-Rating scale/labels appear inverted or thresholded incorrectly for operator-facing sidecars.
+## Clarification (2026-07-11 audit)
 
-## Scope
+Labels are **not** inverted. Rating rules:
 
-1. Read `PortfolioDiversificationAdvisor` thresholds and labels.
-2. Align labels so lower mean |r| maps to stronger diversification (unless intentional inverse).
-3. Specs for White/Orange-like mean values.
-4. Re-emit sidecars optional.
+- **weak** if any pair |r| > 0.70 **or** mean |r| > 0.50  
+- **strong** if mean |r| < 0.25 and no high pairs  
 
-## Acceptance
+White is weak because **DBE/OILK ≈ 0.93**, not because mean is low. Low mean was **diluted** by near-zero junk pairs (e.g. COPR).
 
-- Documented scale; White-like 0.10 not labeled “weak” if weak means poorly diversified
+## Revised scope
+
+1. ~~Fix inverted scale~~ — N/A  
+2. Surface **why** weak in sidecar/UI (high pairs list, max |r|, quality flags) — still valid  
+3. Prefer **max |r|** and high-pair count as primary operator metrics; mean secondary  
+4. Implement under **Portfolio Correlation Score (PCS)** work in the methodology plan  
+
+## Acceptance (revised)
+
+- Operator can see high pairs when rating is weak  
+- Mean |r| alone never sold as “strong” without max |r| context  
+- Ticket closed when Phase 2–3 of correlation plan lands transparency  
 
 ## Related
 
 - `winston_unit_test/app/services/portfolio_diversification_advisor.rb`
-- Orange/White sidecars
+- White/Orange sidecars under `portfolio_configs/`
