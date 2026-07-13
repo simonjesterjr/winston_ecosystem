@@ -65,11 +65,11 @@
 
 ### Commits
 
-- _(filled at wrap)_
+- `ea906c2` — docs: business_analysis bucket, PBR evaluation, Level 2 tickets
 
 ### Branch / PR state at sign-off
 
-- Ecosystem: `main` — commit + push this wrap  
+- Ecosystem: `main` — clean, pushed (`ea906c2`)  
 - WUT / Wv2 / DM: no source commits (lab executes only)  
 - PR: not opened (direct main)
 
