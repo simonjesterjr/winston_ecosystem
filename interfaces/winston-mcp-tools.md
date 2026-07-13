@@ -140,7 +140,7 @@ Tools are named with `wv2_` prefix for clarity (future DM/WUT/Cromwell tools wil
     - Sync path (`async: false`) may run many minutes; poll `dm_get_cromwell_events` when async.
 
 **Other convenience tools**:
-- `wv2_market_snapshot` — latest EOD close/volume/atr_17 (DM parquet).
+- `wv2_market_snapshot` — live internet price vs prior EOD close + atr_17 for active portfolio Books; movers by ATR status (focusing tool).
 - `wv2_list_portfolios` — active + summary.
 - `wv2_list_pending_actions` — see tool 15 above.
 - `wv2_activate_portfolio` / `deactivate_portfolio` — mirror internal + rake surface.

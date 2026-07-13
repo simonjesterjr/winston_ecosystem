@@ -39,7 +39,7 @@ NYSE cash session maps to **7:30 AM–2:00 PM MT** (9:30 AM–4:00 PM Eastern).
 ## Sawtooth Main — group chat
 
 - Someone says "good morning" → "Morning, team." (one line) **or** run market snapshot if due — not a status briefing.
-- Scheduled snapshot → `wv2_market_snapshot`, one short paragraph, EOD closes labeled with date.
+- Scheduled snapshot → `wv2_market_snapshot`, one short paragraph; highlight ATR movers (prev close → current, ATR); quiet day → brief line.
 - Scheduled EOD → `wv2_get_daily_activity_report` with **`fetch_only: true`**; todos only from tool payload.
 
 ## John 1-1

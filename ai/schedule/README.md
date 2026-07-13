@@ -220,4 +220,4 @@ Confirm MCP exposes `dm_get_cromwell_events` and that scheduled jobs in `workspa
 ## Planned (not yet scheduled)
 
 - Weekend correlation analysis jobs (WUT `MarketCorrelationCalculator`)
-- Intraday ATR breach filtering for snapshots (requires EODHD delayed/live quotes — see `winston-market-snapshot` skill Phase D)
+- (Done) Intraday ATR radar for snapshots: live internet quotes vs parquet prior close/ATR — see `winston-market-snapshot` skill

@@ -42,7 +42,7 @@
       },
       "payload": {
         "kind": "agent_turn",
-        "message": "7:30 AM MT NYSE open snapshot. Skills: winston-market-snapshot, winston-heartbeat. Call wv2_market_snapshot with {} — fresh tool call required. One short paragraph; last EOD closes with dates. ATR movers vs staid message when breach data available; else note session check pending live quotes. Address team. FORBIDDEN: perform_daily_analysis, get_daily_activity_report, Runtime Context, menus, reusing prior tool results.",
+        "message": "7:30 AM MT NYSE open snapshot. Skills: winston-market-snapshot, winston-heartbeat. Call wv2_market_snapshot with {} — fresh tool call required. Prefer movers (status testing/breach_up/breach_down): list symbol, previous_close, current_price, atr_17, atr_multiple. If movers empty, one brief quiet-markets line. Address team. FORBIDDEN: perform_daily_analysis, get_daily_activity_report, Runtime Context, menus, reusing prior tool results.",
         "deliver": false,
         "channel": null,
         "to": null,
@@ -70,7 +70,7 @@
       },
       "payload": {
         "kind": "agent_turn",
-        "message": "Hourly MT market snapshot (8 AM-2 PM MT, NYSE session). Skills: winston-market-snapshot, winston-heartbeat. Call wv2_market_snapshot with {} — fresh tool call required. Movers >1 ATR when tool returns atr_breach; else brief staid/funny line. Address team. FORBIDDEN: perform_daily_analysis, get_daily_activity_report, other MCP tools, Runtime Context, menus, reusing prior tool results.",
+        "message": "Hourly MT market snapshot (8 AM-2 PM MT, NYSE session). Skills: winston-market-snapshot, winston-heartbeat. Call wv2_market_snapshot with {} — fresh tool call required. Prefer movers from tool (testing/breach_up/breach_down) with previous_close → current_price and ATR; if none, brief staid/funny quiet line. Address team. FORBIDDEN: perform_daily_analysis, get_daily_activity_report, other MCP tools, Runtime Context, menus, reusing prior tool results.",
         "deliver": false,
         "channel": null,
         "to": null,
