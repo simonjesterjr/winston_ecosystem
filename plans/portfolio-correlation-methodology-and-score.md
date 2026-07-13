@@ -242,7 +242,7 @@ Scale to **0–100**. Publish formula in sidecar + DAR footnote. Changing weight
 - [ ] Business-context PCS doc — ticket `docs/tickets/2026-07-12-pcs-business-context-doc.md`  
 - [ ] WUT correlation dashboard — ticket `docs/tickets/2026-07-12-wut-portfolio-correlation-dashboard.md`  
 - [ ] Re-vet Blank/Rust for trade-ready — ticket `docs/tickets/2026-07-12-re-vet-blank-rust-trade-ready.md`  
-- [ ] Wv2 six-cohort evaluate smoke — ticket `docs/tickets/2026-07-12-wv2-six-cohort-evaluate-smoke.md`
+- [x] Wv2 six-cohort evaluate smoke — ticket `docs/tickets/2026-07-12-wv2-six-cohort-evaluate-smoke.md` (Done 2026-07-12)
 
 ---
 
