@@ -1,6 +1,8 @@
 # Ticket: WUT Portfolios tab — Correlation dashboard
 
-**Status:** Proposed  
+**Status:** Done (2026-07-13)  
+
+
 
 **Date:** 2026-07-12  
 
@@ -28,11 +30,21 @@ Color-cohort operators need portfolio-centric heatmaps, PCS rankings, and time s
 
 ## Acceptance
 
-- [ ] Index ranks all registry color portfolios by latest PCS  
-- [ ] Multi-series PCS chart for last 30–90 days  
-- [ ] Portfolio detail shows dual-threshold heatmap for Books  
-- [ ] Flags surface max\|r\| > 0.70 and PCS drop ≥ 10  
-- [ ] Specs for ranking query / empty portfolio  
+- [x] Index ranks all registry color portfolios by latest PCS  
+- [x] Multi-series PCS chart for last 30–90 days  
+- [x] Portfolio detail shows dual-threshold heatmap for Books  
+- [x] Flags surface max\|r\| > 0.70 and PCS drop ≥ 10  
+- [x] Specs for ranking query / empty portfolio  
+
+## Implementation (2026-07-13)
+
+- `GET /portfolios/correlation` — ranking table, flags strip, multi-series PCS chart  
+- `GET /portfolios/:id/correlation` — transparency strip + heatmap + matrix + refresh  
+- `POST /portfolios/:id/refresh_correlation` — manual snapshot (no Books change)  
+- Service: `PortfolioCorrelationDashboard`  
+- Controller: `Portfolios::CorrelationsController`  
+- Nav: Portfolios index/show + sidebar “PF Correlation”  
+
 
 ## Related
 

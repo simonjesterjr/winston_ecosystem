@@ -240,7 +240,7 @@ Scale to **0–100**. Publish formula in sidecar + DAR footnote. Changing weight
 - [x] Plan status + `portfolio-overlap-rebuild.md` cross-link  
 - [x] Session report (wrap)  
 - [ ] Business-context PCS doc — ticket `docs/tickets/2026-07-12-pcs-business-context-doc.md`  
-- [ ] WUT correlation dashboard — ticket `docs/tickets/2026-07-12-wut-portfolio-correlation-dashboard.md`  
+- [x] WUT correlation dashboard — ticket `docs/tickets/2026-07-12-wut-portfolio-correlation-dashboard.md` (Done 2026-07-13)  
 - [ ] Re-vet Blank/Rust for trade-ready — ticket `docs/tickets/2026-07-12-re-vet-blank-rust-trade-ready.md`  
 - [x] Wv2 six-cohort evaluate smoke — ticket `docs/tickets/2026-07-12-wv2-six-cohort-evaluate-smoke.md` (Done 2026-07-12)
 
