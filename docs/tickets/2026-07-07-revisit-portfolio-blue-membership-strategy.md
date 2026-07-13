@@ -1,14 +1,26 @@
 # Ticket: Revisit Portfolio Blue membership and strategy viability
 
-**Status:** Proposed
+**Status:** In progress (membership still open; **strategy/risk rescue evidence strong**)
 
 **Date:** 2026-07-07
 
-**Last updated:** 2026-07-09 — still open after Orange/White observation vets
+**Last updated:** 2026-07-13 — PBR business analysis + Level 2 C0/P1 runs
 
-**Context:** Blue vet completed in [`2026-07-06-2020-portfolio-overlap-pipeline`](../session-reports/2026-07-06-2020-portfolio-overlap-pipeline.md). All six entry strategies lost heavily; winner `SwingBreakout5DayStrategy` still **-98.3%** return, **100%** max drawdown (run 23). Export exists at `portfolio_configs/portfolio-blue.json` but is **not Wv2-ready**.
+**Context:** Blue vet completed in [`2026-07-06-2020-portfolio-overlap-pipeline`](../session-reports/2026-07-06-2020-portfolio-overlap-pipeline.md). All six entry strategies lost heavily under **static/isomorphic**; winner `SwingBreakout5DayStrategy` still **-98.3%** return, **100%** max drawdown (run 23) at that time.
 
-**2026-07-09 update:** Orange and White also finished first-pass vet as **observation** (high DD, modest positive return) — see [`2026-07-09-1308-orange-white-vet-trend`](../session-reports/2026-07-09-1308-orange-white-vet-trend.md). Blue remains the worst economics of the four; membership/strategy revisit still required. Cross-portfolio doctrine review filed as `2026-07-09-first-pass-doctrine-gates-review.md`.
+**2026-07-09 update:** Orange and White also finished first-pass vet as **observation** — see [`2026-07-09-1308-orange-white-vet-trend`](../session-reports/2026-07-09-1308-orange-white-vet-trend.md).
+
+**2026-07-13 update (business analysis):** Membership alone was **not** the only failure mode. Same Blue books + Swing entry under **`one_way_dynamic` accelerating pyramid + `move_to_last_entry`** produces lab standouts:
+
+| PBR | Config sketch | Ret | Max DD | Gates |
+|-----|---------------|-----|--------|-------|
+| 23 | static + isomorphic | −137% | 134% | fail |
+| 48 | dynamic R1, max_mkt nil | +2073% | 21% | trade_ready |
+| 62 | dynamic R1, **max_mkt=4** | +1415% | 42% | trade_ready |
+| 63 | 48 + position_swap on | +975% | 31% | trade_ready (worse than 48) |
+
+Canonical write-up: [`business_analysis/2026-07-13-pbr-return-dd-pcs-evaluation.md`](../../business_analysis/2026-07-13-pbr-return-dd-pcs-evaluation.md).  
+**Recommendation shift:** prioritize **risk-regime + capacity policy** over rebuilding Blue membership first; membership revisit remains optional (corr_v2 quality) not the blocker for paper exploration of Blue 62.
 
 **Current Blue membership (11):** AAL, AMZN, GLD, GOOGL, JNJ, PG, RXT, TSLA, TSMC, WMT, XLE
 

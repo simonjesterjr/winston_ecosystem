@@ -15,7 +15,8 @@ cat ecosystem/principles/*.md ecosystem/plans/*.md ecosystem/interfaces/*.md eco
 - `plans/` — Authoritative copies or references to major implementation plans (e.g. this data download service plan, winston-v2, and the new MCP access layer + LLM roadmap). The detailed working copy may live in `.grok/sessions/...` during a session; promote the final version here.
 - `interfaces/` — Contracts: Winston EOD parquet standard schema, API shapes between monoliths, Cromwell notification payloads, etc.
 - `CONTEXT.md` — Domain glossary (canonical terms; use with `/grill-with-docs`).
-- `docs/` — ADRs, business-context, session reports, issues, tickets, analysis. See `docs/README.md` for the filing guide.
+- `docs/` — ADRs, business-context, session reports, issues, tickets, technical analysis. See `docs/README.md` for the filing guide.
+- `business_analysis/` — business / operator evaluations (PBR rankings, promotion candidates, experiment economics). See `business_analysis/README.md`.
 - `.grok/skills/` — Developer session skills (`session-report`, `wrap`, `record`, `adversary`, `stakeholder`, `grill-with-docs`). Cromwell *runtime* skills remain in `ai/skills/`.
 - `ai/` — Cromwell agent assets: personas, skills, memory templates. Deploy with `bin/seed-cromwell-workspace`. Part 2 backlog: `plans/cromwell-ai-skills-part2.md`.
 - `deployment/` — Podman / compose, env templates, credential placement (EODHD key goes in the documented spot once supplied), volume strategies.

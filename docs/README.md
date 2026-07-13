@@ -9,12 +9,13 @@ Cross-monolith knowledge also lives in sibling folders at the ecosystem root (`p
 | If the document is… | It goes in | One-line test |
 |---|---|---|
 | How we intend to build something (design + step plan) | `../plans/` or `plans/` | "This is a plan for work not yet done." |
-| A durable technical finding not tied to one defect | `analysis/` | "Future work will consult this as reference." |
+| A durable *technical* finding not tied to one defect | `analysis/` | "Future work will consult this as engineering reference." |
+| **Business / operator evaluation** (what lab evidence says to trade, rank, promote) | **`../business_analysis/`** | "This is stakeholder- or capital-relevant analysis of results." |
 | The investigation of one specific defect | `issues/` | "Something is wrong; here's the root-cause trace." |
 | A scoped piece of work that will drive a pull request | `tickets/` | "This is work on the backlog." |
 | A record of what one work session accomplished | `session-reports/` | "This is what happened on \<date\>." |
 | An architecture decision | `adr/` | "We decided X over Y, and here's why." |
-| A domain explainer | `business-context/` | "This teaches a reader the domain." |
+| A domain explainer (rules, lifecycle, gates as concepts) | `business-context/` | "This teaches a reader the domain." |
 | An outward-facing message | `communications/` | "This is addressed to a person/team." |
 | Brainstorm output before promotion to a plan | `superpowers/specs/` | "Raw design thinking, not yet authoritative." |
 | Fully shipped / superseded | `archive/` | "Done and embedded elsewhere." |
@@ -24,7 +25,8 @@ Cross-monolith knowledge also lives in sibling folders at the ecosystem root (`p
 - **`issues/`** — defect investigation. One file per defect. Status banner: `Open` / `Under investigation` / `Decision pending` / `Fixed in <sha>` / `Won't fix`. Not for trivial one-commit fixes.
 - **`tickets/`** — scoped work driving a PR. Forward-looking. An issue may spawn a ticket.
 - **`plans/`** (at `ecosystem/plans/`) — how we'll build something cross-monolith. Bigger and more design-heavy than a ticket.
-- **`analysis/`** — standing reference. Issues and tickets cite analyses rather than repeating them.
+- **`analysis/`** — standing *technical* reference. Issues and tickets cite analyses rather than repeating them.
+- **`../business_analysis/`** — standing *business* evaluation (PBR rankings, paper-first candidates, experiment economics). Not domain glossary; not eng deep-dives.
 - **`session-reports/`** — audit-grade record of one session. Written at session end via `/session-report` or `/wrap`.
 
 **How they relate:** plan → build → may surface issue → cites analysis → spawns ticket → PR → session-report records the session.
@@ -70,4 +72,5 @@ Canonical terms: [`../CONTEXT.md`](../CONTEXT.md). Stress-test plans with `/gril
 - [`../interfaces/`](../interfaces/) — cross-monolith contracts
 - [`adr/`](adr/) — architecture decision records
 - [`business-context/`](business-context/) — domain explainers
+- [`../business_analysis/`](../business_analysis/) — business / operator portfolio & strategy evaluations
 - [`../hints/`](../hints/) — gotchas and cues
