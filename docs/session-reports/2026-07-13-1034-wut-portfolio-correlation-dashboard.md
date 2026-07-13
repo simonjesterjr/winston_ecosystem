@@ -68,13 +68,14 @@
 
 ### Commits
 
-- _Pending wrap commit (this step)._
+- WUT `00f50fb` — feat(wut): portfolio correlation dashboard, primer, curated deep dives  
+- ecosystem `3022389` — docs: WUT correlation dashboard session report and follow-up tickets  
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` (WUT) — dirty until wrap commit  
-- Branch: `main` (ecosystem) — dirty until wrap commit  
-- Pushed: pending wrap  
+- Branch: `main` (WUT) — clean, pushed  
+- Branch: `main` (ecosystem) — clean, pushed (report SHA update may lag one amend if re-pushed)  
+- Pushed: yes  
 - PR: not opened (direct `main`)
 
 ---
