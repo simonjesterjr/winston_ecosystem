@@ -23,6 +23,7 @@ Daily analysis can create draft journals + `OperationsTask`s, but principals hav
 
 ## Related
 
+- Prefer if paper focus is not Red: `2026-07-13-confirm-first-paper-journal-focus-cohort.md` (generalized; close this ticket together if Red remains focus and one confirm satisfies both)
 - MCP: `wv2_confirm_journal`, `wv2_mark_task_done`, `wv2_list_pending_actions`
 - Plan: `plans/cromwell-ai-skills-part2.md` Phase 2A
 - Capital activation: `2026-07-09-capital-activation-mcp-telegram.md`

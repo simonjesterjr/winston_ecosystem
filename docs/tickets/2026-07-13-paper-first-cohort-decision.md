@@ -60,6 +60,10 @@ No Active-set or import changes made this session (cohort still open).
 
 ## Related
 
+- After cohort hygiene/import: `2026-07-13-paper-focus-active-hygiene-and-recipe.md`
+- First paper journal (focus seed): `2026-07-13-confirm-first-paper-journal-focus-cohort.md`
+- Enforce caps in export/import: `2026-07-13-enforce-paper-max-markets-and-leverage.md`
 - Level 2 experiments ticket: `2026-07-13-pbr-level2-remaining-experiments.md` (K1/K2 leverage 1 paths align with policy #3)
 - Red paper confirm (still open if Red remains secondary): `2026-07-10-confirm-first-red-paper-pending-action.md`
 - Capital activation domain: ADR-006 / business-context OP lifecycle
+- Session: `docs/session-reports/2026-07-13-1741-paper-first-cohort-partial.md`
