@@ -55,13 +55,14 @@
 
 ### Commits
 
-- _Pending wrap commit (this step)._
+- `winston_v2` `424b94f` — feat(snapshot): live internet quotes vs parquet ATR for market radar
+- `ecosystem` `5d0d78a` — docs: live market radar skill, cron, and follow-up tickets
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on `winston_v2` and `ecosystem` — dirty until wrap commits
-- Pushed: no (pre-wrap)
-- PR: not opened
+- Branch: `main` on `winston_v2` and `ecosystem` — clean after wrap push
+- Pushed: yes → `origin/main`
+- PR: not opened (direct to main)
 
 ---
 
