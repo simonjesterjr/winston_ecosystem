@@ -42,12 +42,12 @@
 
 ### Commits
 
-- _Pending wrap commit_
+- `1a97a63` — docs: file Cromwell path/to/file.txt cron hallucination issue and tickets
 
 ### Branch / PR state at sign-off
 
-- Branch: `ecosystem` `main` — dirty (docs only at report time)
-- Pushed: no (at report time)
+- Branch: `ecosystem` `main` — clean after wrap push
+- Pushed: yes (`origin/main` @ `1a97a63`)
 - PR: not opened (direct main workflow)
 
 ---
