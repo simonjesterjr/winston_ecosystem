@@ -44,7 +44,8 @@ Business analysis: [`business_analysis/2026-07-13-pbr-return-dd-pcs-evaluation.m
 
 ### Leverage (K) — optional
 
-- [ ] K1/K2 half risk / leverage 1 on Green 55 or Blue 62 for paper-friendly sizing
+- [ ] K1/K2 half risk / leverage 1 on Green 55 or Blue 62 for paper-friendly sizing  
+  **Policy note (2026-07-13):** paper focus is already **force max_leverage=1×** and **max_markets=4** (`docs/tickets/2026-07-13-paper-first-cohort-decision.md`). K runs calibrate lab recipes to that policy; they do not reopen 3× for paper without a new operator decision.
 
 ## Acceptance
 
