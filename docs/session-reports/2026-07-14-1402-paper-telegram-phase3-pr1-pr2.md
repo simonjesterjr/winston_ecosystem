@@ -78,12 +78,15 @@
 ### Commits
 
 - `winston_v2` `b599394` — feat(adr-006): lifecycle schema + portfolio config import lineage (Phase 3 PR1–2)
-- `ecosystem` `da525f6` — docs: Phase 3 ADR-006 plan + PR1–2 ticket/session closeout
+- `ecosystem` `d95fc21` — docs: Phase 3 ADR-006 plan + PR1–2 ticket/session closeout
+- `winston_v2` `a3a4bc5` — feat(adr-006): Active mutex on seed_name and Books set (Phase 3 PR3)
+- `ecosystem` `2c67aea` — docs: Phase 3 PR3 Active mutex ticket Done + MCP activate force
 
 ### Branch / PR state at sign-off
 
 - Each monolith `main` — pushed to origin  
 - PR: not opened (direct main workflow)  
+- Note: host `ai/mcp_winston` force flag change is **not** in a git repo (existing git-home ticket); rebuild MCP image when AI profile used  
 
 **Monoliths touched:** `winston_v2`, `ecosystem`
 
