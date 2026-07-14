@@ -1,6 +1,6 @@
 # Plan: Paper Telegram Phase 3 — ADR-006 Minimum (Safe Paper History)
 
-**Status:** In progress (2026-07-14) — **PR 1–2 Done**; PR 3–4 open  
+**Status:** In progress (2026-07-14) — **PR 1–3 Done**; PR 4 open  
 **Prerequisite:** Paper Telegram Phase 0–2 done (Blue PBR62 engaged OP `#12`; Grok-like ops shell; MCP deactivate + confirmation skill).  
 **Domain law:** [ADR-006](../docs/adr/ADR-006-operational-portfolio-lineage-and-lifecycle.md), [`wv2-operational-portfolio-lifecycle.md`](../docs/business-context/wv2-operational-portfolio-lifecycle.md), [`wut-to-wv2-handoff.md`](../docs/business-context/wut-to-wv2-handoff.md).  
 **Roadmap origin:** Paper Telegram viability plan (session plan, 2026-07-14) Phases 0–5.
@@ -196,7 +196,7 @@ bin/compose exec -T winston_v2 bin/rails wv2:portfolios:list
 | `2026-07-09-wv2-op-lifecycle-schema.md` | 1 | **Done** (2026-07-14) |
 | `2026-07-09-wv2-import-lineage-fingerprint-adopt-fork.md` | 2 | **Done** (2026-07-14) |
 | `2026-07-08-wv2-importer-honor-export-kind.md` | 2 | **Done** (folded into importer) |
-| `2026-07-09-wv2-active-mutex-seed-books.md` | 3 | Proposed |
+| `2026-07-09-wv2-active-mutex-seed-books.md` | 3 | **Done** (2026-07-14) |
 | `2026-07-09-refresh-portfolio-exports-with-ts-fingerprint.md` | 4 | Proposed |
 | `2026-07-13-enforce-paper-max-markets-and-leverage.md` | 4 | Proposed |
 | `2026-07-09-capital-activation-mcp-telegram.md` | later | Proposed (out of Phase 3 min) |
@@ -220,4 +220,4 @@ bin/compose exec -T winston_v2 bin/rails wv2:portfolios:list
 
 ## Immediate next step
 
-**PR 1–2 Done.** Next: **PR 3** — Active mutex on activate (rake + internal + MCP) with force override.
+**PR 1–3 Done.** Next: **PR 4** — fingerprint on portfolio exports + paper caps enforce (`max_markets=4`, `max_leverage=1×`).
