@@ -1,8 +1,8 @@
 # Ticket: Confirm first Portfolio Red pending action as paper
 
-**Status:** Proposed  
+**Status:** Superseded (2026-07-14) — paper focus is Blue 62 (`Portfolio Blue · PBR62` #12); first paper journal confirmed there (`2026-07-13-confirm-first-paper-journal-focus-cohort.md`).  
 **Date:** 2026-07-10  
-**Context:** Session [`2026-07-09-1655-wv2-strategy-registry-daily-smoke`](../session-reports/2026-07-09-1655-wv2-strategy-registry-daily-smoke.md). Red is **Active** and evaluates cleanly; 2026-07-09 had zero signals. Paper loop is unproven end-to-end until a real task is confirmed.
+**Context:** Session [`2026-07-09-1655-wv2-strategy-registry-daily-smoke`](../session-reports/2026-07-09-1655-wv2-strategy-registry-daily-smoke.md). Red was the original candidate; Phase 0 chose Blue 62 instead.
 
 ## Problem
 

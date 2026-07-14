@@ -17,7 +17,7 @@
 | Was 48 jointly optimized? | **No** — entry won under static vet (and lost money); risk transferred from TS3 experiment; caps differ from vet |
 | Biggest success component (hypothesis)? | **Risk regime + stop trail** (`one_way_dynamic` accelerating pyramid + `move_to_last_entry`), not multi-exit or confirm |
 | Money left on the table? | **Yes on Blue/Orange** — large `portfolio_limit` / `market_limit` / cash passed-signal piles; Green is capacity-clean |
-| First paper candidate? | **Split recommendation** below; **policies locked** (§15): max_markets=4, paper leverage 1×; **cohort still open** — do not real-money activate from this doc alone |
+| First paper candidate? | **Blue 62 exploration** (§15, locked 2026-07-14); policies: max_markets=4, paper leverage 1×; **no real-money** until paper hygiene proves out |
 
 ### Headline metrics (WUT DB, 2026-07-13, post cash-equity re-run)
 
@@ -278,7 +278,7 @@ See session plan for full catalog. Paths: **R** risk, **S** stop, **C** capacity
 
 ## 11. Open questions for operator
 
-1. First paper OP: **Green discipline** vs **Blue exploration**? — **still open** (deferred 2026-07-13; see §15)  
+1. First paper OP: **Green discipline** vs **Blue exploration**? — **Blue 62 exploration** (locked 2026-07-14; see §15)  
 2. Ops max_markets: force **4** or allow nil? — **decided: force 4**  
 3. Allow `max_leverage=3` on paper? — **decided: force 1×** on paper focus  
 4. Invest in P3 counterfactual pass-signal study this cycle or only after C0/P1?
@@ -355,27 +355,29 @@ See session plan for full catalog. Paths: **R** risk, **S** stop, **C** capacity
 
 ---
 
-## 15. Operator decision addendum (2026-07-13) — paper-first policies
+## 15. Operator decision addendum — paper-first policies + cohort
 
 **Ticket:** `docs/tickets/2026-07-13-paper-first-cohort-decision.md`  
-**Status:** **Partial** — capacity + leverage locked; **cohort deferred**.
+**Status:** **Done** — capacity, leverage, cohort (**Blue 62**). Phase 1 (2026-07-14): OP `#12 Portfolio Blue · PBR62` sole Active; first paper journal confirmed (AMZN).
 
-| Decision | Choice | Rationale (operator) |
-|----------|--------|----------------------|
-| First paper OP seed | **Deferred** | Not ready to commit Green discipline vs Blue exploration (or dual) as primary engagement focus |
-| Ops `max_markets` | **Force 4** | Matches C0 honesty; uncapped 48 is lab free lunch, not ops default |
-| Paper `max_leverage` | **Force 1×** on paper focus | De-risk cash≫equity mark-to-market residue before trusting paper capital narrative |
-| Real capital | **Out of scope** | Until paper hygiene (journals / confirm loop) proves out |
+| Decision | Choice | When | Rationale (operator) |
+|----------|--------|------|----------------------|
+| First paper OP seed | **Blue 62 (exploration)** | 2026-07-14 | C0 honest-cap Blue family for first paper journals; higher-return explore path under locked caps |
+| Ops `max_markets` | **Force 4** | 2026-07-13 | Matches C0 honesty; uncapped 48 is lab free lunch, not ops default |
+| Paper `max_leverage` | **Force 1×** on paper focus | 2026-07-13 | De-risk cash≫equity mark-to-market residue before trusting paper capital narrative |
+| Active hygiene timing | **Deferred** (record only) | 2026-07-14 | Six color Actives unchanged until Phase 1 hygiene session |
+| Real capital | **Out of scope** | locked | Until paper hygiene (journals / confirm loop) proves out |
 
 ### Implications for lab and ops
 
-1. **Do not paper-trade nil `max_markets`** as the primary ops story. Further Blue research may still run uncapped in WUT for science, but exports intended for paper should document **max_markets=4**.  
-2. **Paper focus sizing is 1× leverage** until K-path (or accounting proof) reopens 3×. Level 2 K1/K2 on the eventual focus cohort remains useful calibration, not a blocker for the policy.  
-3. **Cohort choice still blocks** Active attention hygiene and any Wv2 re-import aimed at “paper first.” Live Wv2 already has six color Actives; **Portfolio Blue is still the static isomorphic vet export**, not PBR 62 — choosing Blue 62 later is a methodology import, not a rename.  
-4. **Provisional ranking unchanged** until cohort lands: A = Green 55 discipline, B = Blue 62 explore under C0.
+1. **Do not paper-trade nil `max_markets`** as the primary ops story. Further Blue research may still run uncapped in WUT for science, but exports intended for paper must document **max_markets=4**.  
+2. **Paper focus sizing is 1× leverage** until K-path (or accounting proof) reopens 3×.  
+3. **Live Wv2 Portfolio Blue is still the static isomorphic vet export**, not PBR 62. Phase 1 must **export C0 / PBR 62 recipe from WUT → import lineage-correct OP** (auto-fork if needed), then focus Active on that OP. Do **not** treat current Blue id=7 as the paper-focus methodology.  
+4. **Green 55** remains the best discipline/PCS alternate archive; demote when hygiene runs unless operator force-keeps a secondary.  
+5. **First paper journal confirm** targets the Blue 62 focus OP only (`2026-07-13-confirm-first-paper-journal-focus-cohort.md`).
 
-### Still open
+### Still open (execution, not decision)
 
-- Green 55 vs Blue 62 (or dual-Active force) for first journals  
-- Whether to narrow six Actives to one primary (+ optional archive observation) once focus is chosen  
-- Optional: finish Level 2 transfer/R paths before choosing cohort
+- Phase 1: Blue 62 export/import + Active hygiene (`2026-07-13-paper-focus-active-hygiene-and-recipe.md`)  
+- Phase 1: first paper journal confirm on that OP  
+- Optional lab: Level 2 transfer/R paths (do not block paper ops)  

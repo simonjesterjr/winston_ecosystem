@@ -1,6 +1,6 @@
 # Ticket: Decide first paper Operational Portfolio (Green 55 vs Blue 62 family)
 
-**Status:** Partial — policies locked 2026-07-13; cohort deferred  
+**Status:** Done (decision 2026-07-14; Phase 1 hygiene + first paper journal same day)  
 **Date:** 2026-07-13  
 
 ## Context
@@ -19,51 +19,57 @@ From [`business_analysis/2026-07-13-pbr-return-dd-pcs-evaluation.md`](../../busi
 2. Ops `max_markets`: force **4** vs allow nil?
 3. Paper `max_leverage`: allow 3 vs force 1×?
 
-## Operator decision (2026-07-13)
+## Operator decision
+
+### 2026-07-13 (policies)
 
 | # | Question | Decision | Notes |
 |---|----------|----------|-------|
-| 1 | First paper OP seed | **Deferred** | No Green-vs-Blue focus chosen yet. Do **not** re-rank Active attention or re-import for paper focus until this lands. |
 | 2 | Ops `max_markets` | **Force 4** | Honest ops config. Uncapped Blue 48 is lab upper bound only, not paper default. |
 | 3 | Paper `max_leverage` | **Force 1×** on paper focus | Avoid cash≫equity leverage residue until accounting proven. Lab `max_leverage=3` stays lab-only until explicitly reopened. |
+
+### 2026-07-14 (Phase 0 — cohort)
+
+| # | Question | Decision | Notes |
+|---|----------|----------|-------|
+| 1 | First paper OP seed | **Blue 62 (exploration)** | C0 honest-cap Blue family for first paper journals. **Not** live Wv2 “Portfolio Blue” as currently imported. |
+| 0.2 | Active hygiene timing | **Record only — no Active changes yet** | Six color Actives left as-is until Phase 1 hygiene session (`2026-07-13-paper-focus-active-hygiene-and-recipe.md`). |
 
 **Real capital:** still out of scope until paper hygiene proves out (unchanged).
 
 Canonical write-up: business analysis §15 addendum  
 [`business_analysis/2026-07-13-pbr-return-dd-pcs-evaluation.md`](../../business_analysis/2026-07-13-pbr-return-dd-pcs-evaluation.md).
 
-### Live Wv2 snapshot (at decision time)
+### Live Wv2 snapshot (re-checked 2026-07-14)
 
-Six color Actives: Red, Blue, Green, Pink, Blank, Rust (Orange inactive).
+Six color Actives: Red, Blue, Green, Pink, Blank, Rust (Orange inactive). Unchanged this session.
 
-| OP | Risk / stop (imported TS) | Implication |
-|----|---------------------------|-------------|
-| **Portfolio Green** | static + `move_to_last_entry`, Breakout55Day / VolExit | Already close to PBR 55 discipline recipe |
-| **Portfolio Blue** | **static + isomorphic**, SwingBreakout5Day / VolExit | **Not** PBR 62 (dynamic R1 + move_to_last). Choosing Blue 62 later requires re-export/import (or successor), not just attention focus |
-
-No Active-set or import changes made this session (cohort still open).
+| OP | Live TS (import) | Implication for paper focus |
+|----|------------------|-----------------------------|
+| **Portfolio Blue** (id=7) | SwingBreakout5Day / VolExit, **static**, **isomorphic** stop | **Not PBR 62**. Phase 1 must WUT-export C0 recipe (dynamic R1 + move_to_last, max_markets=4, leverage 1× policy) → import/auto-fork → then Active as paper focus |
+| **Portfolio Green** (id=8) | Breakout55Day / VolExit, static, move_to_last | Close to PBR 55; **not** first paper focus after this decision (archive / demote when hygiene runs) |
 
 ## Acceptance
 
-- [x] Written operator decision recorded (partial: policies + defer cohort) in business analysis addendum + this ticket
-- [ ] Cohort choice recorded (Green 55 vs Blue 62 vs dual vs other)
-- [ ] Wv2 paper import / Active set updated only after cohort decision
+- [x] Written operator decision recorded (policies 2026-07-13)
+- [x] Cohort choice recorded (**Blue 62** exploration, 2026-07-14)
+- [x] Wv2 paper import / Active set updated (OP #12, sole Active) — Phase 1
 - [x] Real capital activation explicitly out of scope until paper hygiene proves out
 
-## Remaining when cohort is chosen
+## Phase 1 completion (2026-07-14)
 
-1. Record seed choice + rationale in business analysis §15.  
-2. Apply attention hygiene: primary paper focus Active; demote non-focus color Actives unless force dual.  
-3. If **Green**: confirm TS matches PBR 55 gates recipe; ensure ops caps `max_markets=4`, paper leverage 1×.  
-4. If **Blue 62**: do **not** engage current static isomorphic Blue as if it were 62 — export C0 recipe from WUT, import as lineage-correct OP/TS (auto-fork if fingerprint differs), then Active + paper.  
-5. Prefer first journal confirm on the chosen seed (supersedes or pairs with Red paper-confirm ticket once focus is set).
+1. ~~Record seed choice + rationale in business analysis §15.~~  
+2. ~~Attention hygiene: only `Portfolio Blue · PBR62` (#12) Active.~~  
+3. ~~WUT PBR 62 export → import as new OP (static Blue #7 left inactive).~~  
+4. ~~JSON paper policy: max_markets=4, max_leverage=1.~~  
+5. ~~First paper journal confirm (AMZN long 5 @ 251.03) — confirm ticket Done.~~  
 
 ## Related
 
-- After cohort hygiene/import: `2026-07-13-paper-focus-active-hygiene-and-recipe.md`
+- Hygiene/import: `2026-07-13-paper-focus-active-hygiene-and-recipe.md` (**next**)
 - First paper journal (focus seed): `2026-07-13-confirm-first-paper-journal-focus-cohort.md`
 - Enforce caps in export/import: `2026-07-13-enforce-paper-max-markets-and-leverage.md`
-- Level 2 experiments ticket: `2026-07-13-pbr-level2-remaining-experiments.md` (K1/K2 leverage 1 paths align with policy #3)
-- Red paper confirm (still open if Red remains secondary): `2026-07-10-confirm-first-red-paper-pending-action.md`
+- Level 2 experiments: `2026-07-13-pbr-level2-remaining-experiments.md`
+- Red paper confirm (secondary; do not prefer over Blue 62): `2026-07-10-confirm-first-red-paper-pending-action.md`
 - Capital activation domain: ADR-006 / business-context OP lifecycle
-- Session: `docs/session-reports/2026-07-13-1741-paper-first-cohort-partial.md`
+- Prior partial: `docs/session-reports/2026-07-13-1741-paper-first-cohort-partial.md`

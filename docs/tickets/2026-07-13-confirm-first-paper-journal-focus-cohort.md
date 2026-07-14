@@ -1,32 +1,37 @@
 # Ticket: Confirm first paper journal on paper-focus cohort
 
-**Status:** Proposed  
+**Status:** Done (2026-07-14 Phase 1)  
 **Date:** 2026-07-13  
-**Blocked by:** cohort choice + hygiene (`2026-07-13-paper-first-cohort-decision.md`, `2026-07-13-paper-focus-active-hygiene-and-recipe.md`)  
+**Focus seed:** **Blue 62** → Wv2 OP `#12 Portfolio Blue · PBR62`
 
-## Context
+## Work completed
 
-Paper execution loop is still unproven end-to-end (draft journals / tasks without principal confirm). Historical ticket targeted **Red** specifically ([`2026-07-10-confirm-first-red-paper-pending-action.md`](./2026-07-10-confirm-first-red-paper-pending-action.md)). Paper-first work may shift focus to **Green 55** or **Blue 62**; first confirm should follow the **chosen focus seed**, not necessarily Red.
-
-## Scope
-
-1. After focus OP is Active with correct recipe and paper intent: wait for or re-eval a date that yields enter/exit `pending_actions`.  
-2. Confirm via MCP: `wv2_list_pending_actions` → `wv2_confirm_journal` / `wv2_mark_task_done` (**paper** execution mode only).  
-3. Verify next daily analysis respects position / capital_base from confirmation.  
-4. Optional: Cromwell `winston-confirmation-loop` when available.  
-5. If focus remains Red, this ticket and the 2026-07-10 Red ticket may be closed together after one successful confirm.
+1. Focus OP Active with PBR 62 recipe (hygiene ticket).  
+2. Historical eval **2026-07-10** produced AMZN long enter (`pending` → task #16 / journal #16).  
+3. Confirmed via `Operations::JournalConfirmationService` (same path as MCP `wv2_confirm_journal`):
+   - `execution_price`: 251.03  
+   - `units`: **5** (explicit — auto PositionSizer returned 0; see notes)  
+   - `fulfillment_type`: stock  
+   - paper notes  
+4. Capital: $10,000 → **$8,744.85** (flow −$1,255.15).  
+5. Open position: **AMZN long 5 @ 251.03**.  
+6. Next-day eval **2026-07-11**: position + capital retained; 0 new tasks.
 
 ## Acceptance
 
-- [ ] At least one journal confirmed as **paper** on the **paper-focus** OP (not real capital)  
-- [ ] Linked task done/confirmed  
-- [ ] Subsequent analysis sees open position or updated capital as designed  
-- [ ] Real capital still out of scope  
+- [x] At least one journal confirmed as **paper** on the **Blue 62 focus** OP  
+- [x] Linked task done/completed  
+- [x] Subsequent analysis sees open position / updated capital  
+- [x] Real capital still out of scope  
+
+## Notes / follow-ups
+
+1. **Initial CashEvent date** — import used `Date.current`, so historical `capital_base(as_of:)` was $0 until backdated to 2020-01-01. Import rake fixed to default `2020-01-01` (or `initial_capital_date`).  
+2. **ATR sizing** — for several US names parquet `atr` ≈ price (GOOGL/AMZN/TSLA), so `PositionSizer` floors to 0 units. Paper confirm used explicit units. Investigate atr_17 column load separately (not blocking confirm path).  
+3. Red-specific ticket `2026-07-10-confirm-first-red-paper-pending-action.md` can be closed as superseded (focus is Blue 62).
 
 ## Related
 
-- Red-specific predecessor: `2026-07-10-confirm-first-red-paper-pending-action.md`  
-- Paper-first policies: `2026-07-13-paper-first-cohort-decision.md`  
-- Hygiene/import: `2026-07-13-paper-focus-active-hygiene-and-recipe.md`  
-- MCP: `wv2_confirm_journal`, `wv2_mark_task_done`, `wv2_list_pending_actions`  
-- Session: `docs/session-reports/2026-07-13-1741-paper-first-cohort-partial.md`  
+- Hygiene: `2026-07-13-paper-focus-active-hygiene-and-recipe.md`  
+- Paper-first: `2026-07-13-paper-first-cohort-decision.md`  
+- MCP: `wv2_confirm_journal`, `wv2_list_pending_actions`  

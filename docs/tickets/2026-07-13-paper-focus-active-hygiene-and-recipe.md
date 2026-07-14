@@ -1,33 +1,39 @@
 # Ticket: After paper cohort choice — Active hygiene + recipe check / Blue 62 import
 
-**Status:** Proposed  
+**Status:** Done (2026-07-14 Phase 1)  
 **Date:** 2026-07-13  
-**Blocked by:** cohort choice on `2026-07-13-paper-first-cohort-decision.md`  
+**Unblocked by:** `2026-07-13-paper-first-cohort-decision.md` (cohort = **Blue 62**)
 
 ## Context
 
-Session [`2026-07-13-1741-paper-first-cohort-partial.md`](../session-reports/2026-07-13-1741-paper-first-cohort-partial.md). Paper-first **policies** are locked (max_markets=4, paper leverage 1×); **seed** still deferred. Six color Actives remain in Wv2. Live **Portfolio Blue** is static + isomorphic — not PBR 62.
+Paper-first policies: max_markets=4, paper leverage 1×. Seed = Blue 62 exploration. Live static isomorphic Blue was **not** the focus recipe.
 
-## Scope
+## Work completed (2026-07-14)
 
-After operator records first paper seed (Green 55 / Blue 62 / dual):
-
-1. **Attention hygiene** — primary paper focus Active; demote non-focus color Actives unless force dual (ADR-006 mutex spirit).  
-2. **Recipe check** — OP/TS matches lab PBR for chosen path; ops caps document `max_markets=4` and paper leverage **1×**.  
-3. **If Blue 62** — do not engage current static isomorphic Blue as if it were 62; WUT export C0 recipe → Wv2 import/auto-fork → Active + paper.  
-4. **If Green 55** — confirm Breakout55 / VolExit / static / move_to_last still matches; adjust only if drift.  
-5. Cross-link completion back to paper-first ticket remaining checklist.
+1. **WUT export** — fixed `wut:portfolios:export_config` (`pyramid_atr_multiplier` try; risk_pct fraction; max_markets/max_leverage fields). Exported PBR 62 → `portfolio_configs/portfolio-blue-pbr62.json`.  
+2. **Paper policy patch on JSON** — name `Portfolio Blue · PBR62`, `export_kind=trade_ready`, **max_leverage=1** (lab had 3), max_markets=4, vetting block.  
+3. **Wv2 import** — new OP **#12** + TS **#15** (did not overwrite static Blue #7).  
+4. **Attention hygiene** — only #12 Active; demoted Red/Blue/Green/Pink/Blank/Rust.  
+5. **Recipe check** — one_way_dynamic + move_to_last_entry + SwingBreakout5Day + VolExit — **MATCH**.
 
 ## Acceptance
 
-- [ ] Cohort choice recorded on paper-first ticket + BA §15  
-- [ ] Active set matches attention policy for chosen focus  
-- [ ] Focus OP TS matches intended lab recipe under locked policies  
-- [ ] Blue 62 path uses new import lineage if Blue chosen (not rename of static Blue)
+- [x] Cohort choice recorded on paper-first ticket + BA §15  
+- [x] Active set matches attention policy for Blue 62 focus (only #12)  
+- [x] Focus OP TS matches PBR 62 lab recipe under max_markets=4 / leverage 1× policy  
+- [x] Blue 62 path uses new import lineage (not rename of static Blue)
+
+## Live result
+
+| Item | Value |
+|------|--------|
+| Focus OP | `#12 Portfolio Blue · PBR62` |
+| TS | `#15` source `portfolio-import:portfolio-blue-pbr62.json` |
+| Config file | `portfolio_configs/portfolio-blue-pbr62.json` |
+| Legacy Blue | `#7` inactive (static/isomorphic archive) |
+| Active count | **1** |
 
 ## Related
 
-- Parent decision: `2026-07-13-paper-first-cohort-decision.md`  
-- BA: `business_analysis/2026-07-13-pbr-return-dd-pcs-evaluation.md` §15  
-- Lifecycle: ADR-006 / `docs/business-context/wv2-operational-portfolio-lifecycle.md`  
-- First journal: `2026-07-13-confirm-first-paper-journal-focus-cohort.md`  
+- First journal: `2026-07-13-confirm-first-paper-journal-focus-cohort.md` (**also Done**)  
+- Parent: `2026-07-13-paper-first-cohort-decision.md`  
