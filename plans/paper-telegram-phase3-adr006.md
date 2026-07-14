@@ -220,4 +220,17 @@ bin/compose exec -T winston_v2 bin/rails wv2:portfolios:list
 
 ## Immediate next step
 
-**Phase 3 minimum complete (PR 1–4).** Follow-ons outside minimum: Capital Activation, Phase 4 cash/ad-hoc MCP, remaining color JSON fingerprint refresh, MCP source git home.
+**Phase 3 minimum complete (PR 1–4).** Operator verification: see session report `docs/session-reports/2026-07-14-1640-paper-telegram-phase3-wrap.md` § verification runbook.
+
+## Follow-on tickets (not Phase 3 minimum)
+
+| Ticket | Priority | Notes |
+|--------|----------|-------|
+| `2026-07-09-capital-activation-mcp-telegram.md` | High when going real | Needs schema + mutex + lineage |
+| `2026-07-14-wv2-cash-inflow-mcp.md` | Paper Phase 4 | CashEvent MCP |
+| `2026-07-14-wv2-ad-hoc-paper-fill-mcp.md` | Paper Phase 4 | Journal without DAR draft |
+| `2026-07-14-wv2-close-and-successor-rebalance-services.md` | Medium | Columns exist; verbs missing |
+| `2026-07-14-refresh-remaining-color-portfolio-json-fingerprints.md` | Medium | blue-pbr62/red done |
+| `2026-07-13-mcp-winston-source-git-home.md` | Hygiene | Host MCP not in git |
+| `2026-07-14-workspace-compose-portfolio-configs-tracking.md` | Hygiene | Host JSON not in git |
+| `2026-07-09-trading-strategy-fingerprint-versioning.md` | When payload changes | Design-only |

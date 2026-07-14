@@ -1,10 +1,11 @@
 # Ticket: Capital Activation (MCP / Telegram)
 
-**Status:** Proposed
+**Status:** Proposed (Phase 3 follow-on — after ADR-006 minimum)
 
 **Date:** 2026-07-09
 
-**Context:** Session [`2026-07-09-1649-trading-strategy-fingerprint-wv2-lifecycle-grill`](../session-reports/2026-07-09-1649-trading-strategy-fingerprint-wv2-lifecycle-grill.md). **ADR-006**. Operator speech: “Activate Portfolio Red + Ts10 with initial capital of $13,986”.
+**Context:** Session [`2026-07-09-1649-trading-strategy-fingerprint-wv2-lifecycle-grill`](../session-reports/2026-07-09-1649-trading-strategy-fingerprint-wv2-lifecycle-grill.md). **ADR-006**. Operator speech: “Activate Portfolio Red + Ts10 with initial capital of $13,986”.  
+**Unblocked by:** Phase 3 PR 1–3 (schema, import lineage, Active mutex).
 
 ## Problem
 

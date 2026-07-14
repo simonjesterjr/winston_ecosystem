@@ -1,6 +1,6 @@
 # Ticket: Cash inflow via internal API + MCP
 
-**Status:** Proposed  
+**Status:** Proposed (Paper Telegram Phase 4 / Phase 3 follow-on)  
 **Date:** 2026-07-14  
 **Source:** Paper Telegram roadmap Phase 4; session `2026-07-14-1112-paper-telegram-phase0-1.md`
 
