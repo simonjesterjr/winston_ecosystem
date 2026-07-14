@@ -1,27 +1,36 @@
 # Ticket: Refresh portfolio JSON exports with TradingStrategy id/fingerprint
 
-**Status:** Proposed
+**Status:** Done (2026-07-14 Phase 3 PR 4)
 
 **Date:** 2026-07-09
 
-**Context:** Session [`2026-07-09-0833-trading-strategy-fingerprint-capture`](../session-reports/2026-07-09-0833-trading-strategy-fingerprint-capture.md). Capture now sets `wut_trading_strategy_id` and `fingerprint` on new vet exports; historical files (`portfolio-red.json`, etc.) still lack them. **ADR-006** makes fingerprint the lineage key for Wv2 import (adopt/fork).
+**Context:** Session [`2026-07-09-0833-trading-strategy-fingerprint-capture`](../session-reports/2026-07-09-0833-trading-strategy-fingerprint-capture.md). Capture sets fingerprint on new vet exports; historical files lagged. **ADR-006** makes fingerprint the lineage key.  
+**Plan:** [`plans/paper-telegram-phase3-adr006.md`](../../plans/paper-telegram-phase3-adr006.md) PR 4.
+
+## Problem
+
+Silent bare-name import when fingerprint missing. Paper focus `portfolio-blue-pbr62.json` had no fingerprint.
 
 ## Scope
 
-1. Re-export or patch `portfolio_configs/portfolio-*.json` after capture/backfill so nested `trading_strategy` includes `wut_trading_strategy_id`, `fingerprint`, and TS name/description.
-2. Prefer re-run of export path from existing validation PBR over full re-vet when possible.
-3. Document one-shot rake or script if useful.
-4. Ensure fields match handoff provenance shape in `wut-to-wv2-handoff.md` / ADR-006.
+1. Re-export or patch `portfolio_configs/portfolio-*.json` with nested `wut_trading_strategy_id`, `fingerprint`.
+2. Prefer re-run of export path from existing validation PBR.
+3. Document export rake options.
+4. Match handoff provenance shape.
 
 ## Acceptance
 
-- Red (and other completed vets) JSON reference the lab TS row used for that validation
-- Fingerprint present so ADR-006 import lineage can match (not forced into bare-name legacy path)
-- Wv2 import still works (backward-compatible fields)
+- [x] Export path stamps fingerprint + WUT TS id when capture/selection exists (auto-capture if completed)
+- [x] blue-pbr62 + red refreshed with fingerprints
+- [x] Wv2 import uses lineage (smoke: fork, not bare-name wipe of `#12`)
+
+## Delivered
+
+- WUT `wut:portfolios:export_config` — fingerprint resolution, `PAPER_CAPS=1`, `SEED_NAME` / `DISPLAY_NAME`
+- Captured TS#23 for PBR 62 (`c7788d2e…`)
+- Host files: `portfolio_configs/portfolio-blue-pbr62.json`, `portfolio-red.json` (not in monolith git — tracking ticket remains)
 
 ## Related
 
-- `portfolio_configs/portfolio-red.json`
-- `PortfolioTrendVetter#export_run!`
-- ADR-006; import lineage ticket `2026-07-09-wv2-import-lineage-fingerprint-adopt-fork.md`
-- Session: [`2026-07-09-1649-trading-strategy-fingerprint-wv2-lifecycle-grill`](../session-reports/2026-07-09-1649-trading-strategy-fingerprint-wv2-lifecycle-grill.md)
+- Import lineage Done PR 2
+- Paper caps: `2026-07-13-enforce-paper-max-markets-and-leverage.md`

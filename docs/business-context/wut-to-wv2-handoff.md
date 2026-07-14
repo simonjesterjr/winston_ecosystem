@@ -69,19 +69,33 @@ Nested `trading_strategy` (and/or top-level) should carry when available:
 | `name` | Human label (becomes seed-related display + suffix when fingerprinted) |
 | methodology blocks | entry/exit/risk (rich + flat compat) |
 
-Top-level: `name` (seed), `markets`, `initial_capital`, `export_kind`, `wut_backtest_run_id`, `vetting`.
+Top-level: `name` (display or seed), optional `seed_name`, `fingerprint`, `markets`, `initial_capital`, `export_kind`, `wut_backtest_run_id`, `vetting`, `max_markets_per_portfolio`, `max_leverage`.
 
-Historical files may lack fingerprint — legacy bare-name path until re-export (ticket: refresh portfolio exports).
+Optional `paper_ops_policy` documents paper-first caps. Export with `PAPER_CAPS=1` on `wut:portfolios:export_config` forces `max_markets=4` / `max_leverage=1`.
+
+Historical files may lack fingerprint — legacy bare-name path until re-export. Primary paper configs (e.g. blue-pbr62, red) should carry fingerprint after Phase 3 PR 4.
+
+## Paper caps on import (Wv2)
+
+Default paper import normalizes:
+
+| Field | Paper default |
+|-------|----------------|
+| `max_markets_per_portfolio` | **4** |
+| `max_leverage` | **1×** |
+
+Lab/observation uncapped research: set `force_lab_uncapped: true` (or `paper_ops_policy.force_lab_uncapped`) so import keeps JSON caps.
 
 ## What Wv2 creates on import
 
 | JSON field | Wv2 entity |
 |------------|------------|
-| `name` (seed) | **seed_name** + display name (`seed · shortFp` when fingerprint present) |
+| `seed_name` or `name` (seed) | **seed_name** + display name (`seed · shortFp` when fingerprint present) |
 | `markets[]` | Market find_or_create + Book per symbol |
 | `initial_capital` | CashEvent (initial) once per new OP series |
 | `trading_strategy` + fingerprint | TradingStrategy + provenance; linked to OP |
 | `export_kind` | Stored for gates; missing → observation |
+| paper caps | Stored on OP (normalized unless force_lab_uncapped) |
 | — | **Execution Mode** default `paper`; **Active** false |
 
 ## Import lineage rules (ADR-006)

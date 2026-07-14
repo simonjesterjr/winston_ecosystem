@@ -1,43 +1,40 @@
 # Ticket: Enforce paper-first max_markets=4 and max_leverage=1× on export/import
 
-**Status:** Proposed  
+**Status:** Done (2026-07-14 Phase 3 PR 4)
+
 **Date:** 2026-07-13  
 
-## Context
+**Plan:** [`plans/paper-telegram-phase3-adr006.md`](../../plans/paper-telegram-phase3-adr006.md) PR 4.
 
-Operator policy (2026-07-13, paper-first partial decision):
+## Context
 
 | Policy | Value |
 |--------|-------|
 | Ops / paper `max_markets` | **Force 4** |
 | Paper `max_leverage` | **Force 1×** |
 
-Today this is **documentation-only** (business analysis §15 + paper-first ticket). Lab may still run uncapped / leverage 3 for science. Risk: paper imports land without the locked caps, so ops quietly diverges from policy.
-
-Session: [`2026-07-13-1741-paper-first-cohort-partial.md`](../session-reports/2026-07-13-1741-paper-first-cohort-partial.md).
-
 ## Scope
 
-1. Locate WUT trade-ready / portfolio export fields for capacity and leverage.  
-2. Locate Wv2 import path for the same.  
-3. Choose enforcement surface (prefer least surprise):
-   - **A.** Export-time defaults + warnings when paper-intended exports omit caps  
-   - **B.** Import-time validation / normalization for paper Execution Mode  
-   - **C.** Both, with clear override/force for lab observation archives  
-4. Document behavior in handoff business-context if contracts change.  
-5. Do **not** block pure lab PBRs that intentionally use nil max_markets or leverage 3.
+1. Export-time optional force (`PAPER_CAPS=1`)  
+2. Import-time normalize for paper path  
+3. Lab override `force_lab_uncapped`  
+4. Specs  
 
 ## Acceptance
 
-- [ ] Paper-intended handoff path documents or applies `max_markets=4`  
-- [ ] Paper-intended handoff path documents or applies `max_leverage=1` (or equivalent risk sizing)  
-- [ ] Lab uncapped / 3× research still possible without fighting the gate  
-- [ ] Spec or smoke covering reject/normalize behavior  
-- [ ] Cross-link from paper-first ticket when Done  
+- [x] Paper-intended export can apply 4 / 1× (`PAPER_CAPS=1`)  
+- [x] Import normalizes to 4 / 1× by default  
+- [x] Lab uncapped via `force_lab_uncapped: true`  
+- [x] Specs in `portfolio_config_importer_spec`  
+- [x] Handoff business-context documents behavior  
+
+## Delivered
+
+- `Operations::PortfolioConfigImporter#apply_paper_caps!`  
+- WUT export `PAPER_CAPS=1`  
+- blue-pbr62 exported with paper policy  
 
 ## Related
 
 - Policy: `2026-07-13-paper-first-cohort-decision.md`  
-- BA §15: `business_analysis/2026-07-13-pbr-return-dd-pcs-evaluation.md`  
-- Level 2 K-path (calibration): `2026-07-13-pbr-level2-remaining-experiments.md`  
 - Handoff: `docs/business-context/wut-to-wv2-handoff.md`  
