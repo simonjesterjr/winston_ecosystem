@@ -143,7 +143,8 @@ Tools are named with `wv2_` prefix for clarity (future DM/WUT/Cromwell tools wil
 - `wv2_market_snapshot` — live internet price vs prior EOD close + atr_17 for active portfolio Books; movers by ATR status (focusing tool).
 - `wv2_list_portfolios` — active + summary.
 - `wv2_list_pending_actions` — see tool 15 above.
-- `wv2_activate_portfolio` / `deactivate_portfolio` — mirror internal + rake surface.
+- `wv2_activate_portfolio` — `POST /internal/portfolios/activate` with `{ "id_or_name": "12" }` (or `id` / `name`). Sets `active=true`.
+- `wv2_deactivate_portfolio` — `POST /internal/portfolios/deactivate` with `{ "id_or_name": "..." }`. Sets `active=false`; does **not** close positions or rewrite journals.
 
 ## Correlation IDs and audit (Phase 3 — ADR-004)
 

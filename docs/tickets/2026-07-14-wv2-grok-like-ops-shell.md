@@ -1,6 +1,6 @@
 # Ticket: Grok-like Wv2 ops shell (chat + verification panels)
 
-**Status:** Proposed  
+**Status:** Done (2026-07-14 Phase 2A)  
 **Date:** 2026-07-14  
 **Source:** Paper Telegram roadmap Phase 2; session `2026-07-14-1112-paper-telegram-phase0-1.md`
 
@@ -28,10 +28,16 @@ Phase 1 proved paper confirm via services/MCP. Operator wants a **desk** surface
 
 ## Acceptance
 
-- [ ] `http://localhost:3002` paints shell &lt;1s  
-- [ ] Panels match `wv2:portfolios:list` / portfolio status for Active focus  
-- [ ] Chat can list pending + confirm (or link to same services)  
-- [ ] No write path bypassing confirm/CashEvent services  
+- [x] `http://localhost:3002` paints shell &lt;1s (~12–130ms observed)  
+- [x] Panels match `wv2:portfolios:list` / portfolio status for Active focus (#12 capital + AMZN)  
+- [x] Chat can list pending + confirm (idempotent confirm journal #16)  
+- [x] No write path bypassing confirm/CashEvent services (`OpsShellChat` → services only)  
+
+## Delivery notes (2026-07-14)
+
+- Shell: `Operations::HomeController` + `ops_shell.css` + chat/panels JSON endpoints  
+- Services: `Operations::OpsShellPanels`, `Operations::OpsShellChat`  
+- Commands: `help`, `list`, `status`, `pending`, `journal`, `confirm`, `done`
 
 ## Related
 

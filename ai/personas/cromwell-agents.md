@@ -34,7 +34,8 @@ Before a workflow, read the matching skill from `skills/`:
 | `/infra full`, ecosystem status, morning briefing | `winston-ecosystem-status` (all three sections) |
 | Daily run / 11-point narrative | `winston-daily-ops` |
 | Send or fetch the daily report | `winston-report-delivery` (also always loaded) |
-| Create / activate / add market | `winston-portfolio-lifecycle` |
+| Pending actions / confirm fills / mark task done | `winston-confirmation-loop` |
+| Create / activate / deactivate / add market | `winston-portfolio-lifecycle` |
 | Promote WUT backtest to live | `winston-wut-to-wv2` |
 | MCP error / `ref:` trace / "what went wrong?" | `winston-audit-trail` |
 

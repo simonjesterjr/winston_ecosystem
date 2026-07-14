@@ -1,6 +1,6 @@
 # Ticket: MCP deactivate + Cromwell confirmation skill
 
-**Status:** Proposed  
+**Status:** Done (2026-07-14 Phase 2B)  
 **Date:** 2026-07-14  
 **Source:** Paper Telegram roadmap Phase 2; session `2026-07-14-1112-paper-telegram-phase0-1.md`
 
@@ -19,9 +19,16 @@
 
 ## Acceptance
 
-- [ ] Deactivate via MCP works for paper focus OP  
-- [ ] Confirmation skill present and seeded  
-- [ ] Telegram or MCP smoke: list pending → confirm path documented  
+- [x] Deactivate via MCP tool + internal `id_or_name` (smoke on non-focus #5; #12 remains sole Active)  
+- [x] Confirmation skill present and seeded (`ecosystem/ai` v1.4.0 → workspace)  
+- [x] Telegram or MCP smoke: list pending → confirm path documented in skill + ops shell  
+
+## Delivery notes (2026-07-14)
+
+- MCP: `wv2_deactivate_portfolio`; activate/deactivate map `id_or_name` → `{id}`/`{name}`  
+- Internal: `find_portfolio_from_params` accepts `id_or_name`  
+- Skill: `ecosystem/ai/skills/winston-confirmation-loop/SKILL.md`  
+- Registered in `cromwell-agents.md`; `bin/seed-cromwell-workspace` run
 
 ## Related
 

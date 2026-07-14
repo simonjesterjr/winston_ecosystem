@@ -24,8 +24,9 @@
 
 ### Phase 2A — Confirmation + Extended Sync (next-steps plan)
 
-- MCP: `wv2_confirm_journal`, `wv2_mark_task_done` in `ai/mcp_winston/` + `ecosystem/interfaces/winston-mcp-tools.md`
-- Skills: `winston-confirmation-loop`, `winston-data-sync`, `winston-position-inquiry`
+- MCP: `wv2_confirm_journal`, `wv2_mark_task_done` in `ai/mcp_winston/` + `ecosystem/interfaces/winston-mcp-tools.md` — **done**
+- MCP: `wv2_deactivate_portfolio` + `id_or_name` mapping for activate/deactivate — **done** (2026-07-14 paper Phase 2)
+- Skills: `winston-confirmation-loop` **done** (2026-07-14); still open: `winston-data-sync`, `winston-position-inquiry`
 - HEARTBEAT: stale pending reminders, optional pre-close data check
 
 ### Phase 2B — Memory Patterns (no new MCP)
