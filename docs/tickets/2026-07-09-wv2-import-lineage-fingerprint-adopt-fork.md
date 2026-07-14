@@ -1,10 +1,11 @@
 # Ticket: Wv2 import lineage (fingerprint / adopt / fork / engaged refuse)
 
-**Status:** Proposed
+**Status:** Done (2026-07-14 Phase 3 PR 2)
 
 **Date:** 2026-07-09
 
-**Context:** Session [`2026-07-09-1649-trading-strategy-fingerprint-wv2-lifecycle-grill`](../session-reports/2026-07-09-1649-trading-strategy-fingerprint-wv2-lifecycle-grill.md). **ADR-006**. Current `wv2:portfolios:import` uses name-only upsert.
+**Context:** Session [`2026-07-09-1649-trading-strategy-fingerprint-wv2-lifecycle-grill`](../session-reports/2026-07-09-1649-trading-strategy-fingerprint-wv2-lifecycle-grill.md). **ADR-006**.  
+**Plan:** [`plans/paper-telegram-phase3-adr006.md`](../../plans/paper-telegram-phase3-adr006.md) PR 2.
 
 ## Problem
 
@@ -21,13 +22,22 @@ Silent `find_or_initialize_by(name)` on Portfolio and TradingStrategy destroys r
 
 ## Acceptance
 
-- Re-import new fingerprint does not overwrite prior OP journals
-- Same fingerprint re-import is idempotent pre-engagement
-- Engaged OP rejects methodology/Books overwrite via import
-- Conforms to ADR-006 and `wut-to-wv2-handoff.md`
+- [x] Re-import new fingerprint does not overwrite prior OP journals
+- [x] Same fingerprint re-import is idempotent pre-engagement
+- [x] Engaged OP rejects methodology/Books overwrite via import
+- [x] Conforms to ADR-006 and `wut-to-wv2-handoff.md`
+
+## Delivered
+
+- `Operations::PortfolioConfigImporter` — lineage service
+- Wired: `wv2:portfolios:import` rake + `POST /internal/portfolios` (MCP transfer)
+- Engaged bare-seed adopt target → auto-fork (does not reshape engaged OP)
+- Specs: `spec/services/operations/portfolio_config_importer_spec.rb` (12 examples)
+- Live smoke: legacy re-import of blue-pbr62 refused on engaged `#12` (journals + Active preserved)
 
 ## Related
 
 - ADR-006, `wv2-operational-portfolio-lifecycle.md`
-- Schema ticket: `2026-07-09-wv2-op-lifecycle-schema.md`
-- `winston_v2/lib/tasks/wv2.rake` import task
+- Schema ticket: `2026-07-09-wv2-op-lifecycle-schema.md` (Done PR 1)
+- export_kind ticket: `2026-07-08-wv2-importer-honor-export-kind.md` (folded into PR 2)
+- Next: Active mutex PR 3 — `2026-07-09-wv2-active-mutex-seed-books.md`

@@ -1,10 +1,11 @@
 # Ticket: Wv2 Operational Portfolio lifecycle schema
 
-**Status:** Proposed
+**Status:** Done (2026-07-14 Phase 3 PR 1)
 
 **Date:** 2026-07-09
 
-**Context:** Session [`2026-07-09-1649-trading-strategy-fingerprint-wv2-lifecycle-grill`](../session-reports/2026-07-09-1649-trading-strategy-fingerprint-wv2-lifecycle-grill.md). **ADR-006**.
+**Context:** Session [`2026-07-09-1649-trading-strategy-fingerprint-wv2-lifecycle-grill`](../session-reports/2026-07-09-1649-trading-strategy-fingerprint-wv2-lifecycle-grill.md). **ADR-006**.  
+**Plan:** [`plans/paper-telegram-phase3-adr006.md`](../../plans/paper-telegram-phase3-adr006.md) PR 1.
 
 ## Problem
 
@@ -25,11 +26,17 @@ ADR-006 needs durable fields that do not exist on Wv2 Portfolio / TradingStrateg
 
 ## Acceptance
 
-- New imports can persist all ADR-006 lineage fields
-- Engaged/closed queryable without scanning journals only for closed
-- Specs for helpers and constraints
+- [x] New imports can persist all ADR-006 lineage fields (columns present; import rewrite is PR 2)
+- [x] Engaged/closed queryable without scanning journals only for closed (`engaged?` via journals; `closed?` via `closed_at`)
+- [x] Specs for helpers and constraints (`spec/models/portfolio_lifecycle_spec.rb`, `trading_strategy_lifecycle_spec.rb` — 19 examples)
+
+## Delivered
+
+- Migration `20260714120000_add_adr006_lifecycle_fields.rb`
+- Also: `max_markets_per_portfolio`, `max_leverage`, `wut_backtest_run_id` on portfolios; `wut_trading_strategy_id` on TS (for PR 4 / provenance)
+- Live backfill: all OPs `seed_name` set; `#12 Portfolio Blue · PBR62` seed kept full human label (not hex suffix)
 
 ## Related
 
-- Import lineage ticket: `2026-07-09-wv2-import-lineage-fingerprint-adopt-fork.md`
+- Import lineage ticket: `2026-07-09-wv2-import-lineage-fingerprint-adopt-fork.md` (**next** — PR 2)
 - Capital Activation ticket: `2026-07-09-capital-activation-mcp-telegram.md`
