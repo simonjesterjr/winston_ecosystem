@@ -1,6 +1,6 @@
 # Ticket: WUT portfolio_config export — fingerprint + seed lineage
 
-**Status:** Proposed  
+**Status:** Done (code + live smoke); commit pending  
 **Date:** 2026-07-15  
 **Priority:** Medium-high (B — real ADR-006 quality)  
 **Source:** Session 2026-07-15 Telegram transfer; transfer returned `legacy_no_fingerprint`  
@@ -30,9 +30,21 @@ Also this session: `portfolio_config` / `strategy_config` / `testing_strategies`
 
 ## Acceptance
 
-- [ ] `portfolio_config?run_id=N` JSON includes fingerprint when methodology is fingerprinted  
-- [ ] Re-transfer via MCP yields `updated`/`forked`/`adopted` as appropriate, not only `legacy_*`  
-- [ ] Public action regression covered or documented  
+- [x] `portfolio_config?run_id=N` JSON includes fingerprint when methodology is fingerprinted  
+- [x] Re-transfer via MCP yields `updated`/`forked`/`adopted` as appropriate, not only `legacy_*`  
+- [x] Public action regression covered or documented  
+
+## Implementation (2026-07-15)
+
+| Artifact | Change |
+|----------|--------|
+| `app/services/portfolio_config_exporter.rb` | Shared ADR-006 builder (selection → capture fallback) |
+| `InternalController#portfolio_config` | Uses exporter; public comment; ts_id gets seed_name/export_kind from selection |
+| `lib/tasks/portfolio_configs.rake` | Thin wrapper over exporter |
+| `spec/services/portfolio_config_exporter_spec.rb` | 3 examples green |
+
+**Live smoke:** `GET …?run_id=57` → `fingerprint=f88e1ca0…`, `seed_name=Portfolio Blank`, `export_kind=observation`, `wut_trading_strategy_id=16`.  
+**Wv2 re-import:** `action=adopted` on bare OP `#10` (`Portfolio Blank · f88e1ca0`), not `legacy_updated`. Legacy OP `#157` remains a separate series (expected).
 
 ## Related
 
@@ -40,7 +52,9 @@ Also this session: `portfolio_config` / `strategy_config` / `testing_strategies`
 - Ticket: `2026-07-14-refresh-remaining-color-portfolio-json-fingerprints.md`  
 - Wv2: `Operations::PortfolioConfigImporter`  
 - Session fix: `winston_unit_test` `internal_controller.rb` `public` for portfolio_config  
+- Reply contract A: still needs Telegram smoke after concurrency Tier 0  
 
 ## Non-goals
 
 - Changing engaged refuse / auto-fork semantics on Wv2  
+- Migrating / destroying legacy OP `#157` (operator choice)  

@@ -12,8 +12,8 @@ Tools are named with `wv2_` prefix for clarity (future DM/WUT/Cromwell tools wil
    - Purpose: Move a vetted configuration (run or first-class TradingStrategy) from the lab (WUT) into live (Wv2) via the canonical JSON exchange in /portfolio_configs.
    - Inputs: `{ "run_id": 42 }` or `{ "ts_id": 7 }` or `{ "config_name": "my-trend.json" }` (path under the shared volume is resolved automatically).
    - Behavior: Calls WUT export (or reads existing), ensures the JSON is present, triggers Wv2 import + TradingStrategy creation/link, returns the resulting portfolio.
-   - Returns: `{ "status": "ok", "portfolio": { "id": 3, "name": "...", "markets": [...], "capital_base": 10200.0, "trading_strategy": "..." }, "config_path": "/portfolio_configs/..." }`
-   - Notes: After transfer, caller should usually follow with activate + evaluate or the dedicated tools below.
+   - Returns: `{ "status": "ok", "action": "legacy_updated|created|forked|adopted|…", "summary": "legacy_updated #157 … active=false …", "portfolio": { "id": 3, "name": "...", "markets": [...], "capital_base": 10200.0, "active": false, "execution_mode": "paper", … }, "warnings": [...], "reply_hint": "…" }`
+   - Notes: Import lands inactive (paper default). Cromwell must **lead with `summary` / `action` + portfolio id**; activate / sync / daily analysis only if the user asks (skill `winston-wut-to-wv2`). MCP adds `summary` for weak local models.
 
 2. **wv2_create_portfolio**
    - Purpose: Directly create a new live portfolio (alternative or complement to transfer/import).

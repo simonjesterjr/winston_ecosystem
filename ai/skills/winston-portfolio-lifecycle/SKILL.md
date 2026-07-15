@@ -36,6 +36,20 @@ description: Create, configure, and activate Wv2 live portfolios — add markets
 3. `wv2_sync_data` — request DM acquisition for the new symbol.
 4. Report updated markets list from tool response.
 
+## Playbook — Activate / Deactivate
+
+Triggers: "activate the portfolio", "activate #157", "make it Active", "deactivate …"
+
+1. **Resolve `id_or_name` without re-asking when possible:**
+   - Explicit id/name in the user message, else
+   - **"the portfolio" / "it"** = the OP most recently transferred, created, or discussed in this conversation (e.g. transfer returned `#157`), else
+   - One `wv2_list_portfolios` only if still ambiguous — then ask once.
+2. Call **only** `wv2_activate_portfolio` or `wv2_deactivate_portfolio`.
+3. Reply in ≤ 4 lines:
+   - `Activated #{id} “{name}” — active=true` (or `already_active`)
+   - On mutex/conflict: report conflicting Active OP ids; do not invent force unless user said force.
+4. **Do not** follow with get_portfolio_status, sync, daily analysis, or menus unless asked.
+
 ## Idempotency
 
 - Name-based upsert is acceptable for `wv2_create_portfolio`.
@@ -54,3 +68,5 @@ description: Create, configure, and activate Wv2 live portfolios — add markets
 - Skip `wv2_sync_data` before first daily analysis on new symbols
 - Invent strategy names not in `wv2_list_trading_strategies`
 - Mutate positions directly — only portfolio/book setup via MCP
+- Ask for portfolio id when the last transfer/create in-thread already named it
+- After activate, offer sync/daily-report menus

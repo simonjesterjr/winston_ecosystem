@@ -11,7 +11,7 @@ description: Manage WUT lab portfolios via Telegram — add markets, sync DM dat
 |--------|-------|
 | Lab portfolio, backtests, signal tuning, WUT Operations reports | `wut_*` |
 | Live trading, Wv2 Daily Activity PDF, capital/positions | `wv2_*` |
-| Move vetted config from lab → live | `wv2_transfer_portfolio_from_wut` then `wv2_*` |
+| Move vetted config from lab → live | `wv2_transfer_portfolio_from_wut` only; then skill `winston-wut-to-wv2` reply contract |
 
 ## Triggers
 
@@ -50,7 +50,7 @@ After lab work is vetted:
 
 1. `wut_list_portfolio_runs` — pick `run_id`.
 2. `wv2_transfer_portfolio_from_wut` with that `run_id`.
-3. Continue with skill `winston-portfolio-lifecycle` (`wv2_activate_portfolio`, `wv2_sync_data`, etc.).
+3. **Stop.** Report using skill `winston-wut-to-wv2` success template (`action`, OP `#id`, active, execution_mode). Do **not** auto-activate, sync, or open daily ops — only if the user asks next.
 
 ## Error Handling
 

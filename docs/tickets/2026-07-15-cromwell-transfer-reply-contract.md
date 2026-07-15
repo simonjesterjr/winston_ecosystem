@@ -1,10 +1,11 @@
 # Ticket: Cromwell transfer reply contract (skill + persona)
 
-**Status:** Proposed  
+**Status:** In progress — docs seeded; **live smoke FAILED quality** (2026-07-15 ~15:13 MT)  
 **Date:** 2026-07-15  
 **Priority:** High — next session pick-up (**A**)  
 **Source:** Session `2026-07-15-1404-telegram-transfer-agent-gap.md`  
-**Plan / context:** Paper Telegram ops; ADR-006 handoff via MCP
+**Plan / context:** Paper Telegram ops; ADR-006 handoff via MCP  
+**AI version:** `ecosystem/ai/VERSION` → `1.4.2`
 
 ## Problem
 
@@ -26,10 +27,37 @@ Root cause: agent report-writing after tools return, not missing import machiner
 
 ## Acceptance
 
-- [ ] Skill documents mandatory success template and forbidden follow-ups  
-- [ ] Channel rules restate: no menus on handoff confirmation  
+- [x] Skill documents mandatory success template and forbidden follow-ups  
+- [x] Channel rules restate: no menus on handoff confirmation  
 - [ ] Live Telegram transfer of an existing OP reports `action` + `#id` in first two lines  
 - [ ] No unsolicited activate/sync/report suggestions after transfer  
+
+## Live smoke (2026-07-15 ~15:13–15:25 MT) — FAIL quality
+
+| Step | Result |
+|------|--------|
+| Transfer run 57 | MCP **ok** `legacy_updated` `#157` (tool JSON had full portfolio block) |
+| User-facing reply | **FAIL** — long briefing + activate/sync/daily-analysis **menu** |
+| “activate the portfolio” | **FAIL** — asked for id despite `#157` in prior bot message |
+| “activate portfolio 157” | MCP activate **ok** in 40ms; agent then chained `get_portfolio_status`; multi-minute silence (CPU 8b + Flood Control risk) |
+| Ground truth | `#157` **active=true**; also Active: `#12` Portfolio Blue · PBR62 |
+
+**Root cause refinement:** Skills are **not auto-injected** — 8b must `read_file` them and usually does not. Always-on `AGENTS.md` HARD RULES + MCP `summary`/`reply_hint` are required; skill alone is insufficient.
+
+## Implementation notes (2026-07-15)
+
+| Artifact | Change |
+|----------|--------|
+| `ecosystem/ai/skills/winston-wut-to-wv2/SKILL.md` | Mandatory success template; action map; no auto-chain activate/sync/report |
+| `ecosystem/ai/personas/cromwell-tools.md` | Mutating-tool lead-with-result rule |
+| `ecosystem/ai/personas/cromwell-channels.md` | Handoff: no menus |
+| `ecosystem/ai/personas/cromwell-agents.md` | HARD RULES block (1.4.2); removed transfer→activate chain default |
+| `ecosystem/ai/skills/winston-portfolio-lifecycle/SKILL.md` | Activate playbook: resolve “the portfolio”; no re-ask; no post-activate menus |
+| `ecosystem/ai/skills/winston-wut-portfolio-lifecycle/SKILL.md` | Transfer stops at reply contract |
+| `ecosystem/ai/memory/templates/MEMORY.template.md` | Few-shot handoff line |
+| `ecosystem/interfaces/winston-mcp-tools.md` | Transfer notes + `summary` field |
+| `ai/mcp_winston/.../server.py` (host) | `_attach_agent_summary` for transfer/activate/deactivate |
+| `bin/seed-cromwell-workspace` | Re-run after docs land |
 
 ## Related
 

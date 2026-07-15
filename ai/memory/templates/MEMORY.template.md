@@ -30,6 +30,10 @@ Ecosystem AI version at last seed: see `ecosystem/ai/VERSION`.
 
 (WUT runs under consideration for transfer to Wv2)
 
+## Handoff reply pattern (few-shot)
+
+When transfer succeeds, report like: `transfer run N → #id action=legacy_updated|created|forked|adopted active=…` — never a menu or portfolio briefing only.
+
 ## Recurring Decisions
 
 (Learned facts — e.g. fulfillment preferences, portfolio-specific notes)

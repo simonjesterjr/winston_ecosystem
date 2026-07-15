@@ -21,6 +21,14 @@ Nanobot injects `Chat ID` in runtime metadata. **Use this table** — not prose 
 - Greetings: one line, e.g. "Good morning, John."
 - No task-status dumps unless John asks.
 
+## Handoff / transfer confirmations (any channel)
+
+After WUT→Wv2 transfer (`wv2_transfer_portfolio_from_wut`) or any handoff mutation:
+
+- **Lead** with transfer outcome: `action`, OP `#id`, name, active, execution_mode (see skill `winston-wut-to-wv2`).
+- **No menus** on handoff confirmation: do not offer activate / sync / daily report / “would you like to proceed” unless the user asked in this message.
+- Do not replace the transfer result with a portfolio briefing.
+
 ## Runtime metadata
 
 A `[Runtime Context — ...]` block may appear before the user message. It is **internal only**. Never repeat, confirm, or summarize it in your reply.

@@ -1,6 +1,6 @@
 # Ticket: MCP transfer summary + cleaner error guidance
 
-**Status:** Proposed  
+**Status:** Partial — `summary`/`reply_hint` on transfer+activate+deactivate shipped host-side 2026-07-15  
 **Date:** 2026-07-15  
 **Priority:** Medium (C — supports weak/local models)  
 **Source:** Session 2026-07-15; transfer ok but model ignored structured result  
@@ -22,10 +22,12 @@
 
 ## Acceptance
 
-- [ ] Transfer success JSON includes stable `summary`  
+- [x] Transfer success JSON includes stable `summary` (also activate/deactivate; `reply_hint` added)  
 - [ ] `wut_add_market` / similar 422s do not mention fetch_only / 4:30 PM  
-- [ ] Schema accepts omitted or null optional ids without nanobot pre-validation failure  
+- [ ] Schema accepts omitted or null optional ids without nanobot pre-validation failure (partial prior session — verify in image)  
 - [ ] MCP source tracked or ticket for git-home closed  
+
+**Impl note:** `_attach_agent_summary` in `ai/mcp_winston/mcp_winston/server.py`; image rebuilt 2026-07-15. Error-guidance cleanup still open.  
 
 ## Related
 

@@ -41,6 +41,9 @@ On CPU-only sawtooth-ai, `cromwell-qwen3:8b` with default nanobot OpenAI-compat 
 ## Related
 
 - Ticket A (reply quality)  
+- Tier 0 session isolation + busy-ack: `2026-07-15-cromwell-cron-session-isolation-busy-ack.md`  
+- Tier 2 thin cron + priority: `2026-07-15-cromwell-thin-cron-and-priority.md`  
+- Tier 1 dual runtime: `2026-07-15-cromwell-parallel-capacity-dual-runtime.md`  
 - `ecosystem/docs/tickets/2026-07-09-cromwell-cpu-only-llm-tuning.md`  
 - Compose comment already noted 2m timeout stampede  
 

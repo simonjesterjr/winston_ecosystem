@@ -23,15 +23,21 @@ As of **nanobot-ai 0.2.x**, cron jobs that should post to Telegram must be **ses
 unbound agent cron job must be recreated from a chat session
 ```
 
-Required payload shape (Sawtooth Main group):
+Required payload shape (Sawtooth Main group) — **Tier 0 isolation (2026-07-15)**:
 
 | Field | Value |
 |-------|--------|
 | `kind` | `agent_turn` |
-| `sessionKey` | `telegram:-1003884714483` |
+| `sessionKey` | **`cron:<job-id>`** (isolated history — **not** the live group chat key) |
 | `originChannel` | `telegram` |
-| `originChatId` | `-1003884714483` |
-| `deliver` / `channel` / `to` | must be `false` / `null` / `null` (delivery routes via origin session) |
+| `originChatId` | `-1003884714483` (delivery target: Sawtooth Main) |
+| `deliver` / `channel` / `to` | must be `false` / `null` / `null` (delivery routes via **origin**, not sessionKey) |
+
+**Why isolate `sessionKey`:** If cron reuses `telegram:-1003884714483`, scheduled turns auto-compact and inject into the same session as human @mentions. Handoff history is wiped mid-transfer; user messages hit “pending queue” under the cron turn. Each job must own its own key, e.g. `cron:dm-sync-events`, `cron:market-snapshot-hourly`.
+
+**Still serial on CPU:** `NANOBOT_MAX_CONCURRENT_REQUESTS=1` + `OLLAMA_NUM_PARALLEL=1` mean only one agent turn runs at a time. Isolation prevents **history pollution** and mid-turn injection into the group session; it does not create parallel LLMs (see Tier 1 ticket).
+
+**Busy-ack gap (nanobot product):** When the global concurrency gate is held, follow-ups can still wait without an immediate Telegram “try again” unless nanobot gains a pre-agent ack. Persona rules describe the ideal; **runtime does not send busy-ack today**. Ops workaround during interactive smoke: temporarily set job `"enabled": false` for noisy jobs (hourly snapshot) or pause with `/stop` + restart after the turn; prefer mid-hour interactive work when possible.
 
 Only special system names (`dream`, `heartbeat`) still use unbound `system_event` handling. Do not convert Sawtooth broadcast jobs back to `system_event`.
 
