@@ -61,12 +61,13 @@
 
 ### Commits
 
-_Filled at commit time._
+- `ecosystem` `6b3dbb3` — feat(cromwell): reply contract, Tier 0 cron isolation, ticket A/B/C updates  
+- `winston_unit_test` `d1b1acf` — feat(export): PortfolioConfigExporter for fingerprinted MCP handoff  
 
 ### Branch / PR state at sign-off
 
-- `ecosystem` `main` — commit+push in wrap  
-- `winston_unit_test` `main` — commit+push in wrap  
+- `ecosystem` `main` — pushed  
+- `winston_unit_test` `main` — pushed  
 - Host MCP image rebuilt with summary; not in a tracked repo  
 
 ---
