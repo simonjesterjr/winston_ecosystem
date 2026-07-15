@@ -58,13 +58,15 @@
 
 ### Commits
 
-- _Pending at report write — wrap will commit per monolith._
+- WUT `d122401` — perf(data_sets): snappy market search without acquire-on-search
+- DM `20f170a` — perf(api): markets q/limit/summary_only for snappy WUT search
+- ecosystem `6aa4d0f` — docs: session report for data_sets search performance
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on WUT + DM — dirty until wrap commit  
-- Pushed: pending wrap  
-- PR: not opened (direct main commits typical for this workspace unless user asks)
+- Branch: `main` on WUT + DM + ecosystem — pushed to origin  
+- Pushed: yes  
+- PR: not opened (direct main)
 
 ---
 
