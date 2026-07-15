@@ -1,0 +1,38 @@
+# Ticket: MCP transfer summary + cleaner error guidance
+
+**Status:** Proposed  
+**Date:** 2026-07-15  
+**Priority:** Medium (C — supports weak/local models)  
+**Source:** Session 2026-07-15; transfer ok but model ignored structured result  
+**Repos / path:** `ai/mcp_winston` (host; see also `2026-07-13-mcp-winston-source-git-home.md`)
+
+## Problem
+
+1. Successful `wv2_transfer_portfolio_from_wut` returns rich JSON (`action`, portfolio block, warnings) but models still narrate **list_portfolios** only. A one-line **`summary`** field is harder to skip.  
+2. Generic 422 **`retry_guidance`** (“fetch_only after 4:30 PM MT”) appears on unrelated errors (e.g. `wut_add_market` portfolio not found). Models paste it into wrong contexts.  
+3. Partial work this session: null-tolerant schema for `run_id`/`ts_id`/`parent_correlation_id`; `_optional_int` coercion; prefer run_id over ts_id. Must land in git-tracked MCP home and image rebuild path.
+
+## Scope (C)
+
+1. Transfer response: add top-level `summary` string, e.g.  
+   `"legacy_updated #157 Portfolio Blank (WUT run 57) active=false"`.  
+2. Error builder: tool-specific `retry_guidance`; remove report/EOD boilerplate from non-report tools.  
+3. Ensure null-tolerant transfer schema + coercion are in the canonical MCP source and rebuild instructions.  
+4. Optional: document in `interfaces/winston-mcp-tools.md`.  
+
+## Acceptance
+
+- [ ] Transfer success JSON includes stable `summary`  
+- [ ] `wut_add_market` / similar 422s do not mention fetch_only / 4:30 PM  
+- [ ] Schema accepts omitted or null optional ids without nanobot pre-validation failure  
+- [ ] MCP source tracked or ticket for git-home closed  
+
+## Related
+
+- Ticket A (reply contract)  
+- Ticket: `2026-07-13-mcp-winston-source-git-home.md`  
+- Interface: `ecosystem/interfaces/winston-mcp-tools.md`  
+
+## Non-goals
+
+- Changing importer semantics  
