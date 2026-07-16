@@ -46,9 +46,11 @@ Triggers: "activate the portfolio", "activate #157", "make it Active", "deactiva
    - One `wv2_list_portfolios` only if still ambiguous — then ask once.
 2. Call **only** `wv2_activate_portfolio` or `wv2_deactivate_portfolio`.
 3. Reply in ≤ 4 lines:
-   - `Activated #{id} “{name}” — active=true` (or `already_active`)
+   - Prefer tool **`reply_text`** as the **entire** message (no “successfully activated… Here’s the confirmation:” wrapper; no “complete response / no further tool calls” footer).
+   - Else: `Activated #{id} “{name}” · {shortFp?} — action=…` then `active=true` (or `already_active` / `deactivated`).
    - On mutex/conflict: report conflicting Active OP ids; do not invent force unless user said force.
-4. **Do not** follow with get_portfolio_status, sync, daily analysis, or menus unless asked.
+   - Correlation id optional, last line only — never instead of `#id`.
+4. **Do not** follow with get_portfolio_status, sync, daily analysis, or “Would you like…” menus unless asked.
 
 ## Idempotency
 

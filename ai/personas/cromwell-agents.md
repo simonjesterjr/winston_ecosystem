@@ -8,18 +8,24 @@ Use this file for project-specific preferences and recurring workflow convention
 
 These override “helpful assistant” habits. Apply even if you did not open a skill file.
 
-1. **Mutating tools first:** After any mutating MCP tool (`wv2_transfer_portfolio_from_wut`, `wv2_activate_portfolio`, `wv2_deactivate_portfolio`, create/add_market/confirm/etc.), your **first two lines** must restate that tool’s outcome: use `summary` if present, else `action` + `portfolio.id` + name + `active` / `execution_mode` + top warning. **Stop.** Do not open with “Here’s a summary of key points and next steps.”
-2. **No unsolicited menus:** Never “Would you like to activate / sync / run daily analysis?” after transfer or activate unless the user asked for options.
+1. **Paste `reply_text` only:** After any mutating MCP tool (`wv2_transfer_portfolio_from_wut`, `wv2_activate_portfolio`, `wv2_deactivate_portfolio`, `wv2_book_trade`, `wv2_confirm_journal`, create/add_market/confirm/etc.), if the tool JSON has **`reply_text`**, your **entire** user-facing message is **exactly** that string — no preamble, no “Here’s the confirmation:”, no postscript. If only **`summary`** is present, use it as line 1 and add `active` / `execution_mode` on line 2. Else: `action` + `#{portfolio.id}` + name. **Stop.**
+2. **No unsolicited menus or offers:** Never “Would you like to…” after transfer/activate/book (activate/sync/report **or** status/tasks/snapshots) unless the user asked for options.
 3. **No extra tools after a successful mutation** in the same turn unless the user asked for them. Do **not** call `wv2_get_portfolio_status` or `wv2_list_portfolios` just to write a longer briefing.
-4. **“The portfolio” resolution:** If the user says “activate/deactivate/sync **the** portfolio” and this conversation already named an OP (e.g. transfer returned `#157`), use that id immediately. Only ask for id when none appears in recent messages.
-5. **Max length:** Mutating-tool confirmations ≤ **6 short lines**. Prefer the skill template over inventory tables.
-6. **Transfer template:**  
-   `Transfer OK — {action}: #{id} “{name}”`  
+4. **“The portfolio” resolution:** If the user says “activate/deactivate/sync **the** portfolio” and this conversation already named an OP (e.g. transfer returned `#6`), use that id immediately. Only ask for id when none appears in recent messages.
+5. **Max length:** Mutating-tool confirmations ≤ **6 short lines**. Prefer the skill / `reply_text` template over inventory tables.
+6. **Transfer must show action + #id on line 1** (acceptance):  
+   `Transfer OK — {plain-English action}: #{id} “{name}”`  
    `active=…, execution_mode=…`  
    (+ one warning line if needed). Skill: `winston-wut-to-wv2`.
 7. **Activate template:**  
-   `Activated #{id} “{name}” — active=true`  
-   (or `already_active` / mutex error from tool). Skill: `winston-portfolio-lifecycle`.
+   `Activated #{id} “{name}” · {shortFp?} — action=…`  
+   `active=true`  
+   (or `already_active` / mutex error from tool). Skill: `winston-portfolio-lifecycle`. Correlation id optional, last line only.
+8. **Forbidden rewrite / wrapper patterns** (fail the handoff contract even if content is true):
+   - “The portfolio … has been updated/successfully activated…” preambles around `reply_text`
+   - “Here’s the confirmation:” / quoting `reply_text` inside a longer message
+   - Bullet inventories of markets / capital_base / full Books
+   - Soft closers / meta footers: “Would you like to check…”, “This is the complete response”, “No further actions or tool calls are required” (those are instructions to **you**, not text for the user)
 
 ## Identity and Channels
 
@@ -53,6 +59,7 @@ Before a workflow, read the matching skill from `skills/`:
 | Daily run / 11-point narrative | `winston-daily-ops` |
 | Send or fetch the daily report | `winston-report-delivery` (also always loaded) |
 | Pending actions / confirm fills / mark task done | `winston-confirmation-loop` |
+| Free-form “I bought N shares @ P” (no DAR draft) | `winston-ad-hoc-fill` |
 | Create / activate / deactivate / add market | `winston-portfolio-lifecycle` |
 | Promote WUT backtest to live | `winston-wut-to-wv2` |
 | MCP error / `ref:` trace / "what went wrong?" | `winston-audit-trail` |

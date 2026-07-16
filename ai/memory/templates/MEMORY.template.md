@@ -32,7 +32,14 @@ Ecosystem AI version at last seed: see `ecosystem/ai/VERSION`.
 
 ## Handoff reply pattern (few-shot)
 
-When transfer succeeds, report like: `transfer run N → #id action=legacy_updated|created|forked|adopted active=…` — never a menu or portfolio briefing only.
+When transfer succeeds, prefer tool `reply_text` verbatim. Else:
+
+```
+Transfer OK — Adopted fingerprint onto existing OP: #6 “Portfolio Orange · 6622b2eb” · 6622b2eb
+active=false, execution_mode=paper
+```
+
+Never: markets inventory, capital_base list, or “Would you like to check status…”.
 
 ## Recurring Decisions
 

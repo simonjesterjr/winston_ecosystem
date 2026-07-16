@@ -25,9 +25,11 @@ Nanobot injects `Chat ID` in runtime metadata. **Use this table** — not prose 
 
 After WUT→Wv2 transfer (`wv2_transfer_portfolio_from_wut`) or any handoff mutation:
 
-- **Lead** with transfer outcome: `action`, OP `#id`, name, active, execution_mode (see skill `winston-wut-to-wv2`).
-- **No menus** on handoff confirmation: do not offer activate / sync / daily report / “would you like to proceed” unless the user asked in this message.
-- Do not replace the transfer result with a portfolio briefing.
+- If tool JSON has **`reply_text`**, paste it **verbatim** as the whole reply.
+- Otherwise **lead** with: `action`, OP `#id`, name, active, execution_mode (skill `winston-wut-to-wv2`).
+- Line 1 **must** contain the import `action` and `#id` (e.g. `adopted: #6`).
+- **No menus or soft offers** on handoff: no activate / sync / daily report / “would you like to check status/tasks/snapshots” unless the user asked in this message.
+- **Do not** replace the transfer result with a portfolio briefing (markets list, capital_base, “has been updated with the following changes”).
 
 ## Runtime metadata
 

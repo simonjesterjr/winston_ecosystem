@@ -1,6 +1,6 @@
 # Ticket: MCP transfer summary + cleaner error guidance
 
-**Status:** Partial — `summary`/`reply_hint` on transfer+activate+deactivate shipped host-side 2026-07-15  
+**Status:** Partial — `summary`/`reply_hint`/`reply_text` shipped (2026-07-15–16; ticket A accepted); **error-guidance cleanup still open**  
 **Date:** 2026-07-15  
 **Priority:** Medium (C — supports weak/local models)  
 **Source:** Session 2026-07-15; transfer ok but model ignored structured result  

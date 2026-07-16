@@ -1,11 +1,11 @@
 # Ticket: Cromwell transfer reply contract (skill + persona)
 
-**Status:** In progress — docs seeded; **live smoke FAILED quality** (2026-07-15 ~15:13 MT)  
+**Status:** **Done** (2026-07-16) — live Telegram handoff quality accepted (action + `#id` + fingerprint; no ops menus)  
 **Date:** 2026-07-15  
-**Priority:** High — next session pick-up (**A**)  
+**Priority:** High — **A** (closed)  
 **Source:** Session `2026-07-15-1404-telegram-transfer-agent-gap.md`  
 **Plan / context:** Paper Telegram ops; ADR-006 handoff via MCP  
-**AI version:** `ecosystem/ai/VERSION` → `1.4.2`
+**AI version:** `ecosystem/ai/VERSION` → `1.4.5`
 
 ## Problem
 
@@ -29,8 +29,10 @@ Root cause: agent report-writing after tools return, not missing import machiner
 
 - [x] Skill documents mandatory success template and forbidden follow-ups  
 - [x] Channel rules restate: no menus on handoff confirmation  
-- [ ] Live Telegram transfer of an existing OP reports `action` + `#id` in first two lines  
-- [ ] No unsolicited activate/sync/report suggestions after transfer  
+- [x] MCP emits paste-ready `reply_text` with action + `#id` on line 1 (2026-07-16)  
+- [x] Live Telegram transfer / activate reports `action` + `#id` (operator accepted 2026-07-16; activate `#11` Rust · dd7e7c7a explicit PASS)  
+- [x] No unsolicited activate/sync/report menus after handoff (operator accepted)  
+- Residual (non-blocking): occasional preamble/footer around `reply_text` — 1.4.5 bans; polish-only
 
 ## Live smoke (2026-07-15 ~15:13–15:25 MT) — FAIL quality
 
@@ -42,7 +44,23 @@ Root cause: agent report-writing after tools return, not missing import machiner
 | “activate portfolio 157” | MCP activate **ok** in 40ms; agent then chained `get_portfolio_status`; multi-minute silence (CPU 8b + Flood Control risk) |
 | Ground truth | `#157` **active=true**; also Active: `#12` Portfolio Blue · PBR62 |
 
-**Root cause refinement:** Skills are **not auto-injected** — 8b must `read_file` them and usually does not. Always-on `AGENTS.md` HARD RULES + MCP `summary`/`reply_hint` are required; skill alone is insufficient.
+## Live smoke (2026-07-16 operator) — CLOSER, still miss `action`+`#id`
+
+| Step | Result |
+|------|--------|
+| Transfer (Orange / run 41 path) | Machinery **ok** (fingerprinted OP; paper_caps warning surfaced) |
+| User-facing reply | **Partial** — on-point, no ops menu; **missing** import `action` and OP `#id`; still markets inventory + soft “Would you like to check status/tasks/snapshots?” |
+| Activate follow-up | **Good enough** — “Portfolio Orange (ID 6)…”, short fingerprint, correlation id; mild soft closer |
+
+## Live smoke (2026-07-16 post-`reply_text`) — ACTIVATE PASS core
+
+| Step | Result |
+|------|--------|
+| Activate `#11` Portfolio Rust · dd7e7c7a | **PASS core** — body includes exact template: `Activated #11 "…" · dd7e7c7a — action=activated` / `active=true` |
+| Residual | Preamble (“successfully activated… Here’s the confirmation”) + meta footer (“This is the complete response. No further actions or tool calls…”) — model narrating `reply_hint` instead of pasting only `reply_text` |
+| Transfer | _operator: confirm separately if not already_ |
+
+**Root cause refinement:** Skills are **not auto-injected** — 8b must `read_file` them and usually does not. Always-on `AGENTS.md` HARD RULES + MCP **`reply_text`** (verbatim paste) + `summary` are required; skill alone is insufficient. Model rewrites from `portfolio.markets` / `capital_base` even when outcome is understood. Residual after `reply_text`: **wrapper prose** around a correct body, plus leaking internal “complete response / no tool calls” instructions into chat.
 
 ## Implementation notes (2026-07-15)
 
@@ -59,10 +77,23 @@ Root cause: agent report-writing after tools return, not missing import machiner
 | `ai/mcp_winston/.../server.py` (host) | `_attach_agent_summary` for transfer/activate/deactivate |
 | `bin/seed-cromwell-workspace` | Re-run after docs land |
 
+## Implementation notes (2026-07-16 second pass)
+
+| Artifact | Change |
+|----------|--------|
+| `ai/mcp_winston/.../server.py` | `reply_text` multi-line paste contract; plain-English action labels; short fingerprint; stronger `reply_hint` forbidding markets inventory + soft status menus |
+| Transfer tool description | Mentions paste `reply_text` (action + #id) |
+| `cromwell-agents.md` HARD RULES | Paste `reply_text`; forbidden rewrite patterns from 07-16 smoke |
+| `cromwell-channels.md` / `cromwell-tools.md` | Verbatim paste; soft-offer ban |
+| `winston-wut-to-wv2` + activate skill | Priority: reply_text → summary → fields; anti-patterns |
+| Wv2 activate/deactivate JSON | Include `fingerprint`, `execution_mode`, `seed_name` for agent |
+| AI VERSION | `1.4.4` |
+| AI VERSION + wrapper bans | `1.4.5` — no preamble/postscript; ban “Here’s the confirmation” / “complete response” / “no further tool calls” in user text |
+
 ## Related
 
 - Skill: `ecosystem/ai/skills/winston-wut-to-wv2/SKILL.md`  
-- Tickets B/C (export fidelity, MCP summary) reduce model confusion  
+- Tickets B/C (export fidelity, MCP summary / reply_text) reduce model confusion  
 - Session report: transfer ok, reply bad  
 
 ## Non-goals
@@ -70,3 +101,4 @@ Root cause: agent report-writing after tools return, not missing import machiner
 - New import endpoints  
 - Auto-activate on import  
 - Model swap alone as the “fix”  
+

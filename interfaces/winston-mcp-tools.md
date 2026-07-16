@@ -12,8 +12,8 @@ Tools are named with `wv2_` prefix for clarity (future DM/WUT/Cromwell tools wil
    - Purpose: Move a vetted configuration (run or first-class TradingStrategy) from the lab (WUT) into live (Wv2) via the canonical JSON exchange in /portfolio_configs.
    - Inputs: `{ "run_id": 42 }` or `{ "ts_id": 7 }` or `{ "config_name": "my-trend.json" }` (path under the shared volume is resolved automatically).
    - Behavior: Calls WUT export (or reads existing), ensures the JSON is present, triggers Wv2 import + TradingStrategy creation/link, returns the resulting portfolio.
-   - Returns: `{ "status": "ok", "action": "legacy_updated|created|forked|adopted|…", "summary": "legacy_updated #157 … active=false …", "portfolio": { "id": 3, "name": "...", "markets": [...], "capital_base": 10200.0, "active": false, "execution_mode": "paper", … }, "warnings": [...], "reply_hint": "…" }`
-   - Notes: Import lands inactive (paper default). Cromwell must **lead with `summary` / `action` + portfolio id**; activate / sync / daily analysis only if the user asks (skill `winston-wut-to-wv2`). MCP adds `summary` for weak local models.
+   - Returns: `{ "status": "ok", "action": "legacy_updated|created|forked|adopted|…", "summary": "…", "reply_text": "Transfer OK — …\\nactive=…", "reply_hint": "PASTE reply_text…", "portfolio": { "id": 6, "name": "...", "fingerprint": "…", "markets": [...], "capital_base": 10000.0, "active": false, "execution_mode": "paper", … }, "warnings": [...] }`
+   - Notes: Import lands inactive (paper default). Cromwell must **paste `reply_text`** (or lead with `summary` / `action` + `#id`); never a markets/capital briefing. Activate / sync / daily analysis only if the user asks (skill `winston-wut-to-wv2`). MCP adds `summary` + `reply_text` for weak local models (ticket A/C).
 
 2. **wv2_create_portfolio**
    - Purpose: Directly create a new live portfolio (alternative or complement to transfer/import).
@@ -56,6 +56,14 @@ Tools are named with `wv2_` prefix for clarity (future DM/WUT/Cromwell tools wil
        "report": { "source": "winston_v2", "type": "daily_complete", "portfolios": [...], "skipped_portfolios": [...], ... }
      }
      ```
+
+6a. **wv2_book_trade** (ad-hoc paper fill)
+   - Purpose: Book a free-form stock fill on an Operational Portfolio **without** a Daily Analysis draft (Phase 4 / journal→ledger #2).
+   - Inputs: `{ "portfolio_id_or_name": "11", "symbol": "GGG", "units": 45, "price": 58.87, "direction": "long", "trade_date": "2026-07-16", "stop_price": 55.0, "notes": "desk paper fill" }`
+   - Behavior: Creates draft journal + enter/pyramid task, then reuses `JournalConfirmationService` / `JournalPositionExecutor` (same signed `flow` and capital_base as DAR confirm). Market must be on Books. Engages OP (ADR-006). Optional `stop_price` overrides ATR default stop.
+   - Returns: `{ "status": "ok", "action": "booked", "journal": {...}, "position": {...}, "portfolio": {...}, "capital_base": ..., "summary", "reply_text", "reply_hint" }`
+   - Skill: `winston-ad-hoc-fill` — never invent units/price; human authorization required.
+   - Non-goals: LEAP mechanics, broker automation, exit path (enter only for now).
 
 6. **wv2_get_daily_activity_report**
    - Purpose: Retrieve the structured daily activity report / Cromwell notification payload (actions, journals, summaries) for a given date. This fulfills the "send link to daily activity report" use case.

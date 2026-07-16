@@ -37,28 +37,33 @@ Optional: one `wv2_list_portfolios` call **after** transfer only to fill missing
 
 ## Success reply contract (mandatory)
 
-After a successful transfer, the **first two lines** of the user-facing reply must come from the transfer tool result — not from a portfolio list briefing.
+After a successful transfer, paste the tool’s user-facing text — **do not rewrite** into a portfolio briefing.
+
+### Priority order
+
+1. **`reply_text`** present → paste **verbatim** as the entire reply. Done.
+2. Else **`summary`** → use as line 1; still ensure `action` + `#id` appear on line 1.
+3. Else build from fields below.
 
 ### Lead fields (use tool JSON)
 
 | Field | Source | Required |
 |-------|--------|----------|
 | status | top-level `status` | yes |
-| action | top-level `action` | yes |
-| portfolio.id | `portfolio.id` | yes |
+| action | top-level `action` | yes — **must appear on line 1** |
+| portfolio.id | `portfolio.id` | yes — **must appear as `#id` on line 1** |
 | name | `portfolio.name` | yes |
 | active | `portfolio.active` | yes |
 | execution_mode | `portfolio.execution_mode` (default `paper` if absent) | yes |
-| warnings | top-level `warnings` — at most top 2–3, one short line each | if present |
-
-If the tool later includes a top-level `summary` string (MCP ticket C), you may use that as line 1 and still expand id/action on line 2.
+| fingerprint | `portfolio.fingerprint` — short 8 hex optional on line 1 | if present |
+| warnings | top-level `warnings` — at most top 2, one short line each | if present |
 
 ### Action → plain English
 
 | `action` | Say |
 |----------|-----|
 | `created` | New Operational Portfolio created |
-| `legacy_updated` | Updated existing OP (legacy bare-name path; no fingerprint) |
+| `legacy_updated` | Updated existing OP (legacy bare-name path) |
 | `forked` | New OP forked (different methodology / fingerprint) |
 | `adopted` | Adopted fingerprint onto existing OP |
 | `engaged_refuse` | Refused — OP is engaged (journals exist); shape not mutated |
@@ -69,22 +74,28 @@ Treat `engaged_refuse` / `closed_refuse` as **failed handoffs for the user’s g
 ### Template (copy structure)
 
 ```
-Transfer OK — {plain-English action}: OP #{id} “{name}”
+Transfer OK — {plain-English action}: #{id} “{name}” · {shortFp?}
 active={true|false}, execution_mode={paper|real}
 {one warning line if any}
-Sole Active OP unchanged: #{id} “{name}”   ← only if you know it; omit if unknown
+```
+
+**Example (adopted / fingerprinted):**
+
+```
+Transfer OK — Adopted fingerprint onto existing OP: #6 “Portfolio Orange · 6622b2eb” · 6622b2eb
+active=false, execution_mode=paper
+Warning: paper_caps:max_leverage normalized to 1.0 (was 3.0)
 ```
 
 **Example (legacy_updated):**
 
 ```
-Transfer OK — Updated existing OP (legacy path): #157 “Portfolio Blank (WUT run 57)”
+Transfer OK — Updated existing OP (legacy bare-name path): #157 “Portfolio Blank (WUT run 57)”
 active=false, execution_mode=paper
-Warning: legacy_no_fingerprint (re-export with fingerprint when possible)
-Sole Active OP unchanged: #12 “…”
+Warning: legacy_no_fingerprint: bare-name path (ADR-006 transition)
 ```
 
-Keep the whole reply short (≤ ~8 lines). One optional sentence of context is fine; no inventory tables.
+Keep the whole reply short (≤ ~6 lines). No inventory tables.
 
 ## Forbidden after transfer (unless user already asked)
 
@@ -94,8 +105,12 @@ Do **not**:
 - Call or offer `wv2_sync_data`
 - Run or offer daily analysis / daily report (`winston-daily-ops`, `winston-report-delivery`)
 - Numbered menus: “Would you like to: 1) activate 2) sync 3) report…”
+- Soft offers: “Would you like to check the portfolio's status, pending tasks, or market snapshots?”
 - “Would you like to proceed?” / “Next steps” option lists
-- Lead with a full portfolio inventory or “briefing” that buries the transfer result
+- **Rewrite patterns that bury `action` + `#id`:**
+  - “The portfolio … has been updated with the following changes”
+  - Bullet lists of markets / capital_base / Books
+  - Long “No immediate actions are required…” footers (one short stop is enough; no question)
 
 If the user later asks to activate, sync, or run daily ops, use skill `winston-portfolio-lifecycle` or `winston-daily-ops` **in a new turn**.
 
