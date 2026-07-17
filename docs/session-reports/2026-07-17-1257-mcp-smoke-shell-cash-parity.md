@@ -65,12 +65,12 @@
 ### Commits
 
 - `winston_v2` `1a428cb` — feat(ops): shell and desk cash parity for console-free capital  
-- `ecosystem` _(this wrap)_ — docs(ops): smoke Done, shell cash parity, wrap tickets  
+- `ecosystem` `3217875` — docs(ops): smoke Done, shell cash parity, wrap tickets  
 
 ### Branch / PR state at sign-off
 
 - `winston_v2` `main` — pushed `1a428cb`  
-- `ecosystem` `main` — session files only (unrelated dirt left unstaged)  
+- `ecosystem` `main` — pushed `3217875` (unrelated dirt left unstaged)  
 - PR: not opened (direct main)
 
 ---
