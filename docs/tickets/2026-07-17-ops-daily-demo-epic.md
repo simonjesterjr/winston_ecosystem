@@ -1,6 +1,6 @@
 # Ticket: Ops daily demo epic — Ops UI + Telegram essential loop
 
-**Status:** Proposed  
+**Status:** In progress (smoke Done 2026-07-17)  
 **Date:** 2026-07-17  
 **Source:** Session planning + wrap after Close/successor  
 **Priority:** High (operator demo confidence)
@@ -19,7 +19,7 @@ Parent epic for thin tickets below. Close + successor are **Done** (`2026-07-14-
 | List all open positions | `positions` | portfolio status | smoke |
 | DAR desk handoff + confirm | desk form | confirm phrase | smoke |
 | Ad-hoc enter / exit / stop | shell + desk | book/exit tools | smoke |
-| Capital add/remove | API/MCP only | `wv2_add_cash_event` | shell parity |
+| Capital add/remove | `cash` shell + API | `wv2_add_cash_event` | Done (`shell-cash-parity`) |
 | Close OP series | `close_portfolio` | `wv2_close_portfolio` | smoke |
 | Successor / add market (engaged) | `successor` | `wv2_successor_portfolio` | smoke |
 | All positions last DAR page + move/signal | partial per-OP | partial | blotter |
@@ -45,9 +45,14 @@ Already tracked (not re-filed): Capital Activation, MCP git-home, compose versio
 
 ## Acceptance (epic)
 
-- [ ] Smoke checklist run once with pass/fail recorded  
-- [ ] No console required for paper day loop on Active OPs  
+- [x] Smoke checklist run once with pass/fail recorded — `2026-07-17-ops-daily-demo-smoke-checklist.md` **Done**  
+- [x] No console required for paper day loop on Active OPs — shell cash Done; confirm still needs a live draft when DA produces one  
 - [ ] Gaps either Done or consciously deferred with ticket links  
+
+## Smoke takeaway (2026-07-17)
+
+Core desk loop works via Ops shell + MCP without Rails console: list/positions/status, enter/stop/exit, close series, successor shape rebalance, **cash via shell + MCP/API**.  
+**Next build in demo order:** DAR blotter → external stop packaging → bulk risk → …
 
 ## Related
 
