@@ -70,7 +70,7 @@
 ### Commits
 
 - `winston_v2` `fb9286a` — feat(ops): ADR-006 Close and successor rebalance services  
-- `ecosystem` `983dc1e` — docs(ops): Close/successor Done, demo epic tickets, session report  
+- `ecosystem` `5edf2eb` — docs(ops): Close/successor Done, demo epic tickets, session report  
 
 ### Branch / PR state at sign-off
 
