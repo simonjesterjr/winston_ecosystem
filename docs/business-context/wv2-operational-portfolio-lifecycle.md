@@ -143,7 +143,17 @@ Expose verbs aligned to this model, e.g.:
 - CashEvent (capital top-up)  
 - shape rebalance → successor  
 
-Exact tool names live in `interfaces/winston-mcp-tools.md` when implemented.
+**Implemented (2026-07-17):**
+
+| Verb | Service | Internal API | MCP | Ops shell / rake |
+|------|---------|--------------|-----|------------------|
+| Close | `Operations::PortfolioCloseService` | `POST /internal/portfolios/close` | `wv2_close_portfolio` | `close_portfolio` / `wv2:portfolios:close` |
+| Successor | `Operations::PortfolioSuccessorService` | `POST /internal/portfolios/successor` | `wv2_successor_portfolio` | `successor` / `wv2:portfolios:successor` |
+| CashEvent | `Operations::CashEventService` | `POST /internal/cash_events` | `wv2_add_cash_event` | (MCP / API; shell later) |
+| Active | `Operations::PortfolioActivationService` | activate/deactivate | existing | `wv2:portfolios:activate` |
+
+Exact tool names live in `interfaces/winston-mcp-tools.md`.  
+**Still deferred:** Capital Activation (new real series with stated $X).
 
 ## Non-goals
 

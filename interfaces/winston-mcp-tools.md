@@ -80,6 +80,20 @@ Tools are named with `wv2_` prefix for clarity (future DM/WUT/Cromwell tools wil
    - Returns: `{ "status": "ok", "action": "cash_inflow|cash_adjustment", "cash_event": {...}, "portfolio": {...}, "capital_base_before", "capital_base", "summary", "reply_text", "reply_hint" }`
    - Errors: `not_found`, `closed_refuse`, `invalid_input`.
 
+6d. **wv2_close_portfolio** (ADR-006 Close series)
+   - Purpose: End signal evaluation on an Operational Portfolio series. History retained. **Not** a single-position exit (`wv2_exit_trade`).
+   - Inputs: `{ "portfolio_id_or_name": "12", "force": false, "notes": "hygiene" }`
+   - Behavior: `POST /internal/portfolios/close` → `Operations::PortfolioCloseService`. Paper soft-close (open residue OK). Real requires flat (no open positions / draft journals) unless `force=true`. Sets `closed_at`, `active=false`.
+   - Returns: `{ "status": "ok", "action": "closed|already_closed", "portfolio": {...}, "open_position_count", "draft_journal_count", "summary", "reply_text", "reply_hint" }`
+   - Errors: `not_found`, `not_flat`, `invalid_input`.
+
+6e. **wv2_successor_portfolio** (ADR-006 shape rebalance)
+   - Purpose: Close source A and open successor A′ with new Books and/or TradingStrategy. Journals stay on A. Use for engaged add-market / recipe change.
+   - Inputs: `{ "portfolio_id_or_name": "6", "symbols": ["AMZN","MSFT","GLD"], "initial_capital": 12000, "trading_strategy_id": 3, "activate": false, "force": false, "notes": "..." }`
+   - Behavior: `POST /internal/portfolios/successor` → `Operations::PortfolioSuccessorService`. Close A (same paper/real rules) + create A′ with `successor_of_id`, new `initial` CashEvent. Default inactive; `activate=true` respects Active mutex (`force` for dual-active).
+   - Returns: `{ "status": "ok", "action": "successor_opened", "source_portfolio", "successor_portfolio", "markets", "capital_base", "close", "summary", "reply_text", "reply_hint" }`
+   - Errors: `not_found`, `already_closed`, `not_flat`, `active_mutex`, `invalid_input`.
+
 6. **wv2_get_daily_activity_report**
    - Purpose: Retrieve the structured daily activity report / Cromwell notification payload (actions, journals, summaries) for a given date. This fulfills the "send link to daily activity report" use case.
    - Inputs: `{ "date": "2026-06-12", "portfolio_id_or_name": "..." (optional), "fetch_only": true (optional) }`
