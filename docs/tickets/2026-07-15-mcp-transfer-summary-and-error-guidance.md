@@ -1,6 +1,6 @@
 # Ticket: MCP transfer summary + cleaner error guidance
 
-**Status:** Partial — `summary`/`reply_hint`/`reply_text` shipped (2026-07-15–16; ticket A accepted); **error-guidance cleanup still open**  
+**Status:** Done (error-guidance 2026-07-17; summary/reply_text prior)  
 **Date:** 2026-07-15  
 **Priority:** Medium (C — supports weak/local models)  
 **Source:** Session 2026-07-15; transfer ok but model ignored structured result  
@@ -15,7 +15,7 @@
 ## Scope (C)
 
 1. Transfer response: add top-level `summary` string, e.g.  
-   `"legacy_updated #157 Portfolio Blank (WUT run 57) active=false"`.  
+   `"legacy_updated #157 Portfolio Mango (WUT run 57) active=false"`.  
 2. Error builder: tool-specific `retry_guidance`; remove report/EOD boilerplate from non-report tools.  
 3. Ensure null-tolerant transfer schema + coercion are in the canonical MCP source and rebuild instructions.  
 4. Optional: document in `interfaces/winston-mcp-tools.md`.  
@@ -23,11 +23,11 @@
 ## Acceptance
 
 - [x] Transfer success JSON includes stable `summary` (also activate/deactivate; `reply_hint` added)  
-- [ ] `wut_add_market` / similar 422s do not mention fetch_only / 4:30 PM  
-- [ ] Schema accepts omitted or null optional ids without nanobot pre-validation failure (partial prior session — verify in image)  
-- [ ] MCP source tracked or ticket for git-home closed  
+- [x] `wut_add_market` / similar 422s do not mention fetch_only / 4:30 PM  
+- [x] Schema accepts omitted or null optional ids without nanobot pre-validation failure (partial prior session — verify in image)  
+- [ ] MCP source tracked or ticket for git-home closed *(still open: `2026-07-13-mcp-winston-source-git-home.md` — host path rebuild works; not monorepo git)*  
 
-**Impl note:** `_attach_agent_summary` in `ai/mcp_winston/mcp_winston/server.py`; image rebuilt 2026-07-15. Error-guidance cleanup still open.  
+**Impl note:** `_attach_agent_summary` in `ai/mcp_winston/mcp_winston/server.py`; `errors.py` tool-specific `retry_guidance` (2026-07-17); image rebuilt.  
 
 ## Related
 

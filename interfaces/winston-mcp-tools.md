@@ -63,7 +63,22 @@ Tools are named with `wv2_` prefix for clarity (future DM/WUT/Cromwell tools wil
    - Behavior: Creates draft journal + enter/pyramid task, then reuses `JournalConfirmationService` / `JournalPositionExecutor` (same signed `flow` and capital_base as DAR confirm). Market must be on Books. Engages OP (ADR-006). Optional `stop_price` overrides ATR default stop.
    - Returns: `{ "status": "ok", "action": "booked", "journal": {...}, "position": {...}, "portfolio": {...}, "capital_base": ..., "summary", "reply_text", "reply_hint" }`
    - Skill: `winston-ad-hoc-fill` — never invent units/price; human authorization required.
-   - Non-goals: LEAP mechanics, broker automation, exit path (enter only for now).
+   - Non-goals: LEAP mechanics, broker automation, partial fills.
+
+6b. **wv2_exit_trade** (ad-hoc exit)
+   - Purpose: Close an open position **without** a Daily Analysis draft (human-gated desk / Telegram).
+   - Inputs: `{ "portfolio_id_or_name": "12", "price": 250.0, "symbol": "AMZN" }` **or** `{ "portfolio_id_or_name": "12", "price": 250.0, "position_id": 1 }` — optional `trade_date`, `notes`. Full lot exit (partial `units` reserved).
+   - Behavior: `POST /internal/journals/exit` → `AdHocExitService` creates draft exit journal + task, then reuses `JournalConfirmationService` close path (same capital credit as DAR exit confirm).
+   - Returns: `{ "status": "ok", "action": "exited", "journal": {...}, "position": {...}, "portfolio": {...}, "capital_base": ..., "summary", "reply_text", "reply_hint" }`
+   - Skill: `winston-ad-hoc-fill` (exit section) — never invent price/symbol; human authorization required.
+   - Errors: `not_found`, `closed_refuse`, `invalid_input`, `invalid_state` (already closed), `exit_failed`.
+
+6c. **wv2_add_cash_event** (capital inflow / adjustment)
+   - Purpose: Record a **CashEvent** on an Operational Portfolio (speech: “add $5600 cash to Portfolio White”). Capital-only rebalance (ADR-006) — does **not** open/close positions or change Books/TS.
+   - Inputs: `{ "portfolio_id_or_name": "11", "amount": 5600, "event_type": "inflow", "event_date": "2026-07-16", "notes": "weekly contribution" }`
+   - Behavior: `POST /internal/cash_events` → `Operations::CashEventService`. Allowed `event_type`: `inflow` (default, amount > 0) or `adjustment` (may be negative). `initial`/`exit` not accepted on this path. Notes stamped with `source=mcp:wv2_add_cash_event`. Closed series refused.
+   - Returns: `{ "status": "ok", "action": "cash_inflow|cash_adjustment", "cash_event": {...}, "portfolio": {...}, "capital_base_before", "capital_base", "summary", "reply_text", "reply_hint" }`
+   - Errors: `not_found`, `closed_refuse`, `invalid_input`.
 
 6. **wv2_get_daily_activity_report**
    - Purpose: Retrieve the structured daily activity report / Cromwell notification payload (actions, journals, summaries) for a given date. This fulfills the "send link to daily activity report" use case.

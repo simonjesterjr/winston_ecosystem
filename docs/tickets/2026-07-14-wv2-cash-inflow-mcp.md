@@ -1,6 +1,6 @@
 # Ticket: Cash inflow via internal API + MCP
 
-**Status:** Proposed (Paper Telegram Phase 4 / Phase 3 follow-on)  
+**Status:** Done (2026-07-17)  
 **Date:** 2026-07-14  
 **Source:** Paper Telegram roadmap Phase 4; session `2026-07-14-1112-paper-telegram-phase0-1.md`
 
@@ -17,9 +17,18 @@ Speech like “add $5600 cash to Portfolio White” is domain-legal (`CashEvent`
 
 ## Acceptance
 
-- [ ] Inflow via MCP updates capital_base  
-- [ ] Auditable notes/source  
-- [ ] No secrets or arbitrary mutation  
+- [x] Inflow via MCP updates capital_base  
+- [x] Auditable notes/source  
+- [x] No secrets or arbitrary mutation  
+
+## Implemented
+
+- `Operations::CashEventService` — inflow/adjustment only; closed refuse; notes `source=…`
+- `POST /internal/cash_events` on `InternalController`
+- MCP `wv2_add_cash_event` + `summary`/`reply_text`
+- Interface: `ecosystem/interfaces/winston-mcp-tools.md` §6c
+- Specs: `spec/services/operations/cash_event_service_spec.rb` (6 ex)
+- Live smoke: Orange +$100, Rust +$50 capital_base updates
 
 ## Related
 

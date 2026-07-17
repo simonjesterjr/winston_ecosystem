@@ -1,6 +1,6 @@
 # Ticket: Live DAR cron verify PDF handoffs
 
-**Status:** Proposed  
+**Status:** Done (2026-07-17)  
 **Date:** 2026-07-16  
 **Source:** Session `2026-07-16-1529-paper-fill-desk-handoffs-wrap.md`
 
@@ -16,4 +16,13 @@ Handoff sections were smoke-rendered with synthetic/injected next_steps. Next sc
 
 ## Acceptance
 
-- [ ] Production-path PDF shows human-gated phrases without manual inject  
+- [x] Production-path PDF shows human-gated phrases without manual inject  
+
+## Verified (2026-07-17)
+
+1. Created **real** domain draft journal #55 + pending enter task #38 (Orange AAPL) — not renderer inject.  
+2. Production path: `DailyReportPayloadBuilder.build` → MD/PDF renderers for `2026-07-16`.  
+3. MD DESK HANDOFFS included:
+   - Desk: `https://sawtooth-ai.tail944ffb.ts.net/wv2/operations/desk?...task_id=38...`
+   - Telegram: `@sawtooth_nanobot confirm 55 units=5 price=100.0`
+4. Verify draft cleaned (task completed / journal passed) so ops not polluted.
