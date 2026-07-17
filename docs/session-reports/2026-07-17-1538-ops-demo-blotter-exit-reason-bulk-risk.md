@@ -73,12 +73,13 @@
 
 ### Commits
 
-- (filled at wrap)  
+- `winston_v2` `3058cb8` — feat(ops): DAR open book, exit reasons, bulk exit_all and stops  
+- `ecosystem` `c7929e4` — docs(ops): demo epic #2–#4 Done — blotter, external stop, bulk risk  
 
 ### Branch / PR state at sign-off
 
-- `winston_v2` `main` — commit + push this wrap  
-- `ecosystem` `main` — session files only (unrelated dirt left unstaged)  
+- `winston_v2` `main` — pushed `3058cb8`  
+- `ecosystem` `main` — pushed `c7929e4` (unrelated dirt left unstaged)  
 - Host MCP — still untracked by monolith gits; recreate required for Telegram tool list  
 - PR: not opened (direct main)
 
