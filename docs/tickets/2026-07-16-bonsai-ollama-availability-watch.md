@@ -69,3 +69,4 @@ Also check:
 | Date | Result |
 |------|--------|
 | 2026-07-16 | No Bonsai tags on local Ollama; 27B not mainline Ollama. Watch opened. |
+| 2026-07-17 | **Not available (stock).** Local Ollama: no bonsai tags. Community **1-bit** tag `defyma85/bonsai-27b-q1_0` (~3.8 GB, 256K) at https://ollama.com/defyma85/bonsai-27b-q1_0 — Q1_0; stock Ollama still widely reported unable to load Q1_0 (see also eslider/bonsai-1.7b notes). **No Ternary-Bonsai-27B** Ollama tag. 8B still exists: `digitsflow/bonsai-8b` (~1.2 GB), `MichelRosselli/ternary-bonsai:8b-f16` (F16 tools-capable, not packed ternary). Status remains Proposed/watch. |
