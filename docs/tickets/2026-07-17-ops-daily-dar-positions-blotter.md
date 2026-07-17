@@ -1,6 +1,6 @@
 # Ticket: DAR last-page open positions blotter (all Active)
 
-**Status:** Proposed  
+**Status:** Done (2026-07-17)  
 **Date:** 2026-07-17  
 **Epic:** `2026-07-17-ops-daily-demo-epic.md`  
 
@@ -17,9 +17,22 @@ Operators want a single DAR appendix: **all open positions across Active OPs**, 
 
 ## Acceptance
 
-- [ ] Next DAR PDF/MD ends with full Active open blotter  
-- [ ] Multi-Active bands labeled  
+- [x] Next DAR PDF/MD ends with full Active open blotter  
+- [x] Multi-Active bands labeled  
+
+## Delivered
+
+| Piece | Where |
+|-------|--------|
+| Open book builder | `winston_v2/app/services/daily_report_open_book.rb` |
+| Payload `open_book` + day_move on positions | `daily_report_payload_builder.rb` |
+| PDF last page “OPEN BOOK” | `daily_activity_report_pdf_renderer.rb` |
+| MD last section “Open book” | `daily_activity_report_markdown_renderer.rb` |
+| Specs | open_book + payload attention + MD/PDF renderers (8 ex) |
+
+Day move = mark vs prior parquet close when available. Task id linked when next_steps/pending/actions match symbol on that OP.
 
 ## Related
 
 - Attention bands DAR (Done)  
+- Epic: `2026-07-17-ops-daily-demo-epic.md`  

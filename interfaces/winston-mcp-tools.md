@@ -67,11 +67,39 @@ Tools are named with `wv2_` prefix for clarity (future DM/WUT/Cromwell tools wil
 
 6b. **wv2_exit_trade** (ad-hoc exit)
    - Purpose: Close an open position **without** a Daily Analysis draft (human-gated desk / Telegram).
-   - Inputs: `{ "portfolio_id_or_name": "12", "price": 250.0, "symbol": "AMZN" }` **or** `{ "portfolio_id_or_name": "12", "price": 250.0, "position_id": 1 }` — optional `trade_date`, `notes`. Full lot exit (partial `units` reserved).
+   - Inputs: `{ "portfolio_id_or_name": "12", "price": 250.0, "symbol": "AMZN" }` **or** `{ "portfolio_id_or_name": "12", "price": 250.0, "position_id": 1 }` — optional `trade_date`, `notes`, **`reason`**. Full lot exit (partial `units` reserved).
+   - **`reason` packaging** (stored as `fulfillment_details.exit_reason`, `winston_signal: false`):
+     - `external_stop` — broker/external stop hit; speech: “AMZN stopped out — book exit, no Winston signal.”
+     - `discretionary` — human exit without Winston signal
+     - `ad_hoc` (default) — generic desk exit
+     - `other` — free-form other
+     - Aliases: `stopped_out`, `broker_stop`, `stop_hit` → external_stop; `disc` → discretionary; `desk` → ad_hoc
+   - Operator paths:
+     - Ops shell: `exit Blue AMZN price=252 reason=external_stop`
+     - Desk form: Exit reason select
+     - Telegram/MCP: `reason` on `wv2_exit_trade`
    - Behavior: `POST /internal/journals/exit` → `AdHocExitService` creates draft exit journal + task, then reuses `JournalConfirmationService` close path (same capital credit as DAR exit confirm).
-   - Returns: `{ "status": "ok", "action": "exited", "journal": {...}, "position": {...}, "portfolio": {...}, "capital_base": ..., "summary", "reply_text", "reply_hint" }`
+   - Returns: `{ "status": "ok", "action": "exited", "exit_reason": "external_stop", "journal": {...}, "position": {...}, "portfolio": {...}, "capital_base": ..., "summary", "reply_text", "reply_hint" }`
    - Skill: `winston-ad-hoc-fill` (exit section) — never invent price/symbol; human authorization required.
    - Errors: `not_found`, `closed_refuse`, `invalid_input`, `invalid_state` (already closed), `exit_failed`.
+   - Non-goal: broker stop sync.
+
+6b2. **wv2_exit_all_trades** (bulk flatten market)
+   - Purpose: Close **all** open lots for a symbol on one OP (pyramid flatten). Per-lot journals, same price/reason for the batch. All-or-nothing.
+   - Inputs: `{ "portfolio_id_or_name": "12", "symbol": "MSFT", "price": 420.0, "reason": "external_stop" }` — optional `trade_date`, `notes`.
+   - Behavior: `POST /internal/journals/exit_all` → `BulkMarketExitService` → N× `AdHocExitService` (one journal per lot).
+   - Returns: `{ "status": "ok", "action": "exited_all", "lots_exited": N, "lots": [...], "exit_reason", "capital_base", "reply_text", ... }`
+   - Shell: `exit_all Blue MSFT price=420 reason=external_stop`
+   - Errors: `not_found` (no open lots), `closed_refuse`, `invalid_input`, `exit_all_failed`.
+
+6b3. **wv2_update_stops** (bulk move stops)
+   - Purpose: Set the **same** stop on all open lots for a symbol on one OP (pyramid trail-all).
+   - Inputs: `{ "portfolio_id_or_name": "12", "symbol": "MSFT", "stop_price": 395.0 }` — optional `notes`.
+   - Behavior: `POST /internal/positions/stops_bulk` → `BulkStopUpdateService` → N× `PositionStopUpdateService`.
+   - Returns: `{ "status": "ok", "action": "stops_updated", "lots_updated": N, "lots": [...], "stop_price", "reply_text", ... }`
+   - Shell: `stops Blue MSFT price=395` (alias `move_stops`)
+   - Errors: `not_found`, `closed_refuse`, `invalid_input`, `stops_update_failed`.
+   - Single-lot still: shell `stop <position_id> price=S`.
 
 6c. **wv2_add_cash_event** (capital inflow / adjustment)
    - Purpose: Record a **CashEvent** on an Operational Portfolio (speech: “add $5600 cash to Portfolio White”). Capital-only rebalance (ADR-006) — does **not** open/close positions or change Books/TS.

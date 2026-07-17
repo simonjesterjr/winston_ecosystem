@@ -22,11 +22,11 @@ Parent epic for thin tickets below. Close + successor are **Done** (`2026-07-14-
 | Capital add/remove | `cash` shell + API | `wv2_add_cash_event` | Done (`shell-cash-parity`) |
 | Close OP series | `close_portfolio` | `wv2_close_portfolio` | smoke |
 | Successor / add market (engaged) | `successor` | `wv2_successor_portfolio` | smoke |
-| All positions last DAR page + move/signal | partial per-OP | partial | blotter |
+| All positions last DAR page + move/signal | Open book page | same payload | Done (`dar-positions-blotter`) |
 | Edit draft journal | view/confirm only | get/confirm | draft edit |
 | Signal → related instrument (LEAP) | schema only | fulfillment_type thin | related fill |
-| External stop (no Winston signal) | ad-hoc exit | exit trade | packaging |
-| Pyramid / close-all / move-all stops | single-lot only | single | bulk risk |
+| External stop (no Winston signal) | reason=external_stop | reason on exit | Done (`external-stop-exit`) |
+| Pyramid / close-all / move-all stops | exit_all / stops | exit_all / update_stops | Done (`bulk-risk-actions`) |
 | Equity graphs Telegram compare | PDF series | no ad-hoc chart | telegram charts |
 | Capital Activation (paper→real series) | — | — | existing ticket |
 
@@ -52,7 +52,10 @@ Already tracked (not re-filed): Capital Activation, MCP git-home, compose versio
 ## Smoke takeaway (2026-07-17)
 
 Core desk loop works via Ops shell + MCP without Rails console: list/positions/status, enter/stop/exit, close series, successor shape rebalance, **cash via shell + MCP/API**.  
-**Next build in demo order:** DAR blotter → external stop packaging → bulk risk → …
+**Smoke takeaway continued (2026-07-17 blotter):** DAR PDF/MD last section is full Active open blotter (real→paper).  
+**External stop packaging Done (2026-07-17):** `reason=external_stop` on exit (shell/desk/MCP).  
+**Bulk risk Done (2026-07-17):** `exit_all` + `stops`/`move_stops` (shell/API/MCP) for multi-lot flatten and trail-all.  
+**Next build in demo order:** related-instrument fill → journal draft edit → …
 
 ## Related
 
