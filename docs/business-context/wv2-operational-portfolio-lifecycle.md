@@ -57,12 +57,16 @@ See `wut-to-wv2-handoff.md` and ADR-006 for lineage (fingerprint, adopt, auto-fo
 
 ## Active (attention)
 
-- Operator (or Cromwell) marks which OPs enter Daily Analysis.  
-- **Mutex** (unless force):  
+- Operator (or Cromwell) marks which OPs enter **Daily Analysis** and the human task surface.  
+- **Multi-Active is normal and desired** across different seeds / methodologies:
+  - **Active paper** — attention on strategies/markets that are too risky or under-researched; soft planning norm ~1–7 concurrent (warn only, not a hard cap)  
+  - **Active real** — capital at risk; TS + non-correlated books + way forward; soft planning norm ~1–3 concurrent (warn only, not a hard cap)  
+- **Mutex** (unless force) only blocks *conflicting* dual attention:  
   - at most one Active per **seed_name**  
   - at most one Active per identical **Books** symbol set  
-- Many inactive OPs per seed = regime archive (expected).  
-- Dual Active = short experiment, not default.
+  Same-seed / same-Books dual Active remains a short forced experiment, not the default.  
+- **Inactive** OPs are the archive/noise queue (expected many per seed). Operator may clean up, remove, or later activate — not daily capital work.  
+- **DAR / ops surfaces must make bands super clear:** real Active first, paper Active second, inactive only as hygiene appendix when useful. Do not collapse attention to “sole Active OP” or hide paper behind real.
 
 ## Engagement lock
 

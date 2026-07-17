@@ -1,21 +1,19 @@
 # Ticket: Dual-Active hygiene after paper smokes
 
-**Status:** Proposed  
+**Status:** Superseded (2026-07-16)  
 **Date:** 2026-07-16  
 **Source:** Session `2026-07-16-1529-paper-fill-desk-handoffs-wrap.md`  
-**Domain:** ADR-006 Active mutex
+**Domain:** ADR-006 Active mutex  
+**Superseded by:** `2026-07-16-attention-bands-dar-ops.md`
 
-## Problem
+## Why superseded
 
-After transfer/activate/book smokes, multiple OPs may be Active (`#12` Blue, `#157` Blank, Orange, Rust). Daily Analysis and ops “focus” (lowest Active id) become noisy.
+This ticket framed multi-Active as a defect (“leave one paper focus OP”). That is **wrong**.
 
-## Scope
+Product intent:
 
-1. Operator decide sole focus Active OP  
-2. Deactivate extras via shell/MCP (`deactivate`)  
-3. Optional: document preferred sole-Active paper hygiene  
+- Multiple **Active** paper OPs (~1–7) and multiple **Active** real OPs (~1–3) are normal.  
+- Hygiene mutex still applies only for same **seed_name** / identical **Books**.  
+- The real gap is **attention banding** in DAR and Wv2 — not deactivating healthy multi-Active books.
 
-## Acceptance
-
-- [ ] Sole intended Active OP for paper desk  
-- [ ] Ops focus panel matches operator intent  
+Do **not** implement sole-focus deactivation as the fix. See the superseding ticket.

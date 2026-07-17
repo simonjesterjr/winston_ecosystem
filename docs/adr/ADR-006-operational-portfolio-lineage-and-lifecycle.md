@@ -54,9 +54,11 @@ Wv2 is an **observation post that tasks humans**, not an end-to-end autotrader.
 
 ### Attention hygiene (**Active**)
 
-- **Active** = attention priority for Daily Analysis + human task surface (not “live money”).  
-- Default: at most one **Active** OP per **seed_name**, and at most one **Active** OP per identical **Books** set, unless force.  
-- Many inactive OPs per seed are normal (regime archive).
+- **Active** = included in Daily Analysis + human task surface (not “live money,” not “only one OP”).  
+- **Multi-Active across seeds is product intent:** several Active paper OPs (learning / risk) and a smaller set of Active real OPs (capital) run in parallel. Soft planning norms ~1–7 Active paper, ~1–3 Active real (operator horizon ~2 months) — advisory only, never activate/DA hard caps without a new decision.  
+- **Mutex** (unless force): at most one **Active** OP per **seed_name**, and at most one **Active** OP per identical **Books** set — prevents duplicate attention on the same recipe/membership; does **not** force a single Active OP ecosystem-wide.  
+- Many inactive OPs per seed are normal (regime archive / noise).  
+- **DAR and Wv2** must surface attention bands explicitly: Active real → Active paper → inactive hygiene (see ticket `2026-07-16-attention-bands-dar-ops.md`).
 
 ### Engagement lock
 
@@ -120,7 +122,7 @@ Viability gates exist for the money boundary. Force override preserves operator 
 - Regime samples (multiple fingerprints per seed) survive re-vet and re-import  
 - Engaged series protect risk and performance integrity  
 - Capital Activation matches human Telegram workflow with clear capital_base  
-- Attention stays laser-focused unless dual-active is explicit  
+- Attention is banded (real vs paper Active) rather than collapsed to a single OP; same-seed dual Active still requires force  
 
 ### Negative
 
@@ -133,7 +135,8 @@ Viability gates exist for the money boundary. Force override preserves operator 
 
 - Silent methodology overwrite → fingerprint lineage + auto-fork  
 - Corrupted equity curves after mid-stream membership/TS change → engagement lock + successor rebalance  
-- Dual attention confusion → seed_name + Books Active mutex  
+- Duplicate same-recipe attention → seed_name + Books Active mutex  
+- Flat “all Active” noise → DAR/ops attention bands by execution_mode  
 - Paper equity mistaken for real capital → Capital Activation new series only  
 - Observation configs becoming real capital by accident → trade-ready (or force) gate  
 

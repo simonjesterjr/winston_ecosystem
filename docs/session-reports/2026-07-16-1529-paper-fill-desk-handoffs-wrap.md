@@ -209,7 +209,7 @@ curl -sS -X POST http://localhost:3002/internal/journals/book -H 'Content-Type: 
 ## 11. Handoff & Resume Notes
 
 - **Where I left off:** PDF/MD handoffs shipped; wrap in progress.  
-- **Next concrete step:** Operator pick — MCP exit tool, cash inflow, dual-Active hygiene, or next DAR live verify.  
+- **Next concrete step:** Operator pick — cash inflow, attention bands DAR/ops (`2026-07-16-attention-bands-dar-ops.md`; sole-focus dual-Active ticket superseded), or next DAR live verify.  
 - **Files to read first:**  
   1. `ecosystem/docs/tickets/2026-07-16-human-gated-desk-actions.md`  
   2. `winston_v2/app/services/operations/desk_action_handoff.rb`  
@@ -237,7 +237,7 @@ curl -sS -X POST http://localhost:3002/internal/journals/book -H 'Content-Type: 
 
 - [ ] MCP `wv2_exit_trade` + Cromwell skill — ticket `2026-07-16-mcp-exit-trade-and-skill.md`  
 - [ ] Set `WV2_PUBLIC_BASE_URL` — ticket `2026-07-16-wv2-public-base-url-desk-links.md`  
-- [ ] Dual-Active hygiene — ticket `2026-07-16-dual-active-hygiene-ops.md`  
+- [ ] Attention bands DAR/ops (multi-Active intentional) — ticket `2026-07-16-attention-bands-dar-ops.md` (supersedes dual-Active sole-focus ticket)  
 - [ ] Ticket C error guidance — See: `2026-07-15-mcp-transfer-summary-and-error-guidance.md`  
 - [ ] Host MCP git home — See: `2026-07-13-mcp-winston-source-git-home.md`  
 - [ ] Cash inflow MCP — See: `2026-07-14-wv2-cash-inflow-mcp.md`  
