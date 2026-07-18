@@ -11,6 +11,8 @@ description: Book or exit a free-form paper fill on an Operational Portfolio wit
 - "I bought 54 shares of TSMC at 323.44 for portfolio Magenta"
 - "book 45 GGG @ 58.87 on YGF"
 - "paper fill long NVDA 10 @ 140 for portfolio 12"
+- "IBM signaled breakout — buy 2 Jan 2028 150 LEAP calls @ 12.50 on Blue"
+- "honor the MSFT enter with LEAPs instead of stock"
 
 **Exit**
 - "I sold all AMZN on portfolio 12 at 250"
@@ -34,12 +36,24 @@ If a **pending** enter/exit task already exists for that market, prefer skill `w
 ## Enter — required inputs (never invent)
 
 1. **Portfolio** — id or name (resolve “the portfolio” / Active focus only when unambiguous)
-2. **Symbol** — must already be on the OP’s Books
-3. **Units** — positive integer from the human
-4. **Price** — fill price from the human
+2. **Symbol** — signal **underlying**; must already be on the OP’s Books
+3. **Units** — positive integer from the human (shares **or** contracts for LEAP/option)
+4. **Price** — fill price from the human (stock $ **or** option **premium** per share)
 5. Optional: `direction` (default `long`), `trade_date`, `stop_price`, `notes`
+6. **Related instrument** (when not stock):
+   - `fulfillment_type`: `leap` | `option` | `proxy` | `option_strategy`
+   - LEAP/option **require**: `strike`, `expiry` (YYYY-MM-DD); optional `option_type` (`call` default), `contract_multiplier` (default **100**)
+   - Proxy optional: `instrument_symbol` (filled ticker if different)
+   - Link: `signal_task_id` / `signal_journal_id` when human names the DAR signal/task
 
-**Do not call `wv2_book_trade` until the human has stated units and price** (or clearly confirmed a quoted fill). If missing, ask one short clarifying question.
+### Capital / flow (do not invent multiplier)
+
+| Type | Cash impact (enter) |
+|------|---------------------|
+| stock / proxy | −units × price |
+| leap / option | −units × price × multiplier (default 100) |
+
+**Do not call `wv2_book_trade` until the human has stated units and price** (and strike+expiry for LEAP/option). If missing, ask one short clarifying question.
 
 ## Exit — required inputs (never invent)
 
@@ -107,6 +121,23 @@ wv2_book_trade {
 ```
 
 ```
+wv2_book_trade {
+  portfolio_id_or_name: "Blue",
+  symbol: "IBM",
+  units: 2,
+  price: 12.50,
+  fulfillment_type: "leap",
+  strike: 150,
+  expiry: "2028-01-21",
+  option_type: "call",
+  signal_task_id: 44,
+  notes: "honor breakout with 2028 LEAPs"
+}
+```
+
+Shell: `enter Blue IBM units=2 price=12.50 type=leap strike=150 expiry=2028-01-21 option_type=call`
+
+```
 wv2_exit_trade {
   portfolio_id_or_name: "12",
   symbol: "AMZN",
@@ -143,6 +174,12 @@ Booked long 45 GGG @ 58.87 — journal #N OP #11 “…”
 stop=55.0, capital_base=…, active=…
 ```
 
+LEAP pattern:
+```
+Booked long 2 LEAP IBM 2028-01-21 150 C @ 12.5 type=leap — journal #N OP #… “…”
+multiplier=100, cash_impact=-2500.0, capital_base=…, active=…, signal_task=44
+```
+
 Exit pattern:
 ```
 Exited 5 AMZN @ 250.0 — journal #N OP #12 “…” position #1
@@ -173,5 +210,6 @@ reason=external_stop, capital_base=…, active=…, open=false
 - Use this path when user is **confirming a DAR draft** (use `wv2_confirm_journal`)
 - Auto-chain sync / daily analysis after book/exit
 - Partial exits within a lot (not supported — full lot only; multi-lot uses exit_all)
-- LEAP/options mechanics (not supported — stock only for now)
+- Invent strike, expiry, or multiplier for LEAP/option fills
 - Claim single-lot exit when human asked to flatten multi-lot — use `wv2_exit_all_trades`
+- Treat option premium as stock share price for risk sizing (cash uses multiplier)

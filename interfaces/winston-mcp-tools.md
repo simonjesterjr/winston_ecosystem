@@ -58,12 +58,16 @@ Tools are named with `wv2_` prefix for clarity (future DM/WUT/Cromwell tools wil
      ```
 
 6a. **wv2_book_trade** (ad-hoc paper fill)
-   - Purpose: Book a free-form stock fill on an Operational Portfolio **without** a Daily Analysis draft (Phase 4 / journal→ledger #2).
-   - Inputs: `{ "portfolio_id_or_name": "11", "symbol": "GGG", "units": 45, "price": 58.87, "direction": "long", "trade_date": "2026-07-16", "stop_price": 55.0, "notes": "desk paper fill" }`
-   - Behavior: Creates draft journal + enter/pyramid task, then reuses `JournalConfirmationService` / `JournalPositionExecutor` (same signed `flow` and capital_base as DAR confirm). Market must be on Books. Engages OP (ADR-006). Optional `stop_price` overrides ATR default stop.
-   - Returns: `{ "status": "ok", "action": "booked", "journal": {...}, "position": {...}, "portfolio": {...}, "capital_base": ..., "summary", "reply_text", "reply_hint" }`
-   - Skill: `winston-ad-hoc-fill` — never invent units/price; human authorization required.
-   - Non-goals: LEAP mechanics, broker automation, partial fills.
+   - Purpose: Book a free-form fill on an Operational Portfolio **without** a Daily Analysis draft (Phase 4 / journal→ledger #2). Stock **or related instrument** (LEAP/option/proxy).
+   - Inputs (stock): `{ "portfolio_id_or_name": "11", "symbol": "GGG", "units": 45, "price": 58.87, "direction": "long", "trade_date": "2026-07-16", "stop_price": 55.0, "notes": "desk paper fill" }`
+   - Inputs (related): same + `fulfillment_type: "leap"|"option"|"proxy"`, `strike`, `expiry` (YYYY-MM-DD), optional `option_type` (`call`/`put`), `contract_multiplier` (default **100** for leap/option), `instrument_symbol` (proxy), `signal_task_id` / `signal_journal_id` (link to motivating DAR signal).
+   - Behavior: Creates draft journal + enter/pyramid task, then reuses `JournalConfirmationService` / `JournalPositionExecutor`. **symbol** = signal **underlying** (must be on Books). Engages OP (ADR-006).
+   - **Capital / flow:** stock|proxy → `±units×price`; leap|option → `±units×price×multiplier` (units=contracts, price=premium per share).
+   - Position: option columns (`is_option`, strike, expiry, premium) + instrument label in `action_description`. No ATR default stop for option-like.
+   - Returns: `{ "status": "ok", "action": "booked", "journal": {...}, "position": {...}, "fulfillment": { "type", "instrument_label", "contract_multiplier", ... }, "capital_base", "summary", "reply_text", "reply_hint" }`
+   - Skill: `winston-ad-hoc-fill` — never invent units/price/strike/expiry; human authorization required.
+   - Shell: `enter Blue IBM units=2 price=12.50 type=leap strike=150 expiry=2028-01-21 option_type=call`
+   - Non-goals: full options pricing/Greeks, multi-leg legs as separate positions, broker automation, partial fills.
 
 6b. **wv2_exit_trade** (ad-hoc exit)
    - Purpose: Close an open position **without** a Daily Analysis draft (human-gated desk / Telegram).
@@ -169,9 +173,20 @@ Tools are named with `wv2_` prefix for clarity (future DM/WUT/Cromwell tools wil
 
 13. **wv2_confirm_journal**
     - Purpose: Execute a draft journal — opens/closes positions, updates signed `flow`, marks linked task completed.
-    - Inputs: `{ "journal_id": 44, "execution_price": 198.5, "units": 10, "notes": "filled via IB", "fulfillment_type": "stock", "fulfillment_details": {} }`
+    - Inputs: `{ "journal_id": 44, "execution_price": 198.5, "units": 10, "notes": "filled via IB", "fulfillment_type": "stock|leap|option|proxy", "fulfillment_details": { "strike", "expiry", "option_type", "signal_task_id", ... } }`
+    - Related-instrument confirm: set `fulfillment_type=leap` (etc.) + strike/expiry in details when honoring an equity signal with options; cash uses contract multiplier (default 100).
+    - Sticky draft: if units/price/stop were set via `wv2_edit_journal`, bare confirm reuses them (no need to re-pass).
     - Source: `POST /internal/journals/confirm`
-    - Returns: `{ "status": "ok", "journal": {...}, "task": {...}, "capital_base": 25100.0 }` (idempotent if already executed)
+    - Returns: `{ "status": "ok", "journal": {...}, "task": {...}, "capital_base": 25100.0, "fulfillment": {...} }` (idempotent if already executed)
+
+13b. **wv2_edit_journal** (draft amend — does **not** execute)
+    - Purpose: Change draft units / price / notes / stop / trade_date / fulfillment packaging **before** confirm. Executed journals are immutable.
+    - Inputs: `{ "journal_id": 44, "units": 5, "price": 251.03, "stop_price": 245.0, "notes": "size-down" }` — optional related-instrument fields (`fulfillment_type`, `strike`, `expiry`, …).
+    - Behavior: `POST /internal/journals/edit` → `JournalDraftEditService`. Updates journal `fulfillment_details` + linked task metadata; recalculates provisional `flow`. No position open/close.
+    - Returns: `{ "status": "ok", "action": "draft_edited", "journal": { proposed_units, proposed_price, proposed_stop, ... }, "changes": {...}, "reply_text", ... }`
+    - Errors: `not_found`, `invalid_state` (not draft), `invalid_input` (no fields).
+    - Shell: `edit_journal 44 units=5 price=251.03 stop=245 notes=size-down`
+    - Desk: action **edit** on Ops desk form.
 
 14. **wv2_mark_task_done**
     - Purpose: Complete an operations task; defaults to confirming the linked journal first.
@@ -188,6 +203,17 @@ Tools are named with `wv2_` prefix for clarity (future DM/WUT/Cromwell tools wil
 16. **wv2_get_journal**
     - Inputs: `{ "journal_id": 44 }`
     - Source: `GET /internal/journals/:id`
+    - Draft fields: `proposed_units`, `proposed_price`, `proposed_stop`, `editable`, `task_id`
+
+16b. **wv2_compare_equity** (multi-OP equity chart for Telegram)
+    - Purpose: Ad-hoc “Blue vs Mango” equity compare — metrics + single-page PDF chart.
+    - Inputs: `{ "portfolios": ["Blue", "Mango"], "as_of": "2026-07-17", "normalize": false }`
+    - Behavior: `POST /internal/portfolios/equity_compare` → `EquityCompareChartService` builds aligned `PortfolioEquitySeries`, draws via `ReportPdfChartDrawer` (legend labels = display name + short fingerprint), writes PDF under `storage/reports` with `telegram_media_path` under nanobot `wv2_reports` (same volume as DAR PDFs).
+    - Returns: `{ "status": "ok", "title", "metrics": [...], "pdf_path", "telegram_media_path", "reply_text", "reply_hint", "_meta.delivery" }`
+    - Delivery: paste `reply_text`; attach `media=[telegram_media_path]`.
+    - Shell: `equity_compare Blue Mango` · `equity Blue Mango normalize=true`
+    - Skill: `winston-equity-compare`
+    - Non-goals: interactive live charts; PNG encoding (PDF document is the attachable media).
 
 17. **wv2_get_portfolio_status**
     - Inputs: `{ "portfolio_id_or_name": "...", "journal_limit": 10 }`

@@ -33,3 +33,4 @@ Paper→real must open a **new** OP series with stated capital — not rewrite p
 - `wv2-operational-portfolio-lifecycle.md`
 - Active mutex: `2026-07-09-wv2-active-mutex-seed-books.md`
 - export_kind: `2026-07-08-wv2-importer-honor-export-kind.md`
+- Still open after ops demo epic 0–7: `docs/session-reports/2026-07-18-1024-ops-demo-5-7-related-draft-equity.md`

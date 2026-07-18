@@ -23,11 +23,11 @@ Parent epic for thin tickets below. Close + successor are **Done** (`2026-07-14-
 | Close OP series | `close_portfolio` | `wv2_close_portfolio` | smoke |
 | Successor / add market (engaged) | `successor` | `wv2_successor_portfolio` | smoke |
 | All positions last DAR page + move/signal | Open book page | same payload | Done (`dar-positions-blotter`) |
-| Edit draft journal | view/confirm only | get/confirm | draft edit |
-| Signal → related instrument (LEAP) | schema only | fulfillment_type thin | related fill |
+| Edit draft journal | edit_journal / desk edit | wv2_edit_journal | Done (`journal-draft-edit`) |
+| Signal → related instrument (LEAP) | type=leap + desk | book/confirm related fields | Done (`related-instrument-fill`) |
 | External stop (no Winston signal) | reason=external_stop | reason on exit | Done (`external-stop-exit`) |
 | Pyramid / close-all / move-all stops | exit_all / stops | exit_all / update_stops | Done (`bulk-risk-actions`) |
-| Equity graphs Telegram compare | PDF series | no ad-hoc chart | telegram charts |
+| Equity graphs Telegram compare | equity_compare shell | wv2_compare_equity + media | Done (`telegram-equity-compare`) |
 | Capital Activation (paper→real series) | — | — | existing ticket |
 
 ## Child tickets (demo order)
@@ -55,7 +55,10 @@ Core desk loop works via Ops shell + MCP without Rails console: list/positions/s
 **Smoke takeaway continued (2026-07-17 blotter):** DAR PDF/MD last section is full Active open blotter (real→paper).  
 **External stop packaging Done (2026-07-17):** `reason=external_stop` on exit (shell/desk/MCP).  
 **Bulk risk Done (2026-07-17):** `exit_all` + `stops`/`move_stops` (shell/API/MCP) for multi-lot flatten and trail-all.  
-**Next build in demo order:** related-instrument fill → journal draft edit → …
+**Related-instrument fill Done (2026-07-17):** `type=leap|option|proxy` + strike/expiry; cash = units×premium×100; signal_task/journal links.  
+**Journal draft edit Done (2026-07-17):** `edit_journal` / desk edit / `wv2_edit_journal` — draft units/price/stop/notes; executed refused; sticky confirm.  
+**Telegram equity compare Done (2026-07-17):** `equity_compare` / `wv2_compare_equity` multi-OP PDF chart + `telegram_media_path` + skill.  
+**Epic child tickets 0–7 complete** (Capital Activation / MCP git-home still separate).
 
 ## Related
 
