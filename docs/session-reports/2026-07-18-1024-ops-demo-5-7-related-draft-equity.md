@@ -78,12 +78,13 @@
 
 ### Commits
 
-- _Filled at wrap_
+- `winston_v2` `aed5df9` — feat(ops): related-instrument fill, draft edit, equity compare charts  
+- `ecosystem` `f3fea9e` — docs(ops): demo epic #5–#7 Done — related fill, draft edit, equity compare  
 
 ### Branch / PR state at sign-off
 
-- `winston_v2` `main` — commit + push this wrap  
-- `ecosystem` `main` — session files only (unrelated dirt left unstaged)  
+- `winston_v2` `main` — pushed `aed5df9`  
+- `ecosystem` `main` — pushed `f3fea9e` (unrelated dirt left unstaged)  
 - Host MCP — still outside monolith gits; **recreate** for Telegram tool list  
 - PR: not opened (direct main)
 
