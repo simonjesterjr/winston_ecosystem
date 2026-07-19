@@ -74,13 +74,15 @@
 
 ### Commits
 
-- _Pending wrap commit._
+- `ecosystem` `8997a64` — docs: confirm entry experiment, ADR-008, pyramid ladder handoff rules  
+- `winston_unit_test` `50cbc04` — feat(lab): confirm soft/ATR signals, FAST_BACKTEST, export pyramid ladder  
+- `winston_v2` `307c63b` — feat(ops): import and size with one_way_dynamic pyramid_risks  
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on each monolith — dirty with session + unrelated local changes  
-- Pushed: pending wrap  
-- PR: not opened (direct main workflow)
+- Branch: `main` on each monolith — session commits pushed; unrelated local dirt may remain  
+- Pushed: yes (`origin/main`)  
+- PR: not opened (direct main)
 
 ---
 
