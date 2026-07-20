@@ -44,13 +44,13 @@
 
 ### Commits
 
-- (filled at wrap) — docs only
+- `ebe70ed` — docs: park loop-engineering and Auto vs HITL verification plan
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` (ecosystem)
-- Pushed: yes (if wrap push succeeds)
-- PR: not opened (docs on main)
+- Branch: `main` (ecosystem) — clean for this session's files; other unrelated local dirt left unstaged
+- Pushed: yes (`origin/main`)
+- PR: not opened (docs committed on main)
 
 ---
 
