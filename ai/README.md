@@ -15,6 +15,7 @@ bin/seed-cromwell-workspace --workspace ai/data/cromwell-bot/workspace
 **Rebuild MCP / nanobot images (after code changes here):**
 
 ```bash
+# Winston tools: ecosystem/ai/mcp/mcp_winston/…
 ./bin/compose --profile ai build winston_mcp nanobot_cromwell
 # Prefer replacing only those containers (full compose recreate can cascade-stop the stack)
 ```
@@ -34,7 +35,8 @@ Then restart the bot if only personas/skills changed:
 | `memory/templates/` | `MEMORY.template.md`, `HEARTBEAT.template.md` |
 | `skills/` | Winston workflow playbooks (`*/SKILL.md`) |
 | `schedule/` | Recurring task catalog — [`schedule/README.md`](schedule/README.md) |
-| `mcp_winston/` | **Winston MCP server** (compose `winston_mcp` build context) |
+| `mcp/` | **MCP layer** (compose `winston_mcp` build context) — see [`mcp/README.md`](mcp/README.md) |
+| `mcp/mcp_winston/` | **Winston package** inside the MCP layer (`import mcp_winston`; Wv2/WUT/DM tools) |
 | `nanobot/` | **Cromwell nanobot** Containerfile + Sawtooth patches (compose `nanobot_cromwell`) |
 
 ## What lives where
@@ -43,7 +45,8 @@ Then restart the bot if only personas/skills changed:
 |---------|----------|
 | Architecture, parquet, monolith vision | `ecosystem/principles/` |
 | MCP tool **contracts** (docs) | `ecosystem/interfaces/winston-mcp-tools.md` |
-| MCP tool **implementation** | `mcp_winston/` → image `winston_mcp` |
+| MCP **layer** (build root) | `mcp/` → image `winston_mcp` |
+| Winston access **package** | `mcp/mcp_winston/` (`import mcp_winston`) |
 | Nanobot image + cron allowlist patch | `nanobot/` → image `nanobot_cromwell` |
 | Agent identity + workspace rules | `personas/` → workspace root |
 | Workflow playbooks | `skills/` → `workspace/skills/` |

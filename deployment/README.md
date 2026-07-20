@@ -27,7 +27,7 @@ bin/seed-cromwell-workspace
 
 | Image | Compose context (SOT in `winston_ecosystem`) |
 |-------|-----------------------------------------------|
-| `winston_mcp` | `ecosystem/ai/mcp_winston/` |
+| `winston_mcp` | `ecosystem/ai/mcp/` (layer; Winston package at `mcp/mcp_winston/`) |
 | `nanobot_cromwell` | `ecosystem/ai/nanobot/` |
 
 Personas/skills/schedule still seed into host `ai/data/cromwell-bot/workspace` via `bin/seed-cromwell-workspace`. Runtime secrets stay in `ai/data/cromwell-bot/config.json` (not git).
@@ -186,7 +186,7 @@ Examples:
 - "perform daily analysis for Trading Portfolio A" or just "run the daily for A"
 - "get today's daily activity report" or "send the report"
 
-The MCP server (`ai/mcp_winston/`) is the thin component that translates those tool calls into real calls against Wv2's (and WUT's) internal HTTP surfaces.
+The MCP layer (`ecosystem/ai/mcp/`) builds the thin server that translates tool calls into HTTP against Wv2/WUT/DM `/internal/*`. Winston tools live in the nested package `mcp_winston/`.
 
 ### Shutdown the AI layer only
 ```bash
@@ -229,7 +229,7 @@ Nanobot must listen on `0.0.0.0` (`gateway.host` in `ai/data/cromwell-bot/config
 This host has **no discrete GPU** (Raphael iGPU only). Ollama runs 100% CPU. Preferred Cromwell model: `cromwell-qwen2.5:3b` (`ai/ollama/Modelfile.cromwell-cpu`, `num_ctx` 8192). Keep-alive is `OLLAMA_KEEP_ALIVE=24h` in compose. See `ecosystem/docs/tickets/2026-07-09-cromwell-cpu-only-llm-tuning.md` and ops note in `ecosystem/ai/schedule/README.md` (avoid backtests at top-of-hour MT).
 
 ### Files that implement the layer (all outside the deprecated openclawd-stack)
-- `ai/mcp_winston/` — the MCP component (Containerfile + pyproject + server.py)
+- `ecosystem/ai/mcp/` — MCP layer (Containerfile + pyproject + package `mcp_winston/`)
 - `ai/nanobot/Containerfile` — tiny pip-install based image (no source tree copy)
 - `ai/configs/nanobot-cromwell.example.json`
 - `ai/README.md`

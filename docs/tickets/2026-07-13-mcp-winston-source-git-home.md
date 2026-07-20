@@ -18,21 +18,23 @@ Skills and interface docs version in `ecosystem/`; MCP Python is only in workspa
 
 | Decision | Fold into **ecosystem** (`winston_ecosystem`) — MCP is ecosystem glue exercised by Cromwell |
 |----------|---------------------------------------------------------------------------------------------|
-| MCP SOT | `ecosystem/ai/mcp_winston/` |
-| Nanobot SOT | `ecosystem/ai/nanobot/` (Containerfile + cron allowlist patch; same orphan class) |
-| Compose | Root `compose.yml` build contexts → `./ecosystem/ai/mcp_winston` and `./ecosystem/ai/nanobot` |
+| MCP layer SOT | `ecosystem/ai/mcp/` (outer = layer; inner `mcp_winston/` = Winston package) |
+| Nanobot SOT | `ecosystem/ai/nanobot/` (Containerfile + cron allowlist patch) |
+| Compose | Root `compose.yml` build contexts → `./ecosystem/ai/mcp` and `./ecosystem/ai/nanobot` |
 | Legacy paths | Workspace `ai/mcp_winston/` and `ai/nanobot/` are pointer READMEs only |
 
 **Commit path for MCP changes:**
 
 ```bash
 cd ecosystem
-# edit ai/mcp_winston/...
-git add ai/mcp_winston && git commit && git push
+# edit ai/mcp/mcp_winston/...
+git add ai/mcp && git commit && git push
 cd ..
 ./bin/compose --profile ai build winston_mcp
 # recreate winston_mcp only when possible
 ```
+
+**Naming (2026-07-20 follow-up):** outer folder renamed `mcp_winston` → `mcp` so the layer is not confused with the Python package. See `ecosystem/ai/mcp/README.md`.
 
 ## Related
 
