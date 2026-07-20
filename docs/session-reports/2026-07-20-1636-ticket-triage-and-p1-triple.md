@@ -105,13 +105,14 @@
 
 ### Commits
 
-- _Pending wrap commit step._
+- `winston_v2` `80ae63d` — fix(ops): ATR lookback load + journal first-class fill columns
+- `ecosystem` `f439fc4` — docs+ai: triage ticket priorities; Cromwell cron guards; archive P1s
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` each repo — dirty until commit  
-- Pushed: pending  
-- PR: not opened  
+- Branch: `main` each repo — session work clean; other dirty paths left unstaged  
+- Pushed: yes (`origin/main`)  
+- PR: not opened (direct main)  
 
 ---
 
