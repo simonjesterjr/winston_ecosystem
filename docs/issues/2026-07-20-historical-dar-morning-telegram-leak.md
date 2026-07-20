@@ -1,6 +1,6 @@
 # Issue: Historical DAR posted to Sawtooth Main from morning cron
 
-**Status:** Fixed in tree — live Wv2 422 verified for `2023-10-15` without `allow_historical`; MCP image rebuild still needed for schema/hints  
+**Status:** Fixed in tree — Wv2/MCP date+Telegram guards; cron MCP allowlist live; demo DARs quarantined  
 **Observed:** 2026-07-20 ~07:47 MDT (repeat of Jul 15 / Jul 16 pattern)  
 **Channel:** Telegram Sawtooth Main (`chat_id=-1003884714483`)  
 **Scope:** Cromwell agent quality + missing Wv2/MCP hard guards on historical Daily Analysis / Telegram delivery

@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "description": "Hard MCP tool allowlist for Cromwell cron sessions (sessionKey cron:<job-id>). Enforced by nanobot ToolRegistry patch — soft FORBIDDEN prompts are not enough.",
+  "default_for_unlisted_cron_job": {
+    "mcp_allow": [],
+    "note": "Unknown cron jobs get no MCP tools until listed here."
+  },
+  "jobs": {
+    "market-snapshot-open": {
+      "mcp_allow": ["wv2_market_snapshot"],
+      "force_args": {}
+    },
+    "market-snapshot-hourly": {
+      "mcp_allow": ["wv2_market_snapshot"],
+      "force_args": {}
+    },
+    "eod-daily-report": {
+      "mcp_allow": ["wv2_get_daily_activity_report"],
+      "force_args": {
+        "wv2_get_daily_activity_report": { "fetch_only": true }
+      }
+    },
+    "dm-sync-events": {
+      "mcp_allow": ["dm_get_cromwell_events"],
+      "force_args": {}
+    },
+    "ecosystem-status-daily": {
+      "mcp_allow": [
+        "wv2_list_portfolios",
+        "wv2_list_pending_actions",
+        "wv2_get_daily_activity_report",
+        "wut_list_portfolios",
+        "dm_get_cromwell_events"
+      ],
+      "force_args": {
+        "wv2_get_daily_activity_report": { "fetch_only": true }
+      }
+    }
+  }
+}

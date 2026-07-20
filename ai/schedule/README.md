@@ -90,7 +90,29 @@ Prefer: run large backtests overnight, weekends, or mid-hour (e.g. :20–:45). C
 |------|---------|
 | [`manifest.yaml`](manifest.yaml) | Human-readable task catalog: id, owner, cron, tz, dependencies, skills, MCP tools |
 | [`cromwell-cron.json`](cromwell-cron.json) | Template for nanobot `workspace/cron/jobs.json` |
+| [`cron-tool-allowlist.json`](cron-tool-allowlist.json) | **Hard** MCP tool allowlist per `cron:<job-id>` (nanobot ToolRegistry patch) |
 | [`sidekiq.yaml`](sidekiq.yaml) | Mirror of monolith `config/sidekiq_schedule.yml` entries — keep in sync when changing crons |
+
+### Cron MCP tool allowlist (required)
+
+Prompt-level `FORBIDDEN` is **not** enough — models still call off-duty tools after truncation (see issue `2026-07-20-historical-dar-morning-telegram-leak`).
+
+| Job id | Allowed MCP tools |
+|--------|-------------------|
+| `market-snapshot-open` / `market-snapshot-hourly` | `wv2_market_snapshot` only |
+| `eod-daily-report` | `wv2_get_daily_activity_report` only (`fetch_only` forced true) |
+| `dm-sync-events` | `dm_get_cromwell_events` only |
+| `ecosystem-status-daily` | list portfolios / pending / fetch_only report / DM events |
+
+**Enforcement:** `ai/nanobot` image patches `ToolRegistry.prepare_call` + `get_definitions` using `current_request_session_key()`. Config is seeded to `workspace/schedule/cron-tool-allowlist.json`. Non-MCP builtins (message, read_file, …) stay available. Unknown `cron:<id>` jobs get **no** MCP tools until listed.
+
+When adding a cron job that needs MCP: update `cron-tool-allowlist.json` + `manifest.yaml` `mcp:` + `cromwell-cron.json`, then:
+
+```bash
+bin/seed-cromwell-workspace
+# rebuild nanobot only if the patch module changed:
+./bin/compose --profile ai build nanobot_cromwell && ./bin/compose --profile ai up -d nanobot_cromwell
+```
 
 ## Deploying Cromwell cron
 
