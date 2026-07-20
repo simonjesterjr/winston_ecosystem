@@ -1,6 +1,6 @@
 # Ticket: Establish git home for `ai/mcp_winston`
 
-**Status:** Proposed  
+**Status:** Done  
 **Context:** Session `docs/session-reports/2026-07-13-1307-intraday-market-radar.md`. MCP tool description for `wv2_market_snapshot` was updated under workspace `ai/mcp_winston/`, which is **outside** every monolith git repo (`ecosystem`, `winston_v2`, etc.).
 
 ## Problem
@@ -9,10 +9,30 @@ Skills and interface docs version in `ecosystem/`; MCP Python is only in workspa
 
 ## Acceptance criteria
 
-- [ ] Decide home: new repo, fold into `ecosystem/`, or document intentional image-only workflow
-- [ ] If repo: initial import of `ai/mcp_winston` with history note; CI or compose build still works
-- [ ] If image-only: write short note in `ecosystem/deployment/README.md` + `ai/mcp_winston` README
-- [ ] Next MCP change has a clear `git commit` path
+- [x] Decide home: new repo, fold into `ecosystem/`, or document intentional image-only workflow → **fold into `ecosystem/ai/`**
+- [x] If repo: initial import of `ai/mcp_winston` with history note; CI or compose build still works
+- [x] If image-only: write short note in `ecosystem/deployment/README.md` + `ai/mcp_winston` README — N/A (not image-only)
+- [x] Next MCP change has a clear `git commit` path → edit `ecosystem/ai/mcp_winston/`, commit `winston_ecosystem`, rebuild image
+
+## Implementation (2026-07-20)
+
+| Decision | Fold into **ecosystem** (`winston_ecosystem`) — MCP is ecosystem glue exercised by Cromwell |
+|----------|---------------------------------------------------------------------------------------------|
+| MCP SOT | `ecosystem/ai/mcp_winston/` |
+| Nanobot SOT | `ecosystem/ai/nanobot/` (Containerfile + cron allowlist patch; same orphan class) |
+| Compose | Root `compose.yml` build contexts → `./ecosystem/ai/mcp_winston` and `./ecosystem/ai/nanobot` |
+| Legacy paths | Workspace `ai/mcp_winston/` and `ai/nanobot/` are pointer READMEs only |
+
+**Commit path for MCP changes:**
+
+```bash
+cd ecosystem
+# edit ai/mcp_winston/...
+git add ai/mcp_winston && git commit && git push
+cd ..
+./bin/compose --profile ai build winston_mcp
+# recreate winston_mcp only when possible
+```
 
 ## Related
 

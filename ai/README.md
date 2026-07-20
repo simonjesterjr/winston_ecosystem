@@ -1,8 +1,10 @@
 # Winston Ecosystem — AI / Cromwell Agent Assets
 
-Versioned source of truth for Cromwell bot personas, skills, and memory templates.
+Versioned source of truth for Cromwell bot personas, skills, memory templates, **MCP server**, and **nanobot image patches**.
 
-**Deploy to a nanobot workspace:**
+The ecosystem is exercised heavily through MCP, so runtime glue lives here alongside skills/schedule — not as a host-only tree under workspace `ai/`.
+
+**Deploy personas/skills/cron to a nanobot workspace:**
 
 ```bash
 bin/seed-cromwell-workspace
@@ -10,7 +12,14 @@ bin/seed-cromwell-workspace
 bin/seed-cromwell-workspace --workspace ai/data/cromwell-bot/workspace
 ```
 
-Then restart the bot:
+**Rebuild MCP / nanobot images (after code changes here):**
+
+```bash
+./bin/compose --profile ai build winston_mcp nanobot_cromwell
+# Prefer replacing only those containers (full compose recreate can cascade-stop the stack)
+```
+
+Then restart the bot if only personas/skills changed:
 
 ```bash
 ./bin/compose --profile ai restart nanobot_cromwell
@@ -20,22 +29,27 @@ Then restart the bot:
 
 | Path | Purpose |
 |------|---------|
-| `VERSION` | Bump when skills or personas change materially |
+| `VERSION` | Bump when skills, personas, MCP, or nanobot patches change materially |
 | `personas/` | `SOUL.md`, `AGENTS.md`, `TOOLS.md` sources |
 | `memory/templates/` | `MEMORY.template.md`, `HEARTBEAT.template.md` |
 | `skills/` | Winston workflow playbooks (`*/SKILL.md`) |
 | `schedule/` | Recurring task catalog — [`schedule/README.md`](schedule/README.md) |
+| `mcp_winston/` | **Winston MCP server** (compose `winston_mcp` build context) |
+| `nanobot/` | **Cromwell nanobot** Containerfile + Sawtooth patches (compose `nanobot_cromwell`) |
 
 ## What lives where
 
 | Concern | Location |
 |---------|----------|
 | Architecture, parquet, monolith vision | `ecosystem/principles/` |
-| MCP tool schemas | `ecosystem/interfaces/winston-mcp-tools.md` |
+| MCP tool **contracts** (docs) | `ecosystem/interfaces/winston-mcp-tools.md` |
+| MCP tool **implementation** | `mcp_winston/` → image `winston_mcp` |
+| Nanobot image + cron allowlist patch | `nanobot/` → image `nanobot_cromwell` |
 | Agent identity + workspace rules | `personas/` → workspace root |
 | Workflow playbooks | `skills/` → `workspace/skills/` |
 | Principal prefs, portfolio facts | `memory/MEMORY.md` (runtime; seeded from template on first run) |
 | Session history | `memory/HISTORY.md` (runtime; never overwritten by seed) |
+| Runtime bot config / sessions | host `ai/data/cromwell-bot/` (secrets, not this tree) |
 
 ## Channels
 

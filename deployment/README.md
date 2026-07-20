@@ -23,6 +23,15 @@ bin/seed-cromwell-workspace
 ./bin/compose --profile ai up -d nanobot_cromwell
 ```
 
+### AI / MCP build sources (git)
+
+| Image | Compose context (SOT in `winston_ecosystem`) |
+|-------|-----------------------------------------------|
+| `winston_mcp` | `ecosystem/ai/mcp_winston/` |
+| `nanobot_cromwell` | `ecosystem/ai/nanobot/` |
+
+Personas/skills/schedule still seed into host `ai/data/cromwell-bot/workspace` via `bin/seed-cromwell-workspace`. Runtime secrets stay in `ai/data/cromwell-bot/config.json` (not git).
+
 ### DM source bind-mount (dev)
 
 Root `compose.yml` bind-mounts `./data_manager` into `data_manager` and `data_manager_sidekiq` (same as WUT/Wv2). Keep `data_manager/bin/*` executable (`git` mode `100755`) or rootless Podman will hit permission denied on `bin/rails`.

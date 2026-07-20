@@ -1,0 +1,39 @@
+# Cromwell nanobot gateway.
+# Built as a tiny image using the published nanobot-ai package.
+# See ai/README.md.
+FROM python:3.12-slim-bookworm
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        curl ca-certificates git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Pin major.minor — unpinned installs pulled 0.2.x which requires session-bound cron
+# payloads (see ecosystem/ai/schedule/README.md). Bump deliberately after verifying
+# cromwell-cron.json + tools.ssrf_whitelist still work.
+RUN pip install --no-cache-dir "nanobot-ai==0.2.2"
+
+# Bot API 10.1 sendRichMessage is accepted by Telegram servers, but many stable
+# clients (Desktop / Web) cannot render Message.rich_message and show:
+#   "This message is not supported by your version of Telegram..."
+# nanobot only disables rich send when the *API* rejects it — so force legacy
+# HTML send_message until Desktop/Web catch up. Revisit when bumping nanobot-ai.
+# (Avoid Dockerfile heredocs — older podman/buildah parsers choke on them.)
+RUN python -c "from pathlib import Path; p=Path('/usr/local/lib/python3.12/site-packages/nanobot/channels/telegram.py'); t=p.read_text(); o='self._rich_send_disabled: bool = False  # Latch off if Bot API < 10.1'; n='self._rich_send_disabled: bool = True  # Forced off: Desktop/Web lack rich_message support'; assert o in t, 'rich-send patch target missing'; p.write_text(t.replace(o,n,1)); print('patched', p, '->_rich_send_disabled=True')"
+
+# Sawtooth: hard MCP allowlist for cron:<job-id> sessions (issue 2026-07-20).
+# Config: workspace/schedule/cron-tool-allowlist.json (seeded from ecosystem/ai/schedule/).
+COPY patches/cron_tool_allowlist.py /opt/sawtooth/cron_tool_allowlist.py
+RUN python -c "\
+from pathlib import Path; \
+p = Path('/usr/local/lib/python3.12/site-packages/nanobot/agent/tools/registry.py'); \
+t = p.read_text(); \
+marker = '# SAWTOOTH_CRON_TOOL_ALLOWLIST'; \
+assert marker not in t, 'allowlist patch already present'; \
+hook = marker + '''\ntry:\n    import importlib.util\n    from pathlib import Path as _P\n    _spec = importlib.util.spec_from_file_location(\n        \"sawtooth_cron_tool_allowlist\",\n        \"/opt/sawtooth/cron_tool_allowlist.py\",\n    )\n    if _spec and _spec.loader:\n        _mod = importlib.util.module_from_spec(_spec)\n        _spec.loader.exec_module(_mod)\n        _mod.install(ToolRegistry)\nexcept Exception as _exc:  # never block gateway boot\n    import logging as _logging\n    _logging.getLogger(\"nanobot\").warning(\"cron tool allowlist not installed: %s\", _exc)\n'''; \
+p.write_text(t.rstrip() + '\n\n' + hook + '\n'); \
+print('patched', p, '-> cron tool allowlist install')"
+
+RUN mkdir -p /root/.nanobot
+
+ENTRYPOINT ["nanobot"]
+CMD ["gateway"]

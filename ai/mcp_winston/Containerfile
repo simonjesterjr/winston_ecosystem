@@ -1,0 +1,32 @@
+# Minimal Containerfile for the winston_mcp MCP server component.
+#
+# The server is a thin Python delegator. It only makes HTTP calls to the
+# monoliths' /internal/* surfaces over the compose network.
+#
+# We prefer Containerfile naming for consistency with the rest of the
+# Sawtooth ecosystem (even though this is Python).
+
+FROM python:3.12-slim-bookworm
+
+WORKDIR /app
+
+# System deps (curl for quick debugging inside the container).
+RUN apt-get update && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install the MCP server and its runtime deps.
+# In real use we install the local package (editable or wheel).
+COPY pyproject.toml ./
+COPY mcp_winston/ mcp_winston/
+RUN pip install --no-cache-dir -e ".[http]" || pip install --no-cache-dir "mcp>=1.26" httpx uvicorn starlette
+
+# Run the MCP server in HTTP/SSE mode by default.
+# This is what the compose "winston_mcp" service and the nanobot config expect
+# (see ai/configs/nanobot-cromwell.example.json → url: http://winston_mcp:8088/sse).
+#
+# For local stdio testing outside compose you can still do:
+#   python -m mcp_winston.server
+#
+# Inside the container (for debugging):
+#   uvicorn mcp_winston.server:asgi_app --host 0.0.0.0 --port 8088
+ENTRYPOINT ["uvicorn", "mcp_winston.server:asgi_app", "--host", "0.0.0.0", "--port", "8088"]
