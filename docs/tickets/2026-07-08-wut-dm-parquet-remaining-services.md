@@ -1,6 +1,7 @@
 # Ticket: WUT DM parquet: refactor remaining services for direct DM loader usage
 
 **Status:** Proposed
+**Priority:** unset
 
 **Date:** 2026-07-08
 

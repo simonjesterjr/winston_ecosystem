@@ -1,6 +1,7 @@
 # Ticket: Tailscale Serve deployment docs + Wv2/DM subpath parity
 
 **Status:** Proposed
+**Priority:** P2
 **Context:** WUT mobile access via `https://sawtooth-ai.tail944ffb.ts.net/wut/` shipped in session `2026-07-04-1511`; root `compose.yml` Tailscale env is on disk but the sawtooth workspace root is **not** a git repo (deployment README incorrectly says compose.yml is "committed").
 
 ## Problem

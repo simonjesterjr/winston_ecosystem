@@ -2,7 +2,7 @@
 
 **Status:** Proposed (watch active via scheduler)  
 **Date:** 2026-07-16  
-**Priority:** Low (opportunistic)  
+**Priority:** P3 — Low (opportunistic)  
 **Repos:** `ai/` / Cromwell model ops  
 **Source:** Session report `docs/session-reports/2026-07-16-1000-bonsai-core-model-advice.md`
 

@@ -1,6 +1,7 @@
 # Ticket: Link validation PortfolioBacktestRun to PortfolioSignalOptimization
 
 **Status:** Proposed
+**Priority:** unset
 
 **Date:** 2026-07-09
 

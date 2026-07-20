@@ -1,0 +1,4 @@
+interface:
+  display_name: "Manage Issue Ticket"
+  short_description: "Create or update an evidence-based issue"
+  default_prompt: "Use $manage-issue-ticket to capture this finding as an evidence-based repository issue."

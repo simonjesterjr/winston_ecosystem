@@ -1,6 +1,7 @@
 # Ticket: Observe Cromwell market-snapshot hourlies for real MCP + clean Telegram
 
 **Status:** Proposed  
+**Priority:** unset
 **Context:** Issue `docs/issues/2026-07-13-cromwell-cron-placeholder-path-hallucination.md`. Sessions `docs/session-reports/2026-07-13-1216-cromwell-telegram-placeholder-path.md`, `docs/session-reports/2026-07-13-1307-intraday-market-radar.md`. Overlaps acceptance on `docs/tickets/2026-07-09-cromwell-cron-llm-timeout.md`.
 
 ## Problem

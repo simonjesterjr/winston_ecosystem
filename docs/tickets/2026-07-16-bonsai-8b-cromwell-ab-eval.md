@@ -2,7 +2,7 @@
 
 **Status:** Proposed  
 **Date:** 2026-07-16  
-**Priority:** Medium (when Ollama tag exists; after or parallel with reliability work)  
+**Priority:** P2
 **Repos:** `ai/` Cromwell  
 **Source:** Session report `docs/session-reports/2026-07-16-1000-bonsai-core-model-advice.md`
 

@@ -2,7 +2,7 @@
 
 **Status:** Proposed  
 **Date:** 2026-07-15  
-**Priority:** Low (after gold SFT set)  
+**Priority:** P3 — Low (after gold SFT set)  
 **Source:** Session report `docs/session-reports/2026-07-15-1615-lora-qlora-ecosystem-fit.md`
 
 ## Problem

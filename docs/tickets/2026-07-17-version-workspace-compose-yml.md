@@ -3,7 +3,7 @@
 **Status:** Proposed  
 **Date:** 2026-07-17  
 **Source:** Session `docs/session-reports/2026-07-16-2210-public-url-cash-dar-error-guidance.md`  
-**Priority:** Medium (ops durability)
+**Priority:** P2 — Medium (ops durability)
 
 ## Problem
 

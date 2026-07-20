@@ -1,6 +1,7 @@
 # Ticket: Refresh remaining color portfolio_configs with fingerprints
 
 **Status:** Proposed  
+**Priority:** unset
 **Date:** 2026-07-14  
 **Source:** Phase 3 PR 4 partially completed blue-pbr62 + red; other cohort JSONs incomplete  
 **Plan:** `plans/paper-telegram-phase3-adr006.md` PR 4 follow-on
@@ -9,7 +10,7 @@
 
 PR 4 refreshed **blue-pbr62** and **red** with fingerprints. Other color handoff files still missing or uneven (e.g. static `portfolio-blue.json`, some sidecars). Bare-name import remains a footgun for any file without fingerprint.
 
-Inventory at PR 4 close (approx): green/orange/pink/blank/rust/white already had nested fingerprints; blue static and some others did not.
+Inventory at PR 4 close (approx): green/orange/pink/mango (was blank)/rust/white already had nested fingerprints; blue static and some others did not.
 
 ## Scope
 

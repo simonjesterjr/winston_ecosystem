@@ -1,6 +1,7 @@
 # Ticket: data_sets UI — DM as source of truth; pure registry view using DataCoverage; remove all "Load Full Data", "Sync", hydration actions and language; columns reflect DM metadata
 
 **Status:** Proposed (see main ticket)
+**Priority:** unset
 
 **Date:** 2026-07-07
 

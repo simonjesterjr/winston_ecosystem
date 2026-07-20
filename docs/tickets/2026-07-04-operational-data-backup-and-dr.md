@@ -1,6 +1,7 @@
 # Ticket: Operational data backup and disaster recovery
 
 **Status:** Proposed
+**Priority:** P1
 **Context:** Sawtooth operational data (parquet tree, Postgres metadata, Redis, configs, Cromwell artifacts) lives on the dev/server host with no periodic off-site backup or exercised DR runbook (2026-07-04).
 
 ## Problem

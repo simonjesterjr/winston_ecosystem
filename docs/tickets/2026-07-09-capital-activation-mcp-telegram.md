@@ -1,6 +1,7 @@
 # Ticket: Capital Activation (MCP / Telegram)
 
 **Status:** Proposed (Phase 3 follow-on — after ADR-006 minimum)
+**Priority:** P1
 
 **Date:** 2026-07-09
 

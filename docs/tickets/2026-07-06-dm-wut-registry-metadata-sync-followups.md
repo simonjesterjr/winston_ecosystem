@@ -1,6 +1,7 @@
 # Ticket: DM ↔ WUT registry metadata mirror follow-ups
 
 **Status:** Proposed
+**Priority:** unset
 
 **Date:** 2026-07-06
 

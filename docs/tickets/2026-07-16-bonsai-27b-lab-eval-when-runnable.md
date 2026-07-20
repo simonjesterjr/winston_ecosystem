@@ -2,7 +2,7 @@
 
 **Status:** Proposed / blocked on runtime  
 **Date:** 2026-07-16  
-**Priority:** Low until Ollama (or supported runner) available; then Medium  
+**Priority:** P2
 **Repos:** `ai/` lab only — not production default  
 **Source:** Session report `docs/session-reports/2026-07-16-1000-bonsai-core-model-advice.md`
 

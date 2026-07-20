@@ -1,6 +1,7 @@
 # Ticket: Telegram agent reply visibility (inbound OK, human may not see)
 
 **Status:** Proposed  
+**Priority:** unset
 **Context:** Session `docs/session-reports/2026-07-09-1410-cromwell-cpu-tuning-and-watchdog.md`. Operator saw own DMs in nanobot logs but reported no bot replies. Server-side Bot API `sendMessage` / `sendRichMessage` to chat `8383774629` returned `ok: true` (message_ids 189–193). Agent also logged `Response to telegram:…` for at least one greeting.
 
 ## Problem

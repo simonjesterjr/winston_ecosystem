@@ -10,7 +10,7 @@
 
 `GET /internal/portfolio_config?run_id=` (MCP transfer path) still exports a **legacy bare** payload:
 
-- name like `"Portfolio Blank (WUT run 57)"`
+- name like `"Portfolio Mango (WUT run 57)"`
 - **no fingerprint**
 - weak seed/display lineage vs file export + PR4 paper path
 
@@ -43,8 +43,8 @@ Also this session: `portfolio_config` / `strategy_config` / `testing_strategies`
 | `lib/tasks/portfolio_configs.rake` | Thin wrapper over exporter |
 | `spec/services/portfolio_config_exporter_spec.rb` | 3 examples green |
 
-**Live smoke:** `GET …?run_id=57` → `fingerprint=f88e1ca0…`, `seed_name=Portfolio Blank`, `export_kind=observation`, `wut_trading_strategy_id=16`.  
-**Wv2 re-import:** `action=adopted` on bare OP `#10` (`Portfolio Blank · f88e1ca0`), not `legacy_updated`. Legacy OP `#157` remains a separate series (expected).
+**Live smoke:** `GET …?run_id=57` → `fingerprint=f88e1ca0…`, `seed_name=Portfolio Mango`, `export_kind=observation`, `wut_trading_strategy_id=16`.  
+**Wv2 re-import:** `action=adopted` on bare OP `#10` (`Portfolio Mango · f88e1ca0`), not `legacy_updated`. Legacy OP `#157` remains a separate series (expected).
 
 ## Related
 

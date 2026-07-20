@@ -1,6 +1,7 @@
 # Ticket: Limit intraday market radar to core Active portfolios
 
 **Status:** Proposed  
+**Priority:** unset
 **Context:** Session `docs/session-reports/2026-07-13-1307-intraday-market-radar.md`. Live `wv2_market_snapshot` now returns ~47 symbols from all Active Books; many small-ATR ETFs produce dense “breach” lists that dilute attention.
 
 ## Problem

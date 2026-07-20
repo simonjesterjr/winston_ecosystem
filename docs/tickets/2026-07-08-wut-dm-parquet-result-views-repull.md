@@ -1,6 +1,7 @@
 # Ticket: WUT DM parquet: implement full bar re-pull + rendering in all backtest result views and charts
 
 **Status:** Proposed
+**Priority:** unset
 
 **Date:** 2026-07-08
 

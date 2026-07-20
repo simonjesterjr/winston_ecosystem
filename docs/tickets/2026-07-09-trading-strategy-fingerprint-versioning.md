@@ -1,6 +1,7 @@
 # Ticket: TradingStrategy fingerprint payload versioning
 
 **Status:** Proposed
+**Priority:** unset
 
 **Date:** 2026-07-09
 

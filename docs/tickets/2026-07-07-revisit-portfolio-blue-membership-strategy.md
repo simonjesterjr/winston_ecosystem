@@ -1,6 +1,7 @@
 # Ticket: Revisit Portfolio Blue membership and strategy viability
 
 **Status:** In progress (membership still open; **strategy/risk rescue evidence strong**)
+**Priority:** P1
 
 **Date:** 2026-07-07
 

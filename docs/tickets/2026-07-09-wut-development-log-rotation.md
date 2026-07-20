@@ -1,6 +1,7 @@
 # Ticket: Rotate / truncate WUT development.log
 
 **Status:** Proposed
+**Priority:** unset
 
 **Date:** 2026-07-09
 

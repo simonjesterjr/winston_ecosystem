@@ -1,6 +1,7 @@
 # Ticket: Wv2 integration audit + correlation ID echo (fast follow)
 
 **Status:** Proposed
+**Priority:** unset
 **Blocked by:** Task 8 Phase 3 — MCP JSONL audit + `X-Correlation-Id` header propagation (`plans/winston-mcp-next-steps.md` task 8)
 **Plan:** `plans/winston-mcp-next-steps.md` task 8 (fast follow after Phase 3 slice)
 **Glossary:** `CONTEXT.md` — Correlation ID, Parent Correlation ID, Ecosystem Audit Log, Integration Log

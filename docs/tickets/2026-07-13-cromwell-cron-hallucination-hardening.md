@@ -1,6 +1,7 @@
 # Ticket: Harden Cromwell cron against post-truncation hallucination
 
 **Status:** Proposed  
+**Priority:** unset
 **Context:** Issue `docs/issues/2026-07-13-cromwell-cron-placeholder-path-hallucination.md`. Session `docs/session-reports/2026-07-13-1216-cromwell-telegram-placeholder-path.md`. Related open quality work: `docs/tickets/2026-07-09-cromwell-cron-llm-timeout.md`.
 
 ## Problem

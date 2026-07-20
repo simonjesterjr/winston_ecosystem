@@ -2,7 +2,7 @@
 
 **Status:** Proposed  
 **Date:** 2026-07-15  
-**Priority:** Low–medium — only after Tier 0 (and preferably Tier 2 thin-cron)  
+**Priority:** P2
 **Repos:** compose / `ai/` runtime  
 **Source:** Session 2026-07-15 concurrency design  
 

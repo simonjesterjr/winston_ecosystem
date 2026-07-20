@@ -1,6 +1,7 @@
 # Ticket: Track AI runtime Containerfile + example config in git
 
 **Status:** Proposed
+**Priority:** unset
 **Context:** Session `docs/session-reports/2026-07-09-0736-cromwell-cron-telegram-fix.md` pinned `nanobot-ai==0.2.2` and added `tools.ssrf_whitelist` to the example config, but both live only under workspace `ai/` which has **no** `.git`. Only `ecosystem/ai/schedule/*` (and personas/skills) are versioned.
 
 ## Problem

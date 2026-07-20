@@ -1,6 +1,7 @@
 # Ticket: Unify compose orchestration (podman-compose vs podman compose)
 
 **Status:** Proposed
+**Priority:** P2
 **Context:** `bin/compose --profile ai` failed with "container name already in use" when the stack was started by podman-compose but profile commands routed to `podman compose` → docker-compose (2026-07-02).
 
 ## Problem

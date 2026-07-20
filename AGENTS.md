@@ -33,17 +33,28 @@ Before planning, designing, or coding any cross-monolith change, read:
 
 End every substantive session with `/wrap` or `/session-report`. Skills in `.grok/skills/`:
 
-- `/session-report` — audit-grade handoff doc
-- `/wrap` — report + commit + push
-- `/record` — route finding to issues/tickets/plans/analysis
-- `/adversary` — hostile review before committing to a conclusion
-- `/stakeholder` — plain-English outward communication
-- `/grill-with-docs` — stress-test a plan against CONTEXT.md and ADRs
+| Skill | Use |
+|-------|-----|
+| `/session-report`, `/wrap` | Audit handoff; commit/push |
+| `/record` | Route to issues / tickets / analysis / operations / ADRs |
+| `manage-issue-ticket` | Defect intake with readiness gate (`docs/issues/_template.md`) |
+| `lightweight-bug-fix` | Ready issue → regression test → minimal fix → verify |
+| `investigate-system-variance` | WUT/Wv2/DM/agent parity investigations (Winston project-notes) |
+| `baseline-replay` | One scoped baseline vs candidate replay |
+| `ship-to-test` | Checks → compose → `bin/test-*` / parity smokes |
+| `/adversary` | Hostile review before committing to a conclusion |
+| `/stakeholder` | Plain-English outward communication |
+| `/grill-with-docs` | Stress-test a plan against CONTEXT.md and ADRs |
+
+Rails app review: use `rails-code-review` **inside** `data_manager/`, `winston_unit_test/`, or `winston_v2/` (each has `PROJECT_PROFILE.md`).
 
 ## Operating discipline
 
 - Promote finished plans from `.grok/sessions/...` into `plans/`.
 - Irreversible decisions → `docs/adr/`. Domain rules → `docs/business-context/`. Terms → `CONTEXT.md`.
+- Unexpected defects → `docs/issues/` (not tickets-only); ready issues → `lightweight-bug-fix`.
+- Tickets: `**Priority:** P0–P3|unset`; Done → `docs/tickets/archive/`; see `docs/tickets/INDEX.md`.
+- Second time you explain an ops ritual → `docs/operations/` runbook.
 - Use `/grill-with-docs` before large cross-monolith designs.
 - Use `bin/seed-cromwell-workspace` after changing `ai/` assets.
 

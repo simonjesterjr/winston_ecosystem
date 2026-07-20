@@ -3,7 +3,7 @@
 **Status:** Proposed  
 **Date:** 2026-07-18  
 **Source:** Session `docs/session-reports/2026-07-18-1024-ops-demo-5-7-related-draft-equity.md`  
-**Priority:** High (blocks Telegram use of #3–#7 desk tools)
+**Priority:** P1
 
 ## Problem
 

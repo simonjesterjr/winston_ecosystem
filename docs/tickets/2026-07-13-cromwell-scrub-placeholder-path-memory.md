@@ -1,6 +1,7 @@
 # Ticket: Scrub Cromwell permanent memory of `path/to/file.txt` hallucination
 
 **Status:** Proposed  
+**Priority:** P1
 **Context:** Issue `docs/issues/2026-07-13-cromwell-cron-placeholder-path-hallucination.md`. Session `docs/session-reports/2026-07-13-1216-cromwell-telegram-placeholder-path.md`.
 
 ## Problem

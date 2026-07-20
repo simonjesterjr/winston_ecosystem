@@ -42,7 +42,7 @@ Canonical write-up: business analysis §15 addendum
 
 ### Live Wv2 snapshot (re-checked 2026-07-14)
 
-Six color Actives: Red, Blue, Green, Pink, Blank, Rust (Orange inactive). Unchanged this session.
+Six color Actives: Red, Blue, Green, Pink, Mango, Rust (Orange inactive). Unchanged this session.
 
 | OP | Live TS (import) | Implication for paper focus |
 |----|------------------|-----------------------------|

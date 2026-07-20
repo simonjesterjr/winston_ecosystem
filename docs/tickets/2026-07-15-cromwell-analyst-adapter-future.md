@@ -2,7 +2,7 @@
 
 **Status:** Proposed  
 **Date:** 2026-07-15  
-**Priority:** Future / unscoped  
+**Priority:** P3 — Future / unscoped  
 **Source:** Session report `docs/session-reports/2026-07-15-1615-lora-qlora-ecosystem-fit.md`
 
 ## Problem

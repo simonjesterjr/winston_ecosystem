@@ -1,0 +1,4 @@
+interface:
+  display_name: "Investigate System Variance"
+  short_description: "Trace baseline/candidate differences with evidence"
+  default_prompt: "Use $investigate-system-variance to root-cause and classify this baseline-versus-candidate behavior difference."

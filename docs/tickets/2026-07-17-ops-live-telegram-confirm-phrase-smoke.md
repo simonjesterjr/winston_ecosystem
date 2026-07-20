@@ -4,7 +4,7 @@
 **Date:** 2026-07-17  
 **Source:** Session `2026-07-17-1257-mcp-smoke-shell-cash-parity.md`  
 **Epic:** `2026-07-17-ops-daily-demo-epic.md`  
-**Priority:** Medium (operator confidence; shell/MCP paths already verified)
+**Priority:** P2
 
 ## Problem
 

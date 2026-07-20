@@ -1,6 +1,7 @@
 # Ticket: Harden Cromwell cron LLM path (timeouts on scheduled Telegram)
 
 **Status:** In progress (mitigations landed 2026-07-09; await natural hourly)  
+**Priority:** P1
 **Context:** Session `docs/session-reports/2026-07-09-0736-cromwell-cron-telegram-fix.md` fixed unbound cron skips. Hardware diagnosis: pure CPU is correct. Mitigations: CPU-only model/ctx/keep-alive + Sidekiq watchdog.
 
 ## Problem

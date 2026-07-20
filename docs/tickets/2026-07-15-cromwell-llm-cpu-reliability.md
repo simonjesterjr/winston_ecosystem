@@ -2,7 +2,7 @@
 
 **Status:** In progress (ops fixes applied host-side; remaining work open)  
 **Date:** 2026-07-15  
-**Priority:** Medium (D — stability)  
+**Priority:** P1
 **Source:** Session 2026-07-15 — 45 min “no reply”; LLM timed out 4× at 120s; qwen3 thinking burn  
 
 ## Problem

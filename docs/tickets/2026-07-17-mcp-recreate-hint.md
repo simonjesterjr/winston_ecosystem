@@ -3,7 +3,7 @@
 **Status:** Proposed  
 **Date:** 2026-07-17  
 **Source:** Session `2026-07-17-1257-mcp-smoke-shell-cash-parity.md`  
-**Priority:** Low (ops hygiene; second-time ritual → skill/hint)
+**Priority:** P3 — Low (ops hygiene; second-time ritual → skill/hint)
 
 ## Problem
 

@@ -1,6 +1,7 @@
 # Ticket: Track host compose.yml + portfolio_configs outside monolith gits
 
 **Status:** Proposed  
+**Priority:** unset
 **Date:** 2026-07-14  
 **Source:** session `2026-07-14-1112-paper-telegram-phase0-1.md`
 

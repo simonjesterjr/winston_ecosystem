@@ -2,7 +2,7 @@
 
 **Status:** Proposed  
 **Date:** 2026-07-15  
-**Priority:** Medium — after Tier 0 session isolation  
+**Priority:** P2 — Medium — after Tier 0 session isolation  
 **Repos:** cross-monolith (`ecosystem/ai`, DM/Wv2 notify paths, optional MCP)  
 **Source:** Session 2026-07-15 concurrency design  
 

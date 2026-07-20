@@ -16,7 +16,7 @@
 
 ## Acceptance
 
-- [x] Green/Pink/Blank/Rust vet_trend ran past preflight  
+- [x] Green/Pink/Mango/Rust vet_trend ran past preflight  
 - [ ] Optional unit spec for DM-path ATR zero message (nice-to-have)  
 
 ## Files

@@ -1,6 +1,7 @@
 # Ticket: Refresh process for correlation deep-dive YAML
 
 **Status:** Proposed  
+**Priority:** unset
 
 **Date:** 2026-07-13  
 

@@ -1,6 +1,7 @@
 # Ticket: Fix parquet ATR / PositionSizer zero units
 
 **Status:** Proposed  
+**Priority:** unset
 **Date:** 2026-07-14  
 **Source:** `docs/session-reports/2026-07-14-1112-paper-telegram-phase0-1.md`
 

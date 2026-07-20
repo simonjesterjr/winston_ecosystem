@@ -1,6 +1,7 @@
 # Ticket: Confirm natural Cromwell hourly Telegram after CPU tuning
 
 **Status:** Proposed  
+**Priority:** unset
 **Context:** Session `docs/session-reports/2026-07-09-1410-cromwell-cpu-tuning-and-watchdog.md` mitigated LLM timeouts (`cromwell-qwen2.5:3b`, 8k ctx, keep-alive 24h, `NANOBOT_MAX_CONCURRENT_REQUESTS=1`). Natural hourlies not yet confirmed green.
 
 ## Acceptance criteria

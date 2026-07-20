@@ -1,6 +1,7 @@
 # Ticket: Speed up full validation PortfolioBacktestRun after vet_trend
 
 **Status:** Proposed
+**Priority:** unset
 
 **Date:** 2026-07-09
 

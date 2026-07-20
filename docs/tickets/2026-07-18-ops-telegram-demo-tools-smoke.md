@@ -3,7 +3,7 @@
 **Status:** Proposed  
 **Date:** 2026-07-18  
 **Source:** Session `docs/session-reports/2026-07-18-1024-ops-demo-5-7-related-draft-equity.md`  
-**Priority:** Medium (demo confidence; depends on MCP recreate)  
+**Priority:** P2 — Medium (demo confidence; depends on MCP recreate)  
 **Blocked by:** `2026-07-18-ops-mcp-recreate-after-demo-tools.md`
 
 ## Problem

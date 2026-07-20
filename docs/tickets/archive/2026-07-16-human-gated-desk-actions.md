@@ -39,7 +39,7 @@ Telegram does **not** support pre-filling arbitrary bot messages in group chats.
 ## Follow-ons
 
 - [x] PDF DAR chapter print phrases / form URLs visibly (2026-07-16)  
-- [ ] MCP `wv2_exit_trade` + Cromwell skill  
+- [x] MCP `wv2_exit_trade` + Cromwell skill (2026-07-16)  
 - [ ] Journal edit UI (units/price re-write) beyond stop update  
 - [ ] Fix historical bad stops on #12 AMZN (operator: `stop 1 price=…`)  
 

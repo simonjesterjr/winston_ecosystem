@@ -2,7 +2,7 @@
 
 **Status:** Proposed  
 **Date:** 2026-07-16  
-**Priority:** Medium (process guardrail; blocks careless swaps)  
+**Priority:** P2
 **Repos:** `ai/` ops  
 **Source:** Session report `docs/session-reports/2026-07-16-1000-bonsai-core-model-advice.md`
 

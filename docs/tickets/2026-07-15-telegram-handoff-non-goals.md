@@ -2,7 +2,7 @@
 
 **Status:** Proposed (reference / anti-scope)  
 **Date:** 2026-07-15  
-**Priority:** Low — decision record for planners  
+**Priority:** P3 — Low — decision record for planners  
 **Source:** Session 2026-07-15 gap analysis E  
 
 ## Purpose

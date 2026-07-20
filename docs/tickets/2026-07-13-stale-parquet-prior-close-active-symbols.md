@@ -1,6 +1,7 @@
 # Ticket: Stale DM parquet last-dates for some Active symbols
 
 **Status:** Proposed  
+**Priority:** unset
 **Context:** Session `docs/session-reports/2026-07-13-1307-intraday-market-radar.md`. Live radar uses DM parquet for prior close + `atr_17`; smoke showed mixed last bars (`2026-07-02` vs `2026-07-10`) on Active Books.
 
 ## Problem

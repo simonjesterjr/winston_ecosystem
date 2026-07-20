@@ -1,6 +1,7 @@
 # Ticket: PBR Level 2 remaining experiments (anti-overfit matrix)
 
 **Status:** Proposed  
+**Priority:** P2
 **Date:** 2026-07-13  
 **Monolith:** winston_unit_test (WUT lab runs; results → `ecosystem/business_analysis/`)
 

@@ -13,7 +13,7 @@ Paper-first policies: max_markets=4, paper leverage 1×. Seed = Blue 62 explorat
 1. **WUT export** — fixed `wut:portfolios:export_config` (`pyramid_atr_multiplier` try; risk_pct fraction; max_markets/max_leverage fields). Exported PBR 62 → `portfolio_configs/portfolio-blue-pbr62.json`.  
 2. **Paper policy patch on JSON** — name `Portfolio Blue · PBR62`, `export_kind=trade_ready`, **max_leverage=1** (lab had 3), max_markets=4, vetting block.  
 3. **Wv2 import** — new OP **#12** + TS **#15** (did not overwrite static Blue #7).  
-4. **Attention hygiene** — only #12 Active; demoted Red/Blue/Green/Pink/Blank/Rust.  
+4. **Attention hygiene** — only #12 Active; demoted Red/Blue/Green/Pink/Mango/Rust.  
 5. **Recipe check** — one_way_dynamic + move_to_last_entry + SwingBreakout5Day + VolExit — **MATCH**.
 
 ## Acceptance

@@ -1,6 +1,7 @@
 # Ticket: DM integration audit mirror to ecosystem hub (fast follow)
 
 **Status:** Proposed
+**Priority:** unset
 **Blocked by:** Task 8 Phase 3 — `ecosystem/logs/audit/` hub + compose mounts (`plans/winston-mcp-next-steps.md` task 8)
 **Plan:** `plans/winston-mcp-next-steps.md` task 8 (fast follow after Phase 3 slice)
 **Glossary:** `CONTEXT.md` — Ecosystem Audit Log, Integration Log

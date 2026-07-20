@@ -9,7 +9,7 @@
 
 Wv2 Active set (post Phase 6 import):
 
-- Portfolio Red, Blue, Green, Pink, Blank, Rust (all Active)  
+- Portfolio Red, Blue, Green, Pink, Mango, Rust (all Active)  
 - Orange deactivated; White not activated  
 
 PCS daily path and DAR correlation section depend on WUT snapshots + WutClient.
@@ -38,7 +38,7 @@ PCS daily path and DAR correlation section depend on WUT snapshots + WutClient.
 
 | Check | Result |
 |-------|--------|
-| Active set | #5 Red, #7 Blue, #8 Green, #9 Pink, #10 Blank, #11 Rust (Orange #6 inactive) |
+| Active set | #5 Red, #7 Blue, #8 Green, #9 Pink, #10 Mango, #11 Rust (Orange #6 inactive) |
 | `PortfolioReadiness` | all six `ready=true`, no missing symbols |
 | DM ingest (via evaluate) | `{:ingested=>61, :skipped=>0, :errors=>[]}` |
 | WUT PCS API | `GET /internal/correlation_scores` healthy (`corr_v2`, six color cohorts + Orange) |
@@ -49,7 +49,7 @@ PCS daily path and DAR correlation section depend on WUT snapshots + WutClient.
 |-----------|--------|-------------|-----|-----------|
 | Green | evaluated | — | 83.39 | 0.311 |
 | Pink | evaluated | — | 76.29 | 0.438 |
-| Blank | evaluated | — | 71.30 | 0.530 |
+| Mango | evaluated | — | 71.30 | 0.530 |
 | Rust | evaluated | — | 77.25 | 0.419 |
 | Red | evaluated | — | 73.01 | 0.478 |
 | Blue | evaluated | — | 76.15 | 0.441 |
