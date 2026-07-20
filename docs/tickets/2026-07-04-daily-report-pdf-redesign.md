@@ -1,7 +1,7 @@
 # Ticket: Redesign Wv2 daily activity report PDF layout
 
-**Status:** In progress → largely delivered (2026-07-10 multi-page expert package)
-**Priority:** unset
+**Status:** Proposed (largely delivered; residual compose smoke)
+**Priority:** P3
 
 **Context:** Task 7 delivered basic PDF. 2026-07-10 plan expands to multi-page expert reports with equity graphs, markdown archive, and Telegram Sawtooth Main delivery.
 

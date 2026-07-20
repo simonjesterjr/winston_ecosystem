@@ -1,8 +1,7 @@
----
-Status: Completed (planning; implementation deferred to Phase B/C)
----
-
 # Ticket: Eventual schema cleanup for activity_id columns (post DM SoT)
+
+**Status:** Proposed (Phase B/C deferred; planning done)  
+**Priority:** P3  
 
 **Related to:** ecosystem/docs/session-reports/2026-07-08-1430-dm-reconcile-container-cleanup.md  
 **Plan:** ecosystem/plans/wut-dm-parquet-source-of-truth.md (open items)  

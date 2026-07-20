@@ -1,7 +1,7 @@
 # Ticket: Refresh remaining color portfolio_configs with fingerprints
 
 **Status:** Proposed  
-**Priority:** unset
+**Priority:** P2
 **Date:** 2026-07-14  
 **Source:** Phase 3 PR 4 partially completed blue-pbr62 + red; other cohort JSONs incomplete  
 **Plan:** `plans/paper-telegram-phase3-adr006.md` PR 4 follow-on

@@ -1,7 +1,7 @@
 # Ticket: Observe Cromwell market-snapshot hourlies for real MCP + clean Telegram
 
 **Status:** Proposed  
-**Priority:** unset
+**Priority:** P1
 **Context:** Issue `docs/issues/2026-07-13-cromwell-cron-placeholder-path-hallucination.md`. Sessions `docs/session-reports/2026-07-13-1216-cromwell-telegram-placeholder-path.md`, `docs/session-reports/2026-07-13-1307-intraday-market-radar.md`. Overlaps acceptance on `docs/tickets/2026-07-09-cromwell-cron-llm-timeout.md`.
 
 ## Problem
@@ -30,6 +30,6 @@ Session: `ai/data/cromwell-bot/workspace/sessions/telegram_-1003884714483.jsonl`
 ## Related
 
 - Issue: [`docs/issues/2026-07-13-cromwell-cron-placeholder-path-hallucination.md`](../issues/2026-07-13-cromwell-cron-placeholder-path-hallucination.md)
-- Hardening: [`docs/tickets/2026-07-13-cromwell-cron-hallucination-hardening.md`](2026-07-13-cromwell-cron-hallucination-hardening.md)
+- Hardening (Done offline 2026-07-20 — deploy image + seed, then observe here): [`docs/tickets/2026-07-13-cromwell-cron-hallucination-hardening.md`](2026-07-13-cromwell-cron-hallucination-hardening.md)
 - Prior: [`docs/tickets/2026-07-09-cromwell-cron-llm-timeout.md`](2026-07-09-cromwell-cron-llm-timeout.md)
 - Session: [`docs/session-reports/2026-07-13-1216-cromwell-telegram-placeholder-path.md`](../session-reports/2026-07-13-1216-cromwell-telegram-placeholder-path.md)

@@ -48,7 +48,8 @@ Treat Journal as what it already is:
 | `mark_to_market` | MTM column present; ops path underused |
 | `position_sizing_risk`, `position_action_initiation` | Risk / initiation metadata |
 | `expected_return_data` | JSON analytics (WUT parity; live optional) |
-| `fulfillment_type`, `fulfillment_details` | stock/LEAP…; fill price, units, `confirmed_at` live in JSON |
+| `fulfillment_type`, `fulfillment_details` | stock/LEAP…; JSON still mirrors fill for one-release back-compat |
+| `execution_price`, `units`, `executed_at` | **First-class fill columns** (journal-to-ledger #1, 2026-07-20) |
 | `status` | `draft` \| `executed` \| `cancelled` \| `passed` |
 | `notes` | Signal reason + human confirm notes |
 
@@ -169,7 +170,7 @@ Discoverable label for this program. All tickets below **must** link back here.
 | # | Ticket | Status | Depends on | Intent |
 |---|--------|--------|------------|--------|
 | 0 | **This analysis** | Reference | — | Product + schema evaluation |
-| 1 | [`2026-07-15-journal-ledger-promote-fill-fields.md`](../tickets/2026-07-15-journal-ledger-promote-fill-fields.md) | Proposed | — | First-class fill columns (foundation) |
+| 1 | [`2026-07-15-journal-ledger-promote-fill-fields.md`](../tickets/2026-07-15-journal-ledger-promote-fill-fields.md) | **Done** (2026-07-20) | — | First-class fill columns (foundation) |
 | 2 | [`2026-07-14-wv2-ad-hoc-paper-fill-mcp.md`](../tickets/2026-07-14-wv2-ad-hoc-paper-fill-mcp.md) | **Done** (2026-07-16) | #1 preferred (uses fulfillment_details until #1) | Book trade without DAR draft |
 | 3 | [`2026-07-15-journal-ledger-stop-on-confirm-and-update.md`](../tickets/2026-07-15-journal-ledger-stop-on-confirm-and-update.md) | Proposed | #1–2 | Human stop at book/confirm + update |
 | 4 | [`2026-07-15-journal-ledger-export-csv-pdf.md`](../tickets/2026-07-15-journal-ledger-export-csv-pdf.md) | Proposed | #1–2 (stronger after #3) | Portfolio ledger export |

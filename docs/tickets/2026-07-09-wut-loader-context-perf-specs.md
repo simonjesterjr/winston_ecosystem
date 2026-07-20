@@ -1,7 +1,7 @@
 # Ticket: Specs for DM loader and optimization context perf fixes
 
 **Status:** Proposed
-**Priority:** unset
+**Priority:** P3
 
 **Date:** 2026-07-09
 

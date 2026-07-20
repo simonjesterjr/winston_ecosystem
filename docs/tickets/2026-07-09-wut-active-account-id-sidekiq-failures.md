@@ -1,7 +1,7 @@
 # Ticket: WUT Sidekiq jobs failing on missing active_account_id columns
 
 **Status:** Proposed
-**Priority:** unset
+**Priority:** P2
 **Context:** Observed while diagnosing Cromwell Telegram silence (`docs/session-reports/2026-07-09-0736-cromwell-cron-telegram-fix.md`). **Not** the cause of missing Telegram posts; filed so the WUT schema drift does not stay as log noise only.
 
 ## Problem

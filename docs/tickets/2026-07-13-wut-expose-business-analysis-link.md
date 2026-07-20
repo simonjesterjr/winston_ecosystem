@@ -1,7 +1,7 @@
 # Ticket: Expose ecosystem business analysis from WUT UI
 
 **Status:** Proposed  
-**Priority:** unset
+**Priority:** P3
 **Date:** 2026-07-13  
 **Monolith:** winston_unit_test (WUT)
 

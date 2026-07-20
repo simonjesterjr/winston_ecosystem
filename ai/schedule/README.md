@@ -104,7 +104,18 @@ Prompt-level `FORBIDDEN` is **not** enough — models still call off-duty tools 
 | `dm-sync-events` | `dm_get_cromwell_events` only |
 | `ecosystem-status-daily` | list portfolios / pending / fetch_only report / DM events |
 
-**Enforcement:** `ai/nanobot` image patches `ToolRegistry.prepare_call` + `get_definitions` using `current_request_session_key()`. Config is seeded to `workspace/schedule/cron-tool-allowlist.json`. Non-MCP builtins (message, read_file, …) stay available. Unknown `cron:<id>` jobs get **no** MCP tools until listed.
+**Enforcement:** `ai/nanobot` image patches `ToolRegistry.prepare_call` / `execute` / `get_definitions` and `AgentProgressHook.finalize_content` using `current_request_session_key()`. Config is seeded to `workspace/schedule/cron-tool-allowlist.json`.
+
+| Guard | Behavior |
+|-------|----------|
+| `mcp_allow` | Only listed MCP tools callable |
+| `mcp_require` | Final text rewritten to **OPS ERROR** if required MCP never succeeded this turn (blocks invented “stable market”) |
+| `builtin_deny` | Hard-deny named builtins (snapshot/EOD/DM deny `read_file` etc.) |
+| `identical_fail_limit` (default 2) | Circuit-break identical failed tool calls (name+args) |
+| Placeholder paths | Reject `path/to/file.txt` style textbook paths |
+| Path-asks | Block `message` + final content that asks the human for a file path |
+
+Unknown `cron:<id>` jobs get **no** MCP tools until listed.
 
 When adding a cron job that needs MCP: update `cron-tool-allowlist.json` + `manifest.yaml` `mcp:` + `cromwell-cron.json`, then:
 

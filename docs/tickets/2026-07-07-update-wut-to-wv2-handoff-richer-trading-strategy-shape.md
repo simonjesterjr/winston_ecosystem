@@ -1,7 +1,7 @@
 # Ticket: Update wut-to-wv2-handoff.md to document richer TradingStrategy export shape
 
 **Status:** Proposed
-**Priority:** unset
+**Priority:** P3
 
 **Date:** 2026-07-07
 

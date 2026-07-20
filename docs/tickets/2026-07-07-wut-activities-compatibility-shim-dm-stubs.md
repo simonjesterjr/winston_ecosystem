@@ -1,7 +1,7 @@
 # Ticket: WUT — Remove belongs_to :activity for DM data; refactor creation + usage sites + result rows to composite (market_id, date) + DM Bar loader
 
 **Status:** Proposed (see main plan)
-**Priority:** unset
+**Priority:** P2
 
 **Date:** 2026-07-07
 

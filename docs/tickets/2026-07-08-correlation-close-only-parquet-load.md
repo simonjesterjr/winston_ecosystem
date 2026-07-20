@@ -1,7 +1,7 @@
 # Ticket: Close-only parquet load for correlation builder
 
 **Status:** Proposed
-**Priority:** unset
+**Priority:** P2
 
 **Date:** 2026-07-08
 

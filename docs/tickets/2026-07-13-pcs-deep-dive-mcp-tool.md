@@ -1,7 +1,7 @@
 # Ticket: Optional MCP tool for portfolio PCS deep dive
 
 **Status:** Proposed  
-**Priority:** unset
+**Priority:** P3
 
 **Date:** 2026-07-13  
 

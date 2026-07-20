@@ -1,7 +1,7 @@
 # Ticket: Fix Cromwell dream routing for MEMORY.md and skill status paths
 
 **Status:** Proposed  
-**Priority:** unset
+**Priority:** P2
 **Context:** Same morning as issue `docs/issues/2026-07-13-cromwell-cron-placeholder-path-hallucination.md` (secondary failure mode, not the Telegram symptom). Session `docs/session-reports/2026-07-13-1216-cromwell-telegram-placeholder-path.md`.
 
 ## Problem

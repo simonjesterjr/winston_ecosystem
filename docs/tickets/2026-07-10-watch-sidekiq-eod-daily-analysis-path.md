@@ -1,7 +1,7 @@
 # Ticket: Watch Sidekiq EOD path (DM sync → Wv2 analysis → Cromwell)
 
 **Status:** Proposed  
-**Priority:** unset
+**Priority:** P2
 **Date:** 2026-07-10  
 **Context:** Session [`2026-07-09-1655-wv2-strategy-registry-daily-smoke`](../session-reports/2026-07-09-1655-wv2-strategy-registry-daily-smoke.md). Manual `DailyAnalysisJob.perform_now` works; scheduled multi-day paper cadence not verified this session. Compose often shows Sidekiq services as health **starting**.
 

@@ -2,7 +2,7 @@
 
 **Status:** Proposed  
 **Date:** 2026-07-19 (updated 2026-07-20)  
-**Priority:** Low (roadmap capture — do not start Evolution until V1–V2 A/B is designed/run)  
+**Priority:** P3 — roadmap capture; do not start Evolution until V1–V2 A/B is designed/run  
 **Plan:** `ecosystem/plans/loop-engineering-and-evolution-mode.md`  
 **Source:** Design session mapping [@RohOnChain loop-engineering](https://x.com/RohOnChain/status/2069056530960490835) onto Winston/DAR/Wv2
 

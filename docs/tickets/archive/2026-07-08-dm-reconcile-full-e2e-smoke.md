@@ -1,8 +1,9 @@
----
-Status: Completed
----
-
 # Ticket: Run full E2E smoke for DM reconcile + PBR after source-of-truth cutover
+
+**Status:** Done  
+**Priority:** P3  
+_Archived 2026-07-20: completed work; no further action._
+
 
 **Related to:** ecosystem/docs/session-reports/2026-07-08-1430-dm-reconcile-container-cleanup.md
 

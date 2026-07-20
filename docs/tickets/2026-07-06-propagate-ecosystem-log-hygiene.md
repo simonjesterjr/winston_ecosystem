@@ -1,7 +1,7 @@
 # Ticket: Propagate ecosystem log hygiene patterns to top-level and monoliths
 
 **Status:** Proposed
-**Priority:** unset
+**Priority:** P3
 
 **Context:** Created as follow-up from session report `docs/session-reports/2026-07-06-1539-ecosystem-logs-gitignore.md`. The ecosystem repo now properly ignores all log contents (blanket `logs/` rule + committed `logs/audit/.gitignore` rules file per ADR-004). No log data or placeholders are tracked, and history was cleaned of the prior placeholder.
 

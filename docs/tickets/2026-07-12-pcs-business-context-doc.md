@@ -1,7 +1,7 @@
 # Ticket: Business-context doc for Portfolio Correlation Score
 
 **Status:** Proposed  
-**Priority:** unset
+**Priority:** P3
 
 **Date:** 2026-07-12  
 

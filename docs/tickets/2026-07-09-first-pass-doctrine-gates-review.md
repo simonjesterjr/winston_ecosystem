@@ -1,7 +1,7 @@
 # Ticket: First-pass trend doctrine and viability gates review
 
 **Status:** Proposed
-**Priority:** unset
+**Priority:** P2
 
 **Date:** 2026-07-09
 

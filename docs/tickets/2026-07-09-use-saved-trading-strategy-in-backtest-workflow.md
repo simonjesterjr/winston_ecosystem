@@ -1,7 +1,7 @@
 # Ticket: Use saved TradingStrategy in backtest workflow (slice B)
 
 **Status:** Proposed
-**Priority:** unset
+**Priority:** P2
 
 **Date:** 2026-07-09
 

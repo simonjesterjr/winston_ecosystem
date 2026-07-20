@@ -1,7 +1,7 @@
 # Ticket: Optional discrete GPU for Cromwell Ollama (Thelio Mira)
 
 **Status:** Proposed  
-**Priority:** unset
+**Priority:** P3
 **Context:** Hardware diagnosis 2026-07-09 — sawtooth-ai has empty PCIe slots; only Raphael iGPU (2 GiB). CPU path is correct today but caps interactive + cron latency.
 
 ## Scope (decision + install, not code-first)

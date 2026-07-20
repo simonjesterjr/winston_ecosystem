@@ -1,7 +1,7 @@
 # Ticket: Update portfolio-overlap-rebuild.md.tasks.json after rich TradingStrategy export alignment
 
 **Status:** Proposed
-**Priority:** unset
+**Priority:** P3
 
 **Date:** 2026-07-07
 

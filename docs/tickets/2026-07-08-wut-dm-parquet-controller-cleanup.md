@@ -1,7 +1,7 @@
 # Ticket: WUT DM parquet: clean up remaining Activity queries in controllers
 
 **Status:** Proposed
-**Priority:** unset
+**Priority:** P2
 
 **Date:** 2026-07-08
 

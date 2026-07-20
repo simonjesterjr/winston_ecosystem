@@ -1,7 +1,7 @@
 # Ticket: Extend Jul 9 cron LLM timeout ticket with post-truncation acceptance
 
 **Status:** Proposed  
-**Priority:** unset
+**Priority:** P2
 **Context:** Issue `docs/issues/2026-07-13-cromwell-cron-placeholder-path-hallucination.md` and new hardening ticket `docs/tickets/2026-07-13-cromwell-cron-hallucination-hardening.md`. Parent open ticket: `docs/tickets/2026-07-09-cromwell-cron-llm-timeout.md`.
 
 ## Problem

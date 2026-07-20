@@ -1,6 +1,6 @@
 # Issue: Cromwell cron posts placeholder-path hallucination to Sawtooth Main
 
-**Status:** Open  
+**Status:** Mitigated (runtime guards 2026-07-20; live hourly observe still open)  
 **Observed:** 2026-07-13 ~09:12 MDT  
 **Channel:** Telegram Sawtooth Main (`chat_id=-1003884714483`)  
 **Runtime:** `nanobot_cromwell` / model `cromwell-qwen2.5:3b`  
@@ -63,11 +63,24 @@ No trading/capital risk from this incident.
 
 ## Suggested remediation (tickets filed 2026-07-13)
 
-1. **Memory scrub** — [`docs/tickets/2026-07-13-cromwell-scrub-placeholder-path-memory.md`](../tickets/2026-07-13-cromwell-scrub-placeholder-path-memory.md)
-2. **Cron hardening** (circuit-break, require MCP, no path-asks) — [`docs/tickets/2026-07-13-cromwell-cron-hallucination-hardening.md`](../tickets/2026-07-13-cromwell-cron-hallucination-hardening.md)
-3. **Dream path hygiene** — [`docs/tickets/2026-07-13-cromwell-dream-memory-path-hygiene.md`](../tickets/2026-07-13-cromwell-dream-memory-path-hygiene.md)
-4. **Observe hourlies** — [`docs/tickets/2026-07-13-observe-cromwell-market-snapshot-hourlies.md`](../tickets/2026-07-13-observe-cromwell-market-snapshot-hourlies.md)
+1. **Memory scrub** — [`docs/tickets/2026-07-13-cromwell-scrub-placeholder-path-memory.md`](../tickets/2026-07-13-cromwell-scrub-placeholder-path-memory.md) — still open
+2. **Cron hardening** (circuit-break, require MCP, no path-asks) — [`docs/tickets/2026-07-13-cromwell-cron-hallucination-hardening.md`](../tickets/2026-07-13-cromwell-cron-hallucination-hardening.md) — **Done 2026-07-20** (offline guards + unit tests; live observe deferred)
+3. **Dream path hygiene** — [`docs/tickets/2026-07-13-cromwell-dream-memory-path-hygiene.md`](../tickets/2026-07-13-cromwell-dream-memory-path-hygiene.md) — still open
+4. **Observe hourlies** — [`docs/tickets/2026-07-13-observe-cromwell-market-snapshot-hourlies.md`](../tickets/2026-07-13-observe-cromwell-market-snapshot-hourlies.md) — **required for live Telegram AC**
 5. **Align Jul 9 timeout acceptance** — [`docs/tickets/2026-07-13-extend-cron-llm-timeout-acceptance.md`](../tickets/2026-07-13-extend-cron-llm-timeout-acceptance.md)
+
+### Hardening result (2026-07-20)
+
+Defense in depth on versioned Cromwell assets:
+
+| Layer | What |
+|-------|------|
+| Runtime patch | `ecosystem/ai/nanobot/patches/cron_tool_allowlist.py` — allowlist, `mcp_require` OPS ERROR rewrite, `builtin_deny` (no `read_file` on snapshot/EOD/DM), placeholder-path block, identical-fail circuit-break (N=2), path-ask suppress on `message` + final content |
+| Config | `ecosystem/ai/schedule/cron-tool-allowlist.json` |
+| Prompts/skills | market-snapshot skill, heartbeat, open/hourly cron messages, `cromwell-tools.md` |
+| Tests | `pytest ecosystem/ai/nanobot/patches/test_cron_tool_allowlist.py` — 18 passed |
+
+Deploy: `bin/seed-cromwell-workspace --force-cron` + rebuild `nanobot_cromwell`. Do **not** treat offline Done as live Telegram proof — close residual on the observe ticket.
 
 May share mitigations with model/ctx work already tracked for cron timeouts (see Related).
 

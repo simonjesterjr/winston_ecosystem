@@ -16,10 +16,12 @@ Compose context: `./ecosystem/ai/nanobot`.
 
 | File | Purpose |
 |------|---------|
-| `patches/cron_tool_allowlist.py` | Hard MCP allowlist for `session_key=cron:<job-id>` |
+| `patches/cron_tool_allowlist.py` | Cron duty guards: MCP allowlist/require, builtin deny, placeholder-path block, identical-fail circuit-break, path-ask suppress (`session_key=cron:<job-id>`) |
 | `patches/test_cron_tool_allowlist.py` | Unit tests (no nanobot install required) |
 
 Allowlist config SOT: `ecosystem/ai/schedule/cron-tool-allowlist.json` (seeded into the bot workspace).
+
+After changing the patch module: rebuild `nanobot_cromwell`. After config/skill/cron message changes: `bin/seed-cromwell-workspace` (and `--force-cron` if job messages changed).
 
 ## Runtime data (not this tree)
 

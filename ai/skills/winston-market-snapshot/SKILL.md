@@ -27,10 +27,12 @@ Schedule: `ecosystem/ai/schedule/manifest.yaml` — `cromwell_market_snapshot_op
 ## Playbook (scheduled broadcast)
 
 1. Confirm current time is **7:30 AM–2:00 PM MT** on a trading day. Outside that window → **skip** (no message).
-2. Call **`wv2_market_snapshot` only** — **every run** (no args, or `{}`). Never reuse prior session tool output.
-3. Post **one** concise message to **Sawtooth Main** via `message` tool (`channel`: `telegram`, `chat_id`: `-1003884714483`).
-4. **When `movers` is non-empty**: list each mover with symbol, previous close, current price, ATR, status (testing / breach_up / breach_down), and atr_multiple. Quiet symbols can be omitted.
-5. **When all quiet or no symbols**: one brief staid or lightly humorous line (rotate tone; no invented prices). Example: "Active books are well inside 1× ATR of prior close — nothing asking for attention yet."
+2. Call **`wv2_market_snapshot` only** — **every run** (no args, or `{}`). Never reuse prior session tool output. Runtime **requires** a successful call this turn or posts OPS ERROR (never invent "stable / no movers").
+3. Format **only** from this turn's tool JSON. After truncation: summarize what you already have — do **not** call `read_file`, do **not** invent paths like `path/to/file.txt`, do **not** ask the human for a path.
+4. Post **one** concise message to **Sawtooth Main** via `message` tool (`channel`: `telegram`, `chat_id`: `-1003884714483`) **or** as the natural final reply.
+5. **When `movers` is non-empty**: list each mover with symbol, previous close, current price, ATR, status (testing / breach_up / breach_down), and atr_multiple. Quiet symbols can be omitted.
+6. **When all quiet or no symbols** (and the tool **did** return): one brief staid or lightly humorous line (rotate tone; no invented prices). Example: "Active books are well inside 1× ATR of prior close — nothing asking for attention yet."
+7. **On tool failure / circuit-break**: one-line **OPS ERROR** only (duty failed). No recovery questions.
 
 ### Message shape (when movers exist)
 
@@ -46,5 +48,8 @@ Radar — active books testing / breaking ATR:
 
 - Post periodic snapshots to the principal 1-1 chat (unless explicitly asked)
 - Invent prices or claim EOD analysis when only the radar ran
+- Claim "stable / no movers / quiet" **without** a successful `wv2_market_snapshot` this turn
+- Call `read_file` / free-form filesystem recovery after truncation
+- Ask the human for file paths or other free-form recovery on cron turns
 - Mention EOD daily analysis or 4:35 PM report in session snapshots
 - Numbered next-steps menus

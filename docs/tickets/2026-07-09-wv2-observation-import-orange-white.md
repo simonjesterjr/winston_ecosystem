@@ -1,7 +1,7 @@
 # Ticket: Optional Wv2 import of Orange/White observation portfolios
 
 **Status:** Proposed
-**Priority:** unset
+**Priority:** P3
 
 **Date:** 2026-07-09
 

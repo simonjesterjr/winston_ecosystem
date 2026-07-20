@@ -1,7 +1,7 @@
 # Ticket: Promote Wv2 daily-ops smoke scripts out of tmp/
 
 **Status:** Proposed  
-**Priority:** unset
+**Priority:** P2
 **Date:** 2026-07-10  
 **Context:** Session [`2026-07-09-1655-wv2-strategy-registry-daily-smoke`](../session-reports/2026-07-09-1655-wv2-strategy-registry-daily-smoke.md). Ephemeral helpers used for wrap smoke:
 

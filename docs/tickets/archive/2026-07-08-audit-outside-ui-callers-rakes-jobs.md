@@ -1,8 +1,9 @@
----
-Status: Completed
----
-
 # Ticket: Audit outside-UI callers (rakes, jobs, scripts) for legacy activities / duplication paths
+
+**Status:** Done  
+**Priority:** P3  
+_Archived 2026-07-20: completed work; no further action._
+
 
 **Related to:** ecosystem/docs/session-reports/2026-07-08-1430-dm-reconcile-container-cleanup.md
 
