@@ -18,6 +18,7 @@ Skills and interface docs version in `ecosystem/`; MCP Python is only in workspa
 
 - Session: [`docs/session-reports/2026-07-13-1307-intraday-market-radar.md`](../session-reports/2026-07-13-1307-intraday-market-radar.md)
 - Reinforced: [`docs/session-reports/2026-07-18-1024-ops-demo-5-7-related-draft-equity.md`](../session-reports/2026-07-18-1024-ops-demo-5-7-related-draft-equity.md) (edit/compare/related tools still host-only)
+- Reinforced: [`docs/session-reports/2026-07-20-1031-historical-dar-telegram-guards.md`](../session-reports/2026-07-20-1031-historical-dar-telegram-guards.md) — `allow_historical` / evaluate pass-through + error guidance edited in host `ai/mcp_winston` only; image rebuilt live, still no commit path
 - Path: `ai/mcp_winston/mcp_winston/server.py`
 - Interface: `ecosystem/interfaces/winston-mcp-tools.md`
 - Interim ops recreate: `docs/tickets/2026-07-18-ops-mcp-recreate-after-demo-tools.md`

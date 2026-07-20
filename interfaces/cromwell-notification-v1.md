@@ -92,7 +92,7 @@ Written to `winston_v2/storage/cromwell_notifications/wv2_YYYYMMDD.json` and POS
 | PDF (1 summary + 1 page/portfolio) | `storage/reports/wv2_YYYYMMDD.pdf` |
 | Manifest | `storage/reports/wv2-YYYYMMDD.manifest.json` |
 
-**Telegram:** final PDF is delivered to **Sawtooth Main** (`chat_id=-1003884714483`) via `TelegramReportDelivery` when bot token env is present. Set `WV2_TELEGRAM_DELIVER=0` to skip.
+**Telegram:** final PDF is delivered to **Sawtooth Main** (`chat_id=-1003884714483`) via `TelegramReportDelivery` when bot token env is present **and** the report date is the **production EOD date** (`DailyReportSchedule.default_report_date`). Historical/demo dates skip Telegram (`telegram_delivery.reason=non_production_date`) unless evaluate was called with `allow_historical=true` **and** `deliver_telegram=true`, or `WV2_TELEGRAM_ALLOW_HISTORICAL=1`. Set `WV2_TELEGRAM_DELIVER=0` to skip all delivery.
 
 ### v1.1 correlation fields (additive, MCP-triggered flows only)
 

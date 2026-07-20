@@ -36,8 +36,9 @@ Tools are named with `wv2_` prefix for clarity (future DM/WUT/Cromwell tools wil
 
 5. **wv2_perform_daily_analysis**
    - Purpose: Run the daily flow for one or all active portfolios (the heart of live ops).
-   - Inputs: `{ "portfolio_id_or_name": "Trading Portfolio A" (optional; all active if omitted), "date": "2026-06-12" (optional) }`
+   - Inputs: `{ "portfolio_id_or_name": "Trading Portfolio A" (optional; all active if omitted), "date": "YYYY-MM-DD" (optional — omit for production EOD date), "allow_historical": false, "deliver_telegram": false }`
    - Behavior: Runs synchronously (`sync: true`). Ensures data, ingests coverage, runs `DailyAnalysisJob` (SignalEvaluation + ReportBuilder + TaskGenerator), creates journals + operations_tasks + passed_signals, emits Cromwell notification.
+   - **Date policy (issue 2026-07-20):** default date = production report date (today after 4:30 PM MT, else prior day). Non-production dates → HTTP 422 `historical_daily_analysis_requires_force` unless `allow_historical=true` (explicit test pass only). Historical runs **skip Sawtooth Main Telegram** unless `deliver_telegram=true` (or `WV2_TELEGRAM_ALLOW_HISTORICAL=1`). Never call from morning/market-snapshot cron.
    - Returns:
      ```json
      {
