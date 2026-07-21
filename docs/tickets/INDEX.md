@@ -39,8 +39,6 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 | P1 | Proposed | [`2026-07-15-journal-ledger-stop-on-confirm-and-update.md`](2026-07-15-journal-ledger-stop-on-confirm-and-update.md) | Ticket: Human stop on confirm/book + stop update path |
 | P1 | Proposed | [`2026-07-18-ops-mcp-recreate-after-demo-tools.md`](2026-07-18-ops-mcp-recreate-after-demo-tools.md) | Ticket: Recreate winston_mcp after ops demo tool surface changes |
 | P1 | Proposed | [`2026-07-20-dar-real-process-miss-attention.md`](2026-07-20-dar-real-process-miss-attention.md) | Ticket: DAR attention for Active real process-miss Passed Signals |
-| P1 | Proposed | [`2026-07-20-desk-workflow-guided-confirm-page.md`](2026-07-20-desk-workflow-guided-confirm-page.md) | Ticket: Full Desk Workflow guided confirm page |
-| P1 | Proposed | [`2026-07-20-stop-out-reconciliation-snapshot.md`](2026-07-20-stop-out-reconciliation-snapshot.md) | Ticket: Stop-Out Reconciliation (position link + working-stop snapshot) |
 | P2 | Proposed | [`2026-07-21-cromwell-activate-id-or-name.md`](2026-07-21-cromwell-activate-id-or-name.md) | Ticket: Cromwell must always pass `id_or_name` on portfolio activate |
 | P2 | Proposed | [`2026-07-21-portfolio-id-or-name-fingerprint-resolution.md`](2026-07-21-portfolio-id-or-name-fingerprint-resolution.md) | Ticket: Portfolio `id_or_name` fingerprint / short-fp resolution + multi-match error |
 | P2 | Proposed | [`2026-07-02-compose-orchestrator-unification.md`](2026-07-02-compose-orchestrator-unification.md) | Ticket: Unify compose orchestration (podman-compose vs podman compose) |
@@ -114,6 +112,6 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 
 ## Archive
 
-73 closed tickets in [`archive/`](archive/).
+75 closed tickets in [`archive/`](archive/).
 
-_Generated 2026-07-21 UTC (ADR-009 #1 EOD cadence + #3 Signaled Entry done)._
+_Generated 2026-07-21 UTC (ADR-009 #2 Desk Workflow + #4 Stop-Out done)._

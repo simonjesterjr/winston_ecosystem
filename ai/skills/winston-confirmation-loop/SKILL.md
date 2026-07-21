@@ -81,6 +81,8 @@ wv2_get_portfolio_status { portfolio_id_or_name: "12" }
 - Bypass services with ad-hoc SQL or direct DB edits
 - Loop confirm retries on permanent errors
 
-## Desk shell
+## Desk shell / Desk Workflow
 
-The Wv2 ops shell (`http://localhost:3002`) uses the same services (`edit_journal` / `confirm` / `pending` / `status` chat commands). Prefer MCP on Telegram; shell is for desk verification.
+- Ops shell (`http://localhost:3002`): `edit_journal` / `confirm` / `pending` / `status`.  
+- **Desk Workflow** (ADR-009): DAR handoff `form_url` → `/operations/workflow?journal_id=…&task_id=…` — guided confirm + packaging. Classic free-form remains `/operations/desk`.  
+Prefer MCP on Telegram; workflow/shell for desk verification.

@@ -71,11 +71,13 @@ If a **pending** enter/exit task already exists for that market, prefer skill `w
 
 | Human speech | `reason` | Journal packaging |
 |--------------|----------|-------------------|
-| “AMZN stopped out — book exit, no Winston signal” | `external_stop` | `fulfillment_details.exit_reason=external_stop`, `winston_signal=false` |
+| “AMZN stopped out — book exit, no Winston signal” | `external_stop` | `exit_reason=external_stop`, `winston_signal=false`, **Stop-Out Reconciliation** snapshot |
 | Discretionary close / I sold it | `discretionary` | same, reason discretionary |
 | Generic desk exit | omit or `ad_hoc` | default |
 
 Aliases: `stopped_out`, `broker_stop` → external_stop. Do **not** invent reason; if human only says “exit”, use default `ad_hoc`.
+
+**Stop-Out Reconciliation (ADR-009):** prefer `position_id` when multiple lots; unique symbol OK. Tool stamps `working_stop_at_exit`, `stop_fill_gap`; **warn** (not block) if fill diverges from Working Stop. Multi-lot same symbol without `position_id` → `ambiguous_position` (use `position_id` or `exit_all`).
 
 **Do not call `wv2_exit_trade` until the human has stated price and which position/symbol.** Full close of the matched open lot.
 

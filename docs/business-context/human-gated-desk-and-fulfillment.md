@@ -129,9 +129,9 @@ Same seed + fingerprint = one series (no parallel second OP). Different fingerpr
 | DA drafts only (no auto position open/close) | Policy + largely true in code |
 | Human confirm / exit / stop tools | Partial (MCP, shell, desk form) |
 | Next-open T/T+1 dual date + prefill | **Built** (2026-07-21 — EodCadence + TaskGenerator + confirm) |
-| Full Desk Workflow page | **Not built** (partial desk form) |
+| Full Desk Workflow page | **Built** (2026-07-21 — /operations/workflow) |
 | Deterministic swap packages in Wv2 DA | **Gap** (WUT lab has evaluators) |
-| Stop-out snapshot + gap warn | **Partial** (reason exists; full reconciliation weak) |
+| Stop-out snapshot + gap warn | **Built** (2026-07-21 — StopOutReconciliation) |
 | Enforce Signaled Entry Rule on book-enter | **Built** (2026-07-21 — force+notes escape hatch) |
 | DAR attention for real process misses | **Thin** |
 
