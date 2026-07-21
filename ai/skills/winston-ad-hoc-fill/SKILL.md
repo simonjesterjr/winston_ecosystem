@@ -1,18 +1,22 @@
 ---
 name: winston-ad-hoc-fill
-description: Book or exit a free-form paper fill on an Operational Portfolio without a Daily Analysis draft — human-authorized price (and units for enter) only.
+description: Book or exit a fill on an Operational Portfolio. Enter requires Signaled Entry Rule (signal link or force+notes); exit may be unsignaled.
 ---
 
 # Winston Ad-Hoc Paper Fill (enter + exit)
 
+## ADR-009 policy
+
+- **Enter/pyramid:** **Signaled Entry Rule** — link `signal_task_id` or `signal_journal_id` (DA draft/task), **or** `force=true` + explicit `notes` audit. Prefer **`wv2_confirm_journal`** when a draft already exists.
+- **Exit:** **Unsignaled Exit Allowance** — stop-outs and discretionary exits OK without a Winston signal.
+
 ## Triggers
 
 **Enter / book**
-- "I bought 54 shares of TSMC at 323.44 for portfolio Magenta"
-- "book 45 GGG @ 58.87 on YGF"
-- "paper fill long NVDA 10 @ 140 for portfolio 12"
-- "IBM signaled breakout — buy 2 Jan 2028 150 LEAP calls @ 12.50 on Blue"
-- "honor the MSFT enter with LEAPs instead of stock"
+- "honor the MSFT enter with LEAPs instead of stock" → link `signal_task_id` / confirm journal
+- "I bought 54 shares of TSMC at 323.44 for Magenta" → **force=true** + notes (no DA signal) **or** confirm draft if one exists
+- "book 45 GGG @ 58.87 on YGF" (naked) → force + notes
+- "IBM signaled breakout — buy 2 Jan 2028 150 LEAP calls @ 12.50 on Blue" → `signal_task_id`
 
 **Exit**
 - "I sold all AMZN on portfolio 12 at 250"
@@ -40,11 +44,12 @@ If a **pending** enter/exit task already exists for that market, prefer skill `w
 3. **Units** — positive integer from the human (shares **or** contracts for LEAP/option)
 4. **Price** — fill price from the human (stock $ **or** option **premium** per share)
 5. Optional: `direction` (default `long`), `trade_date`, `stop_price`, `notes`
-6. **Related instrument** (when not stock):
+6. **Signal link (required unless force):** `signal_task_id` and/or `signal_journal_id`
+7. **Force override:** `force=true` **and** non-empty `notes` (audit why policy was overridden)
+8. **Related instrument** (when not stock):
    - `fulfillment_type`: `leap` | `option` | `proxy` | `option_strategy`
    - LEAP/option **require**: `strike`, `expiry` (YYYY-MM-DD); optional `option_type` (`call` default), `contract_multiplier` (default **100**)
    - Proxy optional: `instrument_symbol` (filled ticker if different)
-   - Link: `signal_task_id` / `signal_journal_id` when human names the DAR signal/task
 
 ### Capital / flow (do not invent multiplier)
 
@@ -76,11 +81,13 @@ Aliases: `stopped_out`, `broker_stop` → external_stop. Do **not** invent reaso
 
 ## Playbook — enter
 
-1. Resolve portfolio (`portfolio_id_or_name`).
-2. Confirm symbol is intended; if market_not_on_books, report and suggest add-market — do not force.
-3. Call **only** `wv2_book_trade` with explicit args.
-4. Reply: paste tool **`reply_text`** verbatim.
-5. Stop. No activate/sync/daily-analysis menus.
+1. If a **pending DAR draft/task** exists for that market → skill `winston-confirmation-loop` (`wv2_confirm_journal`), not book.
+2. Resolve portfolio (`portfolio_id_or_name`).
+3. Confirm symbol is intended; if market_not_on_books, report and suggest add-market — do not force.
+4. Set `signal_task_id` / `signal_journal_id` when human names the signal; else ask once; only use `force=true` + notes if human authorizes override.
+5. Call **only** `wv2_book_trade` with explicit args.
+6. Reply: paste tool **`reply_text`** verbatim.
+7. Stop. No activate/sync/daily-analysis menus.
 
 ## Playbook — exit
 
@@ -116,7 +123,8 @@ wv2_book_trade {
   price: 58.87,
   direction: "long",
   stop_price: 55.0,
-  notes: "desk paper fill"
+  force: true,
+  notes: "desk paper fill — force override no DA draft"
 }
 ```
 
@@ -135,7 +143,7 @@ wv2_book_trade {
 }
 ```
 
-Shell: `enter Blue IBM units=2 price=12.50 type=leap strike=150 expiry=2028-01-21 option_type=call`
+Shell: `enter Blue IBM units=2 price=12.50 type=leap strike=150 expiry=2028-01-21 option_type=call signal_task=44`
 
 ```
 wv2_exit_trade {
@@ -196,6 +204,8 @@ reason=external_stop, capital_base=…, active=…, open=false
 
 | Code | Action |
 |------|--------|
+| `signaled_entry_required` | Need signal_task/journal or force+notes; prefer confirm draft |
+| `force_requires_notes` | force=true without notes — ask why |
 | `not_found` | Clarify portfolio, symbol, or open position |
 | `market_not_on_books` | Symbol not on Books (enter only) — report; offer add-market only if user asks |
 | `closed_refuse` | OP closed — use open series |

@@ -27,7 +27,13 @@ description: List pending paper/live action items and confirm journals via MCP �
 1. `wv2_list_portfolios` — note Active OP(s). Paper focus is typically a single Active book.
 2. `wv2_list_pending_actions` with optional `portfolio_id_or_name` and `as_of` (default today).
 3. For each interesting task, `wv2_get_journal` with `journal_id` if present.
-4. Report: task_id, journal_id, market, task_type, report_date, suggested price — **do not invent fills**.
+4. Report: task_id, journal_id, market, task_type, **signal_date / fill_date**, proposed price — **do not invent fills**.
+
+## EOD cadence (ADR-009)
+
+- **Signal Date T** — DA created the draft (`signal_date`).
+- **Fill Date T+1** — intended next session (`fill_date`); next-open prefill when DM parquet has the bar (`next_open_available`).
+- If awaiting next open, ask the human for fill price — do not invent open from signal close.
 
 ## Playbook — Edit draft (optional, before confirm)
 
@@ -41,7 +47,7 @@ description: List pending paper/live action items and confirm journals via MCP �
 1. Confirm only when the human explicitly authorizes a fill (price/units if required).
 2. Prefer `wv2_confirm_journal` with:
    - `journal_id` (required)
-   - `execution_price` when overriding signal price (or after edit, omit to use sticky draft price)
+   - `execution_price` when overriding (or omit to use next-open / sticky draft price)
    - `units` when PositionSizer would return 0 or human specifies size (or sticky after edit)
    - `notes` short reason (e.g. "paper confirm Blue PBR62")
 3. Alternative: `wv2_mark_task_done` with `task_id` (defaults `confirm_journal: true`).

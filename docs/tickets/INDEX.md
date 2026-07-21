@@ -40,8 +40,6 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 | P1 | Proposed | [`2026-07-18-ops-mcp-recreate-after-demo-tools.md`](2026-07-18-ops-mcp-recreate-after-demo-tools.md) | Ticket: Recreate winston_mcp after ops demo tool surface changes |
 | P1 | Proposed | [`2026-07-20-dar-real-process-miss-attention.md`](2026-07-20-dar-real-process-miss-attention.md) | Ticket: DAR attention for Active real process-miss Passed Signals |
 | P1 | Proposed | [`2026-07-20-desk-workflow-guided-confirm-page.md`](2026-07-20-desk-workflow-guided-confirm-page.md) | Ticket: Full Desk Workflow guided confirm page |
-| P1 | Proposed | [`2026-07-20-enforce-signaled-entry-rule.md`](2026-07-20-enforce-signaled-entry-rule.md) | Ticket: Enforce Signaled Entry Rule on book-enter paths |
-| P1 | Proposed | [`2026-07-20-eod-signal-fill-dates-next-open.md`](2026-07-20-eod-signal-fill-dates-next-open.md) | Ticket: EOD Signal Date / Fill Date + next-open prefill |
 | P1 | Proposed | [`2026-07-20-stop-out-reconciliation-snapshot.md`](2026-07-20-stop-out-reconciliation-snapshot.md) | Ticket: Stop-Out Reconciliation (position link + working-stop snapshot) |
 | P2 | Proposed | [`2026-07-21-cromwell-activate-id-or-name.md`](2026-07-21-cromwell-activate-id-or-name.md) | Ticket: Cromwell must always pass `id_or_name` on portfolio activate |
 | P2 | Proposed | [`2026-07-21-portfolio-id-or-name-fingerprint-resolution.md`](2026-07-21-portfolio-id-or-name-fingerprint-resolution.md) | Ticket: Portfolio `id_or_name` fingerprint / short-fp resolution + multi-match error |
@@ -116,6 +114,6 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 
 ## Archive
 
-71 closed tickets in [`archive/`](archive/).
+73 closed tickets in [`archive/`](archive/).
 
-_Generated 2026-07-20 UTC (after P1 triple: ATR sizer, Cromwell guards, journal fill columns). Priority lines on tickets are SOT._
+_Generated 2026-07-21 UTC (ADR-009 #1 EOD cadence + #3 Signaled Entry done)._
