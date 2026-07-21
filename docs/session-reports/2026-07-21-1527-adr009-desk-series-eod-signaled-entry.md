@@ -86,13 +86,13 @@
 
 ### Commits
 
-- _Filled at wrap commit time._
+- `winston_v2` `5975d56` — feat(desk): ADR-009 EOD cadence + Signaled Entry Rule  
+- `ecosystem` `f2a7de1` — docs: ADR-009 #1+#3 desk series wrap (skills, tickets, report)  
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on both monoliths  
-- Pushed: wrap step  
-- PR: not opened  
+- Branch: `main` on both monoliths — pushed to origin  
+- PR: not opened (direct main)  
 
 ---
 
