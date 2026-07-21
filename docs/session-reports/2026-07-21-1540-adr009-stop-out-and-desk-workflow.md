@@ -79,12 +79,13 @@
 
 ### Commits
 
-- _Filled at wrap._
+- `winston_v2` `2673a84` — feat(desk): ADR-009 stop-out reconciliation + Desk Workflow page
+- `ecosystem` `ae62132` — docs: ADR-009 #2+#4 wrap
 
 ### Branch / PR state at sign-off
 
 - Branch: `main` both repos  
-- Pushed: wrap  
+- Pushed: yes (origin main)  
 - PR: not opened  
 
 ---
