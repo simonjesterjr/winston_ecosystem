@@ -52,7 +52,8 @@
 
 ### Commits
 
-- _Filled at wrap._
+- `winston_v2` — feat(ops): strategy audit in Ops Shell + confirm strategy registry
+- `ecosystem` — docs: session report for Ops Shell strategy audit wiring
 
 ---
 
