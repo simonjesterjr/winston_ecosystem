@@ -43,6 +43,8 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 | P1 | Proposed | [`2026-07-20-enforce-signaled-entry-rule.md`](2026-07-20-enforce-signaled-entry-rule.md) | Ticket: Enforce Signaled Entry Rule on book-enter paths |
 | P1 | Proposed | [`2026-07-20-eod-signal-fill-dates-next-open.md`](2026-07-20-eod-signal-fill-dates-next-open.md) | Ticket: EOD Signal Date / Fill Date + next-open prefill |
 | P1 | Proposed | [`2026-07-20-stop-out-reconciliation-snapshot.md`](2026-07-20-stop-out-reconciliation-snapshot.md) | Ticket: Stop-Out Reconciliation (position link + working-stop snapshot) |
+| P2 | Proposed | [`2026-07-21-cromwell-activate-id-or-name.md`](2026-07-21-cromwell-activate-id-or-name.md) | Ticket: Cromwell must always pass `id_or_name` on portfolio activate |
+| P2 | Proposed | [`2026-07-21-portfolio-id-or-name-fingerprint-resolution.md`](2026-07-21-portfolio-id-or-name-fingerprint-resolution.md) | Ticket: Portfolio `id_or_name` fingerprint / short-fp resolution + multi-match error |
 | P2 | Proposed | [`2026-07-02-compose-orchestrator-unification.md`](2026-07-02-compose-orchestrator-unification.md) | Ticket: Unify compose orchestration (podman-compose vs podman compose) |
 | P2 | Proposed | [`2026-07-02-dm-integration-audit-mirror.md`](2026-07-02-dm-integration-audit-mirror.md) | Ticket: DM integration audit mirror to ecosystem hub (fast follow) |
 | P2 | Proposed | [`2026-07-02-wv2-integration-audit-correlation.md`](2026-07-02-wv2-integration-audit-correlation.md) | Ticket: Wv2 integration audit + correlation ID echo (fast follow) |
@@ -84,6 +86,8 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 | P2 | Proposed | [`2026-07-20-rails-code-review-wut-baseline.md`](2026-07-20-rails-code-review-wut-baseline.md) | Ticket: First rails-code-review baseline (WUT) |
 | P2 | Proposed | [`2026-07-20-safe-bug-fix-harness-multi-repo.md`](2026-07-20-safe-bug-fix-harness-multi-repo.md) | Ticket: Multi-repo isolation policy + optional full safe-bug-fix harness |
 | P2 | Proposed | [`2026-07-20-wv2-capacity-swap-desk-packages.md`](2026-07-20-wv2-capacity-swap-desk-packages.md) | Ticket: Wv2 capacity swap â†’ ordered Desk Handoff packages |
+| P3 | Proposed | [`2026-07-21-blue-241-successor-cleanup.md`](2026-07-21-blue-241-successor-cleanup.md) | Ticket: Decide fate of Blue successor OP #241 |
+| P3 | Proposed | [`2026-07-21-ops-speech-prefer-portfolio-numeric-id.md`](2026-07-21-ops-speech-prefer-portfolio-numeric-id.md) | Ticket: Prefer numeric portfolio `#id` in ops speech and skill examples |
 | P3 | Proposed (largely delivered; residual compose smoke) | [`2026-07-04-daily-report-pdf-redesign.md`](2026-07-04-daily-report-pdf-redesign.md) | Ticket: Redesign Wv2 daily activity report PDF layout |
 | P3 | Proposed | [`2026-07-06-propagate-ecosystem-log-hygiene.md`](2026-07-06-propagate-ecosystem-log-hygiene.md) | Ticket: Propagate ecosystem log hygiene patterns to top-level and monoliths |
 | P3 | Proposed | [`2026-07-07-update-portfolio-overlap-tasks-red-vet-complete.md`](2026-07-07-update-portfolio-overlap-tasks-red-vet-complete.md) | Ticket: Update portfolio-overlap-rebuild.md.tasks.json after rich TradingStrategy export alignment |
