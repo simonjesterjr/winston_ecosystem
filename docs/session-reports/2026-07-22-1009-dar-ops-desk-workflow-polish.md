@@ -83,12 +83,15 @@
 
 ### Commits
 
-- _Pending at wrap — this report precedes commit._
+- **winston_v2** `740bbae` — `feat(ops): DAR open-book, desk helpers, /wv2 paths, dashboard tidy`  
+  (ops/DAR UX from this session + follow-on dashboard tidy; pushed 2026-07-22)
+- **ecosystem** `a6cef38` — `docs(adr-009): human-gated desk boundary + capital activation speech`  
+  (domain docs / ADR-009 / tickets / this report; pushed 2026-07-22)
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` — dirty (session changes)
-- Pushed: pending wrap
+- Branch: `main` (both repos) — clean after push
+- Pushed: yes (2026-07-22 multi-monolith commit pass)
 - PR: not opened (direct main workflow)
 
 ---
