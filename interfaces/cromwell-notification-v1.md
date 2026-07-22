@@ -117,7 +117,7 @@ When daily analysis is invoked via MCP with `X-Correlation-Id` headers, `daily_c
 | `missing_data` | DM parquet or `atr_17` missing for one or more Book symbols |
 | `no_strategy` | Portfolio has no linked `TradingStrategy` |
 | `unsupported_strategy` | Strategy class not in `StrategyRegistry` |
-| `already_evaluated` | Idempotent re-run for same (portfolio, report_date) |
+| `already_evaluated` | Idempotent re-run: an `OperationsTask` already exists for this portfolio + report_date. **Not** keyed off Journal `trade_date` (fills of prior-day signals book on fill date and must not block COB eval). |
 
 ## Stable report artifacts (Task 7)
 

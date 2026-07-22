@@ -1,0 +1,18 @@
+{
+  "planPath": "plans/loop-engineering-and-evolution-mode.md",
+  "status": "pending",
+  "tasks": [
+    {
+      "id": 1,
+      "subject": "DAR PDF STATUS column: surface skip reason (parity with markdown `skipped (already_evaluated)`)",
+      "status": "pending",
+      "note": "From docs/session-reports/2026-07-22-1651-dar-already-evaluated-fill-gate.md §14. PDF STATUS shows only `skipped`; markdown already includes reason. Renderer: winston_v2 DailyActivityReportPdfRenderer status column."
+    },
+    {
+      "id": 2,
+      "subject": "Optional: zero-signal evaluation marker so quiet days have hard once-per-day DA lock without OperationsTasks",
+      "status": "pending",
+      "note": "From docs/session-reports/2026-07-22-1651-dar-already-evaluated-fill-gate.md §14. After 2026-07-22 fix, already_evaluated is task-only; empty re-runs re-evaluate fully. Only needed if ops wants strict once-per-day without creating dummy tasks."
+    }
+  ]
+}
