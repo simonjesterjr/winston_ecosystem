@@ -60,13 +60,13 @@
 
 ### Commits
 
-- _Pending wrap commit on `ecosystem` `main`._
+- `5818496` — docs(cromwell): attention principle §12 + hourly Telegram quality cluster
 
 ### Branch / PR state at sign-off
 
-- Branch: `ecosystem` `main` — dirty with this session + unrelated WIP
-- Pushed: pending selective commit
-- PR: not opened (direct main workflow historically)
+- Branch: `ecosystem` `main` — clean for this session; unrelated WIP remains unstaged
+- Pushed: yes (`origin/main`)
+- PR: not opened (direct main)
 
 ---
 
