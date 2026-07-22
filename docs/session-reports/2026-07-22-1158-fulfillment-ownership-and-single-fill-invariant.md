@@ -70,7 +70,7 @@
 ### Commits
 
 - `0c37bbe` (winston_v2) — feat(ops): single-fulfillment guard + correct-fill amend
-- ecosystem SHA filled after this commit
+- `dd8f8df` (ecosystem) — docs(ops): fulfillment ownership analysis + single-fill ticket; MCP amend
 
 ### Branch / PR state at sign-off
 
