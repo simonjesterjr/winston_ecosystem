@@ -9,7 +9,7 @@
 
 Define how an **Operational Portfolio** lives in **Wv2** after handoff: attention, engagement, paper vs real intent, rebalance, close, and **Capital Activation**. Protects risk sizing and performance evaluation once execution (including paper) has started.
 
-**WUT** selects candidates. **Wv2** executes and tasks humans. Wv2 is not end-to-end automated broker trading.
+**WUT** selects candidates. **Wv2** executes and tasks humans. Wv2 is not end-to-end automated broker trading. Signal vs desk fulfillment (Human-Gated, EOD T/T+1, dual spines): **`human-gated-desk-and-fulfillment.md`** / **ADR-009**.
 
 ## Three independent axes
 
@@ -104,28 +104,47 @@ Closed portfolios:
 
 ## Capital Activation
 
-Operator speech (Telegram):  
-`Activate Portfolio Red + Ts10 with initial capital of $13,986`
+Preferred operator speech (Telegram):  
+`Make Portfolio Red + Ts10 real with initial capital of $13,986`  
+or `Make dd653f33 real with initial capital of $13,986` (fingerprint / short fingerprint of an existing Wv2 unit).
 
-Canonical term: **Capital Activation** (not the same as setting **Active** alone).
+Canonical term: **Capital Activation** (not the same as setting **Active** alone). Avoid “Activate … with capital” in skills — “activate” alone is the **Active** flag.
 
 | Default | Value |
 |---------|--------|
 | New OP Execution Mode | `real` |
 | New OP Active | true |
+| Methodology fingerprint | **Same** as source unit (fingerprint ≠ paper/real) |
 | Initial capital | Stated $X only (new CashEvent) — **not** paper start or paper terminal equity |
-| Paper A | Unchanged (not auto-closed, not auto-deactivated) |
-| Dual Active same seed/Books | **Force required** to keep paper Active |
-| Trade-ready gate | Real requires trade_ready provenance **or** explicit force |
+| Prerequisites | Seed OP (Books) and **TradingStrategy** already in **Wv2**; else hard error → import from WUT (not a transfer wizard) |
+| Paper A | Not auto-**Closed**; journals/capital unchanged |
+| Paper Active (default) | **Auto-deactivate** paper A when real A′ is Active (same seed/Books) |
+| Dual Active same seed/Books | **Force** / `keep_paper_active` required |
+| Trade-ready / observation | **Soft warn** if not trade_ready — still allow; do not hard-block (human capital hygiene) |
 
-Paper series remains the regime sample that justified the decision. Real series is a separate capital narrative.
+Paper series remains the regime sample (typically inactive after CA). Real series is a separate capital narrative with the **same** recipe fingerprint and a new journal/cash spine.
+
+### Capital top-up (not Capital Activation)
+
+Operator speech (Telegram):  
+`Add $5000 to dd653f33` / `We are adding $5000 to Portfolio Red · dd653f33`
+
+| | Capital Activation | CashEvent top-up |
+|--|--------------------|------------------|
+| Verb | **Make … real** with initial capital $X | **Add** $X **to** fingerprint / OP |
+| Result | **New** real OP series | Same OP; capital_base += $X |
+| Eligible OPs | Source paper/import unit in Wv2 | **Only Active + real** |
+| Paper | N/A (source may be paper) | **Never** — paper lives and dies on initial capital |
+| Tool (today) | *deferred* | `wv2_add_cash_event` (exists; must enforce Active+real) |
+
+Do not treat “add capital” as “make real.” Fingerprint resolution: only among **Active real** matches; if multiple, ask; refuse paper / inactive / closed.
 
 ### Example
 
-1. Paper `Portfolio Red · a1b2c3d4`, mode=paper, initial $20K, equity later $45K, engaged.  
-2. Capital Activation with $13,986.  
-3. New OP (real, Active) with CashEvent $13,986 and empty journal series.  
-4. Paper A still exists; operator should Close it for hygiene but may leave it running only with force if both Active.
+1. Paper `Portfolio Red · a1b2c3d4`, mode=paper, **Active**, initial $20K, equity later $45K, engaged.  
+2. Capital Activation: make that unit real with $13,986.  
+3. New OP (real, Active, **same fingerprint** `a1b2c3d4…`) with CashEvent $13,986 and empty journal series.  
+4. Paper A remains open but is **deactivated** by default (still in archive; not Closed). Dual Active only with force.
 
 ## Remove vs close
 
@@ -165,6 +184,7 @@ Exact tool names live in `interfaces/winston-mcp-tools.md`.
 ## Related
 
 - ADR-006  
+- ADR-009 / `human-gated-desk-and-fulfillment.md`  
 - `wut-to-wv2-handoff.md`  
 - `trade-ready-viability-gates.md`  
 - `portfolio-and-trading-strategy-lifecycle.md` (WUT lab + loose coupling)  

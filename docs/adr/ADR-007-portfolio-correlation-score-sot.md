@@ -34,8 +34,8 @@ We choose **C: WUT is the system of record for Portfolio Correlation Score (PCS)
 
 - WUT internal API + snapshot table become part of the ops report path (availability and versioning matter).  
 - Registry membership defines what gets daily scored (not Wv2 Active alone).  
-- Orange/White membership issues are handled by **archiving** and building new cohorts (Green/Pink/Blank/Rust), not by dual-scoring divergent books without methodology upgrade.  
-- Six common lab↔ops portfolios intended: Red, Blue, Green, Pink, Blank, Rust.
+- Orange/White membership issues are handled by **archiving** and building new cohorts (Green/Pink/Mango/Rust), not by dual-scoring divergent books without methodology upgrade.  
+- Six common lab↔ops portfolios intended: Red, Blue, Green, Pink, Mango, Rust.
 
 ## Rejected
 

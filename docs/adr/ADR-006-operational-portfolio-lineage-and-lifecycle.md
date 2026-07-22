@@ -4,8 +4,9 @@
 **Date:** 2026-07-09  
 **Deciders:** Architecture (via `/grill-with-docs` session)  
 **Builds on:** ADR-001  
-**Domain context:** `docs/business-context/wv2-operational-portfolio-lifecycle.md`, `docs/business-context/wut-to-wv2-handoff.md`  
-**Glossary:** `CONTEXT.md` — Operational Portfolio, Engaged, Closed, Rebalance, Execution Mode, Capital Activation, TradingStrategy fingerprint
+**Domain context:** `docs/business-context/wv2-operational-portfolio-lifecycle.md`, `docs/business-context/wut-to-wv2-handoff.md`, `docs/business-context/human-gated-desk-and-fulfillment.md`  
+**Glossary:** `CONTEXT.md` — Operational Portfolio, Engaged, Closed, Rebalance, Execution Mode, Capital Activation, TradingStrategy fingerprint  
+**Fulfillment boundary:** ADR-009
 
 ## Context
 
@@ -37,7 +38,7 @@ We choose **C: Operational Portfolio lineage and lifecycle**.
 | **Wv2** | Operations (import, Active attention, journals, close, rebalance, Capital Activation) |
 | **Cromwell** | Operator surface (Telegram/MCP) for lifecycle verbs |
 
-Wv2 is an **observation post that tasks humans**, not an end-to-end autotrader.
+Wv2 is an **observation post that tasks humans**, not an end-to-end autotrader. Fulfillment boundary and desk rules: **ADR-009**.
 
 ### Handoff lineage
 
@@ -81,13 +82,15 @@ Wv2 is an **observation post that tasks humans**, not an end-to-end autotrader.
 ### Execution Mode and Capital Activation
 
 - Explicit `paper` | `real` on OP; default **paper** on import. Independent of Active and `export_kind`.  
-- **Capital Activation** (operator speech often “Activate … with capital $X”):
-  - Opens **new** OP series with stated initial CashEvent  
+- **Capital Activation** (prefer speech “**Make** … **real** with capital $X” / “make \<fp\> real …”; avoid “Activate … with capital”):
+  - Source recipe must already exist in Wv2 (OP Books + TS); missing → import error, not a wizard  
+  - Opens **new** OP series with stated initial CashEvent; **same methodology fingerprint** as source  
   - Defaults: mode `real`, Active true  
-  - Does **not** auto-close or auto-deactivate paper A  
-  - Dual Active same seed/Books requires force  
-  - Real requires **Trade-Ready** provenance or explicit force override  
+  - Does **not** auto-**Close** paper A  
+  - **Default:** auto-**deactivate** paper A (same seed/Books) when real A′ is Active; dual Active requires force / keep_paper_active  
+  - Non-**Trade-Ready** / observation provenance: **soft warn** in operator reply — do **not** hard-block (capital hygiene is human; refined 2026-07-20 Capital Activation grill)  
   - Paper terminal equity never becomes real capital_base  
+  - **CashEvent top-up** (“add $X to fingerprint”): **Active + real only** — never paper (paper series live and die on initial capital as attention tests). Not Capital Activation.
 
 ### Three independent axes
 
@@ -111,9 +114,9 @@ Paper capital path ($20K start, $45K equity) is not the capital the operator wil
 
 Operators may want a short dual-run experiment; hygiene is enforced by the **Active** mutex + force, not by destroying paper history.
 
-### Why trade-ready gate on real Capital Activation?
+### Why soft-warn (not hard-block) on non-trade-ready Capital Activation?
 
-Viability gates exist for the money boundary. Force override preserves operator judgment after paper evidence without making gates advisory-only.
+Viability / `export_kind` still inform the operator (warnings, confirmations). Hard-blocking real series was rejected: **capital hygiene is a human duty**; Winston must not pretend software can own the money boundary alone. Soft warn keeps provenance visible without a FORCE_REAL ceremony that becomes ritual.
 
 ## Consequences
 
@@ -138,7 +141,7 @@ Viability gates exist for the money boundary. Force override preserves operator 
 - Duplicate same-recipe attention → seed_name + Books Active mutex  
 - Flat “all Active” noise → DAR/ops attention bands by execution_mode  
 - Paper equity mistaken for real capital → Capital Activation new series only  
-- Observation configs becoming real capital by accident → trade-ready (or force) gate  
+- Observation configs becoming real capital unnoticed → soft warn + human responsibility (not hard block)  
 
 ## Implementation notes (non-normative)
 

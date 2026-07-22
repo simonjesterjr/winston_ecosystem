@@ -137,16 +137,16 @@ Explicit intent on an **Operational Portfolio**: `paper` or `real`. Default **pa
 _Avoid_: deriving mode from Active or export_kind alone; promoting paper→real in place on the same capital series
 
 **Capital Activation**:
-Operator command (e.g. Telegram: “Activate Portfolio Red + TS… with initial capital $X”) that opens a **new** **Operational Portfolio** series for a chosen seed+TS fingerprint with a stated initial **CashEvent**, default **Execution Mode** `real` and **Active** true. Requires **Trade-Ready** provenance (or explicit force override) — observation-only paper series cannot open real capital by default. Distinct from only flipping the **Active** flag. Does not rewrite the paper series’ journals or capital_base; does not auto-close or auto-deactivate paper A. If paper A (or any same **seed_name** / identical **Books**) is already **Active**, requires explicit force to keep dual attention.
-_Avoid_: Activate alone (ambiguous with Active flag), promote in place
+Operator command that opens a **new** **real** **Operational Portfolio** series with a stated initial **CashEvent** `$X` — not paper terminal equity. Preferred speech: “**Make** Portfolio Red + Ts10 **real** with initial capital $X” or “**make** \<fingerprint\> **real** with initial capital $X” (not “Activate …”, which collides with the **Active** flag). Source recipe must already exist in **Wv2** (seed OP for **Books**, **TradingStrategy** for methodology); missing either → error to import from WUT first, not a multi-step transfer workflow. New OP keeps the **same methodology fingerprint** as the source unit (fingerprint is recipe identity, not paper-vs-real). Defaults: **Execution Mode** `real`, **Active** true. **Trade-ready / observation provenance:** soft **warn** in reply when not trade-ready — do **not** hard-block; capital hygiene is human responsibility (warnings + confirmations ok). Does not rewrite paper journals/capital; does not auto-**Close** paper A. **Default hygiene:** auto-**deactivate** paper A (same seed/Books) when real A′ becomes Active; optional force keeps dual **Active**.
+_Avoid_: Activate alone (ambiguous with Active flag), promote in place, minting a new fingerprint only because mode is real, auto-closing paper on capital activation, hard-refusing real on observation export_kind
 
 **Paper Trading**:
 Simulated execution and signal tracking without broker fills — **Execution Mode** `paper`. Still **execution** for hygiene: journals lock OP+TS shape. Import never implies evaluation: land inactive until explicit **Active**. Soft-close allowed. Wv2 tasks a human; it does not automate fills end-to-end.
 _Avoid_: backtest alone (historical replay in WUT), demo (too informal), theory (paper in Wv2 is post-theory)
 
 **CashEvent**:
-Capital injection or adjustment on a Wv2 Portfolio (e.g. initial_capital on import). Feeds risk sizing in daily analysis.
-_Avoid_: deposit (broker term), funding event
+Capital injection or adjustment on an **Operational Portfolio**. **Initial** CashEvent may land on import or **Capital Activation**. **Top-up** (“**add** $5000 **to** \<fingerprint or OP name\>”) is allowed **only** on **Active** + **Execution Mode** `real` OPs — paper series never receive added capital (they live and die on initial lab/ops capital as attention tests). Not Capital Activation (that opens a **new** real series). Resolve fingerprint among real Active matches; ask if multiple; refuse paper / inactive / closed.
+_Avoid_: deposit (broker term), funding event, “make real” for a top-up, adding capital to paper
 
 **Journal**:
 A proposed or confirmed trade action record in Wv2 — entry, exit, pyramid, with flow/mtm/risk sizing. Carries a **Signal Date** (when the recommendation was born) and, once executed, a **Fill Date** (when the **Position** changes). Any journal (paper or not) **engages** the **Operational Portfolio** and freezes its tradeable shape until **Closed**.
@@ -180,16 +180,40 @@ _Avoid_: assuming Telegram alone is the complete desk, dead `resources :journals
 How humans (or a future separate automation component) actually realize a Winston signal in the market — broker fills, LEAPs, partial size, delays, clearing failures. **Winston** is the **signal and prioritization system** (trend/methodology evaluation, deterministic desk work queue) — analogous to a warehouse management system prioritizing picks for human workers — not the assumption of complete fulfillment truth. Journals bridge signal → reported fill; they do not claim OMS completeness.
 _Avoid_: equating Winston with a broker OMS, assuming DA state equals market state, baking autotrader into DA
 
+**Signal Spine**:
+What the fingerprint / **Daily Analysis** recommended for an OP (signal side, direction, methodology sizing, expected-return story, algorithmic pass/swap reasons) — retained for methodology and process audit even when **Fulfillment** differs.
+_Avoid_: using signal sizes as live cash when fills differ
+
+**Booked Capital Spine**:
+What the OP actually did via executed **Journals** / **Positions** / **CashEvents** — cash, risk sizing base, and DAR equity for the live series. Diverges from the **Signal Spine** when packaging, size, timing, or process miss differs.
+_Avoid_: rewriting booked history to match ideal next-open stock fills
+
+**Working Stop**:
+The stop price Winston treats as current on an open **Position** on the **Booked Capital Spine** (`updated_stop` / desk-updated). May start from methodology ATR default (signal/default stop) and then diverge via **Desk Action**. Winston does not assume the broker’s resting order matches this value.
+_Avoid_: broker stop alone as SoT, assuming DA knows live exchange stops
+
+**Stop-Out Reconciliation**:
+Desk workflow when real-world **Fulfillment** exits a lot because a stop was hit (or should have been): human books an exit **Journal** **required-linked** to the open **Position**, storing a snapshot (working_stop_at_exit, fill_price, gap) with reason (e.g. external_stop). **Warn** (do not hard-block by default) when fill diverges from **Working Stop**; allow confirm with note. No Winston exit signal is invented. Ties “what happened in life” to the **Booked Capital Spine**.
+_Avoid_: ad-hoc exit with no position/stop provenance, treating external stop as unrelated to the Winston lot, silent large gaps
+
+**Signaled Entry Rule**:
+No **Position** open (enter/pyramid) on an **Operational Portfolio** without a **methodology-originated** Winston signal on the **Signal Spine** — primarily a **Daily Analysis** draft enter/pyramid **Journal** + task (or a leg of an algorithm **Desk Handoff** package) for that OP and underlying. Confirm/book may change **Fulfillment Packaging**, size, and price but must reference the signal (`signal_journal_id` / task). Naked free-form enter is out of policy; force + audit is the only exception path. (Today’s ad-hoc book-enter tools are transitional and should converge on this rule.)
+_Avoid_: ad-hoc enter as the normal path, inventing fills with no signal provenance, treating any enter journal as self-authorizing signal
+
+**Unsignaled Exit Allowance**:
+Exits **may** occur without a Winston exit signal — stops, clearing/broker errors, downstream misses, discretionary flatten — booked on the **Booked Capital Spine** with reason codes and, when closing a known lot, position linkage (**Stop-Out Reconciliation** when stop-related). Asymmetry is intentional: entries are methodology-gated; exits must reflect market reality Winston may not have seen.
+_Avoid_: requiring a DA exit signal before any close, inventing fake exit signals to “make the ledger tidy”
+
 **Passed Signal**:
 A signal that did not become an executed fill — either **algorithmic** (capacity/rules: e.g. max markets, no valid swap) or **process miss** (human did not confirm by the action window / **Fill Date**). On paper, primarily regime/theoretical. On **Active** real, a process miss is treated as possible stakeholder or market/clearing error and must surface for correction — not as a free “I chose to skip.”
 _Avoid_: cancel as silent success, pass as discretionary strategy choice without an algorithm reason
 
 **Fulfillment Packaging**:
-How a confirmed signal is realized in the market: stock shares, LEAP/option contracts, proxy, etc. The **Journal** still tracks the **signal** (underlying **Market**, direction, methodology sizing story); the fill may use different units/instrument (e.g. signal sized as 206 shares of ABC → confirm 2× Jan 2028 LEAP calls). Cash impact follows packaging (e.g. contracts × premium × multiplier). Part of **Fulfillment** — Winston prioritizes the work; packaging details often come only from the human.
+How a confirmed signal is realized in the market: stock shares, LEAP/option contracts, proxy, etc. The **Journal** still tracks the **signal** (underlying **Market**, direction, methodology sizing story); the fill may use different units/instrument (e.g. signal sized as 206 shares of ABC → confirm 2× Jan 2028 LEAP calls). Cash impact follows packaging (e.g. contracts × premium × multiplier). Part of **Fulfillment** — Winston prioritizes the work; packaging details often come only from the human. Does not waive the **Signaled Entry Rule**.
 _Avoid_: requiring the fill instrument to equal the signal share count; treating LEAP as a different signal
 
 **Daily Analysis**:
-Wv2's scheduled or triggered evaluation of **Active** Portfolios — signals, **draft** journals, tasks, **Passed Signals**, Cromwell/**DAR** notification. May create draft enter/exit **Journals** for paper and real as convenience; never opens or closes **Positions**. Capacity and rank rules (max markets, swaps, pyramid priority) should yield **deterministic** recommendations or algorithmic passes — not open-ended “human pick among expected returns” menus from Winston. Requires a linked **TradingStrategy**; portfolios without one are skipped (`no_strategy`). Requires DM parquet for all Books; any missing symbol skips the whole Portfolio (`missing_data`). Unknown strategy class names skip with `unsupported_strategy`. Idempotent per (portfolio, date). DM fetch is lazy (triggered when analysis finds missing parquet).
+Wv2's scheduled or triggered evaluation of **Active** Portfolios — signals, **draft** journals, tasks, **Passed Signals**, Cromwell/**DAR** notification. May create draft enter/exit **Journals** for paper and real as convenience; never opens or closes **Positions** (ADR-009). Capacity and rank rules (max markets, swaps, pyramid priority) should yield **deterministic** recommendations or algorithmic passes — not open-ended “human pick among expected returns” menus from Winston. Requires a linked **TradingStrategy**; portfolios without one are skipped (`no_strategy`). Requires DM parquet for all Books; any missing symbol skips the whole Portfolio (`missing_data`). Unknown strategy class names skip with `unsupported_strategy`. Idempotent per (portfolio, date). DM fetch is lazy (triggered when analysis finds missing parquet).
 _Avoid_: daily run (ambiguous with DM download run), evaluation alone, auto-fill (DA does not fill)
 
 **MCP Tool**:
@@ -248,6 +272,9 @@ _Avoid_: daily analysis alone (the job; DAR is the report), flat “all Active�
 - Confirm may change **Fulfillment Packaging** (stock → LEAP/option/proxy) while still honoring the same signal underlying; journals remain the signal/return spine, not a broker lot mirror
 - Capacity contests are resolved by the methodology/algorithm into a single **Desk Handoff** package (or algorithmic **Passed Signal**); human does not re-rank expected returns by default. Each handoff carries a **Desk Workflow** link (and Telegram/shell) for confirm + extra fields. Multi-leg packages are ordered; out-of-order confirm warns
 - **Winston (Wv2 ops)** prioritizes signal-driven work for **Fulfillment** by humans (or later a separate autotrader component). It does not assume full market/OMS truth; **Human-Gated** desk is the intentional gap between signal and lot state
+- Analytics are dual: **Signal Spine** (methodology / process audit) and **Booked Capital Spine** (live OP equity, risk, DAR cash). Live risk uses booked; signal-vs-fill gaps are first-class, not errors to hide
+- Stops: methodology may propose default ATR stop; **Working Stop** on the **Position** is desk-current. Real-world stop-out is booked via **Stop-Out Reconciliation** (required position link + working-stop snapshot + fill; warn on gap) — Winston never assumes broker sync
+- **Signaled Entry Rule** vs **Unsignaled Exit Allowance**: opens/pyramids need a Winston signal; closes may be unsignaled with reasons (stop, error, discretionary) so the booked spine stays honest about downstream fulfillment
 - **Cromwell** receives webhooks/notifications from **DM** and **Wv2**; invokes **MCP Tools** for actions
 - Each **MCP Tool** invocation has a **Correlation ID**; chained calls in one turn may share a **Parent Correlation ID**
 - **Integration Log** entries land in the **Ecosystem Audit Log**; **Cromwell** and agents read them to trace coordination failures
@@ -277,7 +304,10 @@ _Avoid_: daily analysis alone (the job; DAR is the report), flat “all Active�
 > **Domain expert:** "That's a shape **Rebalance** — successor path. Close A (signals on A stop), open A′ without ROKU and with the new TS. Journals stay on A so performance isn't rewritten. Capital top-ups alone are just **CashEvents** on A. Soft-close vs flat-required follows **Execution Mode** (`paper` vs `real`), not export_kind."
 
 > **Dev:** "Paper Red ran $20K → $45K. We want to go real with the same TS."
-> **Domain expert:** "**Capital Activation**: open real A′ with a new initial **CashEvent** for committed capital (e.g. $13,986) — not paper terminal equity. A′ defaults **Active** + `real`. Requires trade-ready provenance or force. Paper A is not auto-closed or auto-deactivated; dual **Active** on the same seed needs force. Journals on A and A′ stay separate series."
+> **Domain expert:** "Speech: **make** Portfolio Red + that TS **real** with capital $13,986 (or make short-fp **real** …). **Capital Activation** opens real A′ with CashEvent $13,986 — not paper terminal equity. **Same fingerprint**. A′ defaults **Active** + `real`. Paper A **deactivated** by default (not Closed). If export was observation-only, **warn** in the reply — still allow; capital hygiene is the human’s job. Missing Red or TS in Wv2 → import error, not a wizard."
+
+> **Dev:** "Add $5000 to dd653f33 — Capital Activation?"
+> **Domain expert:** "No — **CashEvent** top-up on an **existing** series. **Make real** opens a new series; **add $X to** increases capital_base. Top-up is **only** for **Active real** OPs — never paper (paper lives and dies on its starting capital). Resolve fingerprint among Active real; ask if multiple; refuse paper/inactive."
 
 > **Dev:** "Can a losing backtest still reach **Wv2**?"
 > **Domain expert:** "Yes — as an **Observation Portfolio** for **Paper Trading** and regime watching. **Trade-Ready Portfolio** is the breakeven+ export path for promoted configs. Either way, import leaves the **Operational Portfolio** inactive until you explicitly activate it."
@@ -312,6 +342,15 @@ _Avoid_: daily analysis alone (the job; DAR is the report), flat “all Active�
 > **Dev:** "Is Winston an autotrader?"
 > **Domain expert:** "No. It is a programmatic trend/methodology engine that prioritizes **Desk Handoffs** for **Fulfillment** — like a WMS for human picks. Fills are human (or a future separate automation component). Winston never assumes it has the full fulfillment picture."
 
+> **Dev:** "We sized 206 shares but filled 2 LEAPs — which equity curve?"
+> **Domain expert:** "**Booked Capital Spine** for the live OP (premium × multiplier × contracts). Keep the **Signal Spine** (206 @ next open story) for methodology/process comparison. Do not rewrite cash to synthetic stock."
+
+> **Dev:** "Broker stopped me out of AMZN — how do I book it?"
+> **Domain expert:** "**Stop-Out Reconciliation**: exit the open **Position** on that OP with reason external_stop, fill price, and required lot link + **Working Stop** snapshot on the **Booked Capital Spine**. Warn if fill diverges from working stop. Don’t invent a Winston exit signal — **Unsignaled Exit Allowance**."
+
+> **Dev:** "I bought GGG with no DAR signal — book it?"
+> **Domain expert:** "No under **Signaled Entry Rule**. Enter/pyramid only against a methodology-originated signal (DA draft journal/task or package leg), referenced on confirm. Packaging can be LEAPs. Unsignaled **exits** are allowed; unsignaled **entries** are not — force+audit only if you must break policy."
+
 ## Flagged ambiguities
 
 - "account" can mean broker account, Portfolio, or Cromwell principal — resolved: use **Portfolio** for trading config, **Cromwell principal** for the human operator.
@@ -328,8 +367,9 @@ _Avoid_: daily analysis alone (the job; DAR is the report), flat “all Active�
 - **Rebalance** — resolved: capital → **CashEvent** in place; Books/TS shape change → successor path (close A, open A′, journals stay on A). Silent re-import must not reshape an **Engaged** OP.
 - **Close preconditions** — resolved: **Execution Mode** `paper` = soft-close allowed; `real` = flat-required (force-flatten optional). Engagement lock still applies to both (any journal freezes shape).
 - **Execution Mode** — resolved: explicit `paper` \| `real` on OP (default paper); not derived from Active or export_kind. Real capital starts via **Capital Activation**: new OP + new initial **CashEvent**; paper series is not auto-closed (recommended close). Never in-place capital rewrite of the paper series.
-- "**Activate**" (Telegram/operator speech) — resolved: often means **Capital Activation** (new series + capital $X), not merely setting the **Active** attention flag. Prefer the term **Capital Activation** in docs; UI/Telegram may still say “activate … with capital”.
-- **Capital Activation** defaults — resolved: new OP `real` + **Active**; paper A untouched; dual **Active** same seed/Books requires force (“keep paper running”). Real mode requires **Trade-Ready** provenance unless force override; observation-only stays paper by default.
+- "**Activate**" (Telegram/operator speech) — resolved: prefer “**make … real** with capital $X” for **Capital Activation**; “activate” alone often means only the **Active** attention flag. Docs use **Capital Activation**.
+- **Capital Activation** defaults — resolved: new OP `real` + **Active**; same methodology **fingerprint**; paper not auto-**Closed**; default **deactivate** paper A (same seed/Books); force for dual **Active**. **export_kind** non-trade_ready → **warn**, do not hard-block (human hygiene). Source OP+TS must exist in Wv2 or hard error (import first).
+- **CashEvent top-up** — resolved: “add $X to fingerprint” only on **Active real** OPs; paper never (live/die on initial capital). Distinct from Capital Activation.
 - "DmCoverage" (and variants: dm_coverage, DmCoverage model/association) was used in WUT and Wv2 for the local consumer mirror of DM's metadata — resolved: converge on the canonical **DataCoverage** term everywhere. Deprecate and remove consumer-specific naming variants (DmCoverage, etc.). Consumers maintain a local **DataCoverage** (as their view of available DM parquet via Reconciliation). Glossary definition of **DataCoverage** is authoritative for the concept (DM-owned metadata describing parquet reality).
 - "`activities` table" / `market.activities` (and `Activity` records) in WUT was the carrier for market time-series (OHLCV + indicators) — resolved: for DM-sourced **Market** data this is **very temporary** and deprecated. DM parquet (via **Winston EOD Standard** + **DataCoverage**) is the authoritative source. All references (positions, trading_signals, backtest_indicator_values, passed_signals, market_indicator_values, etc.) must be refactored to use composite `(market_id, date)` keys + **Bar** objects from the DM loader. No DB table row for bar identity (use composite or non-persisted derivative). No long-lived shim. Call sites for creation (e.g. Position/TradingSignal/BIV construction) and usage (risk, expected return, charts, views) updated to loader + composite. "Just use DM to pull the data again" at render time using stored (market, date). Backtest result views pull via loader from stored (market, date); backtest runs have dedicated result parquet storage. All legacy non-DM records are defunct and deprecated; there is no historical or legacy relationship that we need to curate. The `activities` table itself is deprecated for market time-series and can eventually be removed or emptied for DM symbols (and legacy paths as they are cleaned).
 - The `belongs_to :activity` on Position, TradingSignal, PassedSignal, BacktestIndicatorValue, MarketIndicatorValue, MarketMovingAverage, etc. is to be removed or fully deprecated for DM-sourced data. Refactor creation and usage sites to use the composite key + Bar (from the DM loader). The association remains only for truly legacy non-DM records. However, with the integration of DM all legacy non-DM records are defunct and can be considered deprecated. There is no historical or legacy relationship that we need to curate.
@@ -343,3 +383,7 @@ _Avoid_: daily analysis alone (the job; DAR is the report), flat “all Active�
 - **Desk Workflow** — product requirement: every DAR next step links to a guided Wv2 journal/confirm path; partial today (desk form + Telegram/ops); full workflow not built.
 - Multi-leg **Desk Handoff** — one logical package, N linked journals/tasks, ordered; out-of-order confirm **warns** (A).
 - Winston vs fulfillment — signal/prioritization system for human (or future separate auto) **Fulfillment**; not full OMS truth; tidy end-to-end automation is not assumed.
+- Equity / regime measurement — **A**: dual **Signal Spine** + **Booked Capital Spine**; live OP uses booked; gaps are visible.
+- Stops — **A**: signal/default ATR + **Working Stop** on Position; human update allowed; external stop-out via **Stop-Out Reconciliation** (required position link + snapshot; warn on gap). Order lifecycle still deferred.
+- Stop-Out binding — **A**: required lot link + working_stop snapshot + warn on gap (not hard-block by default).
+- Enter vs exit asymmetry — entries require methodology-originated Winston **signal** (DA draft / package leg); exits may be unsignaled (stop/error/downstream miss) with reason + linkage. Free-form enter deprecated as normal ops (force+audit only).

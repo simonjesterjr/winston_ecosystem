@@ -3,7 +3,7 @@
 **Date:** 2026-07-13  
 **Bucket:** `ecosystem/business_analysis/` (business / operator evaluation — not technical `docs/analysis/`)  
 **Status:** Level 1 complete. Level 2 Phase 2.1 **C0 (PBR 62) + P1 (PBR 63) done**. Further R/X/E paths pending (see tickets).  
-**Scope:** WUT lab PBRs for color cohorts (Red/Blue/Orange/White) + corr_v2 cohorts (Green/Pink/Blank/Rust).  
+**Scope:** WUT lab PBRs for color cohorts (Red/Blue/Orange/White) + corr_v2 cohorts (Green/Pink/Mango/Rust).  
 **Anti-overfit stance:** Describe what *already happened*; do not jointly re-search entry×exit×risk on the full sample. Pre-registered experiment paths only.
 
 ---
@@ -44,7 +44,7 @@
 | 25 Red | observation | max_drawdown (52.1%) |
 | 41 Orange | observation | max_drawdown (59.7%) |
 | 23 Blue static | observation | return + DD |
-| 57/58 Blank/Rust | observation | max_drawdown |
+| 57/58 Mango/Rust | observation | max_drawdown |
 
 > Historical selections still show Blue/Red/White/Orange as observation from *original* vet metrics. Live re-run numbers on 44/48 now pass gates — treat that as **new evidence**, not as “the vet already blessed them.”
 
@@ -58,7 +58,7 @@
 | **44** | Blue | one_way_dynamic | move_to_last | nil | 10 | 1532.1 | 34.7 | 1.49 | 582 | 10k | 163k | 335k | Full TS3 entry 20d + dual exit |
 | 41 | Orange | static | move_to_last | 4 | 12 | 839.8 | 59.7 | 1.05 | 1697 | 10k | 94k | 88k | High activity; DD fail |
 | 58 | Rust | static | move_to_last | 4 | 12 | 684.6 | 77.4 | 0.83 | 496 | 10k | 78k | 182k | observation |
-| 57 | Blank | static | move_to_last | 4 | 12 | 671.5 | 55.0 | 0.84 | 814 | 10k | 77k | 114k | observation |
+| 57 | Mango | static | move_to_last | 4 | 12 | 671.5 | 55.0 | 0.84 | 814 | 10k | 77k | 114k | observation |
 | 46 | Red | one_way_dynamic | move_to_last | nil | 10 | 398.4 | 68.6 | 0.70 | 626 | 10k | 50k | 20k | Winner+TS3 risk |
 | 45 | Orange | one_way_dynamic | move_to_last | nil | 10 | 383.1 | 39.0 | 0.92 | 825 | 10k | 48k | 85k | Dynamic improved DD vs 41 |
 | 25 | Red | static | move_to_last | 4 | 12 | 340.4 | 52.1 | 0.74 | 716 | 10k | 44k | 10k | Classic vet winner |
@@ -87,7 +87,7 @@
 | Pink | 12 | 76.29 | 2026-07-12 | AFIF, AGZ, COM, DBA, FXI, IYH, JNJ, MSFT, PINK, UUP, WMT, WTI | trade_ready static |
 | **Blue** | 11 | **76.15** | 2026-07-13 | AAL, AMZN, GLD, GOOGL, JNJ, PG, RXT, TSLA, TSMC, WMT, XLE | Good PCS; static fail → dynamic rescue |
 | Red | 9 | 73.01 | 2026-07-12 | AMAT, CDE, MSFT, MSOS, PHYMF, ROKU, URA, VXX, XLV | Strong static; dynamic mixed DD |
-| Blank | 12 | 71.30 | 2026-07-12 | AAAU, BIB, BWX, COMB, MSFT, PPLT, ROKU, RXT, SEF, SVXY, WTI, ZROZ | High ret / fail DD |
+| Mango | 12 | 71.30 | 2026-07-12 | AAAU, BIB, BWX, COMB, MSFT, PPLT, ROKU, RXT, SEF, SVXY, WTI, ZROZ | High ret / fail DD |
 | Orange | 15 | 68.34 | 2026-07-12 | AAPL, BITQ, COPR, … XLK, ZROZ | High ret / high DD; COPR quality risk |
 | White | 20 | **41.76** | 2026-07-12 | twins DBE/OILK; quality fails | Low PCS; capacity + junk |
 

@@ -104,7 +104,7 @@ Candidate pool expanded beyond DM-suitable-only (WUT markets with `DmCoverage` â
 
 ## Related plan (2026-07-11)
 
-Correlation methodology hardening, **Portfolio Correlation Score** time series, DAR integration, and **new** cohorts Green/Pink/Blank/Rust:
+Correlation methodology hardening, **Portfolio Correlation Score** time series, DAR integration, and **new** cohorts Green/Pink/Mango/Rust:
 
 â†’ [`portfolio-correlation-methodology-and-score.md`](./portfolio-correlation-methodology-and-score.md)
 

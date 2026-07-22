@@ -13,7 +13,7 @@
 1. Harden WUT portfolio-correlation **methodology** (max pairwise, quality gates, fixed window, transparent metrics).
 2. Define a durable, transparent **Portfolio Correlation Score** as a **time series** (lab → export → operational tracking → rebalance signal).
 3. Ship **UI / visualizers** so correlation is inspectable in WUT portfolio chooser and correlation tools.
-4. Build **four new** seed portfolios (**Green, Pink, Blank, Rust**) with the new methodology; vet for optimal **TradingStrategy**; export to Wv2 for **Paper Trading**.
+4. Build **four new** seed portfolios (**Green, Pink, Mango, Rust**) with the new methodology; vet for optimal **TradingStrategy**; export to Wv2 for **Paper Trading**.
 5. Surface the score in **Daily Activity Report (DAR)** overview (time-series table) and on WUT **Portfolio Backtest Run (PBR)** metadata.
 
 ---
@@ -41,7 +41,7 @@ External litmus anchors: Portfolio Visualizer asset-class matrices; Equinox 2018
 | **Portfolio Correlation Score (PCS)** | Single scalar (0–100 or 0–1) summarizing diversification quality of a portfolio’s **Books** under a versioned methodology |
 | **Correlation Snapshot** | Point-in-time record: score + component metrics + methodology version + date window + optional high pairs |
 | **Correlation Methodology Version** | Immutable recipe id (e.g. `corr_v2`) for score components, windows, quality gates — required for comparable time series |
-| **Color Cohort** | Named seed-anchored lab portfolios (existing Red/Blue/Orange/White; new Green/Pink/Blank/Rust) |
+| **Color Cohort** | Named seed-anchored lab portfolios (existing Red/Blue/Orange/White; new Green/Pink/Mango/Rust) |
 
 _Avoid:_ “correlation” alone (pairwise r vs portfolio score); treating PCS as a TradingStrategy metric.
 
@@ -197,7 +197,7 @@ Scale to **0–100**. Publish formula in sidecar + DAR footnote. Changing weight
 - DAR markdown + PDF: correlation table, PCS multi-series chart, flags → next_steps `review`
 - Notification payload field `correlation_scores`
 
-### Phase 6 — New cohorts: Green, Pink, Blank, Rust — **Membership done 2026-07-12**
+### Phase 6 — New cohorts: Green, Pink, Mango, Rust — **Membership done 2026-07-12**
 
 **Seeds (liquid, quality-pass, not legacy seeds):**
 
@@ -205,28 +205,28 @@ Scale to **0–100**. Publish formula in sidecar + DAR footnote. Changing weight
 |-----------|------|-------|---|-----|-----------|--------|
 | **Green** | **ICLN** | Clean energy / climate | 12 | 83.3 | 0.31 | strong |
 | **Pink** | **PINK** | Healthcare / biotech | 12 | 76.3 | 0.44 | strong |
-| **Blank** | **ZROZ** | Rates / vol diversifier | 12 | 71.3 | 0.53 | strong |
+| **Mango** | **ZROZ** | Rates / vol diversifier | 12 | 71.3 | 0.53 | strong |
 | **Rust** | **XLI** | Industrials / cyclicals | 12 | 77.2 | 0.42 | strong |
 
 **Membership (2026-07-12):**
 
 - Green: AMZA, BERZ, BFIX, CORN, ICLN, JNJ, PHYMF, SCHD, SH, SPTI, VXX, WMT  
 - Pink: AFIF, AGZ, COM, DBA, FXI, IYH, JNJ, MSFT, PINK, UUP, WMT, WTI  
-- Blank: AAAU, BIB, BWX, COMB, MSFT, PPLT, ROKU, RXT, SEF, SVXY, WTI, ZROZ *(rebuilt with fixed window after first pass max\|r\|=0.76)*  
+- Mango: AAAU, BIB, BWX, COMB, MSFT, PPLT, ROKU, RXT, SEF, SVXY, WTI, ZROZ *(rebuilt with fixed window after first pass max\|r\|=0.76)*  
 - Rust: AAAU, AFIF, BFIX, BIS, DBA, DBE, GOOGL, RGI, RXT, SCHD, USDU, XLI  
 
 **Infrastructure:**
 
 - `PortfolioOverlapPolicy` seeds extended: ICLN/PINK/ZROZ/XLI  
-- Rake `portfolios:build_new_cohorts` (optional `[green|pink|blank|rust]`)  
-- Sidecars: `portfolio_configs/portfolio-{green,pink,blank,rust}-sidecar.json`  
+- Rake `portfolios:build_new_cohorts` (optional `[green|pink|mango|rust]`)  
+- Sidecars: `portfolio_configs/portfolio-{green,pink,mango,rust}-sidecar.json`  
 - Registry: 8 color portfolios; all bilateral overlaps for new cohorts ≤25%  
 - Daily PCS scores all 8  
 
 **Follow-through (2026-07-12):**
 
 1. Human heatmap review → **dashboard design** filed: `docs/analysis/2026-07-12-portfolio-correlation-dashboard.md`  
-2. `vet_trend` **done** for Green/Pink/Blank/Rust (exports under `portfolio_configs/portfolio-*.json`)  
+2. `vet_trend` **done** for Green/Pink/Mango/Rust (exports under `portfolio_configs/portfolio-*.json`)  
 3. Wv2 paper import + **Active** for six common set **done** (Orange deactivated; White not activated)
 
 ### Phase 7 — Legacy colors
@@ -241,7 +241,7 @@ Scale to **0–100**. Publish formula in sidecar + DAR footnote. Changing weight
 - [x] Session report (wrap)  
 - [ ] Business-context PCS doc — ticket `docs/tickets/2026-07-12-pcs-business-context-doc.md`  
 - [x] WUT correlation dashboard — ticket `docs/tickets/2026-07-12-wut-portfolio-correlation-dashboard.md` (Done 2026-07-13)  
-- [ ] Re-vet Blank/Rust for trade-ready — ticket `docs/tickets/2026-07-12-re-vet-blank-rust-trade-ready.md`  
+- [ ] Re-vet Mango/Rust for trade-ready — ticket `docs/tickets/2026-07-12-re-vet-mango-rust-trade-ready.md`  
 - [x] Wv2 six-cohort evaluate smoke — ticket `docs/tickets/2026-07-12-wv2-six-cohort-evaluate-smoke.md` (Done 2026-07-12)
 
 ---
@@ -314,7 +314,7 @@ Markdown renderer includes the same section for Telegram/MCP consumers.
 4. PBR stores snapshot; export JSON includes block.
 5. Wv2 import baseline + daily snapshots idempotent.
 6. DAR overview shows PCS table + multi-day series.
-7. Green/Pink/Blank/Rust: built, vetted, exported, paper-imported, Active optional, series growing.
+7. Green/Pink/Mango/Rust: built, vetted, exported, paper-imported, Active optional, series growing.
 8. Overlap ≤25% across all registered color portfolios including new four.
 
 ---
@@ -324,12 +324,12 @@ Markdown renderer includes the same section for Telegram/MCP consumers.
 | # | Topic | Decision |
 |---|--------|----------|
 | 1 | PCS primary signal | **Max \|r\| first** (mean secondary) |
-| 2 | Green/Pink/Blank/Rust seeds | **Defer until corr_v2 works**; liquid seed pick = validation of the engine |
+| 2 | Green/Pink/Mango/Rust seeds | **Defer until corr_v2 works**; liquid seed pick = validation of the engine |
 | 3 | PCS degradation on Engaged OP | **Flag only** in DAR / next_steps (max \|r\| > 0.70 or PCS drop >10 pts vs baseline). No auto Books change, no auto successor |
 | 4 | Who computes PCS | **WUT is SoT** — service + post-DM daily job; **Wv2 WUT client** fetches for DAR/tasking (no parallel formula) |
 | 5 | Daily scored set | **Registry color portfolios** in WUT (`portfolio_configs/registry.json` + successors). Wv2 maps Active OP → lab seed/name to fetch |
 | 6 | DAR presentation | **Both** numeric time-series table **and** chart from day one (table required; chart with graceful fallback) |
-| 7 | Orange / White | **Archive** (regime history). Do not rebuild as primary. New cohorts Green/Pink/Blank/Rust + existing **Red + Blue** → **six** common WUT↔Wv2 paper/observation portfolios |
+| 7 | Orange / White | **Archive** (regime history). Do not rebuild as primary. New cohorts Green/Pink/Mango/Rust + existing **Red + Blue** → **six** common WUT↔Wv2 paper/observation portfolios |
 | 8 | WUT↔Wv2 PCS identity | **seed_name** primary (export `name` / registry); fingerprint if multiple OP forks |
 
 ## Grill status

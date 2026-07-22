@@ -90,7 +90,7 @@ Warning: paper_caps:max_leverage normalized to 1.0 (was 3.0)
 **Example (legacy_updated):**
 
 ```
-Transfer OK — Updated existing OP (legacy bare-name path): #157 “Portfolio Blank (WUT run 57)”
+Transfer OK — Updated existing OP (legacy bare-name path): #157 “Portfolio Mango (WUT run 57)”
 active=false, execution_mode=paper
 Warning: legacy_no_fingerprint: bare-name path (ADR-006 transition)
 ```

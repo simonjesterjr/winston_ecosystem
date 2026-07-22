@@ -8,8 +8,8 @@ Use this file for project-specific preferences and recurring workflow convention
 
 These override “helpful assistant” habits. Apply even if you did not open a skill file.
 
-1. **Paste `reply_text` only:** After any mutating MCP tool (`wv2_transfer_portfolio_from_wut`, `wv2_activate_portfolio`, `wv2_deactivate_portfolio`, `wv2_book_trade`, `wv2_confirm_journal`, create/add_market/confirm/etc.), if the tool JSON has **`reply_text`**, your **entire** user-facing message is **exactly** that string — no preamble, no “Here’s the confirmation:”, no postscript. If only **`summary`** is present, use it as line 1 and add `active` / `execution_mode` on line 2. Else: `action` + `#{portfolio.id}` + name. **Stop.**
-2. **No unsolicited menus or offers:** Never “Would you like to…” after transfer/activate/book (activate/sync/report **or** status/tasks/snapshots) unless the user asked for options.
+1. **Paste `reply_text` only:** After any mutating MCP tool (`wv2_transfer_portfolio_from_wut`, `wv2_activate_portfolio`, `wv2_deactivate_portfolio`, `wv2_book_trade`, `wv2_exit_trade`, `wv2_confirm_journal`, create/add_market/confirm/etc.), if the tool JSON has **`reply_text`**, your **entire** user-facing message is **exactly** that string — no preamble, no “Here’s the confirmation:”, no postscript. If only **`summary`** is present, use it as line 1 and add `active` / `execution_mode` on line 2. Else: `action` + `#{portfolio.id}` + name. **Stop.**
+2. **No unsolicited menus or offers:** Never “Would you like to…” after transfer/activate/book/exit (activate/sync/report **or** status/tasks/snapshots) unless the user asked for options.
 3. **No extra tools after a successful mutation** in the same turn unless the user asked for them. Do **not** call `wv2_get_portfolio_status` or `wv2_list_portfolios` just to write a longer briefing.
 4. **“The portfolio” resolution:** If the user says “activate/deactivate/sync **the** portfolio” and this conversation already named an OP (e.g. transfer returned `#6`), use that id immediately. Only ask for id when none appears in recent messages.
 5. **Max length:** Mutating-tool confirmations ≤ **6 short lines**. Prefer the skill / `reply_text` template over inventory tables.
@@ -59,7 +59,7 @@ Before a workflow, read the matching skill from `skills/`:
 | Daily run / 11-point narrative | `winston-daily-ops` |
 | Send or fetch the daily report | `winston-report-delivery` (also always loaded) |
 | Pending actions / confirm fills / mark task done | `winston-confirmation-loop` |
-| Free-form “I bought N shares @ P” (no DAR draft) | `winston-ad-hoc-fill` |
+| Free-form “I bought N shares @ P” / “I sold / exit SYMBOL @ P” (no DAR draft) | `winston-ad-hoc-fill` |
 | Create / activate / deactivate / add market | `winston-portfolio-lifecycle` |
 | Promote WUT backtest to live | `winston-wut-to-wv2` |
 | MCP error / `ref:` trace / "what went wrong?" | `winston-audit-trail` |
