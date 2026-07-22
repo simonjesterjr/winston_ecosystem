@@ -19,6 +19,7 @@ That ticket (2026-07-21, series `adr-009-desk-fulfillment`) owns **discovery** o
 **Also related:**  
 - `docs/business-context/human-gated-desk-and-fulfillment.md` (ADR-009 accepted)  
 - `docs/analysis/2026-07-15-winston-journal-vs-trading-ledger.md`  
+- **Schwab channels + automation ladder (companion discovery):** [`docs/analysis/2026-07-22-schwab-integration-discovery.md`](./2026-07-22-schwab-integration-discovery.md) — API vs email recommendation; L0–L4 full automation examine-only  
 - Session evidence: Orange WMT double short (journals 105 + 119, 2026-07-22)
 
 ---
@@ -192,10 +193,12 @@ Booked Capital Spine is currently **whatever the human typed**. For paper that i
 
 | Channel | Pros | Cons | v1 candidate? |
 |---------|------|------|----------------|
-| **Email** (Schwab etc. confirmations) | Already arrives; no broker API approval | Brittle parsers; delay; PII in mailbox | Strong **first** path if mailbox dedicated |
-| **Broker API** (orders/fills poll or webhook) | Structured; partial fills; order ids | Auth/ToS/app approval; scope creep to OMS | Prefer when available; same normalized event |
-| **Push** (webhook into Wv2/Cromwell) | Low latency | Needs public endpoint, auth, retry | Later |
-| **Async poll** (Sidekiq “pull fills since T”) | Simple ops model | Rate limits; not real-time | Good with API |
+| **Email** (Schwab etc. confirmations) | Already arrives; no broker API approval | Brittle parsers; delay; PII in mailbox | **Fallback / degraded** (see Schwab discovery) |
+| **Broker API** (orders/fills poll or webhook) | Structured; partial fills; order ids | Auth/ToS/app approval; weekly OAuth re-auth; scope creep to OMS | **Recommended primary** (Schwab Trader API read path) |
+| **Push** (webhook into Wv2/Cromwell) | Low latency | Retail Schwab: no first-class fill webhook in public guides | Later / unlikely v1 |
+| **Async poll** (Sidekiq “pull fills since T”) | Simple ops model; matches Schwab reality | Rate limits; not real-time; ~60d history windows | **Default transport with API** |
+
+**Research deep-dive (2026-07-22):** [`2026-07-22-schwab-integration-discovery.md`](./2026-07-22-schwab-integration-discovery.md) — API vs email, OAuth lifetimes, endpoint map, and **L0–L4 automation ladder** (place orders / autotrader as examine-only).
 
 **Design invariant:** all channels normalize to one **BrokerFillEvent** (name TBD in grill):
 
@@ -217,6 +220,8 @@ BrokerFillEvent
 ```
 
 **Never** write Signal Spine from a broker event. Broker only feeds **Fulfillment / Booked Capital** evidence.
+
+**Extra-modal (product law, not edge case):** a signal on a stock **Market** may be fulfilled with LEAPs / option-chain structure; a commodity theme may be fulfilled with futures, options, or CLETFs. DA and capacity stay on the **signal Market**; cash, returns, and broker evidence stay on **packaging**. Matcher must not require `broker.symbol == Book.symbol`. See landscape §2a and glossary **Extra-Modal Fulfillment**.
 
 ### Human-Gated default (proposed)
 
@@ -273,25 +278,29 @@ Post-confirm amend service + broker intake remain **grill → ticket → build**
 
 ## Grill-with-docs session brief
 
-**Command:** `/grill-with-docs` against this analysis  
+**Command:** `/grill-with-docs` against this analysis **and** [`2026-07-22-schwab-integration-discovery.md`](./2026-07-22-schwab-integration-discovery.md)  
 **Outcomes wanted:**
 
 1. Confirm **one fulfillment identity per signal leg** as domain law (CONTEXT / business-context update).  
 2. Choose post-confirm edit mode (corrective vs superseding).  
 3. Choose fulfillment object model (Journal-centric vs new aggregate).  
-4. Lock broker intake v1 channel + human-still-confirms.  
+4. Lock broker intake v1 channel + human-still-confirms (**draft: Schwab API primary, email fallback**).  
 5. Decide whether paper autofill ever attaches to matched broker/paper path (likely still separate).  
-6. File/refresh tickets:  
+6. Lock automation **ceiling for near term** (L1–L2 only vs appetite for L3 “send to broker” ADR later).  
+7. File/refresh tickets:  
    - single-fulfillment invariant + amend-executed  
    - desk UX completed-task → amend  
    - broker intake implementation (after discovery acceptance)  
    - carry-forward attention job  
+   - (later) L3 broker adapter ADR/spike — only if grill wants a horizon  
 
 **Suggested first grill question:**
 
 > When you said you wanted 109.53 instead of 109.89 on WMT, should Winston have **rewritten journal 105 / position 48**, or **appended a correction journal** linked to 105, or **closed 48 and opened a new lot**?
 
 **Recommendation to open with:** rewrite same lot (corrective amend) for simple price fix; reserve close+reopen for true cancel/re-trade.
+
+**Second grill block (Schwab / automation):** after amend semantics, lock channel (API vs email) and “trade-then-book vs intent-first” default — see discovery analysis recommended defaults.
 
 ---
 
@@ -300,6 +309,7 @@ Post-confirm amend service + broker intake remain **grill → ticket → build**
 | Artifact | Role |
 |----------|------|
 | `docs/tickets/2026-07-21-broker-confirmation-email-api-intake.md` | Discovery for broker channels |
+| `docs/analysis/2026-07-22-schwab-integration-discovery.md` | Schwab API vs email + L0–L4 automation ladder |
 | `docs/tickets/2026-07-20-dar-real-process-miss-attention.md` | Process-miss attention |
 | `docs/tickets/2026-07-15-journal-ledger-*` | Ledger evolution series |
 | `docs/business-context/human-gated-desk-and-fulfillment.md` | Accepted boundary — extend after grill |

@@ -85,6 +85,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P2 | Proposed | [`2026-07-20-safe-bug-fix-harness-multi-repo.md`](2026-07-20-safe-bug-fix-harness-multi-repo.md) | Ticket: Multi-repo isolation policy + optional full safe-bug-fix harness |
 | P2 | Proposed | [`2026-07-20-wv2-capacity-swap-desk-packages.md`](2026-07-20-wv2-capacity-swap-desk-packages.md) | Ticket: Wv2 capacity swap → ordered Desk Handoff packages |
 | P2 | Proposed (discovery; grill tee in analysis) | [`2026-07-21-broker-confirmation-email-api-intake.md`](2026-07-21-broker-confirmation-email-api-intake.md) | Ticket: Broker confirmation intake (email / API) for desk fulfillment |
+| P2 | Proposed | [`2026-07-22-grill-fulfillment-schwab-extra-modal.md`](2026-07-22-grill-fulfillment-schwab-extra-modal.md) | Ticket: Grill-with-docs — fulfillment ownership, Schwab intake, extra-modal |
 | P3 | Proposed | [`2026-07-22-cromwell-snapshot-watcher-queued-false-positive.md`](2026-07-22-cromwell-snapshot-watcher-queued-false-positive.md) | Ticket: Fix market-snapshot overnight watcher — race on `queued` / empty response |
 | P3 | Proposed | [`2026-07-21-blue-241-successor-cleanup.md`](2026-07-21-blue-241-successor-cleanup.md) | Ticket: Decide fate of Blue successor OP #241 |
 | P3 | Proposed | [`2026-07-21-ops-speech-prefer-portfolio-numeric-id.md`](2026-07-21-ops-speech-prefer-portfolio-numeric-id.md) | Ticket: Prefer numeric portfolio `#id` in ops speech and skill examples |

@@ -82,10 +82,26 @@ Only after discovery + acceptance of approach:
 - [ ] Explicit decision: human confirm still required vs optional auto-book (ADR-009 impact)  
 - [ ] Security note: mailbox/API secrets, PII, retention  
 - [ ] Follow-on implementation ticket(s) filed or this ticket re-scoped with build acceptance  
+- [ ] **(Expanded)** Automation ladder examined (L0–L4): read intake vs place-order vs autotrader component — **no implement**; grill + ADR gate for any write path  
+
+### Draft answers from research (pending grill lock-in)
+
+Source: [`docs/analysis/2026-07-22-schwab-integration-discovery.md`](../analysis/2026-07-22-schwab-integration-discovery.md) (2026-07-22).
+
+| Item | Draft recommendation |
+|------|----------------------|
+| Channel v1 | **Schwab Trader API primary** (poll orders + TRADE transactions); email optional fallback |
+| Event shape | `BrokerFillEvent` draft in discovery analysis |
+| Matching | order/txn id → soft window match → ambiguous queue → orphan; never silent wrong book |
+| Human confirm | **Required v1** (real); auto-book only via later ADR |
+| Security | OAuth + ~30m access / ~7d refresh re-auth; host secrets; redact accounts in Telegram; raw payload retention |
+| Automation | Ladder L0–L4 in discovery analysis; **L1–L2 only** in scope of this ticket; L3/L4 = separate ADR + component outside DA |
 
 ## Related
 
 - **Analysis (grill tee):** [`docs/analysis/2026-07-22-winston-fulfillment-ownership-and-broker-intake.md`](../analysis/2026-07-22-winston-fulfillment-ownership-and-broker-intake.md) — fulfillment ownership model + broker intake design; run `/grill-with-docs` against that doc before implementing  
+- **Schwab channel + automation ladder:** [`docs/analysis/2026-07-22-schwab-integration-discovery.md`](../analysis/2026-07-22-schwab-integration-discovery.md) — API vs email research; L0–L4 full automation examination  
+- **Schwab / ToS access landscape (pre-design):** [`docs/analysis/2026-07-22-schwab-thinkorswim-access-landscape.md`](../analysis/2026-07-22-schwab-thinkorswim-access-landscape.md) — capabilities, streamer vs webhook, paperMoney issues, issue register  
 - ADR-009 — Human-gated desk and fulfillment boundary  
 - `docs/business-context/human-gated-desk-and-fulfillment.md` — dual spines, Desk Workflow  
 - ADR-006 — OP lifecycle / real capital series  
@@ -96,6 +112,9 @@ Only after discovery + acceptance of approach:
 
 ## Notes / open questions
 
-- Is the human expected to confirm **in Winston first** then trade, or **trade first** then Winston books from confirmation? Both modes may need support; product default should be explicit.  
-- Schwab email formats change; parser brittleness argues for API if available.  
+- Is the human expected to confirm **in Winston first** then trade, or **trade first** then Winston books from confirmation? Both modes may need support; product default should be explicit. **Discovery lean:** prefer Winston draft/intent first for signaled enters; reverse path required for stop-outs / unsignaled.  
+- Schwab email formats change; parser brittleness argues for API if available. **Research: API preferred.**  
+- **Extra-Modal Fulfillment:** signal stock/commodity Market may be fulfilled via LEAPs, option structures, futures, CLETFs, etc. Confirmations must attach to **signal identity**, not assume broker symbol == Book symbol. DA stays on signal Market; cash/returns on packaging. See landscape §2a + `CONTEXT.md`.  
 - Options packaging (signal stock size vs LEAP contracts) already dual-spine—confirmations must not collapse spines.  
+- Schwab retail API: no reliable fill webhook → **poll** model; access token ~30m, refresh ~7d → ops product, not fire-and-forget.  
+- Full order placement / autotrader: examine only until L3/L4 ADR; must not live inside Daily Analysis (ADR-009).  

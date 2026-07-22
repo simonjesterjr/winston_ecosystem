@@ -97,6 +97,8 @@ Human may ignore links; ignore past the action window = **process miss**, not st
 
 Example: signal sized 206 shares ABC; human confirms 2× Jan 2028 LEAP calls → **booked** cash uses contracts × premium × multiplier; **signal** spine keeps the 206 @ next-open story. Do not rewrite booked history to synthetic stock.
 
+**Extra-Modal Fulfillment** is normal: equity signals may fill via LEAPs/options; commodity / futures-theme signals may fill via futures, options, or CLETF-class ETFs — asynchronously, with different size/timing. **Link** signal ↔ fulfillment; **DA continues** on the signal **Market** on the Book for signal generation and methodology risk; **cash/returns** follow packaging on the Booked Capital Spine. Do not re-point Books or DA to the fill symbol.
+
 ## Stops
 
 | Concept | Role |
