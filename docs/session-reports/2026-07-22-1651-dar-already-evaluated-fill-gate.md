@@ -51,12 +51,13 @@
 
 ### Commits
 
-- _Pending wrap commits._
+- `winston_v2` `19d1fcc` — fix(ops): already_evaluated keys on report-day tasks only
+- `ecosystem` `31431fa` — docs: DAR already_evaluated fill-gate session report and tasks
 
 ### Branch / PR state at sign-off
 
-- Branch: `winston_v2` `main`, `ecosystem` `main` — dirty until wrap commit.
-- Pushed: pending wrap.
+- Branch: `winston_v2` `main`, `ecosystem` `main` — clean after wrap.
+- Pushed: yes (both `main`).
 - PR: not opened (direct main).
 
 ---
