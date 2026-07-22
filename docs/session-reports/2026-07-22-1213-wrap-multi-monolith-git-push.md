@@ -53,11 +53,11 @@ Earlier in-session (already committed/pushed before wrap):
 ### Commits
 
 - Pre-wrap (this conversation): `a6cef38`, `101578d` (ecosystem); `740bbae`, `be1702b` (Wv2)
-- Wrap commit: _filled after commit_
+- Wrap: `30d255b` — `docs: wrap session report for multi-monolith commit/push`
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on ecosystem, Wv2, DM, WUT
+- Branch: `main` on ecosystem, Wv2, DM, WUT — clean
 - Pushed: yes (ecosystem + Wv2 this session; DM/WUT already synced)
 - PR: not opened (direct main workflow)
 
