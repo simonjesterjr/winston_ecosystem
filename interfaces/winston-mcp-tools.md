@@ -107,7 +107,7 @@ Tools are named with `wv2_` prefix for clarity (future DM/WUT/Cromwell tools wil
    - Single-lot still: shell `stop <position_id> price=S`.
 
 6c. **wv2_add_cash_event** (capital inflow / adjustment)
-   - Purpose: Record a **CashEvent** on an Operational Portfolio (speech: “add $5600 cash to Portfolio White”). Capital-only rebalance (ADR-006) — does **not** open/close positions or change Books/TS.
+   - Purpose: Record a **CashEvent top-up** on an Operational Portfolio (speech: “add $5000 to \<fingerprint\>” / “add $5600 cash to Portfolio White”). Capital-only rebalance (ADR-006) — does **not** open/close positions or change Books/TS. **Policy (2026-07-20):** only **Active** + **execution_mode=real**; refuse paper / inactive (paper lives and dies on initial capital). Not Capital Activation.
    - Inputs: `{ "portfolio_id_or_name": "11", "amount": 5600, "event_type": "inflow", "event_date": "2026-07-16", "notes": "weekly contribution" }`
    - Behavior: `POST /internal/cash_events` → `Operations::CashEventService`. Allowed `event_type`: `inflow` (default, amount > 0) or `adjustment` (may be negative). `initial`/`exit` not accepted on this path. Notes stamped with `source=mcp:wv2_add_cash_event`. Closed series refused.
    - Returns: `{ "status": "ok", "action": "cash_inflow|cash_adjustment", "cash_event": {...}, "portfolio": {...}, "capital_base_before", "capital_base", "summary", "reply_text", "reply_hint" }`
@@ -181,13 +181,22 @@ Tools are named with `wv2_` prefix for clarity (future DM/WUT/Cromwell tools wil
     - Returns: `{ "status": "ok", "journal": {...}, "task": {...}, "capital_base": 25100.0, "fulfillment": {...} }` (idempotent if already executed)
 
 13b. **wv2_edit_journal** (draft amend — does **not** execute)
-    - Purpose: Change draft units / price / notes / stop / trade_date / fulfillment packaging **before** confirm. Executed journals are immutable.
+    - Purpose: Change draft units / price / notes / stop / trade_date / fulfillment packaging **before** confirm.
     - Inputs: `{ "journal_id": 44, "units": 5, "price": 251.03, "stop_price": 245.0, "notes": "size-down" }` — optional related-instrument fields (`fulfillment_type`, `strike`, `expiry`, …).
     - Behavior: `POST /internal/journals/edit` → `JournalDraftEditService`. Updates journal `fulfillment_details` + linked task metadata; recalculates provisional `flow`. No position open/close.
     - Returns: `{ "status": "ok", "action": "draft_edited", "journal": { proposed_units, proposed_price, proposed_stop, ... }, "changes": {...}, "reply_text", ... }`
-    - Errors: `not_found`, `invalid_state` (not draft), `invalid_input` (no fields).
+    - Errors: `not_found`, `invalid_state` (not draft — use **wv2_amend_journal** for executed), `invalid_input` (no fields).
     - Shell: `edit_journal 44 units=5 price=251.03 stop=245 notes=size-down`
     - Desk: action **edit** on Ops desk form.
+
+13c. **wv2_amend_journal** (correct fill — executed enter/pyramid, **same lot**)
+    - Purpose: Rewrite booked price/units/stop on an **executed** journal + open **Position** without opening a second lot. Single-fulfillment invariant.
+    - Inputs: `{ "journal_id": 105, "price": 109.53, "units": 36, "stop_price": 115.49, "notes": "broker fill" }`
+    - Behavior: `POST /internal/journals/amend` → `JournalExecutedAmendService`. Recomputes `flow` / capital; appends `fulfillment_details.amendments` audit trail.
+    - Returns: `{ "status": "ok", "action": "fill_amended", "journal": {...}, "position": {...}, "capital_base", "reply_text", ... }`
+    - Errors: `not_found`, `invalid_state` (not executed / closed position / exit task), `invalid_input`.
+    - Desk: **correct_fill** on Desk Workflow (opened for executed journals) or classic desk action.
+    - Related: `wv2_book_trade` refuses `signal_already_fulfilled` / `signal_draft_exists` unless `force` + notes.
 
 14. **wv2_mark_task_done**
     - Purpose: Complete an operations task; defaults to confirming the linked journal first.

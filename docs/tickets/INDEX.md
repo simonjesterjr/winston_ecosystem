@@ -40,7 +40,6 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 | P1 | Proposed | [`2026-07-15-journal-ledger-stop-on-confirm-and-update.md`](2026-07-15-journal-ledger-stop-on-confirm-and-update.md) | Ticket: Human stop on confirm/book + stop update path |
 | P1 | Proposed | [`2026-07-18-ops-mcp-recreate-after-demo-tools.md`](2026-07-18-ops-mcp-recreate-after-demo-tools.md) | Ticket: Recreate winston_mcp after ops demo tool surface changes |
 | P1 | Proposed | [`2026-07-20-dar-real-process-miss-attention.md`](2026-07-20-dar-real-process-miss-attention.md) | Ticket: DAR attention for Active real process-miss Passed Signals |
-| P1 | Proposed | [`2026-07-22-single-fulfillment-invariant-and-post-confirm-amend.md`](2026-07-22-single-fulfillment-invariant-and-post-confirm-amend.md) | Ticket: Single-fulfillment invariant + post-confirm amend |
 | P2 | Proposed | [`2026-07-22-cromwell-snapshot-open-empty-response-artifact.md`](2026-07-22-cromwell-snapshot-open-empty-response-artifact.md) | Ticket: Cromwell market-snapshot-open â€” empty run `response` vs Telegram `message` |
 | P2 | Proposed | [`2026-07-21-cromwell-activate-id-or-name.md`](2026-07-21-cromwell-activate-id-or-name.md) | Ticket: Cromwell must always pass `id_or_name` on portfolio activate |
 | P2 | Proposed | [`2026-07-21-portfolio-id-or-name-fingerprint-resolution.md`](2026-07-21-portfolio-id-or-name-fingerprint-resolution.md) | Ticket: Portfolio `id_or_name` fingerprint / short-fp resolution + multi-match error |

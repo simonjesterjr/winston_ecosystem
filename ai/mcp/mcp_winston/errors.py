@@ -66,13 +66,26 @@ _TOOL_HTTP_OVERRIDES: dict[str, dict[int, str]] = {
         422: "Cash event refused — amount non-zero; event_type inflow|adjustment; portfolio not closed.",
     },
     "wv2_book_trade": {
-        422: "Book refused — portfolio, symbol on Books, positive units/price required; read message.",
+        422: (
+            "Book refused — portfolio, symbol on Books, positive units/price; "
+            "or signal_draft_exists / signal_already_fulfilled "
+            "(confirm or wv2_amend_journal; force+notes for second lot); read message."
+        ),
     },
     "wv2_edit_journal": {
         404: "Journal not found — check wv2_list_pending_actions / wv2_get_journal.",
         422: (
-            "Edit refused — only draft journals are editable (executed immutable); "
+            "Edit refused — only draft journals are editable; "
+            "for executed fills use wv2_amend_journal; "
             "provide at least one field (units/price/notes/stop); read message/code."
+        ),
+    },
+    "wv2_amend_journal": {
+        404: "Journal not found — check wv2_get_journal.",
+        422: (
+            "Amend refused — only executed enter/pyramid with open position; "
+            "provide units/price/stop/notes; read message/code "
+            "(signal_already_fulfilled on book → amend instead)."
         ),
     },
     "wv2_compare_equity": {

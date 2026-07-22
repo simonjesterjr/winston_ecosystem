@@ -281,6 +281,7 @@ async def list_tools() -> list[Tool]:
                 "Amend a draft journal before confirm: units, price, notes, stop_price, "
                 "trade_date, fulfillment_type / related-instrument fields. "
                 "Refuses executed/cancelled/passed (immutable). Does NOT open/close positions. "
+                "For executed fills use wv2_amend_journal (correct fill, same lot). "
                 "On success paste reply_text as the entire user reply."
             ),
             inputSchema={
@@ -319,6 +320,33 @@ async def list_tools() -> list[Tool]:
             },
         ),
         Tool(
+            name="wv2_amend_journal",
+            description=(
+                "Correct an executed enter/pyramid fill in place (same Position lot). "
+                "Use when broker fill differs from booked price/units (e.g. 253.66 → 255.02). "
+                "Does NOT open a second position. For drafts use wv2_edit_journal + confirm. "
+                "On success paste reply_text as the entire user reply."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "journal_id": {"type": "integer"},
+                    "units": {"type": ["integer", "number", "null"]},
+                    "price": {
+                        "type": ["number", "null"],
+                        "description": "Corrected fill price",
+                    },
+                    "execution_price": {
+                        "type": ["number", "null"],
+                        "description": "Alias for price",
+                    },
+                    "notes": {"type": ["string", "null"]},
+                    "stop_price": {"type": ["number", "null"]},
+                },
+                "required": ["journal_id"],
+            },
+        ),
+        Tool(
             name="wv2_book_trade",
             description=(
                 "Ad-hoc paper fill: book a buy/sell without a Daily Analysis draft. "
@@ -327,6 +355,8 @@ async def list_tools() -> list[Tool]:
                 "Related instruments: fulfillment_type=leap|option|proxy with strike+expiry "
                 "(options). units=contracts for leap/option; price=premium; "
                 "cash impact = units×price×multiplier (default 100). "
+                "Refuses second book against an existing draft/executed signal "
+                "(use confirm or wv2_amend_journal); force+notes for deliberate second lot. "
                 "Never invent fills. On success paste reply_text as the entire user reply."
             ),
             inputSchema={
@@ -1087,6 +1117,19 @@ def _attach_agent_summary(name: str, data: Any) -> Any:
             "User message = reply_text only. Attach telegram_media_path via media=[...]. "
             "FORBIDDEN: inventing series, menus, path-as-hyperlink text."
         )
+    elif name == "wv2_amend_journal" and data.get("status") == "ok":
+        j = data.get("journal") if isinstance(data.get("journal"), dict) else {}
+        jid = j.get("id")
+        market = j.get("market") or "?"
+        units = j.get("units")
+        px = j.get("execution_price")
+        capital = data.get("capital_base")
+        line1 = f"Correct-fill journal #{jid} {market} {units}@{px} capital=${capital}"
+        data["summary"] = line1
+        data["reply_text"] = line1
+        data["reply_hint"] = (
+            "User message = reply_text only (verbatim). No preamble/postscript."
+        )
     elif name == "wv2_edit_journal" and data.get("status") == "ok":
         j = data.get("journal") if isinstance(data.get("journal"), dict) else {}
         jid = j.get("id")
@@ -1507,6 +1550,17 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[TextContent]:
             if isinstance(details, dict) and details:
                 edit_payload["fulfillment_details"] = details
             data = await _post(WV2_BASE, "/internal/journals/edit", json=edit_payload, **hop_kw)
+
+        elif name == "wv2_amend_journal":
+            amend_payload: dict[str, Any] = {
+                "journal_id": args.get("journal_id"),
+                "source": "mcp",
+            }
+            for key in ("units", "price", "execution_price", "notes", "stop_price"):
+                val = args.get(key)
+                if val is not None and val != "":
+                    amend_payload[key] = val
+            data = await _post(WV2_BASE, "/internal/journals/amend", json=amend_payload, **hop_kw)
 
         elif name == "wv2_book_trade":
             # Coerce numeric fields; drop nulls small models often send.
