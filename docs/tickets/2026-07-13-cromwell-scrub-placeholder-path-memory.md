@@ -4,6 +4,10 @@
 **Priority:** P1
 **Context:** Issue `docs/issues/2026-07-13-cromwell-cron-placeholder-path-hallucination.md`. Session `docs/session-reports/2026-07-13-1216-cromwell-telegram-placeholder-path.md`.
 
+## Cluster (Cromwell hourly Telegram)
+
+Part of the four-item hourly quality epic: (1) confirm delivery, (2) **this scrub**, (3) observe MCP+clean Telegram, (4) attention discipline for quiet posts — see [`2026-07-21-cromwell-hourly-telegram-attention-discipline.md`](2026-07-21-cromwell-hourly-telegram-attention-discipline.md).
+
 ## Problem
 
 Idle-session compact wrote a permanent memory fact about a non-existent placeholder path:

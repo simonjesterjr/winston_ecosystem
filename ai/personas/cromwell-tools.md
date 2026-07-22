@@ -53,4 +53,5 @@ Scheduled `cron:<job-id>` sessions (not interactive chat):
 - **Required MCP**: jobs list `mcp_require` in `schedule/cron-tool-allowlist.json`. Finishing without a successful required call rewrites the reply to a short **OPS ERROR** — never invent “stable / no movers”.
 - **Identical-fail circuit-break**: after 2 identical failed tool calls (same name + args) the runtime hard-stops retries.
 - **No path recovery**: do not call `read_file` on market/EOD/DM cron jobs; never ask the human for a file path; never use textbook paths like `path/to/file.txt`.
-- Soft skill `FORBIDDEN` text is **not** enough — the nanobot image patch enforces the above.
+- **Attention**: market-snapshot cron — movers only when volatile; all quiet → one line (`All markets quiet.`). No quiet symbol tables, no menus. Soft skill text is primary; runtime may grow a length rewrite later.
+- Soft skill `FORBIDDEN` text is **not** enough for tool allowlists — the nanobot image patch enforces MCP require / path deny above.

@@ -35,10 +35,13 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 | P1 | Proposed | [`2026-07-09-confirm-cromwell-hourly-telegram.md`](2026-07-09-confirm-cromwell-hourly-telegram.md) | Ticket: Confirm natural Cromwell hourly Telegram after CPU tuning |
 | P1 | Proposed | [`2026-07-13-cromwell-scrub-placeholder-path-memory.md`](2026-07-13-cromwell-scrub-placeholder-path-memory.md) | Ticket: Scrub Cromwell permanent memory of `path/to/file.txt` hallucination |
 | P1 | Proposed | [`2026-07-13-observe-cromwell-market-snapshot-hourlies.md`](2026-07-13-observe-cromwell-market-snapshot-hourlies.md) | Ticket: Observe Cromwell market-snapshot hourlies for real MCP + clean Telegram |
+| P1 | Proposed | [`2026-07-21-cromwell-hourly-telegram-attention-discipline.md`](2026-07-21-cromwell-hourly-telegram-attention-discipline.md) | Ticket: Cromwell hourly Telegram â€” attention discipline (quiet = one line) |
 | P1 | Proposed | [`2026-07-13-stale-parquet-prior-close-active-symbols.md`](2026-07-13-stale-parquet-prior-close-active-symbols.md) | Ticket: Stale DM parquet last-dates for some Active symbols |
 | P1 | Proposed | [`2026-07-15-journal-ledger-stop-on-confirm-and-update.md`](2026-07-15-journal-ledger-stop-on-confirm-and-update.md) | Ticket: Human stop on confirm/book + stop update path |
 | P1 | Proposed | [`2026-07-18-ops-mcp-recreate-after-demo-tools.md`](2026-07-18-ops-mcp-recreate-after-demo-tools.md) | Ticket: Recreate winston_mcp after ops demo tool surface changes |
 | P1 | Proposed | [`2026-07-20-dar-real-process-miss-attention.md`](2026-07-20-dar-real-process-miss-attention.md) | Ticket: DAR attention for Active real process-miss Passed Signals |
+| P1 | Proposed | [`2026-07-22-single-fulfillment-invariant-and-post-confirm-amend.md`](2026-07-22-single-fulfillment-invariant-and-post-confirm-amend.md) | Ticket: Single-fulfillment invariant + post-confirm amend |
+| P2 | Proposed | [`2026-07-22-cromwell-snapshot-open-empty-response-artifact.md`](2026-07-22-cromwell-snapshot-open-empty-response-artifact.md) | Ticket: Cromwell market-snapshot-open â€” empty run `response` vs Telegram `message` |
 | P2 | Proposed | [`2026-07-21-cromwell-activate-id-or-name.md`](2026-07-21-cromwell-activate-id-or-name.md) | Ticket: Cromwell must always pass `id_or_name` on portfolio activate |
 | P2 | Proposed | [`2026-07-21-portfolio-id-or-name-fingerprint-resolution.md`](2026-07-21-portfolio-id-or-name-fingerprint-resolution.md) | Ticket: Portfolio `id_or_name` fingerprint / short-fp resolution + multi-match error |
 | P2 | Proposed | [`2026-07-02-compose-orchestrator-unification.md`](2026-07-02-compose-orchestrator-unification.md) | Ticket: Unify compose orchestration (podman-compose vs podman compose) |
@@ -82,6 +85,8 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 | P2 | Proposed | [`2026-07-20-rails-code-review-wut-baseline.md`](2026-07-20-rails-code-review-wut-baseline.md) | Ticket: First rails-code-review baseline (WUT) |
 | P2 | Proposed | [`2026-07-20-safe-bug-fix-harness-multi-repo.md`](2026-07-20-safe-bug-fix-harness-multi-repo.md) | Ticket: Multi-repo isolation policy + optional full safe-bug-fix harness |
 | P2 | Proposed | [`2026-07-20-wv2-capacity-swap-desk-packages.md`](2026-07-20-wv2-capacity-swap-desk-packages.md) | Ticket: Wv2 capacity swap â†’ ordered Desk Handoff packages |
+| P2 | Proposed (discovery; grill tee in analysis) | [`2026-07-21-broker-confirmation-email-api-intake.md`](2026-07-21-broker-confirmation-email-api-intake.md) | Ticket: Broker confirmation intake (email / API) for desk fulfillment |
+| P3 | Proposed | [`2026-07-22-cromwell-snapshot-watcher-queued-false-positive.md`](2026-07-22-cromwell-snapshot-watcher-queued-false-positive.md) | Ticket: Fix market-snapshot overnight watcher â€” race on `queued` / empty response |
 | P3 | Proposed | [`2026-07-21-blue-241-successor-cleanup.md`](2026-07-21-blue-241-successor-cleanup.md) | Ticket: Decide fate of Blue successor OP #241 |
 | P3 | Proposed | [`2026-07-21-ops-speech-prefer-portfolio-numeric-id.md`](2026-07-21-ops-speech-prefer-portfolio-numeric-id.md) | Ticket: Prefer numeric portfolio `#id` in ops speech and skill examples |
 | P3 | Proposed (largely delivered; residual compose smoke) | [`2026-07-04-daily-report-pdf-redesign.md`](2026-07-04-daily-report-pdf-redesign.md) | Ticket: Redesign Wv2 daily activity report PDF layout |
@@ -114,4 +119,4 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 
 75 closed tickets in [`archive/`](archive/).
 
-_Generated 2026-07-21 UTC (ADR-009 #2 Desk Workflow + #4 Stop-Out done)._
+_Generated 2026-07-21 UTC (Cromwell hourly attention cluster + principle Â§12; ADR-009 desk items earlier)._

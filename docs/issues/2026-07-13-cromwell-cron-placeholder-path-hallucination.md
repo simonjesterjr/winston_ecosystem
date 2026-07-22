@@ -61,13 +61,15 @@ Primary evidence:
 
 No trading/capital risk from this incident.
 
-## Suggested remediation (tickets filed 2026-07-13)
+## Suggested remediation (tickets filed 2026-07-13; cluster updated 2026-07-21)
 
 1. **Memory scrub** — [`docs/tickets/2026-07-13-cromwell-scrub-placeholder-path-memory.md`](../tickets/2026-07-13-cromwell-scrub-placeholder-path-memory.md) — still open
 2. **Cron hardening** (circuit-break, require MCP, no path-asks) — [`docs/tickets/2026-07-13-cromwell-cron-hallucination-hardening.md`](../tickets/2026-07-13-cromwell-cron-hallucination-hardening.md) — **Done 2026-07-20** (offline guards + unit tests; live observe deferred)
 3. **Dream path hygiene** — [`docs/tickets/2026-07-13-cromwell-dream-memory-path-hygiene.md`](../tickets/2026-07-13-cromwell-dream-memory-path-hygiene.md) — still open
 4. **Observe hourlies** — [`docs/tickets/2026-07-13-observe-cromwell-market-snapshot-hourlies.md`](../tickets/2026-07-13-observe-cromwell-market-snapshot-hourlies.md) — **required for live Telegram AC**
 5. **Align Jul 9 timeout acceptance** — [`docs/tickets/2026-07-13-extend-cron-llm-timeout-acceptance.md`](../tickets/2026-07-13-extend-cron-llm-timeout-acceptance.md)
+6. **Confirm natural hourlies** — [`docs/tickets/2026-07-09-confirm-cromwell-hourly-telegram.md`](../tickets/2026-07-09-confirm-cromwell-hourly-telegram.md)
+7. **Attention discipline (quiet = one line)** — issue [`2026-07-21-cromwell-hourly-verbose-quiet-attention-waste.md`](2026-07-21-cromwell-hourly-verbose-quiet-attention-waste.md) + ticket [`2026-07-21-cromwell-hourly-telegram-attention-discipline.md`](../tickets/2026-07-21-cromwell-hourly-telegram-attention-discipline.md) — skill already forbade quiet dumps; agent still posted them 2026-07-21
 
 ### Hardening result (2026-07-20)
 
