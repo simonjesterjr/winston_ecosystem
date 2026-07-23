@@ -27,16 +27,20 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
-| P1 | Proposed | [`2026-07-23-mcp-transfer-activate-flow-smooth.md`](2026-07-23-mcp-transfer-activate-flow-smooth.md) | Ticket: Smooth MCP transfer + activate flow (errors, timeouts, reply contract) |
-| P1 | Proposed | [`2026-07-23-yellow-elephant-pbr-and-wv2-transfer.md`](2026-07-23-yellow-elephant-pbr-and-wv2-transfer.md) | Ticket: Yellow + Elephant5+20 PBR and Wv2 transfer |
+| P1 | Proposed | [`2026-07-23-pbr-results-json-must-be-json.md`](2026-07-23-pbr-results-json-must-be-json.md) | Ticket: PBR `results_json` must be valid JSON (not Hash#inspect) |
+| P1 | Proposed | [`2026-07-23-cromwell-telegram-ops-fastpath-empty-response.md`](2026-07-23-cromwell-telegram-ops-fastpath-empty-response.md) | Ticket: Cromwell Telegram ops fast-path (sidestep empty-response hangs) |
+| P1 | Proposed | [`2026-07-23-wv2-add-single-market-to-portfolio.md`](2026-07-23-wv2-add-single-market-to-portfolio.md) | Ticket: Add a single market to a single Operational Portfolio (Wv2) — e.g. SPCX → Yellow |
+| P1 | Proposed | [`2026-07-23-mcp-transfer-activate-flow-smooth.md`](2026-07-23-mcp-transfer-activate-flow-smooth.md) | Ticket: Smooth MCP transfer + activate flow (errors, timeouts, reply contract) — includes run-121 false 500 |
 | P1 | Proposed | [`2026-07-23-wut-puma-large-pbr-results-json.md`](2026-07-23-wut-puma-large-pbr-results-json.md) | Ticket: WUT puma timeouts under large multi-market PBR results_json |
-| P2 | Proposed | [`2026-07-23-activate-wv2-mint-op311-smoke.md`](2026-07-23-activate-wv2-mint-op311-smoke.md) | Ticket: Activate Wv2 Portfolio Mint OP#311 for smoke DAR |
+| P2 | Proposed | [`2026-07-23-multi-cohort-evaluate-yellow-mint-active.md`](2026-07-23-multi-cohort-evaluate-yellow-mint-active.md) | Ticket: Multi-cohort evaluate smoke with Yellow #330 + Mint #311 Active |
+| P2 | In progress (activate done; DAR smoke open) | [`2026-07-23-activate-wv2-mint-op311-smoke.md`](2026-07-23-activate-wv2-mint-op311-smoke.md) | Ticket: Activate Wv2 Portfolio Mint OP#311 for smoke DAR |
 | P2 | Proposed | [`2026-07-23-reexport-mint-yellow-vet-winners.md`](2026-07-23-reexport-mint-yellow-vet-winners.md) | Ticket: Re-export Mint/Yellow first-pass vet winners (opt #47/#48) |
 | P2 | Proposed | [`2026-07-23-mint-yellow-risk-transfer-matrix.md`](2026-07-23-mint-yellow-risk-transfer-matrix.md) | Ticket: Mint/Yellow risk-transfer matrix (R1 ladder + capacity) |
 | P2 | Proposed | [`2026-07-23-dm-lookback-exclusive-overlap-specs.md`](2026-07-23-dm-lookback-exclusive-overlap-specs.md) | Ticket: Specs for DM lookback/date-range and exclusive MAX_OVERLAP=0 |
 | P1 | In progress (membership still open; **strategy/risk rescu… | [`2026-07-07-revisit-portfolio-blue-membership-strategy.md`](2026-07-07-revisit-portfolio-blue-membership-strategy.md) | Ticket: Revisit Portfolio Blue membership and strategy viability |
 | P1 | In progress (mitigations landed 2026-07-09; await natural… | [`2026-07-09-cromwell-cron-llm-timeout.md`](2026-07-09-cromwell-cron-llm-timeout.md) | Ticket: Harden Cromwell cron LLM path (timeouts on scheduled Telegram) |
 | P1 | In progress (ops fixes applied host-side; remaining work … | [`2026-07-15-cromwell-llm-cpu-reliability.md`](2026-07-15-cromwell-llm-cpu-reliability.md) | Ticket: Cromwell LLM CPU reliability (timeouts, think, cron isolation) |
+| P1 | Proposed | [`2026-07-15-cromwell-thin-cron-and-priority.md`](2026-07-15-cromwell-thin-cron-and-priority.md) | Ticket: Thin / LLM-light Cromwell cron + user priority (Tier 2) — elevated 2026-07-23 |
 | P1 | Proposed | [`2026-07-04-operational-data-backup-and-dr.md`](2026-07-04-operational-data-backup-and-dr.md) | Ticket: Operational data backup and disaster recovery |
 | P1 | Proposed (Phase 3 follow-on — after ADR-006 minimum) | [`2026-07-09-capital-activation-mcp-telegram.md`](2026-07-09-capital-activation-mcp-telegram.md) | Ticket: Capital Activation (MCP / Telegram) |
 | P1 | Proposed | [`2026-07-09-confirm-cromwell-hourly-telegram.md`](2026-07-09-confirm-cromwell-hourly-telegram.md) | Ticket: Confirm natural Cromwell hourly Telegram after CPU tuning |
@@ -78,7 +82,6 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P2 | Proposed | [`2026-07-14-refresh-remaining-color-portfolio-json-fingerprints.md`](2026-07-14-refresh-remaining-color-portfolio-json-fingerprints.md) | Ticket: Refresh remaining color portfolio_configs with fingerprints |
 | P2 | Proposed | [`2026-07-14-workspace-compose-portfolio-configs-tracking.md`](2026-07-14-workspace-compose-portfolio-configs-tracking.md) | Ticket: Track host compose.yml + portfolio_configs outside monolith gits |
 | P2 | Proposed | [`2026-07-15-cromwell-parallel-capacity-dual-runtime.md`](2026-07-15-cromwell-parallel-capacity-dual-runtime.md) | Ticket: Cromwell parallel capacity — dual runtime (Tier 1) |
-| P2 | Proposed | [`2026-07-15-cromwell-thin-cron-and-priority.md`](2026-07-15-cromwell-thin-cron-and-priority.md) | Ticket: Thin / LLM-light Cromwell cron + user priority (Tier 2) |
 | P2 | Proposed | [`2026-07-15-journal-ledger-export-csv-pdf.md`](2026-07-15-journal-ledger-export-csv-pdf.md) | Ticket: Operational portfolio journal ledger export (CSV → PDF) |
 | P2 | Proposed | [`2026-07-15-journal-ledger-wut-ops-schema-alignment.md`](2026-07-15-journal-ledger-wut-ops-schema-alignment.md) | Ticket: WUT operations journal schema alignment |
 | P2 | Proposed | [`2026-07-15-journal-ledger-wv2-journals-ui-or-route-cleanup.md`](2026-07-15-journal-ledger-wv2-journals-ui-or-route-cleanup.md) | Ticket: Wv2 journals browse UI or remove dead route |
