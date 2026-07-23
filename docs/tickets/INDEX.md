@@ -27,6 +27,13 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P1 | Proposed | [`2026-07-23-mcp-transfer-activate-flow-smooth.md`](2026-07-23-mcp-transfer-activate-flow-smooth.md) | Ticket: Smooth MCP transfer + activate flow (errors, timeouts, reply contract) |
+| P1 | Proposed | [`2026-07-23-yellow-elephant-pbr-and-wv2-transfer.md`](2026-07-23-yellow-elephant-pbr-and-wv2-transfer.md) | Ticket: Yellow + Elephant5+20 PBR and Wv2 transfer |
+| P1 | Proposed | [`2026-07-23-wut-puma-large-pbr-results-json.md`](2026-07-23-wut-puma-large-pbr-results-json.md) | Ticket: WUT puma timeouts under large multi-market PBR results_json |
+| P2 | Proposed | [`2026-07-23-activate-wv2-mint-op311-smoke.md`](2026-07-23-activate-wv2-mint-op311-smoke.md) | Ticket: Activate Wv2 Portfolio Mint OP#311 for smoke DAR |
+| P2 | Proposed | [`2026-07-23-reexport-mint-yellow-vet-winners.md`](2026-07-23-reexport-mint-yellow-vet-winners.md) | Ticket: Re-export Mint/Yellow first-pass vet winners (opt #47/#48) |
+| P2 | Proposed | [`2026-07-23-mint-yellow-risk-transfer-matrix.md`](2026-07-23-mint-yellow-risk-transfer-matrix.md) | Ticket: Mint/Yellow risk-transfer matrix (R1 ladder + capacity) |
+| P2 | Proposed | [`2026-07-23-dm-lookback-exclusive-overlap-specs.md`](2026-07-23-dm-lookback-exclusive-overlap-specs.md) | Ticket: Specs for DM lookback/date-range and exclusive MAX_OVERLAP=0 |
 | P1 | In progress (membership still open; **strategy/risk rescu… | [`2026-07-07-revisit-portfolio-blue-membership-strategy.md`](2026-07-07-revisit-portfolio-blue-membership-strategy.md) | Ticket: Revisit Portfolio Blue membership and strategy viability |
 | P1 | In progress (mitigations landed 2026-07-09; await natural… | [`2026-07-09-cromwell-cron-llm-timeout.md`](2026-07-09-cromwell-cron-llm-timeout.md) | Ticket: Harden Cromwell cron LLM path (timeouts on scheduled Telegram) |
 | P1 | In progress (ops fixes applied host-side; remaining work … | [`2026-07-15-cromwell-llm-cpu-reliability.md`](2026-07-15-cromwell-llm-cpu-reliability.md) | Ticket: Cromwell LLM CPU reliability (timeouts, think, cron isolation) |
