@@ -27,6 +27,8 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P2 | Proposed | [`2026-07-24-audit-wv2-multi-exit-truncation.md`](2026-07-24-audit-wv2-multi-exit-truncation.md) | Ticket: Audit Wv2 TradingStrategies for truncated multi-exit |
+| P2 | Proposed | [`2026-07-24-handoff-paths-singular-exit-only.md`](2026-07-24-handoff-paths-singular-exit-only.md) | Ticket: Confirm no handoff path still uses singular exit only |
 | P3 | Proposed | [`2026-07-23-game-theory-analysis-winston-stack.md`](2026-07-23-game-theory-analysis-winston-stack.md) | Ticket: Game-theory analysis of the Winston stack (portfolio → EOD → signal → execution; EOD trend vs intraday swing) |
 | P1 | Proposed | [`2026-07-23-pbr-results-json-must-be-json.md`](2026-07-23-pbr-results-json-must-be-json.md) | Ticket: PBR `results_json` must be valid JSON (not Hash#inspect) |
 | P1 | Proposed | [`2026-07-23-cromwell-telegram-ops-fastpath-empty-response.md`](2026-07-23-cromwell-telegram-ops-fastpath-empty-response.md) | Ticket: Cromwell Telegram ops fast-path (sidestep empty-response hangs) |
