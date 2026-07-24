@@ -44,12 +44,12 @@
 
 ### Commits
 
-- _None yet (wrap)._
+- `f67d41d` — ecosystem: docs: DAR redeliver session report + force-republish ticket
 
 ### Branch / PR state at sign-off
 
-- Branch: ecosystem `main`; winston_v2 `main` (unrelated dirty files left alone)
-- Pushed: pending wrap
+- Branch: ecosystem `main` (clean for session files); winston_v2 `main` (unrelated dirty files left alone)
+- Pushed: yes (`main`)
 - PR: n/a
 
 **Not this session (do not stage):**
