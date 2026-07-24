@@ -27,13 +27,12 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P3 | Proposed | [`2026-07-23-game-theory-analysis-winston-stack.md`](2026-07-23-game-theory-analysis-winston-stack.md) | Ticket: Game-theory analysis of the Winston stack (portfolio → EOD → signal → execution; EOD trend vs intraday swing) |
 | P1 | Proposed | [`2026-07-23-pbr-results-json-must-be-json.md`](2026-07-23-pbr-results-json-must-be-json.md) | Ticket: PBR `results_json` must be valid JSON (not Hash#inspect) |
 | P1 | Proposed | [`2026-07-23-cromwell-telegram-ops-fastpath-empty-response.md`](2026-07-23-cromwell-telegram-ops-fastpath-empty-response.md) | Ticket: Cromwell Telegram ops fast-path (sidestep empty-response hangs) |
 | P1 | Proposed | [`2026-07-23-wv2-add-single-market-to-portfolio.md`](2026-07-23-wv2-add-single-market-to-portfolio.md) | Ticket: Add a single market to a single Operational Portfolio (Wv2) — e.g. SPCX → Yellow |
 | P1 | Proposed | [`2026-07-23-mcp-transfer-activate-flow-smooth.md`](2026-07-23-mcp-transfer-activate-flow-smooth.md) | Ticket: Smooth MCP transfer + activate flow (errors, timeouts, reply contract) — includes run-121 false 500 |
 | P1 | Proposed | [`2026-07-23-wut-puma-large-pbr-results-json.md`](2026-07-23-wut-puma-large-pbr-results-json.md) | Ticket: WUT puma timeouts under large multi-market PBR results_json |
-| P2 | Proposed | [`2026-07-23-multi-cohort-evaluate-yellow-mint-active.md`](2026-07-23-multi-cohort-evaluate-yellow-mint-active.md) | Ticket: Multi-cohort evaluate smoke with Yellow #330 + Mint #311 Active |
-| P2 | In progress (activate done; DAR smoke open) | [`2026-07-23-activate-wv2-mint-op311-smoke.md`](2026-07-23-activate-wv2-mint-op311-smoke.md) | Ticket: Activate Wv2 Portfolio Mint OP#311 for smoke DAR |
 | P2 | Proposed | [`2026-07-23-reexport-mint-yellow-vet-winners.md`](2026-07-23-reexport-mint-yellow-vet-winners.md) | Ticket: Re-export Mint/Yellow first-pass vet winners (opt #47/#48) |
 | P2 | Proposed | [`2026-07-23-mint-yellow-risk-transfer-matrix.md`](2026-07-23-mint-yellow-risk-transfer-matrix.md) | Ticket: Mint/Yellow risk-transfer matrix (R1 ladder + capacity) |
 | P2 | Proposed | [`2026-07-23-dm-lookback-exclusive-overlap-specs.md`](2026-07-23-dm-lookback-exclusive-overlap-specs.md) | Ticket: Specs for DM lookback/date-range and exclusive MAX_OVERLAP=0 |
@@ -127,6 +126,6 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 ## Archive
 
-75 closed tickets in [`archive/`](archive/).
+77 closed tickets in [`archive/`](archive/) — includes 2026-07-24 multi-cohort evaluate smoke (Mint #311 + Yellow #330).
 
-_Generated 2026-07-21 UTC (Cromwell hourly attention cluster + principle §12; ADR-009 desk items earlier)._
+_Updated 2026-07-24 UTC (multi-cohort evaluate smoke closed)._
