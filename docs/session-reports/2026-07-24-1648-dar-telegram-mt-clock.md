@@ -50,13 +50,14 @@
 
 ### Commits
 
-- _Pending wrap commit._
+- `d6c47f6` — winston_v2: fix(dar): align generate defaults with MT production clock
+- `ac317f1` — ecosystem: docs: DAR Telegram MT clock session report + interface note
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` (both repos) — dirty with this session + unrelated prior work
-- Pushed: no (wrap in progress)
-- PR: not opened
+- Branch: `main` (both repos) — session commits clean; unrelated dirty files left unstaged
+- Pushed: yes (wrap)
+- PR: n/a (direct main)
 
 **Not this session (do not stage):**
 
