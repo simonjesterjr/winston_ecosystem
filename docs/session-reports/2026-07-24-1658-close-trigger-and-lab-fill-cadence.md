@@ -89,11 +89,13 @@
 
 ### Commits
 
-- _Pending at report write — see wrap commit step_
+- ecosystem `d701180` — docs: close-trigger BA, lab fill cadence research, session report  
+- winston_unit_test `cf6c11b` — feat(lab): close-trigger strategies, strength risk, next-open fills  
 
 ### Branch / PR state at sign-off
 
-- Ecosystem + WUT `main` — dirty until wrap commit  
+- Ecosystem `main` — pushed `d701180` (unrelated dirty tickets left unstaged)  
+- WUT `main` — pushed `cf6c11b` (controller/routes dirty files not from this session left unstaged)  
 - PR: not opened (direct main)
 
 **Monoliths touched:** `ecosystem` (docs), `winston_unit_test` (code)
