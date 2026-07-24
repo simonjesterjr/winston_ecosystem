@@ -55,7 +55,8 @@
 
 ### Commits
 
-- _Pending wrap commit on WUT + ecosystem._
+- `fd15cc8` — fix(export): include full multi-exit list on WUT→Wv2 handoff (WUT)
+- `bf5e6cf` — docs: Elephant multi-exit export session report and follow-up tickets (ecosystem)
 
 ### Branch / PR state at sign-off
 
