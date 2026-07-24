@@ -5,7 +5,7 @@
 
 ## Purpose
 
-Daily Activity Report PDF/MD **DESK HANDOFFS** embed absolute form URLs. Default without env is `http://localhost:3002`, which is unusable on phone Telegram.
+Daily Activity Report PDF/MD embed absolute URLs for **desk handoffs**, **operator check-in**, and **Active book Verify (signal inspect)** links. Built via `Operations::OpsPath.public_url` (env base + `/operations/...`). Default without env is `http://localhost:3002`, which is unusable on phone Telegram.
 
 ## Current ops value
 
