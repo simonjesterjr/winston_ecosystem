@@ -56,12 +56,13 @@
 
 ### Commits
 
-- _Filled at wrap push time._
+- `404708d` — fix(wut): always store PBR results_json as valid JSON (winston_unit_test)
+- `fbec3f9` — docs: close PBR results_json must-be-JSON ticket + session report (ecosystem)
 
 ### Branch / PR state at sign-off
 
-- **winston_unit_test** `main` — session commit + push  
-- **ecosystem** `main` — ticket + session report commit + push  
+- **winston_unit_test** `main` @ `404708d` — pushed  
+- **ecosystem** `main` @ `fbec3f9` (+ follow-up SHA fill) — pushed  
 - PR: not opened (direct main)  
 - **Not staged:** pre-existing dirty files outside this session (WUT `application.css`; other ecosystem tickets)
 
