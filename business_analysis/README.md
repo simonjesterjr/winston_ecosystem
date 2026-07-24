@@ -21,6 +21,7 @@ This is **not** the same as:
 |-----|--------|
 | [2026-07-13-pbr-return-dd-pcs-evaluation.md](./2026-07-13-pbr-return-dd-pcs-evaluation.md) | PBR return/DD/PCS; Blue 44/48 component attribution; passed signals; paper-first recommendation; Level 2 experiment log |
 | [2026-07-18-confirmational-entry-experiment.md](./2026-07-18-confirmational-entry-experiment.md) | 20-cell confirm matrix on 62/71/72/57/55; C03 EMA20 winner; soft vs hard; transfer; one-way ladder note (ADR-008) |
+| [2026-07-24-close-trigger-signal-strength.md](./2026-07-24-close-trigger-signal-strength.md) | Close vs high/low entry (H1); one_way_dynamic_close strength risk (H2); lab same-day open vs ops T+1 (H3); business rules |
 
 ## Exposure
 

@@ -27,6 +27,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P2 | Proposed (follow-on after close-trigger / one_way_dynamic_close) | [`2026-07-24-opposite-entry-signal-on-signal.md`](2026-07-24-opposite-entry-signal-on-signal.md) | Ticket: Opposite-entry “signal-on-signal” (exit vs reverse) — WUT experiment |
 | P2 | Proposed | [`2026-07-24-audit-wv2-multi-exit-truncation.md`](2026-07-24-audit-wv2-multi-exit-truncation.md) | Ticket: Audit Wv2 TradingStrategies for truncated multi-exit |
 | P2 | Proposed | [`2026-07-24-handoff-paths-singular-exit-only.md`](2026-07-24-handoff-paths-singular-exit-only.md) | Ticket: Confirm no handoff path still uses singular exit only |
 | P3 | Proposed | [`2026-07-23-game-theory-analysis-winston-stack.md`](2026-07-23-game-theory-analysis-winston-stack.md) | Ticket: Game-theory analysis of the Winston stack (portfolio → EOD → signal → execution; EOD trend vs intraday swing) |
