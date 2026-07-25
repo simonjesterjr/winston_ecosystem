@@ -80,13 +80,14 @@
 
 ### Commits
 
-- _Pending wrap commit(s)._
+- `b02be89` (winston_unit_test) — feat(lab): T+1 fill queue, pyramid last-entry ATR, scale-in stops
+- `0e53172` (ecosystem) — docs: T+1 fill queue ADRs, heat ticket, PBR follow-ups, session report
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on WUT + ecosystem — dirty before wrap commit  
-- Pushed: pending wrap  
-- PR: not opened (main-line commits per local practice)
+- Branch: `main` on WUT + ecosystem — session files pushed  
+- Pushed: yes (`origin/main`)  
+- PR: not opened (direct main)
 
 ---
 
