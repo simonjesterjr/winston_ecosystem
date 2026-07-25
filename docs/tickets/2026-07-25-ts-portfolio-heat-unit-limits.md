@@ -1,0 +1,179 @@
+# Ticket: TS creation — multi-level portfolio heat (Turtle unit limits + correlations)
+
+**Status:** Proposed  
+**Priority:** P2  
+**Date:** 2026-07-25  
+**Monoliths:** winston_unit_test (lab PBR + TS capture); winston_v2 (ops capacity later)  
+**Related:** PCS / correlation work (`ecosystem/docs/tickets/archive/2026-07-12-wut-portfolio-correlation-dashboard.md`, portfolio cohorts, `max_markets_per_portfolio`); OWD ladder / TS capture (2026-07-25 session); scale-in ATR blocks ADR `2026-07-25-pyramid-scale-in-price-blocks.md`
+
+---
+
+## Problem
+
+Today Winston’s portfolio risk “heat” is mostly a **single flat cap**:
+
+| Current control | Typical value | What it measures |
+|-----------------|---------------|------------------|
+| `max_positions_per_portfolio` | 10–12 | **Open lots** (all markets, all directions) |
+| `max_positions_per_symbol` / `max_pyramid` | 5 | Lots **per market** (includes pyramids) |
+| `max_markets_per_portfolio` | 4 | Distinct markets with open risk |
+| OWD ladder | R1 % of equity per lot | Risk **per add**, not portfolio heat |
+
+That last line of defense (“all directions, all markets ≤ N lots”) is a crude stand-in for classic Turtle **portfolio heat**. It does **not** encode:
+
+1. **Unit-normalized risk** (1 unit ≈ 1N adverse move ≈ fixed % equity) across lots  
+2. **Correlated market clusters** (tight vs loose) in the same direction  
+3. **Directional bias** (all longs vs all shorts as separate budgets)  
+4. **TS identity** — heat rules should live on the Trading Strategy (methodology), not only as ad-hoc PBR columns
+
+We now have **correlation / PCS** infrastructure and better TS capture (ladder, OWDC, scale-in). Heat should be revisited with that work, not reinvented as another opaque integer.
+
+---
+
+## Turtle baseline (reference, not dogma)
+
+Units = risk-normalized building blocks (1 unit sized so 1N adverse ≈ ~1% equity in classic presentation). Caps (Faith et al.):
+
+| Level | Type | Max units |
+|-------|------|-----------|
+| 1 | Single market | **4** |
+| 2 | Closely correlated markets (same direction) | **6** |
+| 3 | Loosely correlated markets (same direction) | **10** |
+| 4 | Single direction (all longs **or** all shorts portfolio-wide) | **12** |
+
+Longs and shorts can each approach L4 independently (e.g. up to 12 long units **and** 12 short units). Extra valid signals are **passed** when a cap binds — same spirit as lab `expired_unfilled` / capacity passes.
+
+Winston defaults today: often **5** per market and **10–12** total lots — similar spirit at L1/L4, but **lot count ≠ unit count**, and **L2/L3 are missing**.
+
+---
+
+## Desired outcome
+
+### A. TS contract (creation / export / fingerprint)
+
+Extend TS `risk` (or sibling `heat`) so creation and export carry explicit multi-level caps, e.g.:
+
+```json
+"risk": {
+  "percent": 0.02,
+  "atr_multiplier": 2,
+  "stop_strategy": "move_to_last_entry",
+  "pyramiding": {
+    "max_positions": 5,
+    "atr_multiplier": 1.0,
+    "confirming_signal": null
+  },
+  "heat": {
+    "unit_risk_fraction": 0.01,
+    "max_units_per_market": 4,
+    "max_units_closely_correlated_same_direction": 6,
+    "max_units_loosely_correlated_same_direction": 10,
+    "max_units_single_direction": 12,
+    "correlation": {
+      "source": "pcs_or_pairwise",
+      "close_threshold": 0.7,
+      "loose_threshold": 0.4,
+      "window": "methodology_or_portfolio_default"
+    }
+  }
+}
+```
+
+- Defaults may mirror Turtle numbers or our current 5 / 12 practice — **decide in BA**, not silently.  
+- `null` / omit heat → preserve **legacy** lot caps only (backward compatible).  
+- Fingerprint must include heat config when set (methodology identity).
+
+### B. Unit definition (lab + ops alignment)
+
+Define **Winston unit** explicitly, preferably:
+
+- `unit_size` such that stop distance (N = risk ATR mult × ATR) implies risk ≈ `unit_risk_fraction × equity` **or**  
+- Map each open lot’s **risk fraction** (OWD ladder % × capital base) into **fractional units** so pyramids count as multiple units honestly.
+
+Do **not** treat “one Position row = one unit” without stating that (our pyramids would overstate L1).
+
+### C. Correlation clusters (reuse good work)
+
+- Prefer existing **PCS / pairwise correlation** artifacts (portfolio correlation dashboard, cohort membership, parquet closes).  
+- Define **closely** vs **loosely** correlated groups (threshold + optional static sector map as fallback).  
+- Same-direction unit sum within a cluster vs L2/L3 caps.  
+- Document when correlation is **frozen** (TS window / signal day / fill day).
+
+### D. Lab enforcement (WUT PBR)
+
+On entry / pyramid fill (including T+1 queue adjudication):
+
+1. Size candidate lot → units (or risk-equivalent units)  
+2. Check L1 → L2 → L3 → L4 (and legacy lot/market caps if still enabled)  
+3. Fail → **passed** with reason taxonomy (`heat_market`, `heat_close_corr`, `heat_loose_corr`, `heat_direction`, …)  
+4. Ranked fill order (ATR/ER) still applies **within** heat-feasible set  
+
+### E. Ops (Wv2) — later phase
+
+- Desk capacity / swap packages already talk markets and ER — heat should eventually gate drafts the same way.  
+- Out of scope for first lab slice unless cheap.
+
+### F. TS creation UX
+
+- When creating/promoting a TS (manual or from PBR): **heat section** with Turtle defaults + “legacy lot caps only” mode.  
+- OWDC/OWD ladder remains separate (per-lot risk %); heat is **portfolio aggregation** of units.  
+- Show ladder + heat on TS show page (same confidence fix as ladder display).
+
+---
+
+## Non-goals (first pass)
+
+- Auto-learning correlation thresholds from production P&L  
+- Replacing PCS portfolio construction (heat is **runtime capacity**, not membership search)  
+- Atomic reverse / SoS policy (separate ticket)  
+- Intraday multi-N scaling beyond existing pyramid ATR step
+
+---
+
+## Work sequence (suggested)
+
+| Phase | Work | Done when |
+|-------|------|-----------|
+| **0** | BA: unit definition + default heat table (Turtle vs Winston 5/12) | One page in `ecosystem/business_analysis/` |
+| **1** | TS JSON + fingerprint + capture from PBR/TS form | Export shows `risk.heat`; create-from-PBR preserves it |
+| **2** | Correlation group resolver (reuse PCS/pairwise) | Specs with synthetic |ρ| matrix |
+| **3** | WUT PBR enforce L1–L4 on fill + pass reasons | Matrix cell: same signals, heat on vs off |
+| **4** | Optional Wv2 desk gate | Draft pass reasons match lab taxonomy |
+
+---
+
+## Acceptance criteria
+
+- [ ] Written rule: what counts as **1 unit** under OWD ladder pyramids  
+- [ ] TS can store and display multi-level heat (or explicit “legacy only”)  
+- [ ] Lab rejects / passes adds that would breach L1–L4 when heat enabled  
+- [ ] Closely/loosely groups derived from correlation infrastructure (documented source + thresholds)  
+- [ ] Fingerprint/export include heat when non-default  
+- [ ] No silent change to existing PBRs without `heat` key (backward compatible)
+
+---
+
+## Open questions
+
+1. **Unit vs lot:** Do we count pyramid adds as separate full units (Turtle) or as ladder risk-fractional units?  
+2. **Correlation vintage:** signal day vs fill day vs fixed TS training window?  
+3. **Short/long nets:** Can a market’s long and short ever both count (we generally forbid dual direction per market)?  
+4. **Default heat:** Turtle 4/6/10/12 vs Winston 5/—/—/12?  
+5. **PCS score vs pairwise |ρ|:** which is authoritative for L2/L3 membership?
+
+---
+
+## Links / prior art in repo
+
+- PBR: `max_positions_per_portfolio`, `max_markets_per_portfolio`, position swap by ER  
+- Correlation dashboard / PCS snapshots  
+- Capacity swap desk packages (Wv2 ticket history)  
+- Session 2026-07-25: TS ladder capture, T+1 queue, last-entry pyramid ATR steps  
+
+---
+
+## Notes from operator
+
+> Right now we capture this as the last line … all directions, all markets to total some value (10 or 12). We want to revisit this with all of the good work we have done with correlations.
+
+Ticket captures that intent: **upgrade flat portfolio lot heat → multi-level unit heat informed by correlation clusters**, and make it a first-class part of **TS creation**, not only a PBR integer.

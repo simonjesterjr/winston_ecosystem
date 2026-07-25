@@ -27,6 +27,10 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P2 | Proposed | [`2026-07-25-ts-portfolio-heat-unit-limits.md`](2026-07-25-ts-portfolio-heat-unit-limits.md) | Ticket: TS creation — multi-level portfolio heat (Turtle unit limits + correlations) |
+| P2 | Proposed | [`2026-07-25-owdc-owd-four-cell-matrix.md`](2026-07-25-owdc-owd-four-cell-matrix.md) | Ticket: OWDC / OWD 4-cell lab matrix (trust close-out) |
+| P3 | Proposed | [`2026-07-25-pbr-cash-ledger-return-scorecard.md`](2026-07-25-pbr-cash-ledger-return-scorecard.md) | Ticket: PBR free-cash ledger — total-return scorecard |
+| P3 | Proposed | [`2026-07-25-pbr-status-poll-missing-run-ux.md`](2026-07-25-pbr-status-poll-missing-run-ux.md) | Ticket: PBR status-poll UX when run HTML is missing (404) |
 | P2 | Proposed | [`2026-07-24-dar-telegram-force-republish-runbook.md`](2026-07-24-dar-telegram-force-republish-runbook.md) | Ticket: DAR Telegram force re-publish runbook |
 | P2 | Proposed (follow-on after close-trigger / one_way_dynamic_close) | [`2026-07-24-opposite-entry-signal-on-signal.md`](2026-07-24-opposite-entry-signal-on-signal.md) | Ticket: Opposite-entry “signal-on-signal” (exit vs reverse) — WUT experiment |
 | P2 | Proposed | [`2026-07-24-audit-wv2-multi-exit-truncation.md`](2026-07-24-audit-wv2-multi-exit-truncation.md) | Ticket: Audit Wv2 TradingStrategies for truncated multi-exit |
