@@ -27,7 +27,12 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P1 | In progress | [`2026-07-25-strategy-bakeoff-v1-phase1.md`](2026-07-25-strategy-bakeoff-v1-phase1.md) | Ticket: Strategy bake-off V1 — Phase 1 (cross-portfolio TS selection) |
+| P1 | Proposed | [`2026-07-26-s4-recipe-transfer-mint-yellow-blue.md`](2026-07-26-s4-recipe-transfer-mint-yellow-blue.md) | Ticket: Promote S4 FastBO5 pack — transfer Mint / Yellow / Blue |
+| P1 | Proposed | [`2026-07-26-hybrid-fill-entry-next-pyramid-same-day.md`](2026-07-26-hybrid-fill-entry-next-pyramid-same-day.md) | Ticket: Hybrid fill — next-bar entry, same-day pyramid (lab + broker priority) |
+| P2 | Proposed | [`2026-07-26-s4-phase2-ladder-mildness.md`](2026-07-26-s4-phase2-ladder-mildness.md) | Ticket: Phase 2 step 3b — S4 milder OWD ladder at frozen heat |
 | P2 | Proposed | [`2026-07-25-ts-portfolio-heat-unit-limits.md`](2026-07-25-ts-portfolio-heat-unit-limits.md) | Ticket: TS creation — multi-level portfolio heat (Turtle unit limits + correlations) |
+| P3 | Proposed | [`2026-07-26-bakeoff-scorecard-cagr-calmar.md`](2026-07-26-bakeoff-scorecard-cagr-calmar.md) | Ticket: Bake-off scorecards — CAGR and Calmar metrics |
 | P2 | Proposed | [`2026-07-25-owdc-owd-four-cell-matrix.md`](2026-07-25-owdc-owd-four-cell-matrix.md) | Ticket: OWDC / OWD 4-cell lab matrix (trust close-out) |
 | P3 | Proposed | [`2026-07-25-pbr-cash-ledger-return-scorecard.md`](2026-07-25-pbr-cash-ledger-return-scorecard.md) | Ticket: PBR free-cash ledger — total-return scorecard |
 | P3 | Proposed | [`2026-07-25-pbr-status-poll-missing-run-ux.md`](2026-07-25-pbr-status-poll-missing-run-ux.md) | Ticket: PBR status-poll UX when run HTML is missing (404) |

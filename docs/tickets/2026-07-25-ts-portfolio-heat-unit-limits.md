@@ -2,9 +2,25 @@
 
 **Status:** Proposed  
 **Priority:** P2  
-**Date:** 2026-07-25  
+**Date:** 2026-07-25 (updated 2026-07-26 after S4 Phase 2 heat sweep)  
 **Monoliths:** winston_unit_test (lab PBR + TS capture); winston_v2 (ops capacity later)  
-**Related:** PCS / correlation work (`ecosystem/docs/tickets/archive/2026-07-12-wut-portfolio-correlation-dashboard.md`, portfolio cohorts, `max_markets_per_portfolio`); OWD ladder / TS capture (2026-07-25 session); scale-in ATR blocks ADR `2026-07-25-pyramid-scale-in-price-blocks.md`
+**Related:** PCS / correlation work (`ecosystem/docs/tickets/archive/2026-07-12-wut-portfolio-correlation-dashboard.md`, portfolio cohorts, `max_markets_per_portfolio`); OWD ladder / TS capture (2026-07-25 session); scale-in ATR blocks ADR `2026-07-25-pyramid-scale-in-price-blocks.md`; bake-off session `2026-07-26-1103-strategy-bakeoff-phase2.md`; map `2026-07-26-s4-phase2-max-port-pbr-map.md`
+
+---
+
+## Lab evidence (2026-07-26) — flat lot heat is not enough
+
+Phase 2 step 3 swept **max_positions_per_portfolio ∈ {8, 12, 16}** on S4 FastBO5 with pyr ATR 1.0 and max_sym 4 under `next_bar_open`:
+
+| max_port | Panel median return | Median max DD | Notes |
+|----------|---------------------|---------------|--------|
+| 8 | **−21%** | 68% | Too tight |
+| **12** | **+109%** | **46%** | Best robust default |
+| 16 | +87% | 62% | Orange wins; **Blue/Mango lose** vs 12 |
+
+**Insight:** Flat lot caps under next-bar-open are **path selection**, not a free CAGR dial — non-monotonic and portfolio-specific. Default freeze **12** for S4 multi-book lab. This **increases** the value of true multi-level / correlation **unit** heat (this ticket), rather than more integer lot sweeps.
+
+S4 interim freezes while heat BA proceeds: pyr ATR **1.0**, max_sym **4**, max_port **12**, OWD ladder A / 2%.
 
 ---
 
