@@ -86,13 +86,14 @@
 
 ### Commits
 
-- _Pending wrap commit on WUT + ecosystem._
+- `35d543f` (winston_unit_test) — feat(lab): bake-off and S4 Phase 2 setup/scorecard scripts  
+- `7a270d1` (ecosystem) — docs: strategy bake-off Phase 1–2 results, tickets, operator-prose skill  
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on both repos — dirty with session files  
-- Pushed: not yet (wrap in progress)  
-- PR: not opened  
+- Branch: `main` on both repos — commits local  
+- Pushed: **failed** (DNS: could not resolve github.com) — operator must `git push origin main` in each repo when network is up  
+- PR: not opened (direct main)  
 
 **Monoliths touched:** `winston_unit_test` (scripts), `ecosystem` (docs/skills/report). Root `AGENTS.md` not in a git repo.
 
