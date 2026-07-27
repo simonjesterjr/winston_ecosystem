@@ -38,3 +38,21 @@ Same-bar lab fills and naive next-open fills produced wildly different paths: no
 ## Consequences
 - Lab default cadence remains configurable (`LabFillCadence`); next_bar_open uses this queue.
 - Full-window returns will differ from same-bar; success = non-chaotic T+1 path, smoke ≥ 75% of same-bar return on scoped window.
+
+## Addendum (2026-07-26) — hybrid fill switch
+
+Third PBR `fill_cadence` mode (same switch surface as `next_bar_open`):
+
+| Mode | Initial entry | Pyramid |
+|------|---------------|---------|
+| `same_bar_open` | same bar open | same bar open |
+| `next_bar_open` | T+1 open queue | T+1 open queue |
+| `hybrid_entry_next_pyramid_same_day` | T+1 open queue | **same-day close (B1)** |
+
+Hybrid keeps this ADR’s morning order for entries (stops → exit fills → entry fills → new signals). Pyramids then fill at **close of signal day T** after the book is live — no open-lookahead on close-based pyramid triggers. Audit stamps: `entry_fill_cadence`, `pyramid_fill_cadence`. Ticket: `2026-07-26-hybrid-fill-entry-next-pyramid-same-day.md`.
+
+**Scored 2026-07-26:** same-day-close hybrid **rejected** as S4 pack default (path-destructive vs pure next_bar).
+
+### Addendum (2026-07-26) — pyramid price-level (resting stop)
+
+Fourth mode: `hybrid_entry_next_pyramid_price_level` — entries T+1 open; pyramids fill when OHLC **touches** `last_entry ± N×ATR` (ATR frozen from last-lot bar; only sessions after last lot). Ops analogy: park buy-stop at known scale-in price. Ticket: `2026-07-26-hybrid-fill-price-level-pyramid.md`.

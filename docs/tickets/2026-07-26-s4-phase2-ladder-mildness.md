@@ -1,10 +1,12 @@
 # Ticket: Phase 2 step 3b — S4 milder One-Way Dynamic ladder at frozen heat
 
-**Status:** Proposed  
+**Status:** Scored — freeze **keep ladder A** (B/C path-identical null)  
 **Priority:** P2  
 **Date:** 2026-07-26  
 **Monolith:** winston_unit_test  
-**Related:** `2026-07-25-strategy-bakeoff-v1-phase1.md`; session `2026-07-26-1103-strategy-bakeoff-phase2.md`; elephant risk panel `elephant_risk_1pct_v1`
+**Experiment key:** `s4_phase2_ladder_v1`  
+**Related:** `2026-07-25-strategy-bakeoff-v1-phase1.md`; session `2026-07-26-1103-strategy-bakeoff-phase2.md`; elephant risk panel `elephant_risk_1pct_v1`  
+**Map:** `docs/analysis/2026-07-26-s4-phase2-ladder-pbr-map.md`
 
 ---
 
@@ -45,12 +47,40 @@ Elephant @1% showed unit risk **changes survivability** without changing entry D
 
 ---
 
+## Scripts
+
+| File | Role |
+|------|------|
+| `winston_unit_test/lib/scripts/s4_phase2_ladder_setup.rb` | Create 12 pending PBRs (packs A/B/C); `INCLUDE_D=1` adds pack D |
+| `winston_unit_test/lib/scripts/s4_phase2_ladder_scorecard.rb` | Progress + medians + CAGR/Calmar vs step3 max_port=12 control |
+
+```bash
+# setup (already run 2026-07-26 → PBRs 305–316)
+bin/compose exec -T winston_unit_test bin/rails runner lib/scripts/s4_phase2_ladder_setup.rb
+
+# after Execute:
+bin/compose exec -T winston_unit_test bin/rails runner lib/scripts/s4_phase2_ladder_scorecard.rb
+```
+
 ## Acceptance
 
-- [ ] 12 (+optional) PBRs completed under next_bar_open  
-- [ ] Written freeze: keep A / adopt B / adopt C / adopt D  
-- [ ] Map under `ecosystem/docs/analysis/`  
-- [ ] Bake-off master ticket updated  
+- [x] Setup: 12 PBRs under next_bar_open (305–316)  
+- [x] 12 PBRs **completed**  
+- [x] Written freeze: **keep A** (B/C identical; D not needed for mildness question)  
+- [x] Map under `ecosystem/docs/analysis/2026-07-26-s4-phase2-ladder-pbr-map.md`  
+- [x] Bake-off master ticket freezes updated after score  
+
+## Score summary (2026-07-26)
+
+| Pack | Med ret% | Med DD% | Med Sharpe | Med CAGR% | Path vs A |
+|------|----------|---------|------------|-----------|-----------|
+| A | 109.3 | 45.5 | 0.52 | 12.6 | control |
+| B | 109.3 | 45.5 | 0.52 | 12.6 | **identical** |
+| C | 109.3 | 45.5 | 0.52 | 12.6 | **identical** |
+
+Pack A matched step3 max_port=12 cells exactly. Equity + position unit series SHA-identical across A/B/C per book. Stamped ladders differed correctly — higher rungs do not engage under `max_port=12` breadth regime (all packs level-1 = 2%).
+
+**Freeze: keep ladder A.** Milder shape is not a de-risk lever on this chassis; change base/level-1 risk if unit risk is the goal (optional pack D / 1% sleeve).
 
 ## Out of scope
 
@@ -62,4 +92,4 @@ Elephant @1% showed unit risk **changes survivability** without changing entry D
 
 ## Notes
 
-If pack D (1%) wins on DD but loses too much CAGR on Blue/Mango, document the tradeoff; do not auto-promote half risk without operator goal bar.
+Pack D (1%) was not run: it confounds **unit risk** with ladder shape. Prior Elephant panel already showed ~1% unit risk changes survivability; this step only asked whether mid-ladder mildness at 2% base helps — answer **no**.

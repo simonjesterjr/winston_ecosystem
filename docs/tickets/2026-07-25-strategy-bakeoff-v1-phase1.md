@@ -142,7 +142,7 @@ PBR range: **198–252** (55 cells). Map: `ecosystem/docs/analysis/2026-07-25-st
 - [x] 55 PBRs exist with `experiment=strategy_bakeoff_v1`  
 - [x] All Core cells completed under `next_bar_open` (all 55 completed)  
 - [x] Scorecard run; promote **S4 (TS#48)** primary; **S1 (TS#45)** optional second family only  
-- [ ] Phase 2 tactic plan executed (sparse knobs on S4 first)
+- [x] Phase 2 tactic plan executed (pyr / max_sym / max_port / ladder 3b on S4)
 
 ---
 
@@ -271,17 +271,33 @@ S1@1% panel: med_ret **−8.5%**, med_dd **41.6%**, **2/5 positive** (Orange, Ma
 
 S4 tactics pack: pyr ATR **1.0** · max_sym **4** · max_port **12** · ladder A / 2% · next_bar_open.
 
-Later: optional ladder mildness (3b); hybrid fill ticket; correlation heat BA; optional S1@1% thin retest.
+### Phase 2 step 3b (scored) — S4 milder OWD ladder
 
-### Phase 2 / lab add-on — hybrid fill (design; blocked on code)
+**Experiment:** `s4_phase2_ladder_v1` · map `docs/analysis/2026-07-26-s4-phase2-ladder-pbr-map.md` · ticket `2026-07-26-s4-phase2-ladder-mildness.md`  
+**PBRs 305–316** completed. Packs **A ≡ B ≡ C** on every book (equity + position units identical). Level-1 risk is 2% on all packs; under `max_port=12` next-bar heat, higher OWD rungs do not change paths.
+
+**Freeze: keep ladder A** (long 2/3/4/6 · base 2%). Milder mid-ladder is a null lever here. Do not adopt B/C. Pack D (1% unit risk) not required for this question.
+
+**S4 tactics pack (final Phase 2):** pyr ATR **1.0** · max_sym **4** · max_port **12** · OWD ladder **A** / 2% · next_bar_open · TS #48 · lab capital **$10k**.
+
+### Capital scale add-on (scored) — $20k vs $10k
+
+**Experiment:** `s4_capital_20k_v1` · PBRs **317–322** · map `docs/analysis/2026-07-26-s4-capital-20k-pbr-map.md`  
+**Finding:** 2× capital is **not** scale-invariant under next_bar-open. Panel medians **worse** (med ret −5% vs strong $10k heroes). Only Mango improved; Blue collapsed; path/trade sets change (cash + T+1 queue).  
+**Freeze: keep $10k** lab/eval capital. Do not promote $20k for survivability.
+
+**S4 recipe transfer (2026-07-26):** Wv2 paper OPs inactive — Blue **#381**, Mint **#382**, Yellow **#383** (`portfolio-*-s4-p2pack.json`). Ticket `2026-07-26-s4-recipe-transfer-mint-yellow-blue.md`. Activate after deactivating prior same-seed Actives (240 / 311 / 330) or FORCE dual-active.
+
+Later: correlation heat BA; optional operator activate + DAR smoke.
+
+### Phase 2 / lab add-on — hybrid fill (code shipped; matrix pending)
 
 **Ticket:** `2026-07-26-hybrid-fill-entry-next-pyramid-same-day.md`  
 
-Doctrine under test: **initial entry = next_bar_open**, **pyramid = same-day close fill** (not global same_bar).  
+Doctrine: **initial entry = next_bar_open**, **pyramid = same-day close (B1)**.  
+PBR switch: `fill_cadence=hybrid_entry_next_pyramid_same_day` (UI + `results_json`; same pattern as `next_bar_open`).
 
-Why: (1) Elephant survivability books (Orange/Rust/Blue); (2) S4 winners (Blue/Mango/Mint) for Compound Annual Growth Rate (CAGR) / Sharpe sensitivity; (3) prioritizes live broker same-day scale-in automation if material.
-
-**Blocked:** WUT today uses one fill flag for entry and pyramid — hybrid must ship before PBRs.
+**Scored 2026-07-26 — reject hybrid for pack default.** Experiment `hybrid_fill_pyr_same_day_v1` (325–330 vs next_bar). Med Δret **−73**, Δdd **+17**, Δcagr **−8**; Blue/Mango crushed; only Mint wealth↑ with worse DD. **Keep pure `next_bar_open` for entry and pyramid.** Do not prioritize broker same-day scale-in from this panel. Map: `docs/analysis/2026-07-26-hybrid-fill-pyr-same-day-pbr-map.md`.
 
 ---
 
