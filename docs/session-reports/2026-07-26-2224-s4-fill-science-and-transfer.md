@@ -100,7 +100,7 @@ Runtime import only (OPs #381–383). **No application code committed this sessi
 ### Branch / PR state at sign-off
 
 - Direct `main` on WUT + ecosystem  
-- Pushed: pending wrap push  
+- Pushed: yes (`8820fd3` WUT; `7159c85` + `51d7f6d` ecosystem)  
 - PR: not opened (direct main)  
 
 **Monoliths touched:** `winston_unit_test`, `ecosystem`; `winston_v2` data only.
