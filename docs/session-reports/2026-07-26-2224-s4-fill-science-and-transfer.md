@@ -94,12 +94,14 @@ Runtime import only (OPs #381–383). **No application code committed this sessi
 
 ### Commits
 
-_Pending wrap commit._
+- `8820fd3` (winston_unit_test) — feat(lab): hybrid/price-level fills, S4 panels, trade-timeline stop UX  
+- `7159c85` (ecosystem) — docs: S4 fill science freezes, transfer OPs, stop-UI session report  
 
 ### Branch / PR state at sign-off
 
 - Direct `main` on WUT + ecosystem  
-- PR: not opened  
+- Pushed: pending wrap push  
+- PR: not opened (direct main)  
 
 **Monoliths touched:** `winston_unit_test`, `ecosystem`; `winston_v2` data only.
 
