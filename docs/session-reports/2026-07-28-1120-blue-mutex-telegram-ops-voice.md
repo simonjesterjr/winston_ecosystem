@@ -54,12 +54,13 @@
 
 ### Commits
 
-- _Filled after commit/push in wrap step._
+- `f98b75c` (ecosystem) — fix(ops): prefer Active OP on vague names; Telegram operator voice  
+- `c1e55eb` (winston_v2) — fix(ops): PortfolioResolver prefers Active open OPs; safer mutex hints  
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on ecosystem + winston_v2  
-- Pushed: yes (wrap)  
+- Branch: `main` on ecosystem + winston_v2 — clean for this session’s files  
+- Pushed: yes (`origin/main`)  
 - PR: not opened (direct main)  
 
 ---
