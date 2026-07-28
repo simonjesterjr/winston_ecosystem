@@ -6,7 +6,10 @@ requires-python = ">=3.11"
 license = {text = "MIT"}
 
 dependencies = [
-    "mcp>=1.26.0",
+    # Pin <2: mcp 2.0 rewrote Server (no list_tools/call_tool decorators).
+    # Our low-level Server + SSE transport still targets the v1 API.
+    # See https://py.sdk.modelcontextprotocol.io/v2/migration/
+    "mcp>=1.26.0,<2",
     "httpx>=0.27",
     "pydantic>=2.0",
 ]

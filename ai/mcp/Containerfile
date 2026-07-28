@@ -18,7 +18,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl \
 # In real use we install the local package (editable or wheel).
 COPY pyproject.toml ./
 COPY mcp_winston/ mcp_winston/
-RUN pip install --no-cache-dir -e ".[http]" || pip install --no-cache-dir "mcp>=1.26" httpx uvicorn starlette
+# Fallback pin must stay on mcp 1.x — 2.0 removed Server.list_tools / call_tool.
+RUN pip install --no-cache-dir -e ".[http]" || pip install --no-cache-dir "mcp>=1.26,<2" httpx uvicorn starlette
 
 # Run the MCP server in HTTP/SSE mode by default.
 # This is what the compose "winston_mcp" service and the nanobot config expect
