@@ -48,7 +48,13 @@ _TOOL_HTTP_OVERRIDES: dict[str, dict[int, str]] = {
     "wv2_perform_daily_analysis": {
         422: (
             "Analysis blocked (pre-cutoff schedule, historical date without allow_historical, "
-            "or active mutex). Production EOD: omit date or use production_date after 4:30 PM MT. "
+            "active_mutex, portfolio_closed, or ambiguous_portfolio). "
+            "Prefer details.safe_next_step when present. "
+            "Desk analysis: omit portfolio_id_or_name or pass Active OP numeric id / full display name — "
+            "not bare seed names that match closed lineage. "
+            "Do not deactivate the Active conflict for ordinary daily analysis; force=true only for "
+            "intentional dual-Active experiments. "
+            "Production EOD: omit date or use production_date after 4:30 PM MT. "
             "Historical test pass only: allow_historical=true (deliver_telegram still defaults false). "
             "Never call from morning/market-snapshot cron. Read message/error code."
         ),
@@ -113,7 +119,11 @@ _TOOL_HTTP_OVERRIDES: dict[str, dict[int, str]] = {
         422: "Transfer refused — check run_id/ts_id/config; engaged OPs refuse silent mutation.",
     },
     "wv2_activate_portfolio": {
-        422: "Activate refused — Active mutex (same seed_name or identical Books); retry with force=true if intentional.",
+        422: (
+            "Activate refused — Active mutex (same seed_name or identical Books). "
+            "Prefer details.safe_next_step: keep the Active OP for desk work; "
+            "deactivate only when replacing that seed; force=true only for short dual-Active experiments."
+        ),
     },
 }
 

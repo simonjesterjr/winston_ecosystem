@@ -39,15 +39,21 @@ Every MCP tool response includes full IDs in `_meta`:
 }
 ```
 
-## Telegram error footer
+## Telegram error reply (operator surface)
 
-When an MCP tool fails and the principal needs a trace handle, append one line:
+When an MCP tool fails, Telegram is **OPS ERROR** mode — not a chatbot tutorial:
+
+1. One line: what failed (tool + code).
+2. One to three lines: message / `safe_next_step` from the tool (prefer structured fields over inventing recovery).
+3. Optional last line:
 
 ```text
 ref: 550e8400
 ```
 
 Use the **first 8 characters** of `correlation_id` from `_meta` (no hyphen). Do **not** add `ref:` on routine daily briefings or successful runs.
+
+**Never** post multi-option menus (force / deactivate / “would you like…”) after mutex or name errors unless the principal asked for options.
 
 When the principal replies with a `ref:` prefix or pastes a full UUID, expand the trace using the playbook below.
 
