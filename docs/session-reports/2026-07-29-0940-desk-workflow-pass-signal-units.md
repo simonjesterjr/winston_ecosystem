@@ -68,12 +68,13 @@
 
 ### Commits
 
-- _Pending wrap commit on `winston_v2` `main`._
+- `774ea42` (winston_v2) — fix(ops): Desk Workflow pass signal, proposed units, /wv2 handoff links
+- `9cb45e0` (ecosystem) — docs: session report desk workflow pass signal and proposed units
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` — dirty with session + unrelated WIP
-- Pushed: pending wrap
+- Branch: `main` — session work pushed; unrelated WIP remains dirty locally
+- Pushed: yes (`winston_v2`, `ecosystem`)
 - PR: not opened (direct main)
 
 ---
