@@ -27,6 +27,8 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P2 | In progress — Yellow S/M/K scored | [`2026-07-30-kelly-martingale-sizing-portfolio-management.md`](2026-07-30-kelly-martingale-sizing-portfolio-management.md) | Ticket: Kelly / Martingale sizing in portfolio management (WUT lab → Wv2 daily managers) |
+| P2 | Proposed | [`2026-07-30-parallel-trading-system-swing-options-intraday.md`](2026-07-30-parallel-trading-system-swing-options-intraday.md) | Ticket: Parallel trading system (swing / options / intraday) reusing Winston rails |
 | P1 | In progress | [`2026-07-25-strategy-bakeoff-v1-phase1.md`](2026-07-25-strategy-bakeoff-v1-phase1.md) | Ticket: Strategy bake-off V1 — Phase 1 (cross-portfolio TS selection) |
 | P1 | Transferred paper inactive — activate when ready | [`2026-07-26-s4-recipe-transfer-mint-yellow-blue.md`](2026-07-26-s4-recipe-transfer-mint-yellow-blue.md) | Ticket: Promote S4 FastBO5 pack — transfer Mint / Yellow / Blue |
 | P2 | Proposed | [`2026-07-26-s4-op-max-markets-book-count.md`](2026-07-26-s4-op-max-markets-book-count.md) | Ticket: S4 pack OPs — set max_markets_per_portfolio to book size |
