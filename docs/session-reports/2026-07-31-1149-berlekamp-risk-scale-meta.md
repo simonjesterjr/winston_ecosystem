@@ -64,13 +64,13 @@
 
 ### Commits
 
-- _Filled after commit/push in wrap._
+- `85b5b49` (ecosystem) — docs: Berlekamp lessons, risk-scale meta design, and sizing tickets  
+- `6bd1666` (winston_unit_test) — feat(lab): portfolio risk scale meta-layer over OWD/static  
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` — dirty until wrap commits
-- Pushed: pending wrap
-- PR: not opened (direct main per recent workspace practice)
+- Branch: `main` (both repos) — pushed  
+- PR: not opened
 
 ---
 
