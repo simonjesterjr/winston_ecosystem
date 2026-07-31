@@ -27,6 +27,11 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P2 | Proposed | [`2026-07-31-am-m-forced-step-smoke.md`](2026-07-31-am-m-forced-step-smoke.md) | Ticket: AM/M forced-step smoke (risk scale knobs that move) |
+| P2 | Proposed | [`2026-07-31-adr-risk-scale-orthogonality.md`](2026-07-31-adr-risk-scale-orthogonality.md) | Ticket: ADR — risk_scale_policy orthogonal to base geometry |
+| P2 | Proposed | [`2026-07-31-business-analysis-risk-scale-matrix-345-356.md`](2026-07-31-business-analysis-risk-scale-matrix-345-356.md) | Ticket: Business analysis scorecard — matrix PBRs 345–356 |
+| P2 | Proposed | [`2026-07-31-kelly-scale-not-global-default.md`](2026-07-31-kelly-scale-not-global-default.md) | Ticket: Kelly scale — not global default |
+| P2 | Proposed | [`2026-07-31-yellow-owdc-none-paper-candidate.md`](2026-07-31-yellow-owdc-none-paper-candidate.md) | Ticket: Yellow OWDC + scale=none paper candidate |
 | P2 | In progress — Yellow S/M/K scored | [`2026-07-30-kelly-martingale-sizing-portfolio-management.md`](2026-07-30-kelly-martingale-sizing-portfolio-management.md) | Ticket: Kelly / Martingale sizing in portfolio management (WUT lab → Wv2 daily managers) |
 | P2 | Proposed | [`2026-07-30-parallel-trading-system-swing-options-intraday.md`](2026-07-30-parallel-trading-system-swing-options-intraday.md) | Ticket: Parallel trading system (swing / options / intraday) reusing Winston rails |
 | P1 | In progress | [`2026-07-25-strategy-bakeoff-v1-phase1.md`](2026-07-25-strategy-bakeoff-v1-phase1.md) | Ticket: Strategy bake-off V1 — Phase 1 (cross-portfolio TS selection) |
