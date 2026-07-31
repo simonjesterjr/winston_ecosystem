@@ -46,13 +46,14 @@
 
 ### Commits
 
-- _Filled after wrap commit/push._
+- `600b281` (winston_unit_test) — feat(lab): PBR risk-scale badges and money-management banner  
+- `ff80c6c` (ecosystem) — docs: risk-scale matrix findings session report and follow-up tickets  
 
 ### Branch / PR state at sign-off
 
-- Branch: `main`  
-- Prior morning wrap already pushed risk-scale engine (`6bd1666` WUT, `b22fdfc` ecosystem)  
-- Badge UI commit: this wrap  
+- Branch: `main` both repos — pushed  
+- Prior morning wrap: risk-scale engine `6bd1666` WUT  
+- PR: not opened
 
 ---
 
