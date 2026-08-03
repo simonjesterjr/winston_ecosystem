@@ -86,7 +86,7 @@
 
 - WUT `ffdb653` — feat(portfolio): preferred chart color for PCS series and export
 - Wv2 `fa989a2` — feat(portfolio): import preferred color; use on DAR and equity charts
-- ecosystem `4df2d65` — docs: preferred portfolio color contract, session report, follow-ups
+- ecosystem `0f79b44` — docs: preferred portfolio color contract, session report, follow-ups
 
 ### Branch / PR state at sign-off
 
