@@ -71,6 +71,8 @@ Nested `trading_strategy` (and/or top-level) should carry when available:
 
 Top-level: `name` (display or seed), optional `seed_name`, `fingerprint`, `markets`, `initial_capital`, `export_kind`, `wut_backtest_run_id`, `vetting`, `max_markets_per_portfolio`, `max_leverage`.
 
+Optional top-level `color` (`#RRGGBB`) is display-only preferred chart color (name-token or explicit); omitted when blank. Not part of fingerprint.
+
 Optional `paper_ops_policy` documents paper-first caps. Export with `PAPER_CAPS=1` on `wut:portfolios:export_config` forces `max_markets=4` / `max_leverage=1`.
 
 Historical files may lack fingerprint — legacy bare-name path until re-export. Primary paper configs (e.g. blue-pbr62, red) should carry fingerprint after Phase 3 PR 4.

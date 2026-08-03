@@ -27,6 +27,9 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P3 | Proposed | [`2026-08-03-portfolio-color-edit-ui.md`](2026-08-03-portfolio-color-edit-ui.md) | Ticket: Portfolio color edit UI (WUT + Wv2) |
+| P3 | Proposed | [`2026-08-03-align-portfolio-color-fallback.md`](2026-08-03-align-portfolio-color-fallback.md) | Ticket: Align WUT/Wv2 PortfolioColor fallback + from_name |
+| P3 | Proposed | [`2026-08-03-version-portfolio-configs-in-git.md`](2026-08-03-version-portfolio-configs-in-git.md) | Ticket: Version primary portfolio_configs JSON in git |
 | P2 | Proposed | [`2026-07-31-am-m-forced-step-smoke.md`](2026-07-31-am-m-forced-step-smoke.md) | Ticket: AM/M forced-step smoke (risk scale knobs that move) |
 | P2 | Proposed | [`2026-07-31-adr-risk-scale-orthogonality.md`](2026-07-31-adr-risk-scale-orthogonality.md) | Ticket: ADR — risk_scale_policy orthogonal to base geometry |
 | P2 | Proposed | [`2026-07-31-business-analysis-risk-scale-matrix-345-356.md`](2026-07-31-business-analysis-risk-scale-matrix-345-356.md) | Ticket: Business analysis scorecard — matrix PBRs 345–356 |

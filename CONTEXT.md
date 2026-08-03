@@ -45,7 +45,7 @@ The join between a Portfolio and a Market — the portfolio's exposure to that m
 _Avoid_: position (Book is the allocation slot; Position is the live holding)
 
 **Portfolio**:
-A named trading account configuration: capital, risk params, linked markets (Books), and an applied TradingStrategy.
+A named trading account configuration: capital, risk params, linked markets (Books), and an applied TradingStrategy. Optional **preferred color** / chart color is a presentation attribute (CSS hex, e.g. `#16a34a`) for multi-series charts and handoff JSON — not part of methodology fingerprint.
 _Avoid_: account (ambiguous with broker account), fund
 
 **TradingStrategy**:
