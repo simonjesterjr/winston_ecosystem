@@ -161,11 +161,11 @@ The session date when a confirmed **Journal** opens or closes a **Position** and
 _Avoid_: trade_date alone without saying signal vs fill, same-bar close as the default EOD fill
 
 **Human-Gated**:
-Position open/close (and free-form desk fills) require an explicit operator desk action — ops form, ops shell, or Cromwell/MCP on a human instruction — not silent mutation by **Daily Analysis**. **Execution Mode** `real` is always human-gated; paper follows the same confirm step today (optional paper autofill is a later, explicit decision).
-_Avoid_: autotrader (future product), treating draft creation as a fill
+Position open/close (and free-form desk fills) require an explicit operator desk action — ops form, ops shell, or Cromwell/MCP on a human instruction — not silent mutation by **Daily Analysis** or by inbound broker confirmation evidence alone. **Execution Mode** `real` is always human-gated; paper follows the same confirm step today (optional paper autofill is a later, explicit decision). L1 evidence (API poll / email) may prefill or surface mismatch; booking still requires a **Desk Action** (confirm or **Corrective Amend**) unless a later ADR carves out autofill.
+_Avoid_: autotrader (future product), treating draft creation as a fill, silent book-from-email or book-from-API
 
 **Desk Action**:
-An operator-facing verb that may change lots or amend a draft: confirm **Journal**, book ad-hoc trade, exit, stop update (and kin). Surfaces: desk form, ops shell, MCP/Telegram. Confirm for the EOD path is expected by **Fill Date** (next session after **Signal Date**); unconfirmed drafts become **Passed Signals** and remain visible as attention items (especially on **Active** **real** OPs).
+An operator-facing verb that may change lots or amend a draft: confirm **Journal**, **Corrective Amend** of an executed fill, book ad-hoc trade, exit, stop update (and kin). Surfaces: desk form, ops shell, MCP/Telegram. Confirm for the EOD path is expected by **Fill Date** (next session after **Signal Date**); unconfirmed drafts become **Passed Signals** and remain visible as attention items (especially on **Active** **real** OPs).
 _Avoid_: Daily Analysis (proposes only), task alone (the reminder; Desk Action is the mutation), treating casual ignore as normal strategy
 
 **Desk Handoff**:
@@ -180,13 +180,37 @@ _Avoid_: assuming Telegram alone is the complete desk, dead `resources :journals
 How humans (or a future separate automation component) actually realize a Winston signal in the market — broker fills, LEAPs, partial size, delays, clearing failures. **Winston** is the **signal and prioritization system** (trend/methodology evaluation, deterministic desk work queue) — analogous to a warehouse management system prioritizing picks for human workers — not the assumption of complete fulfillment truth. Journals bridge signal → reported fill; they do not claim OMS completeness.
 _Avoid_: equating Winston with a broker OMS, assuming DA state equals market state, baking autotrader into DA
 
+**Trade Notification**:
+Normalized inbound evidence of a broker trade or order outcome (fill, partial, cancel, reject) from an adapter poll or later stream — not Signal Spine truth. Used to prefill, match, or surface mismatch against a **Single Fulfillment Identity**; booking still requires **Human-Gated** **Desk Action**. Missing expected notifications after the action window is **attention** (DAR / Telegram), resolved via human attach/link workflow — not silent invent and not email-as-primary SoT.
+_Avoid_: treating broker email alone as capital SoT, auto-executing Positions from notifications, equating notification with DA signal
+
+**Single Fulfillment Identity**:
+For one signal leg (draft **Journal** + task / package leg) there is exactly one fulfillment work item humans open for that work. Confirm ends the **draft** phase, not the identity of the row. Later price/qty/stop corrections use **Corrective Amend** on that same journal/lot — never a silent second open against the same signal.
+_Avoid_: re-enter to “fix price”, treating each Desk Action as a new lot, second book as the normal correction path
+
+**Corrective Amend**:
+A **Desk Action** that rewrites price, units, stop, and/or notes on an **already executed** enter/pyramid **Journal** and its open **Position** (same lot), with an amendment audit trail. Used for fill corrections (e.g. asked open 109.89, got 109.53). Distinct from draft edit pre-confirm, from **CashEvent** capital-only adjustment, and from close+reopen (reserved for true cancel/re-trade or accidental duplicate cleanup).
+_Avoid_: second ad-hoc enter, superseding correction journals as the default, CashEvent as a silent second book
+
 **Signal Spine**:
 What the fingerprint / **Daily Analysis** recommended for an OP (signal side, direction, methodology sizing, expected-return story, algorithmic pass/swap reasons) — retained for methodology and process audit even when **Fulfillment** differs.
-_Avoid_: using signal sizes as live cash when fills differ
+_Avoid_: discarding signal size story when packaging differs
+
+**Signal-Path Operational Lot**:
+While a position is open, Winston v2 tracks the methodology path **as operational truth** in signal units (e.g. long 210 IBM through entrance → stop → pyramid → exit): journals, Working Stop story, capacity, and mid-life risk sizing follow that path. Extra-modal packaging is **linked**, not a continuous rewrite of this path.
+_Avoid_: retargeting DA/Books to LEAP symbols; treating packaging as a different signal
+
+**Fulfillment Link**:
+Attachment of real-world packaging or broker evidence to a signal / **Single Fulfillment Identity** (“fulfillment A is for signal S”), optionally with an **indicated capital adjustment** ±$D. Does not by itself rewrite mid-life signal-path sizing; application of ±$D is via **Exit Capital Reconcile** (or explicit later apply).
+_Avoid_: silent capital rewrite from packaging; unlinked substitute trades
+
+**Exit Capital Reconcile**:
+At position exit (or explicit reconcile gate), compare **Signal-Path Operational Lot** economics to linked fulfillments and apply a **CashEvent** adjustment ±$D so household cash honesty lands after the trade lifecycle. Human-Gated propose/confirm for v1.
+_Avoid_: continuous LEAP mark-to-market as capital_base every bar (unless later product), using CashEvent as a second book
 
 **Booked Capital Spine**:
-What the OP actually did via executed **Journals** / **Positions** / **CashEvents** — cash, risk sizing base, and DAR equity for the live series. Diverges from the **Signal Spine** when packaging, size, timing, or process miss differs.
-_Avoid_: rewriting booked history to match ideal next-open stock fills
+What the OP did via executed **Journals** / **Positions** / **CashEvents** for live series equity and post-reconcile cash honesty. Mid-life may follow **Signal-Path Operational Lot** economics; after **Exit Capital Reconcile**, capital_base reflects applied ±$D vs actual fulfillments. Diverges from pure **Signal Spine** narrative when packaging, fill price, or process miss differs.
+_Avoid_: rewriting signal size story; equating mid-life capital always with broker packaging MTM
 
 **Working Stop**:
 The stop price Winston treats as current on an open **Position** on the **Booked Capital Spine** (`updated_stop` / desk-updated). May start from methodology ATR default (signal/default stop) and then diverge via **Desk Action**. Winston does not assume the broker’s resting order matches this value.
@@ -205,16 +229,16 @@ Exits **may** occur without a Winston exit signal — stops, clearing/broker err
 _Avoid_: requiring a DA exit signal before any close, inventing fake exit signals to “make the ledger tidy”
 
 **Passed Signal**:
-A signal that did not become an executed fill — either **algorithmic** (capacity/rules: e.g. max markets, no valid swap) or **process miss** (human did not confirm by the action window / **Fill Date**). On paper, primarily regime/theoretical. On **Active** real, a process miss is treated as possible stakeholder or market/clearing error and must surface for correction — not as a free “I chose to skip.”
-_Avoid_: cancel as silent success, pass as discretionary strategy choice without an algorithm reason
+A signal that did not become an executed fill. Kinds: **algorithmic** (capacity/rules: e.g. max markets, no valid swap); **process miss** (human did not confirm by the action window / **Fill Date** — stakeholder/process error, high attention on **Active** real); **Desk Pass** (`human_pass` / desk_pass — intentional human skip of a ranked handoff among **current** desk work, with **required reason** + audit, e.g. pass pyramid A to act on entry D). Desk Pass is not free-form enter-any-market and never waives capacity. Casual ignore without reason remains process miss, not Desk Pass.
+_Avoid_: cancel as silent success, unlabeled skip, treating Desk Pass as naked enter permission, capacity waiver
 
 **Fulfillment Packaging**:
-How a confirmed signal is realized in the market under **Extra-Modal Fulfillment**: the booked instrument and size may differ from the **Signal Spine** instrument and methodology share story. Examples: equity signal → stock shares, LEAP/option contracts, or option-chain structure; commodity / futures-theme signal → futures, options on futures, or commodity/levered ETFs (e.g. CLETF-class products). The **Journal** (and OP **Books**) still track the **signal Market** for continued DA signal generation, capacity, and methodology risk story; cash impact, returns, and live equity follow the **booked** instrument(s) on the **Booked Capital Spine** (e.g. contracts × premium × multiplier). Part of **Fulfillment** — packaging often comes only from the human (or later a fulfillment adapter). Does not waive the **Signaled Entry Rule**; does not invent a second signal for the fill instrument.
-_Avoid_: requiring the fill instrument to equal the signal share count or symbol; treating LEAP/futures/ETF proxy as a different methodology signal; rewriting Signal Spine to match broker prints; equating broker symbol match with signal identity
+How a signal is realized in the market under **Extra-Modal Fulfillment**: the real instrument and size may differ from the **Signal Spine** / **Signal-Path Operational Lot** share story. Examples: equity signal → stock shares, LEAP/option contracts, or option-chain structure; commodity / futures-theme signal → futures, options on futures, or commodity/levered ETFs (e.g. CLETF-class products). The **Journal** (and OP **Books**) still track the **signal Market** for DA, capacity, and mid-life path; packaging is recorded via **Fulfillment Link** with optional indicated ±$D; **Exit Capital Reconcile** applies cash honesty. Does not waive the **Signaled Entry Rule**; does not invent a second signal for the fill instrument.
+_Avoid_: requiring the fill instrument to equal the signal share count or symbol; rewriting Signal Spine to match broker prints; equating broker symbol match with signal identity; continuous mid-life capital = LEAP premium unless reconciled
 
 **Extra-Modal Fulfillment**:
-Realizing a Winston **signal** with one or more market instruments that are **not** the same modality as the signal’s **Market** (or not a 1:1 share print of that market) — asynchronously and often with different size, timing, and Greek/notional risk. Signal↔fulfillment linkage is mandatory for enter/pyramid (**Signaled Entry Rule**); DA continues to evaluate the signal Market on the OP; cash/returns/risk-at-capital track the booked packaging. Orthogonal to process miss and to broker choice.
-_Avoid_: “substitute trade” without signal link; replacing the Book with the fill symbol for DA; assuming broker fill symbol equals Winston Market symbol for matching
+Realizing a Winston **signal** with one or more market instruments that are **not** the same modality as the signal’s **Market** (or not a 1:1 share print of that market) — asynchronously and often with different size, timing, and Greek/notional risk. Signal↔fulfillment linkage is mandatory for enter/pyramid (**Signaled Entry Rule**); DA continues to evaluate the signal Market on the OP. Matching a **Trade Notification** to a signal must not require `broker.symbol == Book.symbol` — prefer explicit link, underlying-aware soft match, or human pick. Orthogonal to process miss and to broker choice.
+_Avoid_: “substitute trade” without signal link; replacing the Book with the fill symbol for DA; symbol-equality-only match; treating LEAP/OCC as a different methodology signal
 
 **Daily Analysis**:
 Wv2's scheduled or triggered evaluation of **Active** Portfolios — signals, **draft** journals, tasks, **Passed Signals**, Cromwell/**DAR** notification. May create draft enter/exit **Journals** for paper and real as convenience; never opens or closes **Positions** (ADR-009). Capacity and rank rules (max markets, swaps, pyramid priority) should yield **deterministic** recommendations or algorithmic passes — not open-ended “human pick among expected returns” menus from Winston. Requires a linked **TradingStrategy**; portfolios without one are skipped (`no_strategy`). Requires DM parquet for all Books; any missing symbol skips the whole Portfolio (`missing_data`). Unknown strategy class names skip with `unsupported_strategy`. Idempotent per (portfolio, date). DM fetch is lazy (triggered when analysis finds missing parquet).
@@ -273,12 +297,13 @@ _Avoid_: daily analysis alone (the job; DAR is the report), flat “all Active�
 - Operator attention priority (for **DAR** and Wv2 surfaces): (1) **Active** + **Execution Mode** `real` — capital path, non-correlated books, way forward; (2) **Active** + `paper` — keep eyes on risky or under-researched strategies/markets; (3) inactive — random noise / regime archive; human may clean, remove, or activate later
 - First **Journal** on an OP **engages** it: Books + TS immutable until **Closed** or successor **Rebalance**; capital may still move via **CashEvent**. Lifecycle sketch: imported/inactive → **Active** (not engaged) → **Engaged** (any Journal) → **Closed** (optional successor A′). Shape rebalance = close A + open A′ (link successor); capital-only = CashEvent on A. **Close:** paper may soft-close; real-intent requires flat first (optional force-flatten). Same-fingerprint re-import may update only **pre-engagement** OPs. **WUT** proposes candidates; **Wv2** executes and preserves evaluation integrity
 - **Daily Analysis** proposes only (**Human-Gated** fills): draft **Journals** + tasks on **Signal Date** T; **Positions** change only via **Desk Action**. Canonical EOD cadence: signal T → fill at next session open on **Fill Date** T+1 (paper path; real drafts are convenience — human supplies actual fill). Unconfirmed by the action window → **Passed Signal** (process miss) with DAR attention — especially **Active** real. Optional paper autofill and future autotrader are separate later decisions, not implied by draft creation
-- Confirm may change **Fulfillment Packaging** under **Extra-Modal Fulfillment** (e.g. equity → LEAP/options; commodity theme → futures / options / CLETF) while still honoring the same signal **Market** and direction; **Signal Spine** keeps methodology sizing and DA continuity on that Market; **Booked Capital Spine** carries cash, returns, and instrument-level risk from the actual fill(s). Journals bridge the link — they are not a broker lot mirror
-- Capacity contests are resolved by the methodology/algorithm into a single **Desk Handoff** package (or algorithmic **Passed Signal**); human does not re-rank expected returns by default. Each handoff carries a **Desk Workflow** link (and Telegram/shell) for confirm + extra fields. Multi-leg packages are ordered; out-of-order confirm warns
+- Confirm may change **Fulfillment Packaging** under **Extra-Modal Fulfillment** while still honoring the same signal **Market** and direction; mid-life **Signal-Path Operational Lot** keeps signal units for DA/capacity/risk path; **Fulfillment Link** records packaging + indicated ±$D; **Exit Capital Reconcile** applies CashEvent honesty. Journals are not a broker lot mirror
+- **Single Fulfillment Identity** per signal leg: one draft → confirm → optional **Corrective Amend** on the same lot. Re-enter against a completed signal is refused by default (force + notes only)
+- Capacity contests are resolved by the methodology/algorithm into a single **Desk Handoff** package (or algorithmic **Passed Signal**); human does not re-rank expected returns by default. Human may **Desk Pass** a ranked handoff (required reason) to act on another **current** handoff only — not free-form markets. Each handoff carries a **Desk Workflow** link (and Telegram/shell) for confirm + extra fields. Multi-leg packages are ordered; out-of-order confirm warns
 - **Winston (Wv2 ops)** prioritizes signal-driven work for **Fulfillment** by humans (or later a separate autotrader component). It does not assume full market/OMS truth; **Human-Gated** desk is the intentional gap between signal and lot state
-- Analytics are dual: **Signal Spine** (methodology / process audit) and **Booked Capital Spine** (live OP equity, risk, DAR cash). Live risk uses booked; signal-vs-fill gaps are first-class, not errors to hide
+- Analytics: **Signal Spine** (methodology / process); **Signal-Path Operational Lot** (mid-life ops truth in signal units); **Booked Capital Spine** after reconcile (cash honesty). Gaps are first-class, not errors to hide
 - Stops: methodology may propose default ATR stop; **Working Stop** on the **Position** is desk-current. Real-world stop-out is booked via **Stop-Out Reconciliation** (required position link + working-stop snapshot + fill; warn on gap) — Winston never assumes broker sync
-- **Signaled Entry Rule** vs **Unsignaled Exit Allowance**: opens/pyramids need a Winston signal; closes may be unsignaled with reasons (stop, error, discretionary) so the booked spine stays honest about downstream fulfillment
+- **Signaled Entry Rule** vs **Unsignaled Exit Allowance**: opens/pyramids need a Winston signal; closes may be unsignaled with reasons (stop, error, discretionary) so the booked spine stays honest about downstream fulfillment. Desk default: **intent-first** for signaled enters; **trade-first** (life/broker then book) for stop-outs and other unsignaled exits
 - **Cromwell** receives webhooks/notifications from **DM** and **Wv2**; invokes **MCP Tools** for actions
 - Each **MCP Tool** invocation has a **Correlation ID**; chained calls in one turn may share a **Parent Correlation ID**
 - **Integration Log** entries land in the **Ecosystem Audit Log**; **Cromwell** and agents read them to trace coordination failures
@@ -349,14 +374,20 @@ _Avoid_: daily analysis alone (the job; DAR is the report), flat “all Active�
 > **Dev:** "Is Winston an autotrader?"
 > **Domain expert:** "No. It is a programmatic trend/methodology engine that prioritizes **Desk Handoffs** for **Fulfillment** — like a WMS for human picks. Fills are human (or a future separate automation component). Winston never assumes it has the full fulfillment picture."
 
-> **Dev:** "We sized 206 shares but filled 2 LEAPs — which equity curve?"
-> **Domain expert:** "**Booked Capital Spine** for the live OP (premium × multiplier × contracts). Keep the **Signal Spine** (206 @ next open story) for methodology/process comparison. Do not rewrite cash to synthetic stock."
+> **Dev:** "We sized 206 shares but filled 2 LEAPs — which equity curve mid-life?"
+> **Domain expert:** "**Signal-Path Operational Lot** — track as if 206-share path for DA, stops, pyramids, mid-life capital. **Fulfillment Link** the LEAPs with indicated ±$D. On exit, **Exit Capital Reconcile** applies CashEvent honesty. Do not retarget Books to the LEAP symbol."
 
 > **Dev:** "Broker stopped me out of AMZN — how do I book it?"
 > **Domain expert:** "**Stop-Out Reconciliation**: exit the open **Position** on that OP with reason external_stop, fill price, and required lot link + **Working Stop** snapshot on the **Booked Capital Spine**. Warn if fill diverges from working stop. Don’t invent a Winston exit signal — **Unsignaled Exit Allowance**."
 
 > **Dev:** "I bought GGG with no DAR signal — book it?"
 > **Domain expert:** "No under **Signaled Entry Rule**. Enter/pyramid only against a methodology-originated signal (DA draft journal/task or package leg), referenced on confirm. Packaging can be LEAPs. Unsignaled **exits** are allowed; unsignaled **entries** are not — force+audit only if you must break policy."
+
+> **Dev:** "I confirmed WMT @ 109.89 then got 109.53 — book a second short?"
+> **Domain expert:** "No — **Single Fulfillment Identity**. Use **Corrective Amend** on the same journal/lot. Second enter against that signal is refuse-by-default (force+notes only). Close+reopen only for true cancel/re-trade or accidental duplicate cleanup."
+
+> **Dev:** "I want to skip the pyramid on A and take the entry on D instead."
+> **Domain expert:** "**Desk Pass** the pyramid handoff with a **required reason**, then open the entry D workflow. That is a third **Passed Signal** kind — not process miss and not free-form enter. Capacity still never waived."
 
 ## Flagged ambiguities
 

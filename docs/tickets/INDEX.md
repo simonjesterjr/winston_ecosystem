@@ -27,6 +27,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P2 | In progress | [`2026-08-04-stack-arr-mer-risk-scale-chart.md`](2026-08-04-stack-arr-mer-risk-scale-chart.md) | Ticket: Stack ARR + MER on trade timeline; risk-scale path chart |
 | P3 | Proposed | [`2026-08-03-portfolio-color-edit-ui.md`](2026-08-03-portfolio-color-edit-ui.md) | Ticket: Portfolio color edit UI (WUT + Wv2) |
 | P3 | Proposed | [`2026-08-03-align-portfolio-color-fallback.md`](2026-08-03-align-portfolio-color-fallback.md) | Ticket: Align WUT/Wv2 PortfolioColor fallback + from_name |
 | P3 | Proposed | [`2026-08-03-version-portfolio-configs-in-git.md`](2026-08-03-version-portfolio-configs-in-git.md) | Ticket: Version primary portfolio_configs JSON in git |
@@ -119,8 +120,9 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P2 | Proposed | [`2026-07-20-rails-code-review-wut-baseline.md`](2026-07-20-rails-code-review-wut-baseline.md) | Ticket: First rails-code-review baseline (WUT) |
 | P2 | Proposed | [`2026-07-20-safe-bug-fix-harness-multi-repo.md`](2026-07-20-safe-bug-fix-harness-multi-repo.md) | Ticket: Multi-repo isolation policy + optional full safe-bug-fix harness |
 | P2 | Proposed | [`2026-07-20-wv2-capacity-swap-desk-packages.md`](2026-07-20-wv2-capacity-swap-desk-packages.md) | Ticket: Wv2 capacity swap → ordered Desk Handoff packages |
+| P1 | Proposed (Phase 1 D10) | [`2026-08-05-signal-path-truth-fulfillment-link-exit-reconcile.md`](2026-08-05-signal-path-truth-fulfillment-link-exit-reconcile.md) | Ticket: Signal-path operational truth + fulfillment link + exit capital reconcile |
 | P2 | Proposed (discovery; grill tee in analysis) | [`2026-07-21-broker-confirmation-email-api-intake.md`](2026-07-21-broker-confirmation-email-api-intake.md) | Ticket: Broker confirmation intake (email / API) for desk fulfillment |
-| P2 | Proposed | [`2026-07-22-grill-fulfillment-schwab-extra-modal.md`](2026-07-22-grill-fulfillment-schwab-extra-modal.md) | Ticket: Grill-with-docs — fulfillment ownership, Schwab intake, extra-modal |
+| P2 | Done (Grill A 2026-08-06) | [`2026-07-22-grill-fulfillment-schwab-extra-modal.md`](2026-07-22-grill-fulfillment-schwab-extra-modal.md) | Ticket: Grill-with-docs — fulfillment ownership, Schwab intake, extra-modal |
 | P3 | Proposed | [`2026-07-22-cromwell-snapshot-watcher-queued-false-positive.md`](2026-07-22-cromwell-snapshot-watcher-queued-false-positive.md) | Ticket: Fix market-snapshot overnight watcher — race on `queued` / empty response |
 | P3 | Proposed | [`2026-07-21-blue-241-successor-cleanup.md`](2026-07-21-blue-241-successor-cleanup.md) | Ticket: Decide fate of Blue successor OP #241 |
 | P3 | Proposed | [`2026-07-21-ops-speech-prefer-portfolio-numeric-id.md`](2026-07-21-ops-speech-prefer-portfolio-numeric-id.md) | Ticket: Prefer numeric portfolio `#id` in ops speech and skill examples |

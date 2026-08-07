@@ -90,15 +90,16 @@ Source: [`docs/analysis/2026-07-22-schwab-integration-discovery.md`](../analysis
 
 | Item | Draft recommendation |
 |------|----------------------|
-| Channel v1 | **Schwab Trader API primary** (poll orders + TRADE transactions); email optional fallback |
-| Event shape | `BrokerFillEvent` draft in discovery analysis |
-| Matching | order/txn id → soft window match → ambiguous queue → orphan; never silent wrong book |
-| Human confirm | **Required v1** (real); auto-book only via later ADR |
+| Channel v1 | **API poll primary** (Schwab-class when supported); **streamer L2+**; **no email as SoT fallback** (Grill A Q3). Missing conf after day → DAR/Telegram warn + human attach/link workflow |
+| Event shape | **Trade Notification** (née BrokerFillEvent) in CONTEXT + discovery draft |
+| Matching | explicit link → underlying-aware soft match → human pick → orphan; **never symbol-equality alone** (extra-modal) |
+| Human confirm | **Required v1** (real); no silent book-from-notification (Grill A Q2) |
 | Security | OAuth + ~30m access / ~7d refresh re-auth; host secrets; redact accounts in Telegram; raw payload retention |
-| Automation | Ladder L0–L4 in discovery analysis; **L1–L2 only** in scope of this ticket; L3/L4 = separate ADR + component outside DA |
+| Automation | **L1 only** near-term (Grill A Q8); L3+ = separate ADR + broker monolith |
 
 ## Related
 
+- **Master plan (2026-08-05):** [`plans/trade-fulfillment-engine.md`](../../plans/trade-fulfillment-engine.md) — multi-adapter Trade Fulfillment Port, atomic ops + orchestrators, HITL stack-rank, capital APIs, sandbox/contracts; **do not implement L3 until grills**  
 - **Analysis (grill tee):** [`docs/analysis/2026-07-22-winston-fulfillment-ownership-and-broker-intake.md`](../analysis/2026-07-22-winston-fulfillment-ownership-and-broker-intake.md) — fulfillment ownership model + broker intake design; run `/grill-with-docs` against that doc before implementing  
 - **Schwab channel + automation ladder:** [`docs/analysis/2026-07-22-schwab-integration-discovery.md`](../analysis/2026-07-22-schwab-integration-discovery.md) — API vs email research; L0–L4 full automation examination  
 - **Schwab / ToS access landscape (pre-design):** [`docs/analysis/2026-07-22-schwab-thinkorswim-access-landscape.md`](../analysis/2026-07-22-schwab-thinkorswim-access-landscape.md) — capabilities, streamer vs webhook, paperMoney issues, issue register  

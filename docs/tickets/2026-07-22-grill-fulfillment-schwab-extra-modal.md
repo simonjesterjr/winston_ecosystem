@@ -1,6 +1,6 @@
 # Ticket: Grill-with-docs — fulfillment ownership, Schwab intake, extra-modal
 
-**Status:** Proposed  
+**Status:** Done (Grill A completed 2026-08-06)  
 **Priority:** P2  
 **Date:** 2026-07-22  
 **Series:** `adr-009-desk-fulfillment`  
@@ -24,7 +24,8 @@ Run `/grill-with-docs` against:
 1. [`docs/analysis/2026-07-22-winston-fulfillment-ownership-and-broker-intake.md`](../analysis/2026-07-22-winston-fulfillment-ownership-and-broker-intake.md)  
 2. [`docs/analysis/2026-07-22-schwab-integration-discovery.md`](../analysis/2026-07-22-schwab-integration-discovery.md)  
 3. [`docs/analysis/2026-07-22-schwab-thinkorswim-access-landscape.md`](../analysis/2026-07-22-schwab-thinkorswim-access-landscape.md) (§2a extra-modal)  
-4. Glossary terms already drafted in `CONTEXT.md` (Extra-Modal Fulfillment, packaging)
+4. Glossary terms already drafted in `CONTEXT.md` (Extra-Modal Fulfillment, packaging)  
+5. Plan HITL / stack-rank sections: [`plans/trade-fulfillment-engine.md`](../../plans/trade-fulfillment-engine.md) §5 (human pass pyramid A for entry D)
 
 **Lock or revise:**
 
@@ -48,17 +49,32 @@ Update CONTEXT / business-context / ADRs only where grill crystallizes hard deci
 
 ## Acceptance
 
-- [ ] Grill session completed (or explicitly deferred with reason)  
-- [ ] Written decision log for topics above (in analysis decision log and/or session report)  
-- [ ] CONTEXT / BC updated if any draft term or rule changed  
-- [ ] Parent ticket [`2026-07-21-broker-confirmation-email-api-intake.md`](2026-07-21-broker-confirmation-email-api-intake.md) acceptance items marked accepted/revised  
-- [ ] Follow-on implementation tickets filed or linked (L1 only after discovery acceptance)  
+- [x] Grill session completed (or explicitly deferred with reason) — **Grill A 2026-08-06**  
+- [x] Written decision log for topics above — `plans/trade-fulfillment-engine.md` Phase 2 log + CONTEXT  
+- [x] CONTEXT / BC updated if any draft term or rule changed  
+- [ ] Parent ticket [`2026-07-21-broker-confirmation-email-api-intake.md`](2026-07-21-broker-confirmation-email-api-intake.md) acceptance items marked accepted/revised — **partial; email path revised (no email SoT)**  
+- [ ] Follow-on implementation tickets filed or linked (L1 only after discovery acceptance) — **build not authorized until Grill B + L1 tickets**  
+
+### Grill A outcomes (summary)
+
+| Topic | Locked |
+|-------|--------|
+| Single fulfillment + corrective amend | Domain law; shipped code |
+| L1 human confirm | Always (no silent book) |
+| Channel | API poll primary; streamer L2+; **no email SoT**; missing conf → warn + human link |
+| Extra-modal match | No symbol-equality alone |
+| Desk Pass | Third Passed Signal kind; required reason |
+| Capital mid-life | Signal-path truth; link ±$D; exit reconcile |
+| Trade order | Intent-first enters; trade-first stop-outs |
+| Ceiling | L1 only near-term |
+| Object model | Journal + Task v1 |  
 
 ## Related
 
+- **Master plan (2026-08-05):** [`plans/trade-fulfillment-engine.md`](../../plans/trade-fulfillment-engine.md) — this ticket is **Grill A** vehicle; plan also schedules Phase 1 Q&A + Grill B (port/capital/L3)  
 - Session report: [`docs/session-reports/2026-07-22-1332-schwab-integration-landscape.md`](../session-reports/2026-07-22-1332-schwab-integration-landscape.md)  
 - Parent discovery: [`2026-07-21-broker-confirmation-email-api-intake.md`](2026-07-21-broker-confirmation-email-api-intake.md)  
-- Sibling (process): single-fulfillment invariant / post-confirm amend (see analysis cross-links)  
+- Sibling (process): single-fulfillment invariant / post-confirm amend (archived Done)  
 - ADR-009 + `docs/business-context/human-gated-desk-and-fulfillment.md`  
 
 ## Notes

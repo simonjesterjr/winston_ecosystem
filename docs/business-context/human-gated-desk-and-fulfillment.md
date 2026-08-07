@@ -2,7 +2,7 @@
 
 **Type:** Domain workflow  
 **Related ADR:** ADR-009 (boundary), ADR-006 (lifecycle / engagement)  
-**Status:** Accepted via `/grill-with-docs` (2026-07-20)  
+**Status:** Accepted via `/grill-with-docs` (2026-07-20); **extended Grill A 2026-08-06** (Single Fulfillment, Desk Pass, signal-path capital, L1 evidence rules — see CONTEXT + `plans/trade-fulfillment-engine.md`)  
 **Glossary:** `CONTEXT.md` — Human-Gated, Desk Action, Desk Handoff, Desk Workflow, Daily Analysis, Journal, Signal Date, Fill Date, Signal Spine, Booked Capital Spine, Fulfillment, Fulfillment Packaging, Signaled Entry Rule, Unsignaled Exit Allowance, Working Stop, Stop-Out Reconciliation, Passed Signal, Operational Portfolio, Engaged  
 **Companions:** `wv2-operational-portfolio-lifecycle.md`, `daily-analysis-phase1-design.md`, `docs/analysis/2026-07-15-winston-journal-vs-trading-ledger.md`
 
@@ -18,7 +18,7 @@ Define how Winston **signals** become desk work and how humans (or a future **se
 | Layer | Does | Does not |
 |-------|------|----------|
 | **Daily Analysis** | Evaluate **Active** OPs; emit signals; draft **Journals** + tasks; algorithmic **Passed Signals**; **Desk Handoffs** | Open/close **Positions**; invent broker state |
-| **Desk Action** | Confirm, exit (incl. unsignaled), update stops, amend drafts before confirm | Re-rank expected returns as the default product |
+| **Desk Action** | Confirm, **Corrective Amend** (executed same lot), exit (incl. unsignaled), update stops, amend drafts before confirm | Re-rank expected returns as the default product; second book to “fix price” |
 | **Fulfillment** | Human (or future separate autotrader) realizes signals | Owned end-to-end by DA |
 
 **Execution Mode `real`:** always **Human-Gated**.  
@@ -39,7 +39,7 @@ Confirm is allowed from T evening through the action window; prefill next open w
 | Paper | Mostly theoretical / regime impact |
 | **Active real** | High attention — possible stakeholder or market/clearing error; DAR must flag for correction |
 
-Casual “I chose to skip” is **not** a normal strategy lever. Algorithmic pass (capacity, no valid swap) is different from process miss.
+Casual “I chose to skip” without reason is **not** a normal strategy lever (**process miss**). Algorithmic pass (capacity, no valid swap) is different. Intentional skip of one ranked handoff to act on another **current** handoff is **Desk Pass** (`human_pass`) — required reason + audit; never free-form enter-any-market; capacity never waived (Grill A Q5).
 
 ## Signaled entry vs unsignaled exit
 
@@ -135,6 +135,7 @@ Same seed + fingerprint = one series (no parallel second OP). Different fingerpr
 | Deterministic swap packages in Wv2 DA | **Gap** (WUT lab has evaluators) |
 | Stop-out snapshot + gap warn | **Built** (2026-07-21 — StopOutReconciliation) |
 | Enforce Signaled Entry Rule on book-enter | **Built** (2026-07-21 — force+notes escape hatch) |
+| Single Fulfillment Identity + Corrective Amend (executed) | **Built** (2026-07-22) — **domain law Grill A Q1** |
 | DAR attention for real process misses | **Thin** |
 
 ## Non-goals
