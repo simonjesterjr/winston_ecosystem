@@ -2,8 +2,8 @@
 
 **Type:** Domain workflow  
 **Related ADR:** ADR-009 (boundary), ADR-006 (lifecycle / engagement)  
-**Status:** Accepted via `/grill-with-docs` (2026-07-20); **extended Grill A 2026-08-06** (Single Fulfillment, Desk Pass, signal-path capital, L1 evidence rules — see CONTEXT + `plans/trade-fulfillment-engine.md`)  
-**Glossary:** `CONTEXT.md` — Human-Gated, Desk Action, Desk Handoff, Desk Workflow, Daily Analysis, Journal, Signal Date, Fill Date, Signal Spine, Booked Capital Spine, Fulfillment, Fulfillment Packaging, Signaled Entry Rule, Unsignaled Exit Allowance, Working Stop, Stop-Out Reconciliation, Passed Signal, Operational Portfolio, Engaged  
+**Status:** Accepted via `/grill-with-docs` (2026-07-20); **extended Grill A 2026-08-06**; **Grill B in progress 2026-08-07** (Desk Confirm ≠ Desk Send; L1 evidence first; Broker Gateway)  
+**Glossary:** `CONTEXT.md` — Human-Gated, Desk Action, Desk Confirm, Desk Send, Desk Handoff, Desk Workflow, Daily Analysis, Journal, Signal Date, Fill Date, Signal Spine, Booked Capital Spine, Fulfillment, Trade Notification, Confirmation Intake, Broker Gateway, Winston Broker Evidence Standard, Fulfillment Packaging, Signaled Entry Rule, Unsignaled Exit Allowance, Working Stop, Stop-Out Reconciliation, Passed Signal, Operational Portfolio, Engaged  
 **Companions:** `wv2-operational-portfolio-lifecycle.md`, `daily-analysis-phase1-design.md`, `docs/analysis/2026-07-15-winston-journal-vs-trading-ledger.md`
 
 ## Purpose
@@ -18,7 +18,7 @@ Define how Winston **signals** become desk work and how humans (or a future **se
 | Layer | Does | Does not |
 |-------|------|----------|
 | **Daily Analysis** | Evaluate **Active** OPs; emit signals; draft **Journals** + tasks; algorithmic **Passed Signals**; **Desk Handoffs** | Open/close **Positions**; invent broker state |
-| **Desk Action** | Confirm, **Corrective Amend** (executed same lot), exit (incl. unsignaled), update stops, amend drafts before confirm | Re-rank expected returns as the default product; second book to “fix price” |
+| **Desk Action** | **Desk Confirm** (book only), **Corrective Amend** (executed same lot), exit (incl. unsignaled), update stops, amend drafts before confirm; later **Desk Send** (place only, when `order_write` + ADR-010) | Re-rank expected returns as the default product; second book to “fix price”; overloaded Confirm-that-sends |
 | **Fulfillment** | Human (or future separate autotrader) realizes signals | Owned end-to-end by DA |
 
 **Execution Mode `real`:** always **Human-Gated**.  

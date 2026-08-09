@@ -165,16 +165,24 @@ Position open/close (and free-form desk fills) require an explicit operator desk
 _Avoid_: autotrader (future product), treating draft creation as a fill, silent book-from-email or book-from-API
 
 **Desk Action**:
-An operator-facing verb that may change lots or amend a draft: confirm **Journal**, **Corrective Amend** of an executed fill, book ad-hoc trade, exit, stop update (and kin). Surfaces: desk form, ops shell, MCP/Telegram. Confirm for the EOD path is expected by **Fill Date** (next session after **Signal Date**); unconfirmed drafts become **Passed Signals** and remain visible as attention items (especially on **Active** **real** OPs).
-_Avoid_: Daily Analysis (proposes only), task alone (the reminder; Desk Action is the mutation), treating casual ignore as normal strategy
+An operator-facing verb that may change lots, amend a draft, or (later) place a broker order: **Desk Confirm**, **Corrective Amend**, book ad-hoc trade, exit, stop update, and (when L3 is authorized) **Desk Send**. Surfaces: desk form, ops shell, MCP/Telegram. Confirm for the EOD path is expected by **Fill Date** (next session after **Signal Date**); unconfirmed drafts become **Passed Signals** and remain visible as attention items (especially on **Active** **real** OPs).
+_Avoid_: Daily Analysis (proposes only), task alone (the reminder; Desk Action is the mutation), treating casual ignore as normal strategy, conflating Confirm with Send
+
+**Desk Confirm**:
+Book on the **Booked Capital Spine** for a **Single Fulfillment Identity** (draft → executed **Journal** / open or closed lot). Human already has a fill story (traded outside Winston, accepted a prefilled **Trade Notification**, or paper path). Does **not** place a broker order. Near-term only path when adapter bindings lack `order_write`.
+_Avoid_: “confirm” meaning place-order, silent book-from-API, treating Confirm as Send under a write-capable adapter
+
+**Desk Send**:
+Explicit operator (or later policy) instruction to place an **Order Intent** via a write-capable fulfillment adapter (`order_write`). Does **not** by itself open a **Position**; booking still requires **Desk Confirm** (or a later explicit accept-fill policy under ADR-010). Verb stays distinct from Confirm in speech, MCP, and DAR. Not shipped until L3; absent/disabled on Manual and L1-only bindings.
+_Avoid_: overloaded Confirm-that-sends, DA place_order, auto-send pyramids without click (v1)
 
 **Desk Handoff**:
 A deterministic next-step package from **Daily Analysis** / **DAR** for one **Operational Portfolio**: what to do, why (signal + capacity/swap reason), and a deep link into a **Desk Workflow** (Wv2 page) plus Telegram/shell phrases. Multi-leg packages (e.g. exit ABC then enter XYZ) are **one logical handoff** with **N linked Journals/tasks**, ordered; confirming out of order **warns** (and may refuse enter while capacity still full). Human may ignore links; ignoring past the action window is a **process miss**, not a strategy choice. Algorithm ranks contests; human supplies confirmation and **Fulfillment** details Winston may not fully know.
 _Avoid_: open-ended alternative menus as the default, next step without a confirm path, silent out-of-order multi-leg confirms
 
 **Desk Workflow**:
-The guided Wv2 UI path that walks a human through one **Desk Handoff** / **Journal** (review signal, next-open prefill, units/price/stop, packaging, confirm). Target product surface; today only partially supported (`/operations/desk` prefill, ops panels, Telegram/MCP phrases) — not a full journal workflow app yet.
-_Avoid_: assuming Telegram alone is the complete desk, dead `resources :journals` without controller
+The guided Wv2 UI path that walks a human through one **Desk Handoff** / **Journal** (review signal, next-open prefill, units/price/stop, packaging, **Desk Confirm**; optional evidence match; later optional **Desk Send** when `order_write` is live). Target product surface; today only partially supported (`/operations/desk` prefill, ops panels, Telegram/MCP phrases) — not a full journal workflow app yet.
+_Avoid_: assuming Telegram alone is the complete desk, dead `resources :journals` without controller, one button that means Confirm-or-Send by mode alone
 
 **Fulfillment**:
 How humans (or a future separate automation component) actually realize a Winston signal in the market — broker fills, LEAPs, partial size, delays, clearing failures. **Winston** is the **signal and prioritization system** (trend/methodology evaluation, deterministic desk work queue) — analogous to a warehouse management system prioritizing picks for human workers — not the assumption of complete fulfillment truth. Journals bridge signal → reported fill; they do not claim OMS completeness.
@@ -183,6 +191,18 @@ _Avoid_: equating Winston with a broker OMS, assuming DA state equals market sta
 **Trade Notification**:
 Normalized inbound evidence of a broker trade or order outcome (fill, partial, cancel, reject) from an adapter poll or later stream — not Signal Spine truth. Used to prefill, match, or surface mismatch against a **Single Fulfillment Identity**; booking still requires **Human-Gated** **Desk Action**. Missing expected notifications after the action window is **attention** (DAR / Telegram), resolved via human attach/link workflow — not silent invent and not email-as-primary SoT.
 _Avoid_: treating broker email alone as capital SoT, auto-executing Positions from notifications, equating notification with DA signal
+
+**Confirmation Intake**:
+L1 product workflow: authenticate adapter → poll/read order and transaction evidence → normalize/store **Trade Notifications** → match to **Single Fulfillment Identity** → prefill or attention → human **Desk Confirm** or **Corrective Amend**. First-ship adapter capabilities: `auth` + `txn_read` + `order_read` only (no `order_write`). Later L2 may add `position_read` / `balance_read` as reconciliation **hints**, never capital source of truth. Transport/poll lives in **Broker Gateway**; match/prefill/book stay in Winston v2 (Wv2).
+_Avoid_: naming a capability `order_confirm` (collides with Desk Confirm); silent book-from-intake; treating balances as capital_base
+
+**Broker Gateway**:
+Majestic monolith that owns external fulfillment **transport** and the durable **Winston Broker Evidence Standard**: OAuth/session, adapter registry keys and **CapabilityProfile**, poll/refresh jobs, append-only evidence events (orders/fills/status), optional rebuildable snapshots, raw payload refs, and a **minimal ops UI** (bindings, registry, auth health, ingest logs). Same composition pattern as **data_manager (DM)**: API commands to do work, files as evidence truth, PG as registry/cursors/status. May store broker activity **Winston never initiated** (orphans) for later match. Does **not** own journals, stack-rank, capital_base, or **Desk Confirm** / **Desk Send** policy. **Manual** fulfillment stays zero-IO inside Wv2. Secrets isolated from the Wv2 process.
+_Avoid_: putting broker OAuth in Wv2 as primary home; gateway as desk/OMS; equating gateway with Cromwell; shared PG with Wv2; balances as capital_base
+
+**Winston Broker Evidence Standard**:
+Versioned, human-readable file contract owned by **Broker Gateway** for broker order/fill lifecycle truth (primary: append-only JSONL events with idempotency keys; optional per-entity snapshots rebuildable from the log). Consumers (Wv2 **Confirmation Intake**) read via API and/or mount; they do not write the evidence store. Orthogonal to **Winston EOD Standard** (market bars).
+_Avoid_: proprietary binary blobs; mutable status-only files with no event log; requiring a Winston journal id before an event may be stored
 
 **Single Fulfillment Identity**:
 For one signal leg (draft **Journal** + task / package leg) there is exactly one fulfillment work item humans open for that work. Confirm ends the **draft** phase, not the identity of the row. Later price/qty/stop corrections use **Corrective Amend** on that same journal/lot — never a silent second open against the same signal.
@@ -205,8 +225,8 @@ Attachment of real-world packaging or broker evidence to a signal / **Single Ful
 _Avoid_: silent capital rewrite from packaging; unlinked substitute trades
 
 **Exit Capital Reconcile**:
-At position exit (or explicit reconcile gate), compare **Signal-Path Operational Lot** economics to linked fulfillments and apply a **CashEvent** adjustment ±$D so household cash honesty lands after the trade lifecycle. Human-Gated propose/confirm for v1.
-_Avoid_: continuous LEAP mark-to-market as capital_base every bar (unless later product), using CashEvent as a second book
+At position exit (or explicit reconcile gate), compare **Signal-Path Operational Lot** economics to linked fulfillments and apply a **CashEvent** adjustment so household cash honesty lands on **actual fulfillment profit**, not the signal-path proxy. Human-Gated propose/confirm for v1. Worked shape: signal long 210 IBM @ 287.33 (notional −$60,339.30) vs 2 LEAP calls @ $2,700 ($5,400 out); exit IBM $300 → signal-path profit ~+$2,661, LEAPs sold @ $3,400 ($6,800 in) → actual profit +$1,400; CashEvent shifts capital from the ~+$2,661 path result to +$1,400 (delta ≈ −$1,261). Mid-life only **indicates** the packaging gap; application waits for this gate.
+_Avoid_: continuous LEAP mark-to-market as capital_base every bar (unless later product), using CashEvent as a second book, leaving capital on signal-path profit after exit when packaging differed
 
 **Booked Capital Spine**:
 What the OP did via executed **Journals** / **Positions** / **CashEvents** for live series equity and post-reconcile cash honesty. Mid-life may follow **Signal-Path Operational Lot** economics; after **Exit Capital Reconcile**, capital_base reflects applied ±$D vs actual fulfillments. Diverges from pure **Signal Spine** narrative when packaging, fill price, or process miss differs.
@@ -290,6 +310,7 @@ _Avoid_: daily analysis alone (the job; DAR is the report), flat “all Active�
 - A **Portfolio** applies one **TradingStrategy** (loose coupling — strategy is a separate entity)
 - **DM** produces **Winston EOD Standard** parquet per **Market**; **Consumers** (WUT, Wv2) read it
 - **DM** maintains **DataCoverage** metadata that reflects parquet reality after **Reconciliation**
+- **Broker Gateway** owns adapter transport and the **Winston Broker Evidence Standard** (files + API); **Wv2** owns **Confirmation Intake** match/prefill, **Desk Confirm** / later **Desk Send**, journals, and capital — same split pattern as **DM** (parquet + API) vs consumers
 - **WUT** runs **Portfolio Signal Optimization** → **Optimization Candidate** → validation backtest → fingerprinted **TradingStrategy** + **TradingStrategy Selection** → (viability gates) → **Trade-Ready Portfolio** JSON *or* **Observation Portfolio** JSON → **Wv2** imports an **Operational Portfolio** + **CashEvent** + linked **TradingStrategy**
 - Handoff JSON may carry fingerprint / WUT TS id as **provenance**. When fingerprint is present, **Operational Portfolio** and **TradingStrategy** display names always include a **short fingerprint suffix** (e.g. `Portfolio Red · a1b2c3d4`) — including the first import. **Lineage match key** is the full fingerprint (stored on both OP and TS), not reconstructed display name. Import resolution: (1) same fingerprint → update that pair; (2) no fingerprint match, bare seed-name OP exists **and** Books symbols match → **adopt** (attach fingerprint, rename to suffix form, update); (3) else → **auto-fork** new OP+TS. Legacy JSON with no fingerprint may still update by bare seed name
 - Performance of an **Operational Portfolio** under **Paper Trading** is a **regime heuristic** for that **TradingStrategy** fingerprint, not a property of the lab seed name alone
@@ -425,3 +446,10 @@ _Avoid_: daily analysis alone (the job; DAR is the report), flat “all Active�
 - Stops — **A**: signal/default ATR + **Working Stop** on Position; human update allowed; external stop-out via **Stop-Out Reconciliation** (required position link + snapshot; warn on gap). Order lifecycle still deferred.
 - Stop-Out binding — **A**: required lot link + working_stop snapshot + warn on gap (not hard-block by default).
 - Enter vs exit asymmetry — entries require methodology-originated Winston **signal** (DA draft / package leg); exits may be unsignaled (stop/error/downstream miss) with reason + linkage. Free-form enter deprecated as normal ops (force+audit only).
+- **Confirm vs Send** — resolved (Grill B Q1): **Desk Confirm** = book only; **Desk Send** = place **Order Intent** only (no auto-open Position). Both verbs when binding has `order_write`; near-term ship is Confirm + L1 evidence (read/match/prefill) only — no `order_write` until ADR-010.
+- **L1 first-ship capabilities** — resolved (Grill B Q2): **Confirmation Intake** = `auth` + `txn_read` + `order_read`; grow to `position_read` + `balance_read` at L2 as hints only; no `order_write` until ADR-010.
+- **Adapter home** — resolved (Grill B Q3 / H22): new monolith **Broker Gateway** (`broker_gateway`); transport + registry + minimal UI + evidence store; Manual in Wv2; match/book in Wv2.
+- **BG durability & coordination** — resolved (Grill B Q4): DM-shaped — API commands (refresh/poll) + append-only JSONL **Winston Broker Evidence Standard** (idempotent events; optional rebuildable snapshots; PG metadata); orphans first-class; Wv2 pulls by cursor; no shared PG; not capital SoT.
+- **Exit Capital Reconcile gate** — resolved (Grill B Q5): **A** — indicated ±$D on **Fulfillment Link** mid-life only; apply CashEvent on exit/explicit reconcile so capital lands on actual fulfillment profit (e.g. signal ~+$2,661 → LEAP actual +$1,400).
+- **ADR-010 scope** — resolved (Grill B Q6): ADR-010 = L3 **Desk Send** / `order_write` law only; L1 Confirmation Intake does not wait on it. Optional thin ADR for Broker Gateway charter only if formal accept is needed before code.
+- **L1 test strategy** — resolved (Grill B Q7): contract + fixtures first; live read after green; do not assume Schwab paperMoney is API sandbox — re-verify vendor sandbox in a spike.

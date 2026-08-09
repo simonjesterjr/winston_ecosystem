@@ -1,6 +1,6 @@
 # Ticket: Signal-path operational truth + fulfillment link + exit capital reconcile
 
-**Status:** Proposed  
+**Status:** Domain locked (Grill B Q5 2026-08-07) — implement still open  
 **Priority:** P1  
 **Date:** 2026-08-05  
 **Series:** `trade-fulfillment-engine`  
@@ -50,7 +50,18 @@ Signal S (e.g. long 210 IBM, risk %, stops in signal units)
 
 > Fulfillment A is for signal S, indicating a capital adjustment of ±$D.
 
-Operator (or later L1 match) attaches A→S; system records the **indicated** delta; **application** of delta to `capital_base` is gated (prefer **on exit** / explicit reconcile — grill to confirm mid-life optional apply).
+Operator (or later L1 match) attaches A→S; system records the **indicated** delta; **application** of delta to `capital_base` is gated: **only on exit or explicit reconcile** (Grill B Q5 — option A). No mid-life apply-now as default.
+
+### Worked example (operator, Grill B Q5)
+
+| Spine | Entry | Exit | Profit |
+|-------|-------|------|---------|
+| **Signal-path** | Long 210 IBM @ 287.33 (notional −$60,339.30) | IBM @ $300 (notional $63,000) | ~**+$2,661** |
+| **Fulfillment** | 2 LEAP calls @ $2,700 each (**$5,400** out) | Sold @ $3,400 each (**$6,800** in) | **+$1,400** |
+
+- Mid-life: DA/risk/capacity track **210 IBM** path; **Fulfillment Link** records LEAPs + indicated packaging gap (story cash −$60,339.30 vs actual −$5,400) without rewriting capital_base to LEAP MTM.  
+- On exit: signal-path would show ~+$2,661; **Exit Capital Reconcile** applies CashEvent so household capital reflects **+$1,400** actual LEAP economics (adjustment ≈ **−$1,261** vs signal-path P&amp;L).  
+- Numbers are illustrative rounding; implementation uses exact fill/premium fields.
 
 ### What does **not** change
 

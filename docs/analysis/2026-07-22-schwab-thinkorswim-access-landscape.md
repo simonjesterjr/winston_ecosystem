@@ -364,6 +364,8 @@ Schwab (and most brokers) send **trade confirmations**, order alerts, and statem
 
 ### 7.3 paperMoney / sandbox issues (critical for design)
 
+**Re-verify status (Grill B Q7, 2026-08-07):** Do not treat this section as final. Ticket [`2026-08-07-schwab-trader-api-sandbox-spike.md`](../tickets/2026-08-07-schwab-trader-api-sandbox-spike.md) owns a portal + support spike. Community/support reports (2025–2026) still say: **paperMoney is UI-only**; **Trader API is live-account oriented**; a **sandbox** page may exist but is often **unavailable or non-functional for retail Individual** apps (commercial-only or “in development”). Secondary blogs claim synthetic sandbox URLs — **not SoT** until spike.
+
 | Environment | Can Winston/your bot place orders? | Notes |
 |-------------|-------------------------------------|-------|
 | **thinkorswim paperMoney** | Via UI (and limited platform features) | **Not** the same as API paper endpoint in community reports / Schwab support answers |

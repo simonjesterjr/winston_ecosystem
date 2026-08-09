@@ -27,6 +27,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P1 | Proposed | [`2026-08-07-schwab-trader-api-sandbox-spike.md`](2026-08-07-schwab-trader-api-sandbox-spike.md) | Ticket: Schwab Trader API sandbox / integration-test spike |
 | P2 | In progress | [`2026-08-04-stack-arr-mer-risk-scale-chart.md`](2026-08-04-stack-arr-mer-risk-scale-chart.md) | Ticket: Stack ARR + MER on trade timeline; risk-scale path chart |
 | P3 | Proposed | [`2026-08-03-portfolio-color-edit-ui.md`](2026-08-03-portfolio-color-edit-ui.md) | Ticket: Portfolio color edit UI (WUT + Wv2) |
 | P3 | Proposed | [`2026-08-03-align-portfolio-color-fallback.md`](2026-08-03-align-portfolio-color-fallback.md) | Ticket: Align WUT/Wv2 PortfolioColor fallback + from_name |
