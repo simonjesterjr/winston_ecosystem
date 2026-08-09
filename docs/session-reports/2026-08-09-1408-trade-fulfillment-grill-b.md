@@ -51,7 +51,7 @@
 
 ### Commits
 
-- `3be17ba` — docs: Grill B locks for trade fulfillment (Q1–Q7)
+- `5e08402` — docs: Grill B locks for trade fulfillment (Q1–Q7)
 
 ### Branch / PR state at sign-off
 
