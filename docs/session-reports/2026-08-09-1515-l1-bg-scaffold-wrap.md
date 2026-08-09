@@ -46,7 +46,8 @@
 
 ### Commits
 
-- See git log after wrap for SHAs on `winston_ecosystem` and `broker_grateway`.
+- ecosystem `2ae1b19` — docs: authorize L1 Confirmation Intake and Broker Gateway monolith
+- broker_gateway `4b87033` (merge) over `745ecf9` scaffold — pushed to `simonjesterjr/broker_grateway`
 
 ### Branch / PR state at sign-off
 
