@@ -25,6 +25,17 @@ Before planning, designing, or coding any cross-monolith change, read:
 | Cromwell runtime bot skills | `ai/skills/` |
 | Developer session skills | `.grok/skills/` |
 
+## Sibling majestic monoliths (governed by plans here; code in their repos)
+
+| Repo / path | Role | Host port |
+|-------------|------|-----------|
+| `data_manager/` | DM — EODHD → parquet, reconcile | 3001 |
+| `winston_unit_test/` | WUT — lab / backtest | 3000 |
+| `winston_v2/` | Wv2 — ops, journals, desk, MCP | 3002 |
+| `broker_gateway/` → GitHub **`simonjesterjr/broker_grateway`** | BG — broker transport, evidence JSONL, L1 adapters | 3003 |
+
+BG owns transport + Winston Broker Evidence Standard; **plans, interfaces, ADRs, and L1 tickets live in this ecosystem repo**. Workflow skills also ship **inside** each monolith (`.grok/skills/`) for durability when other devs clone only that repo.
+
 ## Sibling repos (not governed here)
 
 - **`eta-service-2.0/`** — Denali ETA calculation service (.NET). Harvest patterns only; do not merge ADRs or tickets into ecosystem unless a decision truly spans Winston + ETA.

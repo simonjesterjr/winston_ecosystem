@@ -1,12 +1,13 @@
 # Ticket: Broker confirmation intake (email / API) for desk fulfillment
 
-**Status:** Proposed  
+**Status:** Superseded by L1 implement tickets (discovery closed via Grill A/B)  
 **Priority:** P2  
 **Date:** 2026-07-21  
-**Series:** `adr-009-desk-fulfillment` (follow-on; not #1–#6 core)  
+**Series:** `adr-009-desk-fulfillment` → superseded by `trade-fulfillment-engine` L1  
 **Domain:** ADR-009 Fulfillment, Booked Capital Spine, Desk Workflow  
-**Glossary:** Desk Action, Desk Handoff, Desk Workflow, Signal Spine, Booked Capital Spine, Fulfillment, Journal, Working Stop  
-**Monoliths:** primarily **Wv2** (+ optional Cromwell/agent surface); broker/email plumbing TBD
+**Glossary:** Desk Action, Desk Handoff, Desk Workflow, Signal Spine, Booked Capital Spine, Fulfillment, Journal, Working Stop, Confirmation Intake, Broker Gateway, Trade Notification  
+**Monoliths:** primarily **Wv2** + **broker_gateway** (implementation); discovery was design-only  
+**Superseded by:** [`2026-08-09-l1-confirmation-intake-bg-build.md`](2026-08-09-l1-confirmation-intake-bg-build.md) and child implement tickets (2026-08-09-*)
 
 ## Problem
 
@@ -26,96 +27,86 @@ We want to **figure out** how Winston can **read trade confirmations** (email fi
 DAR next task
   → human opens Desk Workflow / fills form (signal intent)
   → human executes at Schwab (or other broker)
-  → broker sends email confirmation and/or API fill event
+  → broker API poll (primary) produces evidence events
        (symbol, side, qty, price, time, account, order id, …)
-  → Winston ingests confirmation
+  → Broker Gateway stores Winston Broker Evidence Standard (JSONL)
+  → Wv2 Confirmation Intake normalizes Trade Notifications
   → match to open Desk Handoff / draft Journal / Position
   → prefill or verify booked fill; surface mismatch for human confirm
 ```
 
-Human-gated boundary (ADR-009) stays: **Winston does not auto-open Positions from email alone** without an explicit policy decision. Default product intent: **evidence + prefill + match → human still confirms** (or a later explicit auto-book decision).
+Human-gated boundary (ADR-009) stays: **Winston does not auto-open Positions from evidence alone** without an explicit policy decision. Default product intent: **evidence + prefill + match → human still confirms**.
 
-## Discovery scope (this ticket)
+## Discovery scope (this ticket) — COMPLETE
 
-Spike / design work before implementation:
+Spike / design work before implementation (done via analysis + Grill A + Grill B):
 
-1. **Channels**  
-   - Email: IMAP/Gmail API/forwarding mailbox dedicated to confirmations; parse Schwab (and later others).  
-   - API: Schwab (or broker) trade/order history webhook or poll—availability, auth, ToS.  
-   - Prefer dual-path design: same **normalized fill event** whether source is email or API.
+1. **Channels** — API poll primary; streamer L2+; **no email as SoT** (Grill A Q3).  
+2. **Normalized confirmation schema** — Trade Notification / Winston Broker Evidence Standard.  
+3. **Matching rules** — explicit link → underlying-aware soft match → human pick → orphan; never symbol-equality alone.  
+4. **Product boundary** — human Confirm required v1; BG transport + evidence; Wv2 match/prefill/book.  
+5. **Non-goals for discovery** — OMS, autotrader, L3 write without ADR-010 — locked.
 
-2. **Normalized confirmation schema**  
-   - Minimum fields: broker, account id/ref, symbol, side, qty, fill price(s), fill time, order/confirmation id, raw payload ref.  
-   - Partial fills, multi-leg, options/LEAPs, cancellations, corrections.
+## Implementation (authorized 2026-08-09)
 
-3. **Matching rules**  
-   - Match confirmation → open Desk Handoff / draft journal / OP / position (fingerprint, symbol, side, size band, signal/fill window).  
-   - Ambiguous / multi-match / no-match behavior (queue for human, never silent wrong book).  
-   - Unsignaled exits (stop-out, discretionary) still allowed with reason + lot link (existing ADR-009).
+**Do not implement under this discovery ticket.** Follow the L1 epic and children:
 
-4. **Product boundary**  
-   - Confirm: prefill Desk Workflow from matched confirmation vs verify after human entry vs both.  
-   - Never treat broker email as Signal Spine; only **Fulfillment / Booked Capital** evidence.  
-   - Privacy, credentials, and where secrets live (host vs container vs agent).
-
-5. **Non-goals for discovery**  
-   - Full OMS / resting order management.  
-   - Autotrader or DA auto-fill.  
-   - Multi-broker production support on day one (Schwab as first exemplar is fine).  
-   - Replacing human desk confirm without a separate ADR decision.
-
-## Implementation (later; not required to close discovery)
-
-Only after discovery + acceptance of approach:
-
-- Ingest pipeline + durable store for raw + normalized confirmations.  
-- Matcher + Desk Workflow / confirm-path integration.  
-- DAR / attention for unmatched or mismatched confirmations.  
-- Optional Cromwell skill: “attach confirmation” / “review unmatched fills.”  
-- Specs + ops runbook (mailbox setup, rotate credentials).
+| Area | Ticket |
+|------|--------|
+| **Epic** | [`2026-08-09-l1-confirmation-intake-bg-build.md`](2026-08-09-l1-confirmation-intake-bg-build.md) |
+| Evidence interface | [`2026-08-09-winston-broker-evidence-standard-interface.md`](2026-08-09-winston-broker-evidence-standard-interface.md) |
+| BG scaffold | [`2026-08-09-broker-gateway-rails-scaffold.md`](2026-08-09-broker-gateway-rails-scaffold.md) |
+| Registry / CapabilityProfile | [`2026-08-09-bg-adapter-registry-and-capability-profile.md`](2026-08-09-bg-adapter-registry-and-capability-profile.md) |
+| Dummy/sim adapter | [`2026-08-09-bg-dummy-sim-adapter.md`](2026-08-09-bg-dummy-sim-adapter.md) |
+| Schwab L1 read | [`2026-08-09-bg-schwab-read-adapter-l1.md`](2026-08-09-bg-schwab-read-adapter-l1.md) |
+| Evidence store | [`2026-08-09-bg-evidence-store-jsonl-and-cursors.md`](2026-08-09-bg-evidence-store-jsonl-and-cursors.md) |
+| BG internal API | [`2026-08-09-bg-internal-api-refresh-events.md`](2026-08-09-bg-internal-api-refresh-events.md) |
+| Wv2 client + cursor | [`2026-08-09-wv2-bg-client-and-event-cursor.md`](2026-08-09-wv2-bg-client-and-event-cursor.md) |
+| TradeNotification store | [`2026-08-09-wv2-trade-notification-store-and-normalize.md`](2026-08-09-wv2-trade-notification-store-and-normalize.md) |
+| Match + prefill | [`2026-08-09-wv2-match-prefill-confirmation-intake.md`](2026-08-09-wv2-match-prefill-confirmation-intake.md) |
+| Desk HITL UI | [`2026-08-09-wv2-desk-workflow-hitl-evidence-ui.md`](2026-08-09-wv2-desk-workflow-hitl-evidence-ui.md) |
+| Integration specs | [`2026-08-09-wv2-confirmation-intake-integration-specs.md`](2026-08-09-wv2-confirmation-intake-integration-specs.md) |
+| Contract fixtures | [`2026-08-09-l1-contract-fixtures-and-test-harness.md`](2026-08-09-l1-contract-fixtures-and-test-harness.md) |
+| Schwab sandbox spike | [`2026-08-07-schwab-trader-api-sandbox-spike.md`](2026-08-07-schwab-trader-api-sandbox-spike.md) |
 
 ## Acceptance (discovery ticket)
 
-- [ ] Written recommendation: email vs API vs both for v1 (with constraints)  
-- [ ] Draft normalized confirmation event shape (fields + examples from real Schwab emails if available)  
-- [ ] Matching algorithm sketch + failure modes (ambiguous / orphan / late)  
-- [ ] Explicit decision: human confirm still required vs optional auto-book (ADR-009 impact)  
-- [ ] Security note: mailbox/API secrets, PII, retention  
-- [ ] Follow-on implementation ticket(s) filed or this ticket re-scoped with build acceptance  
-- [ ] **(Expanded)** Automation ladder examined (L0–L4): read intake vs place-order vs autotrader component — **no implement**; grill + ADR gate for any write path  
+Discovery acceptance satisfied via Grill A (2026-08-06) + Grill B Q1–Q7 (2026-08-07–09). **Not archived** so history and links remain in the active index until L1 epic ships or ops prefer archive hygiene later.
 
-### Draft answers from research (pending grill lock-in)
+- [x] Written recommendation: email vs API vs both for v1 (with constraints) — **API poll primary; no email SoT** (Grill A Q3)  
+- [x] Draft normalized confirmation event shape — **Trade Notification** + **Winston Broker Evidence Standard** (CONTEXT + Grill B Q4); full interface file is implement ticket  
+- [x] Matching algorithm sketch + failure modes (ambiguous / orphan / late) — Grill A extra-modal + plan atomics; Q9 detail deferred post-build  
+- [x] Explicit decision: human confirm still required vs optional auto-book — **required v1** (Grill A Q2)  
+- [x] Security note: mailbox/API secrets, PII, retention — OAuth/host secrets in BG; redact accounts; analysis docs  
+- [x] Follow-on implementation ticket(s) filed — **2026-08-09 L1 epic + children**  
+- [x] **(Expanded)** Automation ladder examined (L0–L4): L1 only near-term; L3 = ADR-010; no implement of write path  
 
-Source: [`docs/analysis/2026-07-22-schwab-integration-discovery.md`](../analysis/2026-07-22-schwab-integration-discovery.md) (2026-07-22).
+### Locked answers (Grill A/B)
 
-| Item | Draft recommendation |
-|------|----------------------|
-| Channel v1 | **API poll primary** (Schwab-class when supported); **streamer L2+**; **no email as SoT fallback** (Grill A Q3). Missing conf after day → DAR/Telegram warn + human attach/link workflow |
-| Event shape | **Trade Notification** (née BrokerFillEvent) in CONTEXT + discovery draft |
-| Matching | explicit link → underlying-aware soft match → human pick → orphan; **never symbol-equality alone** (extra-modal) |
-| Human confirm | **Required v1** (real); no silent book-from-notification (Grill A Q2) |
-| Security | OAuth + ~30m access / ~7d refresh re-auth; host secrets; redact accounts in Telegram; raw payload retention |
-| Automation | **L1 only** near-term (Grill A Q8); L3+ = separate ADR + broker monolith |
+| Item | Locked recommendation |
+|------|------------------------|
+| Channel v1 | **API poll primary**; streamer L2+; **no email as SoT**; missing conf → DAR/Telegram warn + human attach/link |
+| Event shape | **Trade Notification** face; durable **Winston Broker Evidence Standard** (JSONL) in **Broker Gateway** |
+| Matching | explicit link → underlying-aware soft match → human pick → orphan; **never symbol-equality alone** |
+| Human confirm | **Required v1** (real); no silent book-from-notification |
+| Ownership | BG = transport + evidence; Wv2 = match/prefill/book |
+| L1 capabilities | `auth` + `txn_read` + `order_read` only |
+| Security | OAuth + re-auth ops; secrets in BG not Wv2; redact accounts in Telegram |
+| Automation | **L1 only** near-term; L3+ = ADR-010 |
 
 ## Related
 
-- **Master plan (2026-08-05):** [`plans/trade-fulfillment-engine.md`](../../plans/trade-fulfillment-engine.md) — multi-adapter Trade Fulfillment Port, atomic ops + orchestrators, HITL stack-rank, capital APIs, sandbox/contracts; **do not implement L3 until grills**  
-- **Analysis (grill tee):** [`docs/analysis/2026-07-22-winston-fulfillment-ownership-and-broker-intake.md`](../analysis/2026-07-22-winston-fulfillment-ownership-and-broker-intake.md) — fulfillment ownership model + broker intake design; run `/grill-with-docs` against that doc before implementing  
-- **Schwab channel + automation ladder:** [`docs/analysis/2026-07-22-schwab-integration-discovery.md`](../analysis/2026-07-22-schwab-integration-discovery.md) — API vs email research; L0–L4 full automation examination  
-- **Schwab / ToS access landscape (pre-design):** [`docs/analysis/2026-07-22-schwab-thinkorswim-access-landscape.md`](../analysis/2026-07-22-schwab-thinkorswim-access-landscape.md) — capabilities, streamer vs webhook, paperMoney issues, issue register  
+- **Master plan:** [`plans/trade-fulfillment-engine.md`](../../plans/trade-fulfillment-engine.md)  
+- **L1 epic:** [`2026-08-09-l1-confirmation-intake-bg-build.md`](2026-08-09-l1-confirmation-intake-bg-build.md)  
+- **Grill A:** [`2026-07-22-grill-fulfillment-schwab-extra-modal.md`](2026-07-22-grill-fulfillment-schwab-extra-modal.md) — Done  
+- **Grill B session:** [`docs/session-reports/2026-08-09-1408-trade-fulfillment-grill-b.md`](../session-reports/2026-08-09-1408-trade-fulfillment-grill-b.md)  
+- **Analysis:** [`docs/analysis/2026-07-22-winston-fulfillment-ownership-and-broker-intake.md`](../analysis/2026-07-22-winston-fulfillment-ownership-and-broker-intake.md)  
+- **Schwab discovery:** [`docs/analysis/2026-07-22-schwab-integration-discovery.md`](../analysis/2026-07-22-schwab-integration-discovery.md)  
 - ADR-009 — Human-gated desk and fulfillment boundary  
-- `docs/business-context/human-gated-desk-and-fulfillment.md` — dual spines, Desk Workflow  
-- ADR-006 — OP lifecycle / real capital series  
-- Series tickets #1–#6 (`docs/tickets/2026-07-20-*` desk fulfillment)  
-- `docs/tickets/2026-07-15-journal-ledger-order-vs-fill-deferred.md` — order vs fill deferred  
-- `docs/tickets/2026-07-09-capital-activation-mcp-telegram.md` — real capital path  
-- Stop-Out Reconciliation (shipped) — external fill truth adjacent problem  
+- `docs/business-context/human-gated-desk-and-fulfillment.md`  
 
-## Notes / open questions
+## Notes / open questions (carry to implement)
 
-- Is the human expected to confirm **in Winston first** then trade, or **trade first** then Winston books from confirmation? Both modes may need support; product default should be explicit. **Discovery lean:** prefer Winston draft/intent first for signaled enters; reverse path required for stop-outs / unsignaled.  
-- Schwab email formats change; parser brittleness argues for API if available. **Research: API preferred.**  
-- **Extra-Modal Fulfillment:** signal stock/commodity Market may be fulfilled via LEAPs, option structures, futures, CLETFs, etc. Confirmations must attach to **signal identity**, not assume broker symbol == Book symbol. DA stays on signal Market; cash/returns on packaging. See landscape §2a + `CONTEXT.md`.  
-- Options packaging (signal stock size vs LEAP contracts) already dual-spine—confirmations must not collapse spines.  
-- Schwab retail API: no reliable fill webhook → **poll** model; access token ~30m, refresh ~7d → ops product, not fire-and-forget.  
-- Full order placement / autotrader: examine only until L3/L4 ADR; must not live inside Daily Analysis (ADR-009).  
+- Binding model Q8 and match detail Q9 deferred post-build — see L1 epic.  
+- Paper → dummy BG vs Manual zero-IO only — **OPEN** on dummy/sim ticket.  
+- Schwab sandbox availability — spike ticket.  

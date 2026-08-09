@@ -1,6 +1,6 @@
 # Plan: Configurable Trade Fulfillment Engine (Wv2)
 
-**Status:** Draft — **Phase 1 + Grill A done**; **Grill B (Phase 3) largely locked 2026-08-07–09** (Q1–Q7); Q8/Q9 deferred until after build phases — **L1 implement authorized by design locks only when tickets say go; still no L3**  
+**Status:** Draft — **Phase 1 + Grill A done**; **Grill B (Phase 3) largely locked 2026-08-07–09** (Q1–Q7); Q8/Q9 deferred until after build phases — **L1 implement tickets filed 2026-08-09 (implementation authorized); still no L3**  
 **Date:** 2026-08-05 (Phase 1–2 through 2026-08-06; Grill B Q1–Q7 through 2026-08-09)  
 **Monoliths:** primarily **Wv2**; optional host-side broker worker; Cromwell/MCP surfaces  
 **Builds on:** ADR-009, ADR-006, Schwab discovery (2026-07-22), fulfillment ownership analysis  
@@ -542,7 +542,8 @@ Operator-prose Q&A complete. Full answers in **§13 Phase 1 decision log**. Ques
 **Grill B log (in progress):**
 - **Q1 (locked):** Confirm ≠ Send (A+C). **Desk Confirm** = book only; **Desk Send** = place OrderIntent only (no auto-open Position). Both verbs when `order_write` is live; **near-term ship = Confirm + L1 evidence only** (no `order_write` until ADR-010).
 - **Q2 (locked):** First-ship **CapabilityProfile** = **B** (`auth` + `txn_read` + `order_read`); grow toward **C** (`position_read` + `balance_read`) at L2 as reconcile hints only. Product workflow name: **Confirmation Intake** (not a capability `order_confirm`).
-- **Q3 (locked):** Option **A** — monolith name **`broker_gateway`** (**Broker Gateway**). Owns: OAuth, registry keys + CapabilityProfile, poll, evidence store, **minimal ops UI** (registry, bindings, logs, auth health). Does **not** own desk/journals/capital. Manual stays zero-IO in Wv2. Wv2 matches/prefills/books. Compose + internal API; secrets isolated.
+- **Q3 (locked):** Option **A** — monolith name **`broker_gateway`** (**Broker Gateway**). Owns: OAuth, registry keys + CapabilityProfile, poll, evidence store, **minimal ops UI** (registry, bindings, logs, auth health). Does **not** own desk/journals/capital. Wv2 matches/prefills/books. Compose + internal API; secrets isolated.  
+  - **Paper path (locked 2026-08-09 operator):** default paper binds **`dummy_sim`** in BG so Confirmation Intake is always exercised (synthetic evidence → Wv2 pull → match/prefill → human Desk Confirm). **`manual`** remains zero-IO escape hatch inside Wv2 only. Never live credentials or `order_write` for paper.
 - **Q4 (locked):** **DM-shaped BG.** API commands to refresh/poll; durable **Winston Broker Evidence Standard** = append-only JSONL events (idempotency keys) + optional rebuildable snapshots + PG registry/cursors; orphans allowed; Wv2 pulls events by cursor (optional “events available” notify later); no shared PG; balances never capital_base. Trade Notification is the in-process/normalized face of evidence events for match.
 - **Q5 (locked):** Capital gate **A** — mid-life signal-path only + indicated ±$D on link; **apply on exit/explicit reconcile** via CashEvent to actual fulfillment profit. Worked example: 210 IBM @ 287.33 (−$60,339.30 story) fulfilled as 2 LEAPs @ $2,700 ($5,400); exit IBM $300 → signal ~+$2,661; LEAPs sold $3,400 ($6,800) → actual +$1,400; CashEvent adjusts path result → +$1,400 (≈ −$1,261).
 - **Q6 (locked):** **ADR-010** = L3 write-path product law only (Confirm≠Send, kill switch, Human-Gated Send, fail closed, G20, no DA place, paper never live write). Does **not** block L1. Optional thin ADR later for **Broker Gateway** charter if accept-status needed before scaffold; else plan + CONTEXT suffice.
@@ -568,7 +569,7 @@ After `docs/analysis/…-ibkr-integration-discovery.md`.
 ### Phase 6 — Port + Manual adapter + capital tests
 
 - **Phase 1 H22:** new **majestic monolith** for broker adapters day one (not only in-Wv2). Grill B must name the monolith, APIs to Wv2, and deploy shape.  
-- Interface + registry + ManualAdapter (Manual may still live in Wv2 as zero-IO path).  
+- Interface + registry + ManualAdapter (zero-IO escape in Wv2) + **dummy_sim** in BG (paper default / L1 vertical slice).  
 - CapitalUpdateOrchestrator / signal-path + exit-reconcile tests (see D10 ticket).  
 - Schema: adapter key + binding on real OPs.  
 - Paper never selects live write binding.
@@ -721,7 +722,9 @@ broker_gateway  (OAuth, adapters, poll jobs, Winston Broker Evidence Standard JS
                  snapshots, minimal ops UI)
         │
         ▼
-Schwab / IBKR transports   (Manual = zero-IO path inside Wv2 only)
+Schwab / IBKR / dummy_sim transports
+        (manual = zero-IO escape hatch inside Wv2 only;
+         paper default = dummy_sim via BG)
 ```
 
 ---
@@ -744,17 +747,20 @@ Schwab / IBKR transports   (Manual = zero-IO path inside Wv2 only)
 
 ### Tickets
 
-- `docs/tickets/2026-07-21-broker-confirmation-email-api-intake.md`  
-- `docs/tickets/2026-07-22-grill-fulfillment-schwab-extra-modal.md`  
+- `docs/tickets/2026-08-09-l1-confirmation-intake-bg-build.md` — **L1 epic (implement authorized)**  
+- `docs/tickets/2026-07-21-broker-confirmation-email-api-intake.md` — discovery **superseded** by L1 epic  
+- `docs/tickets/2026-07-22-grill-fulfillment-schwab-extra-modal.md` — Grill A Done  
+- `docs/tickets/2026-08-07-schwab-trader-api-sandbox-spike.md`  
 - `docs/tickets/archive/2026-07-22-single-fulfillment-invariant-and-post-confirm-amend.md`  
 - `docs/tickets/2026-07-15-journal-ledger-order-vs-fill-deferred.md`  
 - `docs/tickets/2026-07-20-dar-real-process-miss-attention.md`  
 - `docs/tickets/2026-07-20-wv2-capacity-swap-desk-packages.md`  
-- `docs/tickets/2026-08-05-signal-path-truth-fulfillment-link-exit-reconcile.md` (Phase 1 D10)  
-- After grills: L1 implement, ADR-010, broker monolith charter, IBKR discovery, port/registry schema, Passed `reason` field, contract harness
+- `docs/tickets/2026-08-05-signal-path-truth-fulfillment-link-exit-reconcile.md` (Phase 1 D10; related, not L1-blocking)  
+- Later: ADR-010, IBKR discovery, Q8/Q9 resume, Passed `reason` field
 
 ### Interfaces
 
+- `interfaces/winston-broker-evidence-standard.md` — BG-owned JSONL + pull API contract (L1 evidence; v0.1 draft)
 - `interfaces/winston-mcp-tools.md` — confirm, amend, cash_event, packaging
 
 ---
@@ -766,9 +772,10 @@ Schwab / IBKR transports   (Manual = zero-IO path inside Wv2 only)
 3. ~~**Phase 1 key questions**~~ — complete 2026-08-06  
 4. ~~**Grill A (Phase 2)**~~ — complete 2026-08-06; CONTEXT/BC updated  
 5. ~~**Grill B (Phase 3)**~~ — Q1–Q7 locked 2026-08-07–09 (Confirm/Send, L1 caps, `broker_gateway`, DM-shaped evidence JSONL, capital gate A, ADR-010 scope, sandbox A + Schwab spike ticket). **Q8/Q9 (binding model / match detail) held until after build phases.**  
-6. **Build path (when authorized):** L1 tickets + `broker_gateway` scaffold + Winston Broker Evidence Standard interface doc — **no place_order** until ADR-010  
-7. Optional IBKR discovery (not blocking L1); optional thin BG ADR if formal accept needed before scaffold  
-8. Schwab sandbox spike: `docs/tickets/2026-08-07-schwab-trader-api-sandbox-spike.md`
+6. ~~**L1 implement tickets filed**~~ — 2026-08-09 epic [`docs/tickets/2026-08-09-l1-confirmation-intake-bg-build.md`](../docs/tickets/2026-08-09-l1-confirmation-intake-bg-build.md) + full BG/Wv2/contract child set; discovery [`2026-07-21-broker-confirmation-email-api-intake.md`](../docs/tickets/2026-07-21-broker-confirmation-email-api-intake.md) **superseded**. **Implementation authorized.** **No place_order** until ADR-010.  
+7. **Build path (execute tickets):** Evidence Standard interface acceptance → `broker_gateway` scaffold → evidence store + internal API → dummy/sim + Schwab read (fixtures first) → Wv2 client/TradeNotification/match/prefill/desk UI → contract + integration specs. Interface draft + scaffold + compose `:3003` landed 2026-08-09; GC integration status: [`docs/analysis/2026-08-09-l1-bg-build-gc-status.md`](../docs/analysis/2026-08-09-l1-bg-build-gc-status.md) (MG0 paper policy + MG1 API freeze still open before dual implement).  
+8. Optional IBKR discovery (not blocking L1); optional thin BG ADR if formal accept needed before scaffold  
+9. Schwab sandbox spike: `docs/tickets/2026-08-07-schwab-trader-api-sandbox-spike.md` (before confident live Schwab read)
 
 ---
 

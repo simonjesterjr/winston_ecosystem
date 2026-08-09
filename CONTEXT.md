@@ -197,11 +197,17 @@ L1 product workflow: authenticate adapter → poll/read order and transaction ev
 _Avoid_: naming a capability `order_confirm` (collides with Desk Confirm); silent book-from-intake; treating balances as capital_base
 
 **Broker Gateway**:
-Majestic monolith that owns external fulfillment **transport** and the durable **Winston Broker Evidence Standard**: OAuth/session, adapter registry keys and **CapabilityProfile**, poll/refresh jobs, append-only evidence events (orders/fills/status), optional rebuildable snapshots, raw payload refs, and a **minimal ops UI** (bindings, registry, auth health, ingest logs). Same composition pattern as **data_manager (DM)**: API commands to do work, files as evidence truth, PG as registry/cursors/status. May store broker activity **Winston never initiated** (orphans) for later match. Does **not** own journals, stack-rank, capital_base, or **Desk Confirm** / **Desk Send** policy. **Manual** fulfillment stays zero-IO inside Wv2. Secrets isolated from the Wv2 process.
+Majestic monolith that owns external fulfillment **transport** and the durable **Winston Broker Evidence Standard**: OAuth/session, adapter registry keys and **CapabilityProfile**, poll/refresh jobs, append-only evidence events (orders/fills/status), optional rebuildable snapshots, raw payload refs, and a **minimal ops UI** (bindings, registry, auth health, ingest logs). Same composition pattern as **data_manager (DM)**: API commands to do work, files as evidence truth, PG as registry/cursors/status. May store broker activity **Winston never initiated** (orphans) for later match. Does **not** own journals, stack-rank, capital_base, or **Desk Confirm** / **Desk Send** policy. Secrets isolated from the Wv2 process. Repo: `broker_gateway/` (compose `broker_gateway` host **:3003**).
 _Avoid_: putting broker OAuth in Wv2 as primary home; gateway as desk/OMS; equating gateway with Cromwell; shared PG with Wv2; balances as capital_base
 
+**Fulfillment adapter keys (L1):**
+- **`manual`** — zero-IO escape hatch inside **Wv2** only (no BG call); human types fill.  
+- **`dummy_sim`** — **default for paper OPs** and always-on L1 rehearsal: BG synthesizes order/txn evidence; Wv2 still runs Confirmation Intake (match → prefill → human **Desk Confirm**). Never live broker credentials; never `order_write`.  
+- **`schwab_trader_api`** (and later IBKR, …) — live (or fixture) **read** for real OPs; write only under ADR-010.  
+Paper may still choose `manual` explicitly; product default for paper intake practice is **`dummy_sim` through BG**.
+
 **Winston Broker Evidence Standard**:
-Versioned, human-readable file contract owned by **Broker Gateway** for broker order/fill lifecycle truth (primary: append-only JSONL events with idempotency keys; optional per-entity snapshots rebuildable from the log). Consumers (Wv2 **Confirmation Intake**) read via API and/or mount; they do not write the evidence store. Orthogonal to **Winston EOD Standard** (market bars).
+Versioned, human-readable file contract owned by **Broker Gateway** for broker order/fill lifecycle truth (primary: append-only JSONL events with idempotency keys; optional per-entity snapshots rebuildable from the log). Consumers (Wv2 **Confirmation Intake**) read via API and/or mount; they do not write the evidence store. Orthogonal to **Winston EOD Standard** (market bars). Interface: `interfaces/winston-broker-evidence-standard.md`.
 _Avoid_: proprietary binary blobs; mutable status-only files with no event log; requiring a Winston journal id before an event may be stored
 
 **Single Fulfillment Identity**:

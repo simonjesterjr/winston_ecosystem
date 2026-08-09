@@ -52,8 +52,8 @@ Update CONTEXT / business-context / ADRs only where grill crystallizes hard deci
 - [x] Grill session completed (or explicitly deferred with reason) — **Grill A 2026-08-06**  
 - [x] Written decision log for topics above — `plans/trade-fulfillment-engine.md` Phase 2 log + CONTEXT  
 - [x] CONTEXT / BC updated if any draft term or rule changed  
-- [ ] Parent ticket [`2026-07-21-broker-confirmation-email-api-intake.md`](2026-07-21-broker-confirmation-email-api-intake.md) acceptance items marked accepted/revised — **partial; email path revised (no email SoT)**  
-- [ ] Follow-on implementation tickets filed or linked (L1 only after discovery acceptance) — **build not authorized until Grill B + L1 tickets**  
+- [x] Parent ticket [`2026-07-21-broker-confirmation-email-api-intake.md`](2026-07-21-broker-confirmation-email-api-intake.md) acceptance items marked accepted/revised — **superseded 2026-08-09; discovery boxes closed via Grill A/B**  
+- [x] Follow-on implementation tickets filed or linked (L1 only after discovery acceptance) — **[`2026-08-09-l1-confirmation-intake-bg-build.md`](2026-08-09-l1-confirmation-intake-bg-build.md) + children**  
 
 ### Grill A outcomes (summary)
 

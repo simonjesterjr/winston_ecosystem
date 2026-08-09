@@ -27,6 +27,20 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P1 | In progress | [`2026-08-09-l1-confirmation-intake-bg-build.md`](2026-08-09-l1-confirmation-intake-bg-build.md) | Epic: L1 Confirmation Intake + Broker Gateway build |
+| P1 | Ready | [`2026-08-09-winston-broker-evidence-standard-interface.md`](2026-08-09-winston-broker-evidence-standard-interface.md) | Ticket: Winston Broker Evidence Standard — interface doc |
+| P1 | Ready | [`2026-08-09-broker-gateway-rails-scaffold.md`](2026-08-09-broker-gateway-rails-scaffold.md) | Ticket: Broker Gateway — Rails monolith scaffold |
+| P1 | Ready | [`2026-08-09-bg-adapter-registry-and-capability-profile.md`](2026-08-09-bg-adapter-registry-and-capability-profile.md) | Ticket: Broker Gateway — adapter registry + CapabilityProfile |
+| P1 | Ready | [`2026-08-09-bg-dummy-sim-adapter.md`](2026-08-09-bg-dummy-sim-adapter.md) | Ticket: Broker Gateway — dummy/sim adapter (paper path + contracts) |
+| P1 | Ready | [`2026-08-09-bg-evidence-store-jsonl-and-cursors.md`](2026-08-09-bg-evidence-store-jsonl-and-cursors.md) | Ticket: Broker Gateway — evidence store JSONL + cursors |
+| P1 | Ready | [`2026-08-09-bg-internal-api-refresh-events.md`](2026-08-09-bg-internal-api-refresh-events.md) | Ticket: Broker Gateway — internal API refresh + events |
+| P1 | Ready | [`2026-08-09-bg-schwab-read-adapter-l1.md`](2026-08-09-bg-schwab-read-adapter-l1.md) | Ticket: Broker Gateway — Schwab read adapter (L1) |
+| P1 | Ready | [`2026-08-09-wv2-bg-client-and-event-cursor.md`](2026-08-09-wv2-bg-client-and-event-cursor.md) | Ticket: Wv2 — BG client + event cursor |
+| P1 | Ready | [`2026-08-09-wv2-trade-notification-store-and-normalize.md`](2026-08-09-wv2-trade-notification-store-and-normalize.md) | Ticket: Wv2 — TradeNotification store + normalize |
+| P1 | Ready | [`2026-08-09-wv2-match-prefill-confirmation-intake.md`](2026-08-09-wv2-match-prefill-confirmation-intake.md) | Ticket: Wv2 — match + prefill Confirmation Intake |
+| P1 | Ready | [`2026-08-09-wv2-desk-workflow-hitl-evidence-ui.md`](2026-08-09-wv2-desk-workflow-hitl-evidence-ui.md) | Ticket: Wv2 — desk workflow HITL evidence UI |
+| P1 | Ready | [`2026-08-09-wv2-confirmation-intake-integration-specs.md`](2026-08-09-wv2-confirmation-intake-integration-specs.md) | Ticket: Wv2 — Confirmation Intake integration specs |
+| P1 | Ready | [`2026-08-09-l1-contract-fixtures-and-test-harness.md`](2026-08-09-l1-contract-fixtures-and-test-harness.md) | Ticket: L1 contract fixtures + test harness |
 | P1 | Proposed | [`2026-08-07-schwab-trader-api-sandbox-spike.md`](2026-08-07-schwab-trader-api-sandbox-spike.md) | Ticket: Schwab Trader API sandbox / integration-test spike |
 | P2 | In progress | [`2026-08-04-stack-arr-mer-risk-scale-chart.md`](2026-08-04-stack-arr-mer-risk-scale-chart.md) | Ticket: Stack ARR + MER on trade timeline; risk-scale path chart |
 | P3 | Proposed | [`2026-08-03-portfolio-color-edit-ui.md`](2026-08-03-portfolio-color-edit-ui.md) | Ticket: Portfolio color edit UI (WUT + Wv2) |
@@ -122,8 +136,8 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P2 | Proposed | [`2026-07-20-safe-bug-fix-harness-multi-repo.md`](2026-07-20-safe-bug-fix-harness-multi-repo.md) | Ticket: Multi-repo isolation policy + optional full safe-bug-fix harness |
 | P2 | Proposed | [`2026-07-20-wv2-capacity-swap-desk-packages.md`](2026-07-20-wv2-capacity-swap-desk-packages.md) | Ticket: Wv2 capacity swap → ordered Desk Handoff packages |
 | P1 | Proposed (Phase 1 D10) | [`2026-08-05-signal-path-truth-fulfillment-link-exit-reconcile.md`](2026-08-05-signal-path-truth-fulfillment-link-exit-reconcile.md) | Ticket: Signal-path operational truth + fulfillment link + exit capital reconcile |
-| P2 | Proposed (discovery; grill tee in analysis) | [`2026-07-21-broker-confirmation-email-api-intake.md`](2026-07-21-broker-confirmation-email-api-intake.md) | Ticket: Broker confirmation intake (email / API) for desk fulfillment |
-| P2 | Done (Grill A 2026-08-06) | [`2026-07-22-grill-fulfillment-schwab-extra-modal.md`](2026-07-22-grill-fulfillment-schwab-extra-modal.md) | Ticket: Grill-with-docs — fulfillment ownership, Schwab intake, extra-modal |
+| P2 | Superseded by L1 implement tickets (discovery closed via Grill A/B) | [`2026-07-21-broker-confirmation-email-api-intake.md`](2026-07-21-broker-confirmation-email-api-intake.md) | Ticket: Broker confirmation intake (email / API) for desk fulfillment |
+| P2 | Done (Grill A 2026-08-06; parent + L1 tickets closed 2026-08-09) | [`2026-07-22-grill-fulfillment-schwab-extra-modal.md`](2026-07-22-grill-fulfillment-schwab-extra-modal.md) | Ticket: Grill-with-docs — fulfillment ownership, Schwab intake, extra-modal |
 | P3 | Proposed | [`2026-07-22-cromwell-snapshot-watcher-queued-false-positive.md`](2026-07-22-cromwell-snapshot-watcher-queued-false-positive.md) | Ticket: Fix market-snapshot overnight watcher — race on `queued` / empty response |
 | P3 | Proposed | [`2026-07-21-blue-241-successor-cleanup.md`](2026-07-21-blue-241-successor-cleanup.md) | Ticket: Decide fate of Blue successor OP #241 |
 | P3 | Proposed | [`2026-07-21-ops-speech-prefer-portfolio-numeric-id.md`](2026-07-21-ops-speech-prefer-portfolio-numeric-id.md) | Ticket: Prefer numeric portfolio `#id` in ops speech and skill examples |
@@ -157,4 +171,4 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 77 closed tickets in [`archive/`](archive/) — includes 2026-07-24 multi-cohort evaluate smoke (Mint #311 + Yellow #330).
 
-_Updated 2026-07-24 UTC (multi-cohort evaluate smoke closed)._
+_Updated 2026-08-09 UTC (L1 Confirmation Intake / Broker Gateway implement tickets filed)._
