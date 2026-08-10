@@ -93,13 +93,15 @@
 
 ### Commits
 
-- _Pending at wrap — commit/push in wrap Step 3–4_
+- ecosystem `4d16a5b` — docs: ADR-010 risk-scale meta layer + Kelly hybrid scorecard and ops handoff  
+- winston_unit_test `f516358` — feat(export): include risk_scale policy and config on TS and portfolio export  
+- winston_v2 `8d01860` — feat(risk): Kelly meta scale in ops — import, size, recompute, DAR visibility  
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` (all three) — dirty with this session + unrelated prior work  
-- Pushed: pending wrap  
-- PR: not opened (direct main workflow)
+- Branch: `main` (all three) — session commits pushed; unrelated prior dirty files left unstaged  
+- Pushed: yes  
+- PR: not opened (direct main)
 
 ---
 
