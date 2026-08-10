@@ -1,13 +1,14 @@
 # Ticket: Kelly / Martingale sizing in Winston portfolio management (WUT lab → Wv2 daily managers)
 
-**Status:** In progress — **meta risk-scale layer shipped** (base geometry ⊥ scale); re-matrix pending  
+**Status:** In progress — **meta risk-scale layer shipped** (WUT); **ADR-010 accepted** (2026-08-09); Wv2 import + PositionSizer port in flight  
 **Priority:** P2  
-**Date:** 2026-07-30 (updated 2026-07-31)  
+**Date:** 2026-07-30 (updated 2026-08-09)  
 **Scope:** Cross-monolith — **Winston Unit Test (WUT)** lab first for evidence; **Winston v2 (Wv2)** portfolio daily managers / Daily Analysis Report (DAR) risk path as operational consumer  
 **Rationale source:** `ecosystem/business_analysis/2026-07-30-berlekamp-simons-winston-lessons.md`  
 **Maps:**  
 - Historical peer S/M/K: `docs/analysis/2026-07-30-sizing-kelly-martingale-pbr-map.md`  
-- Meta layer design: `docs/analysis/2026-07-31-risk-scale-meta-layer.md`
+- Meta layer design: `docs/analysis/2026-07-31-risk-scale-meta-layer.md`  
+- Product ADR: `docs/adr/ADR-010-risk-scale-meta-layer.md`
 
 ---
 
@@ -126,18 +127,20 @@ If a Kelly-family pack wins lab gates:
 
 ### Still open
 
-- [ ] Full inventory write-up (Wv2 daily manager path still un-audited).  
-- [ ] Second panel (e.g. Blue OWD DNA).  
-- [ ] Wv2 wiring only if Kelly wins multi-panel.  
-- [ ] Explain 340 vs 341 absolute drift (same market configs; different trade count).
+- [x] Full inventory + Wv2 daily manager path (ADR-010; PositionSizer + RiskScaleRecomputer).  
+- [x] Multi-book Kelly hybrid panel (`kelly_hybrid_price_level_v1` — Mint/Mango/Yellow).  
+- [x] Wv2 wiring: import, scale engine, PositionSizer, Daily Analysis recompute, exit close hook, DAR visibility.  
+- [ ] Explain 340 vs 341 absolute drift (same market configs; different trade count) — optional archaeology.  
+- [ ] Optional second DNA (Blue) if promoting a specific Kelly fingerprint.
 
 ## Acceptance
 
 - [x] Lab experiment key + PBR map filed; packs **S / M / K** scored on Yellow.  
 - [x] Explicit recommendation (this panel): **reject Martingale**; **Kelly > static** on return/DD; not yet promote to ops.  
-- [ ] Inventory written with code pointers (WUT + Wv2).  
-- [ ] If adopt: follow-on ticket or plan for Wv2 daily manager wiring only.  
-- [ ] Cross-link results into Berlekamp business analysis §1 (lessons) as evidence update.
+- [x] Inventory written with code pointers (WUT + Wv2) — ADR-010 + handoff + gap plan 2026-08-09.  
+- [x] Wv2 daily manager wiring: meta scale on TS.parameters; runtime state on Portfolio; recompute on DA + exit.  
+- [x] Hybrid Kelly scorecard: **host-specific** — Mango/Mint favor Winston calendar (wk66); Yellow prefers none. Confirms not global default.  
+- [ ] Cross-link results into Berlekamp business analysis §1 (lessons) as evidence update — residual doc polish.
 
 ---
 

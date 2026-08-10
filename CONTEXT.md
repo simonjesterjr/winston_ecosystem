@@ -61,8 +61,12 @@ Optional second entry filter on a **TradingStrategy**: primary entry strategies 
 _Avoid_: confirmation alone (ambiguous with journal fill confirm), treating pyramid adds as confirmational entry
 
 **One-Way Dynamic Risk**:
-Risk-evaluation mode that assigns a **risk % per concurrent pyramid level** (and direction) from a configured ladder (e.g. long 2%→3%→4%→6%). Intent: scale risk into a sustained trend after ATR adds confirm continuation. Orthogonal to **Confirmational Entry**. Base `risk_percentage` on a PBR is not the full story when a ladder is present.
-_Avoid_: static risk, “dynamic” alone (ambiguous with equity-curve risk)
+Risk-evaluation mode that assigns a **risk % per concurrent pyramid level** (and direction) from a configured ladder (e.g. long 2%→3%→4%→6%). Intent: scale risk into a sustained trend after ATR adds confirm continuation. Orthogonal to **Confirmational Entry** and to **Risk Scale Policy** (meta money-management). Base `risk_percentage` on a PBR is not the full story when a ladder is present. ADR-008 (ladder); do not call the ladder `risk_scale_policy`.
+_Avoid_: static risk, “dynamic” alone (ambiguous with equity-curve risk), conflating OWD ladder with Kelly/meta scale
+
+**Risk Scale Policy** (meta layer):
+Portfolio money-management overlay orthogonal to base risk geometry: `none` · `anti_martingale` · `martingale` · `kelly`. Applied as `scaled_pct = Engine.scale_fraction(base_pct)` where base is static or OWD/OWDC rung. Config knobs live in `risk_scale_config` (fractional Kelly, lookback, calendar recompute, Winston vs classic Kelly sizing). Default **`none`**. Methodology fingerprint includes policy+config when ≠ none; runtime mult/`n_steps` are path state only. ADR-010. Kelly is not a global trade-ready default; Martingale scale is research/paper only for real capital.
+_Avoid_: treating Kelly as a peer-only `risk_evaluation_strategy` in new recipes, calling the OWD ladder “risk_scale_policy”, embedding live Kelly mult in fingerprint
 
 **Winston EOD Standard**:
 The canonical parquet format DM produces and consumers read. OHLCV + baked-in derivatives (ATR-17, supported MAs). Consumers must read `atr_17` from parquet; missing column triggers portfolio skip (`missing_data`).

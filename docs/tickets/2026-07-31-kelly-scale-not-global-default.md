@@ -1,8 +1,8 @@
 # Ticket: Kelly scale — host-specific policy (not global default)
 
-**Status:** Proposed  
+**Status:** Done (doctrine locked; host allowlist remains optional lab follow-on)  
 **Priority:** P2  
-**Date:** 2026-07-31  
+**Date:** 2026-07-31 (closed 2026-08-09)  
 **Monolith:** cross (WUT lab doctrine → eventual Wv2)  
 **Session:** `docs/session-reports/2026-07-31-1556-risk-scale-matrix-findings.md`
 
@@ -30,10 +30,12 @@ Document and enforce lab doctrine:
 
 ## Acceptance
 
-- [ ] Written rule in ADR or business-context  
-- [ ] No silent Kelly default in TS/PBR forms (already `none`)  
+- [x] Written rule in ADR or business-context — **ADR-010 §C**, CONTEXT **Risk Scale Policy**  
+- [x] No silent Kelly default in TS/PBR forms (already `none`)  
+
+Optional host allowlist / multi-portfolio confirmation remains a lab promotion checklist item, not a code default.
 
 ## Related
 
 - PBRs 348, 352, 356  
-- ADR orthogonality ticket `2026-07-31-adr-risk-scale-orthogonality.md`  
+- ADR-010 · ticket `2026-07-31-adr-risk-scale-orthogonality.md`  

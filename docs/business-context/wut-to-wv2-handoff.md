@@ -68,14 +68,22 @@ Nested `trading_strategy` (and/or top-level) should carry when available:
 | `wut_trading_strategy_id` | Lab row id |
 | `name` | Human label (becomes seed-related display + suffix when fingerprinted) |
 | methodology blocks | entry/exit/risk (rich + flat compat) |
+| `risk_evaluation_strategy` | **Base geometry:** `static` · `one_way_dynamic` · … (OWD ladder when dynamic) |
+| `risk_evaluation_config` / `pyramid_risks` | Ladder fractions for OWD (mandatory when dynamic — ADR-008) |
+| `risk_scale_policy` | **Meta money-management** overlay: `none` · `anti_martingale` · `martingale` · `kelly` (ADR-010). Default `none`. |
+| `risk_scale_config` | Knobs for the meta policy (fractional Kelly, lookback, calendar recompute, floor/ceiling mult, `kelly_sizing`, …). Blank ⇒ engine defaults. |
 
-Top-level: `name` (display or seed), optional `seed_name`, `fingerprint`, `markets`, `initial_capital`, `export_kind`, `wut_backtest_run_id`, `vetting`, `max_markets_per_portfolio`, `max_leverage`.
+**Not in fingerprint / not methodology:** runtime path state (`kelly_multiplier`, `n_steps`, streaks, last review). Ops may persist that on the Operational Portfolio (OP) only.
+
+Top-level: `name` (display or seed), optional `seed_name`, `fingerprint`, `markets`, `initial_capital`, `export_kind`, `wut_backtest_run_id`, `vetting`, `max_markets_per_portfolio`, `max_leverage`, and the same `risk_scale_*` / ladder fields as nested TS when present.
 
 Optional top-level `color` (`#RRGGBB`) is display-only preferred chart color (name-token or explicit); omitted when blank. Not part of fingerprint.
 
 Optional `paper_ops_policy` documents paper-first caps. Export with `PAPER_CAPS=1` on `wut:portfolios:export_config` forces `max_markets=4` / `max_leverage=1`.
 
 Historical files may lack fingerprint — legacy bare-name path until re-export. Primary paper configs (e.g. blue-pbr62, red) should carry fingerprint after Phase 3 PR 4.
+
+**Kelly / meta scale:** Prefer portfolio export (`PortfolioConfigExporter` / `wut:portfolios:export_config`) so scale lands on both top-level and nested TS. TradingStrategy-only export must include `risk_scale_*` when the lab TS has them (ADR-010). Wv2 import must store policy+config on `TradingStrategy.parameters` and apply scale in position sizing — silent drop is a defect.
 
 ## Paper caps on import (Wv2)
 
@@ -96,6 +104,7 @@ Lab/observation uncapped research: set `force_lab_uncapped: true` (or `paper_ops
 | `markets[]` | Market find_or_create + Book per symbol |
 | `initial_capital` | CashEvent (initial) once per new OP series |
 | `trading_strategy` + fingerprint | TradingStrategy + provenance; linked to OP |
+| `risk_scale_policy` / `risk_scale_config` | Stored on TS.parameters (methodology); runtime mult/state separate (ADR-010) |
 | `export_kind` | Stored for gates; missing → observation |
 | paper caps | Stored on OP (normalized unless force_lab_uncapped) |
 | — | **Execution Mode** default `paper`; **Active** false |
