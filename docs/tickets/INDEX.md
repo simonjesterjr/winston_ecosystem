@@ -27,6 +27,10 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P1 | In progress | [`2026-08-12-turtle-systems-eval-and-ops-alignment.md`](2026-08-12-turtle-systems-eval-and-ops-alignment.md) | Ticket: Turtle systems eval + heat + capital + ops voice |
+| P2 | Proposed | [`2026-08-12-desk-fill-stop-js-browser-verify.md`](2026-08-12-desk-fill-stop-js-browser-verify.md) | Ticket: Browser-verify desk fill-stop JavaScript |
+| P2 | Proposed | [`2026-08-12-dar-risk-equity-live-render.md`](2026-08-12-dar-risk-equity-live-render.md) | Ticket: Live DAR render — free cash + risk equity + over-deployed |
+| P1 | In progress — Phase 0 BA frozen | [`2026-07-25-ts-portfolio-heat-unit-limits.md`](2026-07-25-ts-portfolio-heat-unit-limits.md) | Ticket: TS creation — multi-level portfolio heat (Turtle unit limits + correlations) |
 | P1 | In progress | [`2026-08-09-l1-confirmation-intake-bg-build.md`](2026-08-09-l1-confirmation-intake-bg-build.md) | Epic: L1 Confirmation Intake + Broker Gateway build |
 | P1 | Done | [`2026-08-09-winston-broker-evidence-standard-interface.md`](2026-08-09-winston-broker-evidence-standard-interface.md) | Ticket: Winston Broker Evidence Standard — interface doc |
 | P1 | Ready (scaffold landed; formal close optional) | [`2026-08-09-broker-gateway-rails-scaffold.md`](2026-08-09-broker-gateway-rails-scaffold.md) | Ticket: Broker Gateway — Rails monolith scaffold |
@@ -62,7 +66,6 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P1 | Scored — reject price-level pyramids | [`2026-07-26-hybrid-fill-price-level-pyramid.md`](2026-07-26-hybrid-fill-price-level-pyramid.md) | Ticket: Pyramid price-level fills (resting stop at last±N×ATR) |
 | P2 | Scored — keep ladder A (B/C null) | [`2026-07-26-s4-phase2-ladder-mildness.md`](2026-07-26-s4-phase2-ladder-mildness.md) | Ticket: Phase 2 step 3b — S4 milder OWD ladder at frozen heat |
 | P2 | Scored — keep $10k ($20k hurts) | [`2026-07-26-s4-capital-20k-survivability.md`](2026-07-26-s4-capital-20k-survivability.md) | Ticket: S4 — does 2× initial capital ($20k) improve survivability? |
-| P2 | Proposed | [`2026-07-25-ts-portfolio-heat-unit-limits.md`](2026-07-25-ts-portfolio-heat-unit-limits.md) | Ticket: TS creation — multi-level portfolio heat (Turtle unit limits + correlations) |
 | P3 | Proposed | [`2026-07-26-bakeoff-scorecard-cagr-calmar.md`](2026-07-26-bakeoff-scorecard-cagr-calmar.md) | Ticket: Bake-off scorecards — CAGR and Calmar metrics |
 | P2 | Proposed | [`2026-07-25-owdc-owd-four-cell-matrix.md`](2026-07-25-owdc-owd-four-cell-matrix.md) | Ticket: OWDC / OWD 4-cell lab matrix (trust close-out) |
 | P3 | Proposed | [`2026-07-25-pbr-cash-ledger-return-scorecard.md`](2026-07-25-pbr-cash-ledger-return-scorecard.md) | Ticket: PBR free-cash ledger — total-return scorecard |
@@ -173,4 +176,4 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 77 closed tickets in [`archive/`](archive/) — includes 2026-07-24 multi-cohort evaluate smoke (Mint #311 + Yellow #330).
 
-_Updated 2026-08-12 UTC (wrap: registry/dummy_sim Done; optional BG volume + first-up docs tickets; next = Wv2 BG client)._
+_Updated 2026-08-12 UTC (wrap: DAR risk equity + desk fill-stop; live-render + JS-verify tickets; Turtle E done)._

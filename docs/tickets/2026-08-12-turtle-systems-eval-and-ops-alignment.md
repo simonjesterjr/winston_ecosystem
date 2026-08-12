@@ -1,0 +1,93 @@
+# Ticket: Turtle systems eval + heat + capital + ops voice
+
+**Status:** In progress  
+**Priority:** P1  
+**Date:** 2026-08-12  
+**Monoliths:** winston_unit_test, winston_v2, ecosystem  
+**BA:** `ecosystem/business_analysis/2026-08-12-turtle-systems-and-heat.md`  
+**Heat:** `2026-07-25-ts-portfolio-heat-unit-limits.md`  
+**Telegram issue:** `docs/issues/2026-07-28-telegram-operator-interface-wrong-chatbot-tone.md`
+
+---
+
+## Goal
+
+Re-ground Winston lab and ops in Faith-style Turtle systems:
+
+1. Lab matrix: S1 (20/10 ± skip-after-winner) and S2 (55/20), **0.5N** pyramids, **no vol exit**
+2. Required books include **Blue** and **Mango** (window-fit hypothesis)
+3. Portfolio discovery for another Mint-class exclusive book
+4. Multi-level heat (L1–L4) on TS + PBR
+5. DAR / PositionSizer: size on **risk_equity**, report free cash separately
+6. Ops shell layout polish + Telegram operator voice
+
+---
+
+## Workstreams (checklist)
+
+### 0 — Spec freeze
+
+- [x] BA chassis + unit + heat + capital decisions
+- [ ] Operator paste if share systems differ from classic Faith
+
+### A — Lab knobs + matrix
+
+- [x] `Breakout10DayStrategy` (S1 exit) — WUT + Wv2 registry/lookback
+- [x] `skip_next_after_winner` in WUT PBR runner + unit specs
+- [x] Matrix setup + scorecard scripts; **24 pending PBRs #424–447** (Blue/Mango first in setup order)
+- [ ] Run cells (UI Execute or batch); score + window-fit (Blue/Mango); promote or reject
+
+### B — Portfolio discovery
+
+- [ ] Exclusive cohort candidates; litmus; smoke under Turtle chassis
+
+### C — Heat L1–L4
+
+- [ ] TS `risk.heat` + fingerprint
+- [ ] Correlation groups + PBR enforcement + pass reasons
+
+### D — Wv2 promote
+
+- [ ] Handoff winners; recipe audit; no silent Engaged mutation
+
+### E — Capital / DAR
+
+- [x] `risk_equity` helper; PositionSizer; DAR dual metrics; specs
+  (2026-08-12: `Operations::RiskEquity`; sizer uses risk_equity; DAR payload/MD/PDF show free cash + risk equity + over-deployed flag at 25% / negative cash)
+
+### F — Ops shell + Telegram
+
+- [ ] Layout fixes (operator-listed) — list still unwritten; walk `/operations` next UI session  
+  See: [`2026-08-12-1541-dar-risk-equity-desk-stop.md`](../session-reports/2026-08-12-1541-dar-risk-equity-desk-stop.md) §14
+- [ ] Persona / skill / reply_text hardening; live observe
+
+---
+
+## Matrix cells (A)
+
+| Cell | System | Skip-winner | Portfolios |
+|------|--------|-------------|------------|
+| A1 | S1 | off | Blue, Mango, Mint, Yellow, Orange, Red, Green, Rust |
+| A2 | S1 | on | same |
+| B1 | S2 | off | same |
+| Control | S4 FastBO5 | n/a | Blue, Mango (± Mint/Yellow) |
+
+---
+
+## Acceptance (program)
+
+- BA frozen; S1/S2 fingerprints exist
+- Scorecard with Blue/Mango window table
+- Heat enforceable in lab when Phase C done
+- Sizing uses risk_equity; DAR shows free_cash + risk_equity
+- Telegram stays directed operator voice
+
+## Commands (as landed)
+
+```bash
+# Setup Turtle matrix PBRs (idempotent)
+bin/compose exec -T winston_unit_test bin/rails runner lib/scripts/turtle_systems_v1_setup.rb
+
+# Score (after runs complete)
+bin/compose exec -T winston_unit_test bin/rails runner lib/scripts/turtle_systems_v1_scorecard.rb WRITE=1
+```
