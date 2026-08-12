@@ -1,6 +1,6 @@
 # Ticket: Broker Gateway — dummy/sim adapter (paper path + contracts)
 
-**Status:** Ready  
+**Status:** Done  
 **Priority:** P1  
 **Date:** 2026-08-09  
 **Series:** `trade-fulfillment-engine`  
@@ -57,12 +57,14 @@ See CONTEXT fulfillment adapter keys + work graph §2.
 
 ## Acceptance
 
-- [ ] `dummy_sim` binding refresh writes evidence events  
-- [ ] Events satisfy Evidence Standard + shared fixtures where applicable  
-- [ ] Re-poll is idempotent (no duplicate logical events)  
-- [ ] Wv2 can pull events via internal API (integration with client ticket)  
+- [x] `dummy_sim` binding refresh writes evidence events  
+- [x] Events satisfy Evidence Standard + shared fixtures where applicable (envelope via Evidence::Store; scenarios exact/partial/orphan/cancel/reject)  
+- [x] Re-poll is idempotent (no duplicate logical events)  
+- [ ] Wv2 can pull events via internal API (integration with client ticket) — **deferred to Wv2 client ticket**  
 - [x] Docs note paper→`dummy_sim` default (locked 2026-08-09)  
-- [ ] No network calls; no secrets required  
+- [x] No network calls; no secrets required  
+
+**Closed 2026-08-10** — scenarios + gate + compose smoke: refresh `scenario=exact` → `auth.status` + `trade.executed`. Wv2 pull remains on client ticket.
 
 ## Related
 

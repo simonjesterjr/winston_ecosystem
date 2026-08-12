@@ -28,12 +28,14 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
 | P1 | In progress | [`2026-08-09-l1-confirmation-intake-bg-build.md`](2026-08-09-l1-confirmation-intake-bg-build.md) | Epic: L1 Confirmation Intake + Broker Gateway build |
-| P1 | Ready | [`2026-08-09-winston-broker-evidence-standard-interface.md`](2026-08-09-winston-broker-evidence-standard-interface.md) | Ticket: Winston Broker Evidence Standard — interface doc |
-| P1 | Ready | [`2026-08-09-broker-gateway-rails-scaffold.md`](2026-08-09-broker-gateway-rails-scaffold.md) | Ticket: Broker Gateway — Rails monolith scaffold |
-| P1 | Ready | [`2026-08-09-bg-adapter-registry-and-capability-profile.md`](2026-08-09-bg-adapter-registry-and-capability-profile.md) | Ticket: Broker Gateway — adapter registry + CapabilityProfile |
-| P1 | Ready | [`2026-08-09-bg-dummy-sim-adapter.md`](2026-08-09-bg-dummy-sim-adapter.md) | Ticket: Broker Gateway — dummy/sim adapter (paper path + contracts) |
-| P1 | Ready | [`2026-08-09-bg-evidence-store-jsonl-and-cursors.md`](2026-08-09-bg-evidence-store-jsonl-and-cursors.md) | Ticket: Broker Gateway — evidence store JSONL + cursors |
-| P1 | Ready | [`2026-08-09-bg-internal-api-refresh-events.md`](2026-08-09-bg-internal-api-refresh-events.md) | Ticket: Broker Gateway — internal API refresh + events |
+| P1 | Done | [`2026-08-09-winston-broker-evidence-standard-interface.md`](2026-08-09-winston-broker-evidence-standard-interface.md) | Ticket: Winston Broker Evidence Standard — interface doc |
+| P1 | Ready (scaffold landed; formal close optional) | [`2026-08-09-broker-gateway-rails-scaffold.md`](2026-08-09-broker-gateway-rails-scaffold.md) | Ticket: Broker Gateway — Rails monolith scaffold |
+| P1 | Done | [`2026-08-09-bg-adapter-registry-and-capability-profile.md`](2026-08-09-bg-adapter-registry-and-capability-profile.md) | Ticket: Broker Gateway — adapter registry + CapabilityProfile |
+| P1 | Done | [`2026-08-09-bg-dummy-sim-adapter.md`](2026-08-09-bg-dummy-sim-adapter.md) | Ticket: Broker Gateway — dummy/sim adapter (paper path + contracts) |
+| P3 | Proposed | [`2026-08-12-bg-evidence-volume-name.md`](2026-08-12-bg-evidence-volume-name.md) | Ticket: BG evidence volume — avoid double project prefix |
+| P3 | Proposed | [`2026-08-12-bg-compose-first-time-up-docs.md`](2026-08-12-bg-compose-first-time-up-docs.md) | Ticket: Document first-time Broker Gateway compose bring-up |
+| P1 | Done | [`2026-08-09-bg-evidence-store-jsonl-and-cursors.md`](2026-08-09-bg-evidence-store-jsonl-and-cursors.md) | Ticket: Broker Gateway — evidence store JSONL + cursors |
+| P1 | Done | [`2026-08-09-bg-internal-api-refresh-events.md`](2026-08-09-bg-internal-api-refresh-events.md) | Ticket: Broker Gateway — internal API refresh + events |
 | P1 | Ready | [`2026-08-09-bg-schwab-read-adapter-l1.md`](2026-08-09-bg-schwab-read-adapter-l1.md) | Ticket: Broker Gateway — Schwab read adapter (L1) |
 | P1 | Ready | [`2026-08-09-wv2-bg-client-and-event-cursor.md`](2026-08-09-wv2-bg-client-and-event-cursor.md) | Ticket: Wv2 — BG client + event cursor |
 | P1 | Ready | [`2026-08-09-wv2-trade-notification-store-and-normalize.md`](2026-08-09-wv2-trade-notification-store-and-normalize.md) | Ticket: Wv2 — TradeNotification store + normalize |
@@ -171,4 +173,4 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 77 closed tickets in [`archive/`](archive/) — includes 2026-07-24 multi-cohort evaluate smoke (Mint #311 + Yellow #330).
 
-_Updated 2026-08-09 UTC (L1 Confirmation Intake / Broker Gateway implement tickets filed)._
+_Updated 2026-08-12 UTC (wrap: registry/dummy_sim Done; optional BG volume + first-up docs tickets; next = Wv2 BG client)._

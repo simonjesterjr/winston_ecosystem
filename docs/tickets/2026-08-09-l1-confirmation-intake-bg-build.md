@@ -77,22 +77,35 @@
 
 ## Acceptance (epic)
 
-- [ ] All child tickets filed and linked from INDEX  
-- [ ] Discovery ticket re-scoped to point here  
-- [ ] Plan §15 notes L1 tickets filed + implementation authorized  
+- [x] All child tickets filed and linked from INDEX  
+- [x] Discovery ticket re-scoped to point here  
+- [x] Plan §15 notes L1 tickets filed + implementation authorized  
 - [ ] Child tickets complete when L1 path works end-to-end: BG poll/evidence → Wv2 TradeNotification → match/prefill → human Desk Confirm (no auto-book, no place_order)  
-- [ ] Ruby/Rails for BG and Wv2 surfaces  
+- [x] Ruby/Rails for BG and Wv2 surfaces  
+
+## Progress (2026-08-09)
+
+| Slice | Status |
+|-------|--------|
+| Evidence Standard interface v0.1 Accepted | **Done** |
+| BG Rails scaffold | Landed (prior session) |
+| Evidence store JSONL + PG index/seq | **Done** |
+| Internal API refresh + events (MG1) | **Done** |
+| Adapter registry + CapabilityProfile | **Done** (2026-08-10) |
+| `dummy_sim` scenarios + refresh smoke | **Done** (2026-08-10); compose `broker_gateway` :3003 |
+| Wv2 client → TradeNotification → match/prefill → desk UI | **Next** |
+| Schwab read + fixtures harness | Later |
 
 ## Suggested build order
 
-1. Evidence Standard interface (contract) + contract fixtures  
-2. BG Rails scaffold  
-3. Evidence store + internal API  
-4. Adapter registry + dummy/sim adapter  
+1. ~~Evidence Standard interface (contract)~~ **Done**  
+2. ~~BG Rails scaffold~~ (landed)  
+3. ~~Evidence store + internal API~~ **Done**  
+4. ~~Adapter registry + dummy/sim adapter~~ **Done**  
 5. Wv2 client + TradeNotification store  
 6. Match/prefill + desk UI  
 7. Schwab read adapter (fixtures first; live after sandbox spike)  
-8. Integration specs  
+8. Integration specs + contract fixtures harness  
 
 ## Open questions
 

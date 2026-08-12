@@ -1,6 +1,6 @@
 # Ticket: Broker Gateway — adapter registry + CapabilityProfile
 
-**Status:** Ready  
+**Status:** Done  
 **Priority:** P1  
 **Date:** 2026-08-09  
 **Series:** `trade-fulfillment-engine`  
@@ -40,12 +40,14 @@ Adapters are selected by **registry key** + described by **CapabilityProfile**, 
 
 ## Acceptance
 
-- [ ] Registry keys loadable without schema migration per new vendor (prefer config/registry table over hard enum)  
-- [ ] CapabilityProfile exposed for dummy_sim and schwab_trader_api (L1 read set; `order_write: false`)  
-- [ ] Binding record holds adapter_key + account_ref + secrets pointer + env  
-- [ ] Q8 deferred section written in code comments or ops doc / ticket notes  
-- [ ] Attempted write capability use fails closed with clear error  
-- [ ] Specs cover capability gate  
+- [x] Registry keys loadable without schema migration per new vendor (prefer config/registry table over hard enum) — `Adapters::Registry` MAP + PROFILES  
+- [x] CapabilityProfile exposed for dummy_sim and schwab_trader_api (L1 read set; `order_write: false`) — `GET /api/v1/adapters`  
+- [x] Binding record holds adapter_key + account_ref + secrets pointer + env  
+- [x] Q8 deferred section written in code comments or ops doc / ticket notes — `AdapterBinding` model header  
+- [x] Attempted write capability use fails closed with clear error — `Adapters::CapabilityGate`  
+- [x] Specs cover capability gate  
+
+**Closed 2026-08-10** — registry formalized; BG compose services up on :3003.
 
 ## Related
 
