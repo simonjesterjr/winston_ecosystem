@@ -74,12 +74,13 @@ Also present uncommitted on disk from **prior L1 sessions** (evidence JSONL stor
 
 ### Commits
 
-- _Pending wrap commit(s)._
+- broker_gateway `934dd93` — feat(L1): evidence store, registry, CapabilityProfile, dummy_sim scenarios  
+- ecosystem `97ced04` — docs: close BG registry + dummy_sim; wrap session; optional compose tickets  
 
 ### Branch / PR state at sign-off
 
-- broker_gateway `main` — dirty until wrap commit/push  
-- ecosystem `main` — selective dirty (L1 tickets + report)  
+- broker_gateway `main` — clean (except local `tmp/pids`, `vendor/`) — **pushed**  
+- ecosystem `main` — wrap files clean; **other** unstaged ticket/analysis dirt left for other sessions — **pushed**  
 - WUT / Wv2 dirty from **other** sessions — **not** committed by this wrap  
 - PR: not opened (direct main)
 
