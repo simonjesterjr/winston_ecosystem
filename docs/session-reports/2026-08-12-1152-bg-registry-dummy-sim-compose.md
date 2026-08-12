@@ -213,7 +213,7 @@ Also present uncommitted on disk from **prior L1 sessions** (evidence JSONL stor
 - [ ] TradeNotification + match/prefill + desk UI — **already ticketed** (L1 epic children)  
 - [x] Optional: rename compose evidence volume — ticketed [`2026-08-12-bg-evidence-volume-name.md`](../tickets/2026-08-12-bg-evidence-volume-name.md)  
 - [x] Optional: document “first-time BG up” — ticketed [`2026-08-12-bg-compose-first-time-up-docs.md`](../tickets/2026-08-12-bg-compose-first-time-up-docs.md)  
-- [ ] Commit + push broker_gateway + ecosystem L1 docs (this wrap)
+- [x] Commit + push broker_gateway `934dd93` + ecosystem `97ced04`
 
 ---
 
