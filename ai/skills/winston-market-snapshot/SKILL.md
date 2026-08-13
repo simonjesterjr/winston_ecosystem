@@ -16,7 +16,7 @@ Schedule: `ecosystem/ai/schedule/manifest.yaml` — `cromwell_market_snapshot_op
 
 ## MCP Tools
 
-- `wv2_market_snapshot` — live internet price vs prior EOD close + atr_17 for Books on active portfolios
+- `wv2_market_snapshot` — shuffles the active-portfolio market population each run, then live-evaluates (Sidekiq) until **3 non-quiet** names (`testing` / `breach_up` / `breach_down`) or the population is exhausted. Live internet price vs prior EOD close + atr_17. Payload `symbols` / `movers` contain at most those 3; quiet scans stay in `summary` only.
 - Do **not** call `wv2_list_portfolios`, `wv2_perform_daily_analysis`, or `wv2_get_daily_activity_report` on scheduled broadcasts
 
 ## Data Source (important)
@@ -24,6 +24,7 @@ Schedule: `ecosystem/ai/schedule/manifest.yaml` — `cromwell_market_snapshot_op
 - **Current price / session OHLV**: live internet quote (not EODHD, not stored bars)
 - **Previous close + atr_17**: latest EOD bar from DM parquet (boundary reference only)
 - Symbols without a live quote are **omitted**
+- Each scheduled run **reshuffles** the population so the radar does not walk A→Z (AAAU / AAL / AAPL) every hour
 - This is a **focusing tool / weather radar** — not authoritative daily analysis or trade instructions
 
 ## Playbook (scheduled broadcast)

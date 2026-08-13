@@ -18,6 +18,7 @@ OBSERVABILITY_PROPERTIES: dict[str, Any] = {
 LONG_RUNNING_TOOLS: frozenset[str] = frozenset({
     "wv2_perform_daily_analysis",
     "wv2_get_daily_activity_report",
+    "wv2_market_snapshot",
     "wv2_sync_data",
     "wut_run_daily_operations",
     "wut_sync_portfolio_data",
@@ -28,6 +29,7 @@ LONG_RUNNING_TOOLS: frozenset[str] = frozenset({
 LONG_RUNNING_SECONDS: dict[str, int] = {
     "wv2_perform_daily_analysis": 180,
     "wv2_get_daily_activity_report": 180,
+    "wv2_market_snapshot": 90,
     "wv2_sync_data": 60,
     "wut_run_daily_operations": 180,
     "wut_sync_portfolio_data": 60,

@@ -241,7 +241,7 @@ Tools are named with `wv2_` prefix for clarity (future DM/WUT/Cromwell tools wil
     - Sync path (`async: false`) may run many minutes; poll `dm_get_cromwell_events` when async.
 
 **Other convenience tools**:
-- `wv2_market_snapshot` — live internet price vs prior EOD close + atr_17 for active portfolio Books; movers by ATR status (focusing tool).
+- `wv2_market_snapshot` — shuffle the active-portfolio market population, live-evaluate via Sidekiq until 3 non-quiet names (testing / breach_up / breach_down) or the list is exhausted; live internet price vs prior EOD close + atr_17. Focusing tool; quiet names are not listed.
 - `wv2_list_portfolios` — active + summary.
 - `wv2_list_pending_actions` — see tool 15 above.
 - `wv2_activate_portfolio` — `POST /internal/portfolios/activate` with `{ "id_or_name": "12" }` (or `id` / `name`). Optional `force: true` for dual-Active same `seed_name` or identical Books (ADR-006 mutex). Sets `active=true`. Without force, conflicts return 422 `active_mutex` with conflicting OP ids.

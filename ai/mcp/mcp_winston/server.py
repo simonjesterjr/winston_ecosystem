@@ -111,10 +111,13 @@ async def list_tools() -> list[Tool]:
         Tool(
             name="wv2_market_snapshot",
             description=(
-                "Intraday attention radar for symbols in active portfolios: live internet price "
-                "vs prior EOD close and atr_17 (DM parquet). Returns previous_close, current_price, "
-                "atr_17, move, atr_multiple, status (quiet|testing|breach_up|breach_down), and movers. "
-                "Symbols without a live quote are omitted. Focusing tool only — not daily analysis."
+                "Intraday attention radar: shuffles the active-portfolio market population, then "
+                "live-evaluates (Sidekiq) until 3 non-quiet names (testing/breach_up/breach_down) "
+                "or the population is exhausted. Live internet price vs prior EOD close and atr_17 "
+                "(DM parquet). Returns previous_close, current_price, atr_17, move, atr_multiple, "
+                "status, and movers (at most 3). Quiet names are summarized only — not listed. "
+                "Symbols without a live quote are omitted. Focusing tool only — not daily analysis. "
+                "May take a little time while live evaluations run."
             ),
             inputSchema={
                 "type": "object",
@@ -1436,6 +1439,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[TextContent]:
             data = await _get(
                 WV2_BASE, "/internal/market_snapshot",
                 params=params if params else None,
+                timeout=90.0,
                 **hop_kw,
             )
 

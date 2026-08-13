@@ -31,6 +31,10 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P1 | Proposed | [`2026-08-12-dar-next-steps-portfolio-name-truncation.md`](2026-08-12-dar-next-steps-portfolio-name-truncation.md) | Ticket: DAR Next Steps — portfolio column truncates to “Portfolio” |
 | P1 | Proposed | [`2026-08-12-ops-shell-next-steps-by-portfolio.md`](2026-08-12-ops-shell-next-steps-by-portfolio.md) | Ticket: Ops shell — pending/next steps grouped by portfolio |
 | P1 | Proposed | [`2026-08-13-handoff-mint-s2-yellow-s1-observation.md`](2026-08-13-handoff-mint-s2-yellow-s1-observation.md) | Ticket: Handoff Mint+TS#77 and Yellow+TS#75 observation OPs |
+| P2 | Proposed | [`2026-08-13-rebuild-winston-mcp-snapshot-timeout.md`](2026-08-13-rebuild-winston-mcp-snapshot-timeout.md) | Ticket: Rebuild winston_mcp after snapshot timeout + tool description |
+| P2 | Proposed | [`2026-08-13-observe-shuffled-hourly-snapshot.md`](2026-08-13-observe-shuffled-hourly-snapshot.md) | Ticket: Observe shuffled hourly snapshot on Telegram |
+| P2 | Proposed | [`2026-08-13-snapshot-universe-active-vs-parquet.md`](2026-08-13-snapshot-universe-active-vs-parquet.md) | Ticket: Snapshot shuffle universe — Active books vs full parquet |
+| P3 | Proposed | [`2026-08-13-reseed-cromwell-snapshot-skill.md`](2026-08-13-reseed-cromwell-snapshot-skill.md) | Ticket: Re-seed Cromwell workspace snapshot skill |
 | P2 | Proposed | [`2026-08-13-walnut-turtle-hybrid-smoke.md`](2026-08-13-walnut-turtle-hybrid-smoke.md) | Ticket: Portfolio Walnut — Turtle hybrid-price smoke (S1/S2) |
 | P2 | Proposed | [`2026-08-13-investigate-negative-risk-equity-active-ops.md`](2026-08-13-investigate-negative-risk-equity-active-ops.md) | Ticket: Investigate negative risk_equity on Active OPs |
 | P2 | Proposed | [`2026-08-12-desk-fill-stop-js-browser-verify.md`](2026-08-12-desk-fill-stop-js-browser-verify.md) | Ticket: Browser-verify desk fill-stop JavaScript |
