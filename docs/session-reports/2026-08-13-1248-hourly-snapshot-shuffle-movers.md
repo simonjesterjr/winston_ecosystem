@@ -74,12 +74,12 @@
 ### Commits
 
 - `winston_v2` `a6c7b2a` — feat(radar): shuffle snapshot population and stop at 3 movers
-- `ecosystem` — this wrap commit (docs + MCP/skill)
+- `ecosystem` `8457c7b` — docs: hourly snapshot shuffle wrap + follow-up tickets
 
 ### Branch / PR state at sign-off
 
 - Branch: `main` on `winston_v2` and `ecosystem`
-- Pushed: pending wrap push
+- Pushed: wrap push next
 - PR: not opened (work is on `main`)
 
 ---
