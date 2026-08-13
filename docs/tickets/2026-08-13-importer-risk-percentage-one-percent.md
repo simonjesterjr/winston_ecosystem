@@ -1,6 +1,6 @@
 # Ticket: Importer treats risk_percentage 1.0 as 100%
 
-**Status:** Proposed  
+**Status:** Done — importer `>= 1` store convention 2026-08-13  
 **Priority:** P1  
 **Date:** 2026-08-13  
 **Monolith:** winston_v2  
@@ -30,9 +30,11 @@ Caught on Turtle handoff (Mint #797 / Yellow #798) before activate. Live OPs pat
 
 ## Acceptance
 
-- [ ] Importer spec covers the 1.0 boundary  
-- [ ] Re-import of `portfolio-mint-turtle-s2-ts77.json` stores `1.0`, sizer 1%  
-- [ ] Existing 2.0 / 0.02 paths unchanged  
+- [x] Importer spec covers the 1.0 boundary  
+- [x] JSON `1.0` and `0.01` both store `1.0`, sizer 1% (`0.01` is the Turtle file workaround)  
+- [x] Existing 2.0 / 0.02 paths unchanged  
+
+**Landed 2026-08-13:** `risk_pct > 1` → `risk_pct >= 1` in `Operations::PortfolioConfigImporter`. Specs in `portfolio_config_importer_spec.rb` (`risk_percentage store convention`). Live #797/#798 already patched last session — **do not re-import during organic DAR**. Compose restart not required for live OPs.
 
 ## Non-goals
 
