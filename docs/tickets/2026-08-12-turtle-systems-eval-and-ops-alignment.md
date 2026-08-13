@@ -28,18 +28,19 @@ Re-ground Winston lab and ops in Faith-style Turtle systems:
 ### 0 — Spec freeze
 
 - [x] BA chassis + unit + heat + capital decisions
-- [ ] Operator paste if share systems differ from classic Faith
+- [x] Classic Faith S1/S2 used (share unreadable)
 
 ### A — Lab knobs + matrix
 
 - [x] `Breakout10DayStrategy` (S1 exit) — WUT + Wv2 registry/lookback
 - [x] `skip_next_after_winner` in WUT PBR runner + unit specs
-- [x] Matrix setup + scorecard scripts; **24 pending PBRs #424–447** (Blue/Mango first in setup order)
-- [ ] Run cells (UI Execute or batch); score + window-fit (Blue/Mango); promote or reject
+- [x] Matrix setup + scorecard; **24 PBRs #424–447** hybrid price-level fill
+- [x] Score + window-fit — BA `business_analysis/2026-08-12-turtle-hybrid-price-scorecard.md`
+- [x] Promote: **TS#77 Mint S2**, **TS#75 Yellow S1**; reject Blue; skip not global — TS descriptions updated
 
 ### B — Portfolio discovery
 
-- [ ] Exclusive cohort candidates; litmus; smoke under Turtle chassis
+- [ ] **Portfolio Walnut** exclusive Mint-class (PCS ~90+) — agent thread in progress
 
 ### C — Heat L1–L4
 

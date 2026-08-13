@@ -1,10 +1,10 @@
 # Ticket: TS creation — multi-level portfolio heat (Turtle unit limits + correlations)
 
-**Status:** Proposed  
-**Priority:** P2  
-**Date:** 2026-07-25 (updated 2026-07-26 after S4 Phase 2 heat sweep)  
+**Status:** In progress — Phase 0 BA frozen 2026-08-12  
+**Priority:** P1 (elevated with Turtle program)  
+**Date:** 2026-07-25 (updated 2026-07-26 after S4 Phase 2 heat sweep; Phase 0 BA 2026-08-12)  
 **Monoliths:** winston_unit_test (lab PBR + TS capture); winston_v2 (ops capacity later)  
-**Related:** PCS / correlation work (`ecosystem/docs/tickets/archive/2026-07-12-wut-portfolio-correlation-dashboard.md`, portfolio cohorts, `max_markets_per_portfolio`); OWD ladder / TS capture (2026-07-25 session); scale-in ATR blocks ADR `2026-07-25-pyramid-scale-in-price-blocks.md`; bake-off session `2026-07-26-1103-strategy-bakeoff-phase2.md`; map `2026-07-26-s4-phase2-max-port-pbr-map.md`
+**Related:** PCS / correlation work (`ecosystem/docs/tickets/archive/2026-07-12-wut-portfolio-correlation-dashboard.md`, portfolio cohorts, `max_markets_per_portfolio`); OWD ladder / TS capture (2026-07-25 session); scale-in ATR blocks ADR `2026-07-25-pyramid-scale-in-price-blocks.md`; bake-off session `2026-07-26-1103-strategy-bakeoff-phase2.md`; map `2026-07-26-s4-phase2-max-port-pbr-map.md`; program `2026-08-12-turtle-systems-eval-and-ops-alignment.md`; BA `ecosystem/business_analysis/2026-08-12-turtle-systems-and-heat.md`
 
 ---
 
@@ -150,7 +150,7 @@ On entry / pyramid fill (including T+1 queue adjudication):
 
 | Phase | Work | Done when |
 |-------|------|-----------|
-| **0** | BA: unit definition + default heat table (Turtle vs Winston 5/12) | One page in `ecosystem/business_analysis/` |
+| **0** | BA: unit definition + default heat table (Turtle vs Winston 5/12) | **Done** — `ecosystem/business_analysis/2026-08-12-turtle-systems-and-heat.md` (unit = full Faith unit; heat 4/6/10/12; size on risk_equity) |
 | **1** | TS JSON + fingerprint + capture from PBR/TS form | Export shows `risk.heat`; create-from-PBR preserves it |
 | **2** | Correlation group resolver (reuse PCS/pairwise) | Specs with synthetic |ρ| matrix |
 | **3** | WUT PBR enforce L1–L4 on fill + pass reasons | Matrix cell: same signals, heat on vs off |

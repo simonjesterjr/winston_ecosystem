@@ -1,6 +1,6 @@
 # Ticket: Live DAR render — free cash + risk equity + over-deployed
 
-**Status:** Proposed  
+**Status:** In progress — smoke regenerate done 2026-08-12 (no Telegram)  
 **Priority:** P2  
 **Date:** 2026-08-12  
 **Monolith:** winston_v2  
@@ -19,6 +19,14 @@ Workstream E shipped: units size on **risk equity**; DAR payload / markdown / PD
 3. If any Active OP has free cash / risk equity < 0.25 (or negative cash with positive equity), the over-deployed callout is visible.
 4. Spot-check that unit proposals on that DAR still look sane vs prior cash-only sizing (open lots should size off equity, not free cash).
 
+## Progress (2026-08-12 evening)
+
+- [x] Smoke: `DailyReportPayloadBuilder.build` + `DailyActivityReportMarkdownRenderer.render!` for 2026-08-12 → `storage/reports/wv2_20260812.md`
+- [x] Dual Free cash / Risk equity columns present; over-deployed callouts for Rust / Yellow / Mango (negative free cash + positive risk equity)
+- [x] Chapter `free_cash` aligned to `RiskEquity` snapshot (no longer display-snap disagreeing with flag)
+- [ ] Operator visual review of MD/PDF density (open file under `/wv2` reports or container `storage/reports/`)
+- [ ] Full `DailyAnalysisJob` path (tasks + Telegram) not required for close
+
 ## Non-goals
 
 - Changing `OVER_DEPLOYED_RATIO` (0.25) unless the live PDF makes the flag too noisy
@@ -26,8 +34,8 @@ Workstream E shipped: units size on **risk equity**; DAR payload / markdown / PD
 
 ## Acceptance
 
+- [x] Regenerated markdown shows dual metrics + over-deployed (agent smoke)
 - [ ] Operator has opened the new PDF or markdown
-- [ ] Dual metrics present; over-deployed only when the rule fires
 - [ ] Telegram redelivery only if explicitly requested
 
 ## Related

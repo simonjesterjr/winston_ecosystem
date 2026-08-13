@@ -28,6 +28,11 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
 | P1 | In progress | [`2026-08-12-turtle-systems-eval-and-ops-alignment.md`](2026-08-12-turtle-systems-eval-and-ops-alignment.md) | Ticket: Turtle systems eval + heat + capital + ops voice |
+| P1 | Proposed | [`2026-08-12-dar-next-steps-portfolio-name-truncation.md`](2026-08-12-dar-next-steps-portfolio-name-truncation.md) | Ticket: DAR Next Steps — portfolio column truncates to “Portfolio” |
+| P1 | Proposed | [`2026-08-12-ops-shell-next-steps-by-portfolio.md`](2026-08-12-ops-shell-next-steps-by-portfolio.md) | Ticket: Ops shell — pending/next steps grouped by portfolio |
+| P1 | Proposed | [`2026-08-13-handoff-mint-s2-yellow-s1-observation.md`](2026-08-13-handoff-mint-s2-yellow-s1-observation.md) | Ticket: Handoff Mint+TS#77 and Yellow+TS#75 observation OPs |
+| P2 | Proposed | [`2026-08-13-walnut-turtle-hybrid-smoke.md`](2026-08-13-walnut-turtle-hybrid-smoke.md) | Ticket: Portfolio Walnut — Turtle hybrid-price smoke (S1/S2) |
+| P2 | Proposed | [`2026-08-13-investigate-negative-risk-equity-active-ops.md`](2026-08-13-investigate-negative-risk-equity-active-ops.md) | Ticket: Investigate negative risk_equity on Active OPs |
 | P2 | Proposed | [`2026-08-12-desk-fill-stop-js-browser-verify.md`](2026-08-12-desk-fill-stop-js-browser-verify.md) | Ticket: Browser-verify desk fill-stop JavaScript |
 | P2 | Proposed | [`2026-08-12-dar-risk-equity-live-render.md`](2026-08-12-dar-risk-equity-live-render.md) | Ticket: Live DAR render — free cash + risk equity + over-deployed |
 | P1 | In progress — Phase 0 BA frozen | [`2026-07-25-ts-portfolio-heat-unit-limits.md`](2026-07-25-ts-portfolio-heat-unit-limits.md) | Ticket: TS creation — multi-level portfolio heat (Turtle unit limits + correlations) |

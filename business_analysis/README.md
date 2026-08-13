@@ -23,6 +23,8 @@ This is **not** the same as:
 | [2026-07-18-confirmational-entry-experiment.md](./2026-07-18-confirmational-entry-experiment.md) | 20-cell confirm matrix on 62/71/72/57/55; C03 EMA20 winner; soft vs hard; transfer; one-way ladder note (ADR-008) |
 | [2026-07-24-close-trigger-signal-strength.md](./2026-07-24-close-trigger-signal-strength.md) | Close vs high/low entry (H1); one_way_dynamic_close strength risk (H2); lab same-day open vs ops T+1 (H3); business rules |
 | [2026-07-30-berlekamp-simons-winston-lessons.md](./2026-07-30-berlekamp-simons-winston-lessons.md) | Berlekamp/Simons × Winston: lessons, impact statement, CGT vs Kelly, perpendicular vs parallel strategy families; spawns Kelly + parallel-system tickets |
+| [2026-08-12-turtle-systems-and-heat.md](./2026-08-12-turtle-systems-and-heat.md) | Turtle S1/S2 chassis freeze: 0.5N pyramid, no vol exit, skip-after-winner, heat 4/6/10/12, risk_equity sizing; Blue/Mango window-fit |
+| [2026-08-12-turtle-hybrid-price-scorecard.md](./2026-08-12-turtle-hybrid-price-scorecard.md) | Turtle V1 scored under hybrid price-level fill; promote Mint S2 + Yellow S1; reject Blue; skip-after-winner not global |
 
 ## Exposure
 
