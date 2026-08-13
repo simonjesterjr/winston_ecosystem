@@ -67,12 +67,13 @@
 
 ### Commits
 
-- Pending wrap commit/push
+- `ecosystem` `7e5848f` — docs: Turtle paper handoff wrap + four follow-up tickets
+- `winston_v2` `d0b092d` — fix(ops): treat stored risk 1.0 as 1 percent
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on `ecosystem` and `winston_v2` — dirty until wrap
-- Pushed: wrap push next
+- Branch: `main` on `ecosystem` and `winston_v2` — session files pushed; unrelated dirt left unstaged
+- Pushed: yes
 - PR: not opened (direct `main` convention)
 
 ---
