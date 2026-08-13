@@ -49,7 +49,8 @@ Re-ground Winston lab and ops in Faith-style Turtle systems:
 
 ### D — Wv2 promote
 
-- [ ] Handoff winners; recipe audit; no silent Engaged mutation
+- [x] Handoff winners; recipe audit; no silent Engaged mutation
+  (#797 Mint S2 `85730621` force-Active vs #384; #798 Yellow S1 `7aa73357` Active; #383 closed path B)
 
 ### E — Capital / DAR
 

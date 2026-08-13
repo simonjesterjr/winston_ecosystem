@@ -30,7 +30,11 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P1 | In progress | [`2026-08-12-turtle-systems-eval-and-ops-alignment.md`](2026-08-12-turtle-systems-eval-and-ops-alignment.md) | Ticket: Turtle systems eval + heat + capital + ops voice |
 | P1 | Proposed | [`2026-08-12-dar-next-steps-portfolio-name-truncation.md`](2026-08-12-dar-next-steps-portfolio-name-truncation.md) | Ticket: DAR Next Steps — portfolio column truncates to “Portfolio” |
 | P1 | Proposed | [`2026-08-12-ops-shell-next-steps-by-portfolio.md`](2026-08-12-ops-shell-next-steps-by-portfolio.md) | Ticket: Ops shell — pending/next steps grouped by portfolio |
-| P1 | Proposed | [`2026-08-13-handoff-mint-s2-yellow-s1-observation.md`](2026-08-13-handoff-mint-s2-yellow-s1-observation.md) | Ticket: Handoff Mint+TS#77 and Yellow+TS#75 observation OPs |
+| P1 | Done | [`2026-08-13-handoff-mint-s2-yellow-s1-observation.md`](2026-08-13-handoff-mint-s2-yellow-s1-observation.md) | Ticket: Handoff Mint+TS#77 and Yellow+TS#75 observation OPs |
+| P1 | Proposed | [`2026-08-13-importer-risk-percentage-one-percent.md`](2026-08-13-importer-risk-percentage-one-percent.md) | Ticket: Importer treats risk_percentage 1.0 as 100% |
+| P1 | Proposed | [`2026-08-13-evaluate-turtle-mint-s2-yellow-s1.md`](2026-08-13-evaluate-turtle-mint-s2-yellow-s1.md) | Ticket: First Daily Analysis on Turtle Mint S2 + Yellow S1 |
+| P3 | Proposed | [`2026-08-13-hygiene-close-unused-inactive-ops.md`](2026-08-13-hygiene-close-unused-inactive-ops.md) | Ticket: Hygiene-close unused inactive Mint/Yellow/Blue leftovers |
+| P3 | Proposed | [`2026-08-13-closed-paper-residue-cleanup.md`](2026-08-13-closed-paper-residue-cleanup.md) | Ticket: Human cleanup of open residue on closed paper OPs #6 and #383 |
 | P2 | Proposed | [`2026-08-13-rebuild-winston-mcp-snapshot-timeout.md`](2026-08-13-rebuild-winston-mcp-snapshot-timeout.md) | Ticket: Rebuild winston_mcp after snapshot timeout + tool description |
 | P2 | Proposed | [`2026-08-13-observe-shuffled-hourly-snapshot.md`](2026-08-13-observe-shuffled-hourly-snapshot.md) | Ticket: Observe shuffled hourly snapshot on Telegram |
 | P2 | Proposed | [`2026-08-13-snapshot-universe-active-vs-parquet.md`](2026-08-13-snapshot-universe-active-vs-parquet.md) | Ticket: Snapshot shuffle universe — Active books vs full parquet |
@@ -185,4 +189,4 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 77 closed tickets in [`archive/`](archive/) — includes 2026-07-24 multi-cohort evaluate smoke (Mint #311 + Yellow #330).
 
-_Updated 2026-08-12 UTC (wrap: DAR risk equity + desk fill-stop; live-render + JS-verify tickets; Turtle E done)._
+_Updated 2026-08-13 MDT (wrap: Turtle paper handoff #797/#798; path B close #6/#383)._
