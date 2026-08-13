@@ -69,12 +69,14 @@
 
 ### Commits
 
-- _Pending wrap Step 3._
+- `winston_v2` `1983cd7` — fix(ops): store imported risk_percentage 1.0 as 1 percent
+- `winston_unit_test` `1b889e1` — feat(lab): trade timeline lot W/L basis and stack-table pager
+- `ecosystem` `a005b0b` — docs: wrap importer 1% fix and trade timeline pager
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on all three repos
-- Pushed: pending wrap
+- Branch: `main` on all three repos — session files committed; unrelated dirt left unstaged
+- Pushed: yes (after SHA fill)
 - PR: not opened (direct `main` convention)
 
 ---
