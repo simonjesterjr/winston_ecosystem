@@ -25,14 +25,15 @@ We choose **C: WUT is the system of record for Portfolio Correlation Score (PCS)
 2. **Correlation Methodology Version** (e.g. `corr_v2`) freezes formula, windows, quality gates, and build max-pairwise cap. New recipe → new version; history is not rewritten.  
 3. **WUT** computes and stores **Correlation Snapshots** (time series) for **registry color portfolios**. A scheduled job runs after DM data readiness.  
 4. **Handoff JSON** may embed a baseline snapshot.  
-5. **Wv2** does not recompute a parallel formula. A **WUT client** fetches latest/history when **Daily Activity Report** or other tasking needs PCS. Optional thin cache for resilience only.  
-6. Identity match: primarily **seed_name** (lab portfolio name / export `name`); fingerprint disambiguates multiple OP forks.  
+5. **Wv2** does not recompute a parallel formula. A **WUT client** fetches latest/history when **Daily Activity Report** or other tasking needs PCS. **Every WUT evaluation is also copied** into a Wv2 `portfolio_correlation_snapshots` table (WUT push after score + Wv2 pull on Daily Analysis / `wv2:sync_correlation`). That copy is the ops cache and the pairwise vintage for **unit heat** — it is not a second SoT.  
+6. Identity match: **Books membership** (`books_key` = sorted symbols) first, then **seed_name** (lab portfolio name). Fingerprint and Operational Portfolio id must **not** be required to read PCS or evaluate L2/L3 heat. Two OPs on the same Mint books share one series.  
 7. PCS degradation **flags** review in DAR / next_steps only — never silent Books mutation or auto-successor.  
 8. **Daily Activity Report** overview includes PCS **numeric time series and chart** from first ship (chart may degrade to table-only if data missing).
 
 ## Consequences
 
 - WUT internal API + snapshot table become part of the ops report path (availability and versioning matter).  
+- Wv2 heat L2/L3 reads the copied pairwise map for those Books. Caps stay recipe-specific (OP lot columns / TS heat). PCS 0–100 is the monitor; it does not rewrite `max_positions_per_portfolio`.  
 - Registry membership defines what gets daily scored (not Wv2 Active alone).  
 - Orange/White membership issues are handled by **archiving** and building new cohorts (Green/Pink/Mango/Rust), not by dual-scoring divergent books without methodology upgrade.  
 - Six common lab↔ops portfolios intended: Red, Blue, Green, Pink, Mango, Rust.

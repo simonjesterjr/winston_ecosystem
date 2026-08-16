@@ -299,12 +299,12 @@ A human UI route that returns a usable first response quickly; heavy data is pro
 _Avoid_: blocking page (request waits for complete analytical load), full_history on index
 
 **Portfolio Correlation Score (PCS)**:
-A versioned 0–100 composite summarizing diversification quality of a **Portfolio**’s **Books**. Primary driver is worst pairwise absolute correlation (max \|r\|) and high-pair count; mean pairwise \|r\| is secondary. Used for lab build acceptance, handoff provenance, and operational time-series monitoring — not a **TradingStrategy** performance metric. **WUT** is the system of record that computes and stores the score time series; **Wv2** consumes snapshots via a WUT client when operator surfaces need them (e.g. **Daily Activity Report**).
-_Avoid_: correlation alone (ambiguous with pairwise r or audit Correlation ID), diversification rating alone (UI label without time series), mean correlation alone (can be diluted by junk series), recomputing divergent formulas in Wv2 without WUT
+A versioned 0–100 composite summarizing diversification quality of a **Portfolio**’s **Books**. Primary driver is worst pairwise absolute correlation (max \|r\|) and high-pair count; mean pairwise \|r\| is secondary. Used for lab build acceptance, handoff provenance, operational time-series monitoring, and as the source of the pairwise map that **unit heat** (L2/L3) reads. **Not** a **TradingStrategy** performance metric and **not** keyed by fingerprint. **WUT** is the system of record that computes and stores the score time series; **Wv2** stores a durable copy of every evaluation (keyed by Books membership / seed name) and must not recompute a parallel formula.
+_Avoid_: correlation alone (ambiguous with pairwise r or audit Correlation ID), diversification rating alone (UI label without time series), mean correlation alone (can be diluted by junk series), recomputing divergent formulas in Wv2 without WUT, tying PCS to a TradingStrategy or Operational Portfolio id
 
 **Correlation Snapshot**:
-A point-in-time record of a **Portfolio Correlation Score** plus transparent components (max \|r\|, mean \|r\|, high pairs, date window, methodology version) for a **Portfolio** on an as-of date. Produced by **WUT**; may be embedded at handoff and fetched again by **Wv2**.
-_Avoid_: sidecar alone (build artifact; snapshot is the durable observation), heatmap alone (visual, not the stored score)
+A point-in-time record of a **Portfolio Correlation Score** plus transparent components (max \|r\|, mean \|r\|, high pairs, date window, methodology version) and the compact pairwise map used by heat L2/L3. Produced by **WUT**; copied into **Wv2** on every evaluation (push + Daily Analysis pull) and at handoff import. Ops identity is **Books** (sorted symbol key) plus seed name — one Mint book set shares one series across every OP/TS on those names.
+_Avoid_: sidecar alone (build artifact; snapshot is the durable observation), heatmap alone (visual, not the stored score), storing the pair map only on a TradingStrategy row
 
 **Correlation Methodology Version**:
 An immutable recipe identifier for how **Portfolio Correlation Score** and build constraints are computed (windows, quality gates, max-pairwise cap, weights). Changing the recipe requires a new version; historical snapshots keep their original version.
