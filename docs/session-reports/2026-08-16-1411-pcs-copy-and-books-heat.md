@@ -106,7 +106,7 @@
 
 - `1aee4aa` — feat(pcs): persist pair maps and push every evaluation to Wv2 (WUT)
 - `2d0ff72` — feat(ops): copy WUT PCS evaluations and heat by books (Wv2)
-- ecosystem SHA filled after this docs commit
+- `1883464` — docs: wrap PCS copies and books-keyed heat (ecosystem)
 
 ### Branch / PR state at sign-off
 
