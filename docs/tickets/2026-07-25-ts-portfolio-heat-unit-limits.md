@@ -1,6 +1,6 @@
 # Ticket: TS creation — multi-level portfolio heat (Turtle unit limits + correlations)
 
-**Status:** In progress — Phase 0 BA frozen 2026-08-12  
+**Status:** Done — Phases 0–4 landed 2026-08-14  
 **Priority:** P1 (elevated with Turtle program)  
 **Date:** 2026-07-25 (updated 2026-07-26 after S4 Phase 2 heat sweep; Phase 0 BA 2026-08-12)  
 **Monoliths:** winston_unit_test (lab PBR + TS capture); winston_v2 (ops capacity later)  
@@ -151,31 +151,31 @@ On entry / pyramid fill (including T+1 queue adjudication):
 | Phase | Work | Done when |
 |-------|------|-----------|
 | **0** | BA: unit definition + default heat table (Turtle vs Winston 5/12) | **Done** — `ecosystem/business_analysis/2026-08-12-turtle-systems-and-heat.md` (unit = full Faith unit; heat 4/6/10/12; size on risk_equity) |
-| **1** | TS JSON + fingerprint + capture from PBR/TS form | Export shows `risk.heat`; create-from-PBR preserves it |
-| **2** | Correlation group resolver (reuse PCS/pairwise) | Specs with synthetic |ρ| matrix |
-| **3** | WUT PBR enforce L1–L4 on fill + pass reasons | Matrix cell: same signals, heat on vs off |
-| **4** | Optional Wv2 desk gate | Draft pass reasons match lab taxonomy |
+| **1** | TS JSON + fingerprint + capture from PBR/TS form | **Done 2026-08-14** — `PortfolioHeatConfig`; export `risk.heat`; capture from PBR `results_json.heat` + TS form; omit = legacy lot caps (fingerprint stable) |
+| **2** | Correlation group resolver (reuse PCS/pairwise) | **Done 2026-08-14** — `PortfolioHeatClusterResolver`; pairwise \|ρ\| (not PCS score); vintage = methodology window on PBR snapshot; specs with synthetic matrix |
+| **3** | WUT PBR enforce L1–L4 on fill + pass reasons | **Done 2026-08-14** — `HeatCapacityGate` on fill (same-bar + T+1); pass `heat_market` / `heat_close_corr` / `heat_loose_corr` / `heat_direction`; same-signal cell heat on vs off |
+| **4** | Optional Wv2 desk gate | **Done 2026-08-14** — `Operations::DeskHeatGate` on DA enter/pyramid drafts; PassedSignal `heat_*` codes match lab; exits not gated |
 
 ---
 
 ## Acceptance criteria
 
-- [ ] Written rule: what counts as **1 unit** under OWD ladder pyramids  
-- [ ] TS can store and display multi-level heat (or explicit “legacy only”)  
-- [ ] Lab rejects / passes adds that would breach L1–L4 when heat enabled  
-- [ ] Closely/loosely groups derived from correlation infrastructure (documented source + thresholds)  
-- [ ] Fingerprint/export include heat when non-default  
-- [ ] No silent change to existing PBRs without `heat` key (backward compatible)
+- [x] Written rule: what counts as **1 unit** under OWD ladder pyramids — Phase 0 BA: full Faith unit; each pyramid add is another full unit  
+- [x] TS can store and display multi-level heat (or explicit “legacy only”) — Phase 1  
+- [x] Lab rejects / passes adds that would breach L1–L4 when heat enabled — Phase 3  
+- [x] Closely/loosely groups derived from correlation infrastructure (documented source + thresholds) — Phase 2: pairwise \|ρ\| ≥ 0.70 close / ≥ 0.40 loose; vintage = methodology window  
+- [x] Fingerprint/export include heat when non-default — Phase 1  
+- [x] No silent change to existing PBRs without `heat` key (backward compatible)
 
 ---
 
 ## Open questions
 
 1. **Unit vs lot:** Do we count pyramid adds as separate full units (Turtle) or as ladder risk-fractional units?  
-2. **Correlation vintage:** signal day vs fill day vs fixed TS training window?  
-3. **Short/long nets:** Can a market’s long and short ever both count (we generally forbid dual direction per market)?  
-4. **Default heat:** Turtle 4/6/10/12 vs Winston 5/—/—/12?  
-5. **PCS score vs pairwise |ρ|:** which is authoritative for L2/L3 membership?
+2. **Correlation vintage:** **Phase 2 lock** — methodology window on the PBR snapshot (not signal-day / fill-day recompute).  
+3. **Short/long nets:** Can a market’s long and short ever both count (we generally forbid dual direction per market)? Resolver already direction-filters; still no dual-direction per market.  
+4. **Default heat:** Turtle 4/6/10/12 vs Winston 5/—/—/12? — **Phase 0:** Turtle 4/6/10/12.  
+5. **PCS score vs pairwise |ρ|:** **Phase 2 lock** — pairwise \|ρ\| is authoritative for L2/L3; PCS score is construction/monitoring only.
 
 ---
 

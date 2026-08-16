@@ -43,7 +43,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P2 | Proposed | [`2026-08-13-investigate-negative-risk-equity-active-ops.md`](2026-08-13-investigate-negative-risk-equity-active-ops.md) | Ticket: Investigate negative risk_equity on Active OPs |
 | P2 | Proposed | [`2026-08-12-desk-fill-stop-js-browser-verify.md`](2026-08-12-desk-fill-stop-js-browser-verify.md) | Ticket: Browser-verify desk fill-stop JavaScript |
 | P2 | Proposed | [`2026-08-12-dar-risk-equity-live-render.md`](2026-08-12-dar-risk-equity-live-render.md) | Ticket: Live DAR render — free cash + risk equity + over-deployed |
-| P1 | In progress — Phase 0 BA frozen | [`2026-07-25-ts-portfolio-heat-unit-limits.md`](2026-07-25-ts-portfolio-heat-unit-limits.md) | Ticket: TS creation — multi-level portfolio heat (Turtle unit limits + correlations) |
+| P1 | Done — Phases 0–4 | [`2026-07-25-ts-portfolio-heat-unit-limits.md`](2026-07-25-ts-portfolio-heat-unit-limits.md) | Ticket: TS creation — multi-level portfolio heat (Turtle unit limits + correlations) |
 | P1 | In progress | [`2026-08-09-l1-confirmation-intake-bg-build.md`](2026-08-09-l1-confirmation-intake-bg-build.md) | Epic: L1 Confirmation Intake + Broker Gateway build |
 | P1 | Done | [`2026-08-09-winston-broker-evidence-standard-interface.md`](2026-08-09-winston-broker-evidence-standard-interface.md) | Ticket: Winston Broker Evidence Standard — interface doc |
 | P1 | Ready (scaffold landed; formal close optional) | [`2026-08-09-broker-gateway-rails-scaffold.md`](2026-08-09-broker-gateway-rails-scaffold.md) | Ticket: Broker Gateway — Rails monolith scaffold |

@@ -75,8 +75,8 @@ Hypothesis: short window (S1) vs long window (S2) may re-rank Blue/Mango relativ
 
 ## Open until heat engine ships
 
-1. Correlation vintage: freeze to signal-day pairwise vs fixed training window — default **methodology window at PBR start**, recompute not required every bar for v1.
-2. Wv2 desk hard-gate on heat — after lab pass reasons stabilize.
+1. Correlation vintage — **locked for v1 (Phase 2):** freeze pairwise \|ρ\| to the **methodology window** on the PBR correlation snapshot (attach at start/complete). Do **not** recompute every bar. **Pairwise \|ρ\|** is authoritative for L2/L3 membership; the PCS 0–100 score is not. Close ≥ 0.70; loose ≥ 0.40. Missing matrix → unknown pair (do not invent); optional sector map fills unknown pairs only.
+2. Wv2 desk hard-gate on heat — **Phase 4 landed:** DA enter/pyramid drafts that breach L1–L4 become PassedSignals (`heat_market` / `heat_close_corr` / `heat_loose_corr` / `heat_direction`). Exits are not heat-gated. L2/L3 need pairwise (`parameters.heat_pairs`); without a matrix only L1/L4 bind.
 
 ---
 

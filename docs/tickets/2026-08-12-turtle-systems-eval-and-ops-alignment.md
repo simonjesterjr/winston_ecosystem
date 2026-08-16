@@ -44,8 +44,10 @@ Re-ground Winston lab and ops in Faith-style Turtle systems:
 
 ### C — Heat L1–L4
 
-- [ ] TS `risk.heat` + fingerprint
-- [ ] Correlation groups + PBR enforcement + pass reasons
+- [x] TS `risk.heat` + fingerprint — Phase 1 2026-08-14 (`PortfolioHeatConfig`, export, capture, TS/PBR forms)
+- [x] Correlation groups — Phase 2 2026-08-14 (`PortfolioHeatClusterResolver`, pairwise \|ρ\|)
+- [x] PBR enforcement + pass reasons — Phase 3 2026-08-14 (`HeatCapacityGate`; heat_* pass reasons)
+- [x] Wv2 desk gate — Phase 4 2026-08-14 (`DeskHeatGate` on DA enter/pyramid drafts)
 
 ### D — Wv2 promote
 
