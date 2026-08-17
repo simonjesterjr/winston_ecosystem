@@ -1,8 +1,9 @@
 # Ticket: Broker Gateway — internal API (refresh + events since cursor)
 
-**Status:** Ready  
+**Status:** Done  
 **Priority:** P1  
 **Date:** 2026-08-09  
+**Completed:** 2026-08-09  
 **Series:** `trade-fulfillment-engine`  
 **Domain:** Broker Gateway, Confirmation Intake  
 **Glossary:** Broker Gateway, Winston Broker Evidence Standard, Trade Notification  
@@ -12,39 +13,32 @@
 
 ## Problem
 
-Wv2 must pull evidence the DM-shaped way: **API commands to do work**, **GET events since cursor**. Without a minimal internal HTTP surface, Confirmation Intake cannot run.
+Wv2 must pull evidence the DM-shaped way: **API commands to do work**, **GET events since cursor**.
 
-## Scope
+## Outcome
 
-1. **Refresh/poll command(s):** trigger adapter poll for a binding (sync response with job id or accepted status; async Sidekiq OK).  
-2. **GET events since cursor:** return evidence events (or normalized envelopes) for a binding after a cursor token/offset.  
-3. Auth between monoliths: internal network / shared secret / existing ecosystem pattern (mirror DM consumer style as appropriate).  
-4. Error model: auth fail, unknown binding, adapter capability refuse — fail closed, no silent empty success when poll failed.  
-5. Pagination / max batch size for events.  
-6. OpenAPI or markdown route table in BG or ecosystem interface cross-link.  
-7. Specs (request specs) for refresh + cursor pull + empty + error cases.
+MG1 routes live:
 
-## Non-goals
+| Method | Path | Behavior |
+|--------|------|----------|
+| `POST` | `/api/v1/bindings/{binding_id}/refresh` | Sync poll via `Evidence::RefreshService` + adapter registry |
+| `GET` | `/api/v1/bindings/{binding_id}/events?since_cursor=&limit=` | Ordered envelopes + `next_cursor` + `has_more` |
+| `GET` | `/api/v1/bindings` / `…/{binding_id}` | Registry list/show |
 
-- Push webhooks day one (optional “events available” notify later)  
-- Desk Confirm / match APIs on BG  
-- Public internet exposure  
-- `place_order` endpoints  
-
-## Domain locks
-
-- L1 read only  
-- Ruby/Rails  
-- No email ingest API as primary  
+- **Cursor ownership:** Wv2 stores last `next_cursor`; BG stream is stateless w.r.t. consumer (opaque decimal seq)
+- **Auth:** optional `BG_INTERNAL_TOKEN` + `X-BG-Token` (open when unset)
+- **Fail closed:** unknown binding 404; auth_failed / capability errors surface; no invent fills
+- Flat scaffold stubs removed
+- Request specs green (refresh, pull, empty, pagination, token auth)
 
 ## Acceptance
 
-- [ ] `POST` (or equivalent) refresh for binding enqueues or runs poll  
-- [ ] `GET` events since cursor returns ordered events  
-- [ ] Cursor advances only on successful consumer ack **or** documented pull-side cursor ownership (pick one; document clearly — recommend **Wv2 stores cursor**, BG is stateless stream by offset/id)  
-- [ ] Request specs green  
-- [ ] Documented contract linked from Wv2 client ticket  
-- [ ] No write-order routes  
+- [x] `POST` refresh for binding runs poll (sync L1)
+- [x] `GET` events since cursor returns ordered events
+- [x] Cursor advances only on consumer side (Wv2 owns durable cursor; documented)
+- [x] Request specs green
+- [x] Documented contract in interface §9 + BG AGENTS.md
+- [x] No write-order routes
 
 ## Related
 

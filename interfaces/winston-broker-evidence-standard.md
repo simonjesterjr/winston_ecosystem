@@ -1,7 +1,7 @@
-# Winston Broker Evidence Standard (v0.1 — Draft)
+# Winston Broker Evidence Standard (v0.1)
 
 **Version:** 0.1  
-**Status:** Draft — Grill B Q4 locked (2026-08-09); file/API contract for L1 Confirmation Intake  
+**Status:** **Accepted** for L1 Confirmation Intake (2026-08-09) — Grill B Q4 locked; implementers code against this file  
 **Owner (writer):** **Broker Gateway** (`broker_gateway`)  
 **Primary consumers (readers):** **Winston v2** Confirmation Intake (match / prefill / attention); ops tooling; optional mount-side readers  
 **Orthogonal to:** **Winston EOD Standard** (market bars / parquet — DM)  
@@ -69,12 +69,11 @@ Vendor JSON (or later MIME) is stored as **raw payload objects** referenced by `
 
 ---
 
-## 3. Location convention (**provisional**)
+## 3. Location convention (**locked for L1**)
 
-Propose (mark **provisional** until BG scaffold + volume layout lock):
+Under Broker Gateway data root (compose volume), not Wv2 storage:
 
 ```
-# Under Broker Gateway data root (compose volume), not Wv2 storage:
 data/evidence/{binding_id}/events.jsonl
 data/evidence/{binding_id}/snapshots/          # optional; rebuildable
 data/evidence/{binding_id}/raw/{yyyy}/{mm}/…   # optional raw payload objects
@@ -82,12 +81,12 @@ data/evidence/{binding_id}/raw/{yyyy}/{mm}/…   # optional raw payload objects
 
 | Path element | Meaning |
 |--------------|---------|
-| `binding_id` | Opaque BG binding identifier (stable string/UUID). **Not** a Winston OP id by itself — OP↔binding is Grill B **Q8** (deferred). |
+| `binding_id` | Opaque BG binding identifier (stable string/UUID, e.g. `bnd_…`). **Not** a Winston OP id by itself — OP↔binding is Grill B **Q8** (deferred). |
 | `events.jsonl` | Append-only log for that binding |
 | `snapshots/` | Optional derived latest-state files (schema free to evolve if rebuildable) |
 | `raw/` | Optional opaque vendor payloads; referenced from events |
 
-**Rotation (provisional):** single `events.jsonl` is acceptable for L1 volume; later may partition `events_YYYYMMDD.jsonl` or size-based segments **without** changing event envelope. Document any partition rule in a version bump note.
+**Rotation (L1):** single `events.jsonl` per binding. Later partition (`events_YYYYMMDD.jsonl` or size segments) may land **without** changing the event envelope — document in a version-note if/when added.
 
 **Mount read:** Wv2 (or agents) may mount BG evidence volume **read-only** for offline/debug; product path is **pull API** (§9).
 
@@ -284,12 +283,13 @@ Spirit: same as DM holding market data before a Book cares.
 
 ---
 
-## 9. Consumer pull API (contract sketch)
+## 9. Consumer pull API (**normative for L1**)
 
-Internal HTTP (or equivalent) **owned by Broker Gateway**. Not Rails code — path names are normative sketches.
+Internal HTTP **owned by Broker Gateway**.
 
-Base: `/api/v1` (compose DNS `http://broker_gateway:3000`; host **:3003**). Auth: service-to-service (shared secret / mTLS — implement ticket).  
-**Freeze (MG1 2026-08-09):** per-binding routes under `/api/v1/bindings/{binding_id}/…` (scaffold stubs may still be flat until API ticket lands).
+Base: `/api/v1` (compose DNS `http://broker_gateway:3000`; host **:3003**).  
+**Auth:** optional shared secret header `X-BG-Token` (or `Authorization: Bearer …`) when `BG_INTERNAL_TOKEN` is set on BG; when unset (local dev), open on the private network.  
+**Freeze (MG1 2026-08-09):** per-binding routes under `/api/v1/bindings/{binding_id}/…`. Flat `/api/v1/refresh` and `/api/v1/events` are **not** the product contract.
 
 ### 9.1 Refresh / poll command
 
@@ -301,8 +301,8 @@ POST /api/v1/bindings/{binding_id}/refresh
 |--|--|
 | **Purpose** | Ask BG to authenticate if needed and poll vendor (orders/txns per CapabilityProfile); normalize + store new events |
 | **Body (optional)** | `{ "since": "ISO-8601", "force": false }` — hints; BG owns actual vendor cursors |
-| **Response (sketch)** | `{ "binding_id", "status": "accepted"|"ok"|"auth_failed"|"error", "events_appended": N, "cursor": "…", "auth_status": "…" }` |
-| **Semantics** | Idempotent enough for retries; work may be async (`accepted` + job) — if async, include `job_id` |
+| **Response** | `{ "binding_id", "status": "accepted"\|"ok"\|"auth_failed"\|"error"\|"not_found", "events_appended": N, "head_cursor": "…", "auth_status": "…", "error": "…" }` |
+| **Semantics** | Retries are safe (store idempotent). L1 may run **sync** (`status: "ok"`) or async (`accepted` + `job_id`) — if async, include `job_id`. |
 
 **Fail closed** on auth failure: surface `auth_failed`; page operator per plan (G19). Do not invent fills.
 
@@ -315,28 +315,29 @@ GET /api/v1/bindings/{binding_id}/events?since_cursor={cursor}&limit={n}
 | | |
 |--|--|
 | **Purpose** | Consumer (Wv2) reads events after its last processed cursor |
-| **Response (sketch)** | `{ "binding_id", "events": [ /* envelope objects */ ], "next_cursor": "…", "has_more": bool }` |
-| **Empty** | `events: []`, same or advanced cursor per policy |
+| **Response** | `{ "binding_id", "events": [ /* envelope objects */ ], "next_cursor": "…", "has_more": bool, "limit": n }` |
+| **Empty** | `events: []`; `next_cursor` equals request cursor (or `"0"` at epoch) |
 
-Optional later: “events available” notify (webhook/file) — **not** required for L1; pull remains primary.
+Default `limit` **100**, max **1000**. Optional later: “events available” notify — **not** required for L1; pull remains primary.
 
-### 9.3 Cursor semantics
+### 9.3 Cursor semantics (**locked**)
 
 | Rule | Detail |
 |------|--------|
-| Opaque | `cursor` is an opaque string issued by BG (offset, event_id, or composite). Consumers must not parse structure. |
+| Opaque | `cursor` / `next_cursor` / `head_cursor` are opaque strings issued by BG (L1: monotonic per-binding sequence as decimal string). Consumers **must not** parse structure for business logic. |
 | Monotonic pull | `since_cursor` means “events **after** this cursor” in BG’s total order for that binding. |
-| Durable consumer state | Wv2 stores its own last `next_cursor` per binding (Wv2 DB). BG may also track last-served for ops. |
-| Restart | Re-pull from last committed cursor; idempotency on `event_id` / `idempotency_key` at consumer ingest. |
-| Bootstrap | Omit `since_cursor` or pass empty → from binding epoch / configured lookback (vendor windows e.g. ~60 days still apply at **poll** time). |
+| **Consumer owns durable cursor** | **Wv2 stores** its own last committed `next_cursor` per binding (Wv2 DB). BG does **not** require consumer ack to advance the stream; pull is stateless w.r.t. consumer progress. |
+| BG ops metadata | BG **may** track last-served / head seq for ops dashboards; that is not the consumer SoT. |
+| Restart | Re-pull from last committed cursor; consumer dedupes on `event_id` / `idempotency_key`. |
+| Bootstrap | Omit `since_cursor` or pass empty / `"0"` → from binding epoch. Vendor lookback windows (e.g. ~60 days) apply at **poll** time, not at pull. |
 | No shared event PG | Cursor is not a join key into Wv2 journals. |
 
-### 9.4 Related read endpoints (optional L1)
+### 9.4 Related read endpoints (L1)
 
-| Sketch | Purpose |
-|--------|---------|
-| `GET /api/v1/bindings/{binding_id}` | Binding status, CapabilityProfile, auth health |
-| `GET /api/v1/bindings/{binding_id}/events/{event_id}` | Single event by id |
+| Path | Purpose |
+|------|---------|
+| `GET /api/v1/bindings` | List bindings (registry) |
+| `GET /api/v1/bindings/{binding_id}` | Binding status, CapabilityProfile, auth / last refresh health |
 
 ---
 
@@ -362,14 +363,14 @@ Bindings without `order_write` support **Desk Confirm** + evidence only (no Desk
 
 ## 11. Dummy / sim adapter
 
-**Product law (locked 2026-08-09):** paper OPs default to **`dummy_sim`** in BG; synthetic evidence events **must still conform** to this standard (same envelope, idempotency, event types, pull API).
+**Product law (locked 2026-08-09):** paper OPs default to **`dummy_sim`** in BG; synthetic evidence events **must still conform** to this standard (same envelope, idempotency, event types, pull API). **`manual`** remains a zero-IO escape hatch **inside Wv2 only** (does not write this store).
 
 | Rule | Detail |
 |------|--------|
 | Conformance | Synthetic events use `adapter_key` **`dummy_sim`**; `source_channel: "sim"` |
 | No special consumer branch for shape | Wv2 Confirmation Intake should not need a second schema |
 | Paper OPs | Winston paper stays Winston-paper by default (plan); sim is for **rehearsing intake**, not live write |
-| Flag | Preference stated here; **operator may lock or refuse** before build — do not treat as Grill-locked |
+| No live credentials | Paper/`dummy_sim` never holds live OAuth or `order_write` |
 
 ---
 
@@ -389,7 +390,8 @@ Bindings without `order_write` support **Desk Confirm** + evidence only (no Desk
 
 | Version | Date | Notes |
 |---------|------|--------|
-| **0.1** | 2026-08-09 | Initial draft from Grill B Q4; L1 envelope + pull sketch |
+| **0.1** | 2026-08-09 | Initial from Grill B Q4; L1 envelope + pull API |
+| **0.1 Accepted** | 2026-08-09 | Location layout locked; consumer-owned cursor locked; MG1 routes normative; paper→`dummy_sim` locked |
 
 - Bump `schema_version` when envelope semantics change or required fields are added/removed.  
 - Additive optional fields may land under 0.1.x notes without forcing consumer breaks if ignore-unknown holds.  
@@ -410,7 +412,7 @@ Bindings without `order_write` support **Desk Confirm** + evidence only (no Desk
 | **Mutating JSONL in place** | Append-only |
 | **Signal Spine rewrite** | Extra-modal fills stay evidence only |
 | **Full OMS order book in Winston** | Deferred; Working Stop remains desk SoT until insufficient |
-| **Scaffolding `broker_gateway` app** | Separate build session |
+| **Scaffolding `broker_gateway` app** | Separate build (landed); this file is the event contract only |
 
 ---
 
@@ -444,9 +446,8 @@ Deferred by design until after build phases; listed so implementers do not inven
 | **Q8** | OP ↔ broker account **binding model** (account-level BG binding vs per-OP isolation; multi-OP same account) | `binding_id` granularity; whether path layout is 1:1 with brokerage account; how Wv2 maps OP → binding for refresh/pull; match ambiguity across OPs |
 | **Q9** | Match ownership detail | Mostly Wv2; may add optional `payload` correlation fields later — not required for store |
 | Retention | How long raw + JSONL kept | Ops note; not envelope |
-| Partition / rotation | Single file vs daily segments | Location convention only |
-| Sim adapter | Operator lock on §11 preference | Whether paper rehearsal ships sim events |
-| Async refresh | Sync vs job_id on POST refresh | Response shape only |
+| Partition / rotation | Daily segments after L1 | Location note only; single file locked for L1 |
+| Async refresh | Sync vs job_id on POST refresh | Both allowed; L1 may ship sync |
 
 ---
 
@@ -459,7 +460,10 @@ Deferred by design until after build phases; listed so implementers do not inven
 - `docs/analysis/2026-07-22-winston-fulfillment-ownership-and-broker-intake.md` — ownership tee  
 - `docs/session-reports/2026-08-09-1408-trade-fulfillment-grill-b.md` — Q4 lock  
 - `docs/business-context/human-gated-desk-and-fulfillment.md` — desk law  
+- `docs/tickets/2026-08-09-winston-broker-evidence-standard-interface.md` — acceptance ticket  
+- `docs/tickets/2026-08-09-bg-evidence-store-jsonl-and-cursors.md` — BG store implement  
+- `docs/tickets/2026-08-09-bg-internal-api-refresh-events.md` — pull/refresh API implement  
 
 ---
 
-*End of Winston Broker Evidence Standard v0.1 draft. Implementation is not authorized by this document alone.*
+*End of Winston Broker Evidence Standard v0.1 (Accepted for L1). Schema bumps require a version note in §13; domain locks still require Grill/ADR process.*
