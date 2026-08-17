@@ -74,7 +74,7 @@
 ### Commits
 
 - **winston_v2** `cd37a1f` — `fix(ops): WUT-parity short journal flows and equity surfaces`
-- **ecosystem** — this wrap commit
+- **ecosystem** `c70a59c` — `docs: wrap Wv2 equity WUT-parity (short flow + DAR + shell)`
 
 ### Branch / PR state at sign-off
 
