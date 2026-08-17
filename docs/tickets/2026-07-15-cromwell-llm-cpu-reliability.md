@@ -30,6 +30,14 @@ On CPU-only sawtooth-ai, `cromwell-qwen3:8b` with default nanobot OpenAI-compat 
 3. Document Telegram **group privacy**: bot `can_read_all_group_messages=false` requires @mention or reply; optional BotFather privacy off.  
 4. Avoid `bin/compose up --force-recreate` cascade with podman name conflicts — document safe nanobot-only recreate (`podman stop/rm nanobot` then `up -d --no-deps`).  
 5. Optional: eval that transfer-ok replies contain `action` and portfolio id (ties to A).  
+6. **Interactive empty-response fail-fast** (elevated 2026-07-23): long timeouts alone are not enough — empty model turns on user Telegram still hang 10+ min without tool calls. Design work moved to P1 ticket [`2026-07-23-cromwell-telegram-ops-fastpath-empty-response.md`](2026-07-23-cromwell-telegram-ops-fastpath-empty-response.md) (deterministic desk phrases + ≤60s empty fail). This ticket keeps CPU/config/ops hardening.
+
+### Evidence addendum (2026-07-23 PM)
+
+- User `activate 311`: empty response turn 0 @ 16:40, turn 1 @ 16:45, finalization; **zero** MCP activate calls.  
+- Dream job same afternoon: empty responses + multi-minute retries.  
+- Ollama `cromwell-qwen3:8b` pegged 100% CPU multi-day.  
+- Manual internal activate of OP#311 succeeded immediately — confirms hang is LLM path only.
 
 ## Acceptance
 

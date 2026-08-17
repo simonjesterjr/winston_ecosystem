@@ -2,9 +2,10 @@
 
 **Status:** Proposed  
 **Date:** 2026-07-15  
-**Priority:** P2 — Medium — after Tier 0 session isolation  
+**Priority:** P1 — elevated 2026-07-23 (user Telegram starved by 8b empty loops / cron+dream)  
 **Repos:** cross-monolith (`ecosystem/ai`, DM/Wv2 notify paths, optional MCP)  
-**Source:** Session 2026-07-15 concurrency design  
+**Source:** Session 2026-07-15 concurrency design; re-hit 2026-07-23 activate-311 hang  
+**See also:** [`2026-07-23-cromwell-telegram-ops-fastpath-empty-response.md`](2026-07-23-cromwell-telegram-ops-fastpath-empty-response.md)
 
 ## Problem
 
