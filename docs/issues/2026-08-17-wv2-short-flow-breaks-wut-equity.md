@@ -168,4 +168,4 @@ Unrealized MTM on Mint #384 is −$292; the −$15k hole is cash sign, not marks
 ## History
 
 - 2026-08-17 — Created from WUT-vs-Wv2 equity evaluation (live DAR 2026-08-16 + rails runner lot dump). Three defects: D1 flow sign, D2 capital label/totals, D3 recon/flag.
-- 2026-08-17 — Implemented. `signed_flow` takes direction; 30 paper journals backfilled; DAR 2026-08-16 regenerated (no Telegram send). Live: Mint #384 risk equity $9,507.78, all Active cash_vs_pnl_delta = 0. Specs: 73 examples, 0 failures on the combined suite.
+- 2026-08-17 — Implemented in winston_v2 `cd37a1f`. `signed_flow` takes direction; 30 paper journals backfilled; DAR 2026-08-16 regenerated (no Telegram send). Live: Mint #384 risk equity $9,507.78, all Active cash_vs_pnl_delta = 0. Specs: 73 examples, 0 failures on the combined suite.
