@@ -146,11 +146,11 @@
 - Broker Evidence Standard draft vs shipped BG
 
 ### Deferred
-- Classic desk / ops shell Exit-at-stop parity (noted in Aug 3 report)
-- Preserve `winston_signal` provenance when confirming Daily Analysis Report (DAR) exits at stop
-- Archive Done tickets under `docs/tickets/archive/`
-- Mark stack-ARR ticket Done after operator accepts live PBR eval
-- Pre-existing `position_swap_evaluator_spec` `Activity.atr` failures
+- Classic desk / ops shell Exit-at-stop parity — See: [`2026-08-17-exit-at-stop-classic-desk-and-ops-shell.md`](../tickets/2026-08-17-exit-at-stop-classic-desk-and-ops-shell.md)
+- Preserve `winston_signal` provenance when confirming Daily Analysis Report (DAR) exits at stop — See: [`2026-08-17-preserve-winston-signal-on-dar-stop-confirm.md`](../tickets/2026-08-17-preserve-winston-signal-on-dar-stop-confirm.md)
+- Archive Done tickets under `docs/tickets/archive/` — See: [`2026-08-17-archive-bg-l1-done-tickets.md`](../tickets/2026-08-17-archive-bg-l1-done-tickets.md)
+- Mark stack-ARR ticket Done after operator accepts live PBR eval — already filed: [`2026-08-04-stack-arr-mer-risk-scale-chart.md`](../tickets/2026-08-04-stack-arr-mer-risk-scale-chart.md)
+- Pre-existing `position_swap_evaluator_spec` `Activity.atr` failures — See: [`2026-08-17-wut-position-swap-spec-activity-atr.md`](../tickets/2026-08-17-wut-position-swap-spec-activity-atr.md)
 
 ---
 
@@ -205,8 +205,8 @@
 
 ## 11. Handoff & Resume Notes
 
-- **Where I left off:** Leftover trees committed; this report next; then push
-- **Next concrete step:** `git push` on the three remotes if this report’s wrap did not already
+- **Where I left off:** Leftover trees pushed; wrap follow-ups filed as tickets
+- **Next concrete step:** Pick a P2 ticket (desk/shell Exit-at-stop or `winston_signal` provenance) or evaluate stack ARR on a live PBR
 - **Files to read first:**
   1. `winston_v2/app/services/operations/exit_at_stop_service.rb`
   2. `winston_unit_test/app/services/lab_fill_cadence.rb`
@@ -231,10 +231,10 @@
 
 ## 14. Follow-up Actions
 
-- [ ] Optional: archive three BG Done tickets — owner: docs — due: backlog
-- [ ] Optional: Exit-at-stop on classic desk + ops shell — owner: eng — due: backlog
-- [ ] Optional: close stack-ARR ticket after live PBR eval — owner: operator — due: lab
-- [ ] Optional: fix pre-existing `position_swap_evaluator_spec` Activity.atr — owner: eng — due: backlog
+- [ ] Archive three BG Done tickets — See: [`2026-08-17-archive-bg-l1-done-tickets.md`](../tickets/2026-08-17-archive-bg-l1-done-tickets.md) — owner: docs — due: backlog
+- [ ] Exit-at-stop on classic desk + ops shell — See: [`2026-08-17-exit-at-stop-classic-desk-and-ops-shell.md`](../tickets/2026-08-17-exit-at-stop-classic-desk-and-ops-shell.md) — owner: eng — due: backlog
+- [ ] Close stack-ARR ticket after live PBR eval — already filed: [`2026-08-04-stack-arr-mer-risk-scale-chart.md`](../tickets/2026-08-04-stack-arr-mer-risk-scale-chart.md) — owner: operator — due: lab
+- [ ] Fix pre-existing `position_swap_evaluator_spec` Activity.atr — See: [`2026-08-17-wut-position-swap-spec-activity-atr.md`](../tickets/2026-08-17-wut-position-swap-spec-activity-atr.md) — owner: eng — due: backlog
 
 ---
 

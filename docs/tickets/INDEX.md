@@ -27,6 +27,10 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P2 | Proposed | [`2026-08-17-exit-at-stop-classic-desk-and-ops-shell.md`](2026-08-17-exit-at-stop-classic-desk-and-ops-shell.md) | Ticket: Exit-at-stop on classic desk and ops shell |
+| P2 | Proposed | [`2026-08-17-preserve-winston-signal-on-dar-stop-confirm.md`](2026-08-17-preserve-winston-signal-on-dar-stop-confirm.md) | Ticket: Preserve winston_signal when confirming a DAR exit at stop |
+| P3 | Proposed | [`2026-08-17-archive-bg-l1-done-tickets.md`](2026-08-17-archive-bg-l1-done-tickets.md) | Ticket: Archive Broker Gateway L1 Done tickets |
+| P3 | Proposed | [`2026-08-17-wut-position-swap-spec-activity-atr.md`](2026-08-17-wut-position-swap-spec-activity-atr.md) | Ticket: WUT PositionSwapEvaluator spec sets Activity.atr as a column |
 | P1 | Done | [`2026-08-17-wv2-equity-wut-parity-flow-dar-shell.md`](2026-08-17-wv2-equity-wut-parity-flow-dar-shell.md) | Ticket: Wv2 equity WUT-parity — short flow + DAR + shell |
 | P1 | In progress | [`2026-08-12-turtle-systems-eval-and-ops-alignment.md`](2026-08-12-turtle-systems-eval-and-ops-alignment.md) | Ticket: Turtle systems eval + heat + capital + ops voice |
 | P1 | Proposed | [`2026-08-12-dar-next-steps-portfolio-name-truncation.md`](2026-08-12-dar-next-steps-portfolio-name-truncation.md) | Ticket: DAR Next Steps — portfolio column truncates to “Portfolio” |

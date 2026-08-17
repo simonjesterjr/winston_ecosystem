@@ -49,6 +49,8 @@ Canonical example: entries 20/25/30/35, exit 25, ATR=5 → lot R = +1, 0, −1, 
 
 **Note:** Kelly diagnostics appear on **new** PBR runs after this ship. Historical `risk_history` still charts multiplier/streaks but may lack p/b tooltips.
 
+**2026-08-17 leftover land:** `TradeTimelineBuilder` and `_stack_arr_summary.html.erb` are now on WUT `main` (`ffe18ef`). Remaining work is operator eval on live PBRs, then mark this ticket Done — do not open a second ticket.
+
 ---
 
 ## Related
