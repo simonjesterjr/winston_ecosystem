@@ -86,11 +86,12 @@
 - **ecosystem** `502b55e` — docs: accept Broker Evidence Standard v0.1 and close BG L1 tickets
 - **ecosystem** `a48a86f` — docs: land leftover tickets for Cromwell, MCP, add-market, opposite-entry, stack ARR
 - **ecosystem** `792b9c4` — docs: session report for mint/mango promote PBR fill label
+- **ecosystem** `e6ca1f3` — docs: session report for leftover dirty-tree cleanup
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on all three — clean after this report commit
-- Pushed: pending wrap push
+- Branch: `main` on all three — clean and pushed
+- Pushed: yes (`winston_v2` `00306e2`, `winston_unit_test` `b21c65c`, `ecosystem` `e6ca1f3`)
 - PR: not opened (direct `main`)
 
 ---
