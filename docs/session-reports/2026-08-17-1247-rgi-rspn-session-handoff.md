@@ -84,7 +84,7 @@
 
 - `data_manager` `c436bbd` — feat(dm): remap retired RGI ticker onto live RSPN
 - `winston_v2` `9f56a35` — feat(ops): skip non-session DAR tasks and supersede siblings
-- `ecosystem` — this report (SHA filled after push)
+- `ecosystem` `ad04ad2` — docs: session report for RGI remap and DAR session handoff
 
 ### Branch / PR state at sign-off
 
