@@ -1,10 +1,13 @@
 # Ticket: Investigate negative risk_equity on Active OPs
 
-**Status:** Proposed  
+**Status:** Superseded — classified 2026-08-17  
 **Priority:** P2  
 **Date:** 2026-08-13  
 **Monolith:** winston_v2  
-**See:** session `2026-08-13-0850-turtle-walnut-risk-equity-wrap.md`; `Operations::RiskEquity`
+**See:** session `2026-08-13-0850-turtle-walnut-risk-equity-wrap.md`; `Operations::RiskEquity`  
+**Superseded by:** [`2026-08-17-wv2-equity-wut-parity-flow-dar-shell.md`](2026-08-17-wv2-equity-wut-parity-flow-dar-shell.md) · issue [`../issues/2026-08-17-wv2-short-flow-breaks-wut-equity.md`](../issues/2026-08-17-wv2-short-flow-breaks-wut-equity.md)
+
+**Classification:** not stale marks / lot identity. Short stock journals are booked as cash **debits** (`signed_flow` ignores direction). Equity = cash + long MV − short MV then double-counts shorts. Implementation moved to the 2026-08-17 ticket.
 
 ## Problem
 
