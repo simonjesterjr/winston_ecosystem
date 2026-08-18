@@ -32,7 +32,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 | P1 | Proposed | [`2026-08-18-work-monday-catchup-desk-tasks.md`](2026-08-18-work-monday-catchup-desk-tasks.md) | Work Monday 2026-08-17 catch-up desk tasks (12 pending) |
 | P2 | Proposed | [`2026-08-18-eodhd-lag-retry-after-close.md`](2026-08-18-eodhd-lag-retry-after-close.md) | EODHD lag retry when 15:30 MT pull misses todayâ€™s print |
 | P2 | Proposed | [`2026-08-18-persist-dm-download-runs.md`](2026-08-18-persist-dm-download-runs.md) | Persist DM download_runs / download_tasks for after-close sync |
-| P3 | Proposed | [`2026-08-18-commit-wv2-signal-inspect-legend-sheet.md`](2026-08-18-commit-wv2-signal-inspect-legend-sheet.md) | Commit leftover Wv2 signal-inspect legend sheet |
+| P3 | Done | [`archive/2026-08-18-commit-wv2-signal-inspect-legend-sheet.md`](archive/2026-08-18-commit-wv2-signal-inspect-legend-sheet.md) | Commit leftover Wv2 signal-inspect legend sheet (`2d86e7a`) |
 | P2 | Proposed | [`2026-08-17-exit-at-stop-classic-desk-and-ops-shell.md`](2026-08-17-exit-at-stop-classic-desk-and-ops-shell.md) | Ticket: Exit-at-stop on classic desk and ops shell |
 | P2 | Proposed | [`2026-08-17-preserve-winston-signal-on-dar-stop-confirm.md`](2026-08-17-preserve-winston-signal-on-dar-stop-confirm.md) | Ticket: Preserve winston_signal when confirming a DAR exit at stop |
 | P3 | Proposed | [`2026-08-17-archive-bg-l1-done-tickets.md`](2026-08-17-archive-bg-l1-done-tickets.md) | Ticket: Archive Broker Gateway L1 Done tickets |
