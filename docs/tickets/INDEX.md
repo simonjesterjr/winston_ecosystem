@@ -29,6 +29,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 |----------|--------|------|-------|
 | P0 | Done | [`2026-08-18-after-close-eod-session-contract.md`](2026-08-18-after-close-eod-session-contract.md) | After-close EOD session contract (DM to-date + Wv2 exact bar) |
 | P1 | Proposed | [`2026-08-18-observe-tuesday-unattended-eod-cycle.md`](2026-08-18-observe-tuesday-unattended-eod-cycle.md) | Observe Tuesday unattended EOD cycle (DM 15:30 MT â†’ DAR 16:30 MT) |
+| P2 | Proposed | [`2026-08-18-verify-ops-shell-pending-grouped-live.md`](2026-08-18-verify-ops-shell-pending-grouped-live.md) | Verify ops-shell Pending grouping on a live multi-OP mint |
 | P1 | Done | [`2026-08-18-work-monday-catchup-desk-tasks.md`](2026-08-18-work-monday-catchup-desk-tasks.md) | Work Monday 2026-08-17 catch-up desk tasks (12 pending) |
 | P2 | Proposed | [`2026-08-18-eodhd-lag-retry-after-close.md`](2026-08-18-eodhd-lag-retry-after-close.md) | EODHD lag retry when 15:30 MT pull misses todayâ€™s print |
 | P2 | Proposed | [`2026-08-18-persist-dm-download-runs.md`](2026-08-18-persist-dm-download-runs.md) | Persist DM download_runs / download_tasks for after-close sync |
@@ -200,4 +201,4 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 
 77 closed tickets in [`archive/`](archive/) â€” includes 2026-07-24 multi-cohort evaluate smoke (Mint #311 + Yellow #330).
 
-_Updated 2026-08-18 MDT (ops shell pending grouped by portfolio; Monday desk catch-up Done)._
+_Updated 2026-08-18 MDT (filed live Pending-grouping verify ticket)._

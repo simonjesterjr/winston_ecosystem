@@ -115,7 +115,7 @@
 - DAR Next Steps PDF clips names to “Portfolio” — already filed: [`2026-08-12-dar-next-steps-portfolio-name-truncation.md`](../tickets/2026-08-12-dar-next-steps-portfolio-name-truncation.md)
 - L1 Confirmation Intake next code slice (Wv2 Broker Gateway client) — already filed: [`2026-08-09-wv2-bg-client-and-event-cursor.md`](../tickets/2026-08-09-wv2-bg-client-and-event-cursor.md)
 - Turtle workstream F remaining layout / Telegram voice — still open on [`2026-08-12-turtle-systems-eval-and-ops-alignment.md`](../tickets/2026-08-12-turtle-systems-eval-and-ops-alignment.md)
-- Live click-through of grouped Pending when ≥2 OPs have tasks — wait for tonight’s Daily Analysis Report (DAR) or next mint; do not file a new ticket
+- Live click-through of grouped Pending when ≥2 OPs have tasks — See: [`2026-08-18-verify-ops-shell-pending-grouped-live.md`](../tickets/2026-08-18-verify-ops-shell-pending-grouped-live.md)
 
 ---
 
@@ -194,7 +194,7 @@ bin/compose exec -T winston_v2 bundle exec rspec \
 - [ ] Observe Tuesday unattended EOD cycle — owner: operator + next session — due: tonight after 16:30 MDT — See: `docs/tickets/2026-08-18-observe-tuesday-unattended-eod-cycle.md`
 - [ ] DAR Next Steps portfolio label clip — owner: next Wv2 session — due: when sitting down to code — See: `docs/tickets/2026-08-12-dar-next-steps-portfolio-name-truncation.md`
 - [ ] L1 Wv2 Broker Gateway client + event cursor — owner: next product slice — due: after desk/observe — See: `docs/tickets/2026-08-09-wv2-bg-client-and-event-cursor.md`
-- [ ] Confirm grouped Pending on a live multi-OP mint — owner: operator — due: when tonight’s DAR (or later) has ≥2 OP tasks — no new ticket
+- [ ] Confirm grouped Pending on a live multi-OP mint — owner: operator — due: when tonight’s DAR (or later) has ≥2 OP tasks — See: `docs/tickets/2026-08-18-verify-ops-shell-pending-grouped-live.md`
 
 ---
 
