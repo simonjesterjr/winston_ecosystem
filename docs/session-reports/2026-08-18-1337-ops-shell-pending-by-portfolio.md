@@ -61,12 +61,12 @@
 ### Commits
 
 - **winston_v2** `eee19f7` — `feat(ops): group pending next steps by band then portfolio`
-- **ecosystem** — wrap commit (SHA filled after this file lands)
+- **ecosystem** `e02bfb1` — `docs: wrap ops-shell pending-by-portfolio and Monday desk Done`
 
 ### Branch / PR state at sign-off
 
 - Branch: `main` on both
-- Pushed: pending wrap push
+- Pushed: yes (wrap)
 - PR: not opened (direct `main`, same as prior 2026-08-18 wraps)
 
 ---
