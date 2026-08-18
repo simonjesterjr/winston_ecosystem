@@ -79,7 +79,7 @@
 
 - **data_manager** `00ecb55` — `fix(eod): pull completed NY session after close, not yesterday`
 - **winston_v2** `2b9daf2` — `fix(ops): require exact session bar for DAR readiness and eval`
-- **ecosystem** `e0e4658` — `docs: wrap after-close EOD session contract and Monday catch-up`
+- **ecosystem** `e0560b0` — `docs: wrap after-close EOD session contract and Monday catch-up`
 
 ### Branch / PR state at sign-off
 
