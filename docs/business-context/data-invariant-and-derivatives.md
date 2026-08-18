@@ -28,7 +28,7 @@ For every **Market** that any **Consumer** (WUT portfolio, Wv2 portfolio) cares 
 
 A Wv2 **Portfolio** has **Books** for AAPL, MSFT, IBM. On daily analysis:
 
-1. Wv2 (or DM on behalf of consumers) verifies parquet exists for each symbol with `latest_date >= yesterday`
+1. Wv2 (or DM on behalf of consumers) verifies parquet exists for each symbol with `latest_date` equal to the **last completed New York session** (after 16:00 ET on a trading day: that date; before close / weekend: prior weekday). A prior close is not “ready” for today’s Daily Analysis.
 2. If AAPL is stale, DM fetches the gap from EODHD, recomputes atr_17 and MAs over the relevant history, writes `data/markets/AAPL/bars.parquet`
 3. DM updates DataCoverage: `earliest_date`, `latest_date`, `indicators_present: ["atr_17", "sma_20", ...]`
 4. Wv2 reads precomputed atr_17 from parquet for stop placement — does not recalculate
