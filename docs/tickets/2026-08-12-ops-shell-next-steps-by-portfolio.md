@@ -1,6 +1,6 @@
 # Ticket: Ops shell — Next steps / pending grouped by portfolio
 
-**Status:** Proposed  
+**Status:** Done  
 **Priority:** P1  
 **Date:** 2026-08-12  
 **Monolith:** winston_v2  
@@ -28,10 +28,12 @@ Operator request: **Next steps should be by portfolio.**
 
 ## Acceptance
 
-- [ ] With ≥2 Active OPs and pending tasks on more than one, pending panel shows distinct portfolio headers  
-- [ ] Real band tasks appear above paper  
-- [ ] First-paint ERB and JS `refreshPanels` both group (no flash of flat list only)  
-- [ ] Request or service spec for `OpsShellPanels` pending payload shape if grouping is computed server-side (preferred)
+- [x] With ≥2 Active OPs and pending tasks on more than one, pending panel shows distinct portfolio headers  
+- [x] Real band tasks appear above paper  
+- [x] First-paint ERB and JS `refreshPanels` both group (no flash of flat list only)  
+- [x] Request or service spec for `OpsShellPanels` pending payload shape if grouping is computed server-side (preferred)
+
+Landed 2026-08-18. `pending` stays a flat array; `pending_by_portfolio` is `{ real:, paper: }` groups (`#id` + lineage name). Empty OPs omitted; empty bands show `(none)`. Live compose had 0 pending after Monday catch-up — grouping verified via request spec first-paint HTML + JSON.
 
 ## Non-goals
 

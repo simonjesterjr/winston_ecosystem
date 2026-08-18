@@ -1,6 +1,6 @@
 # Ticket: Work Monday 2026-08-17 catch-up desk tasks (12 pending)
 
-**Status:** Proposed  
+**Status:** Done  
 **Priority:** P1  
 **Date:** 2026-08-18  
 **Related:** session [`docs/session-reports/2026-08-18-1000-after-close-eod-session-contract.md`](../session-reports/2026-08-18-1000-after-close-eod-session-contract.md)
@@ -34,6 +34,8 @@ Turtle Mint `85730621` had no Monday setup.
 
 ## Acceptance
 
-- [ ] Each row Confirm or Pass in ops shell / desk workflow
-- [ ] No re-mint of Friday-only names (BFIX, SCHD, USDU, FPA, NVDA, WMT, XOP, RXT, SVXY)
-- [ ] Optional: Telegram redelivery of Monday DAR only if the operator asks
+- [x] Each row Confirm or Pass in ops shell / desk workflow
+- [x] No re-mint of Friday-only names (BFIX, SCHD, USDU, FPA, NVDA, WMT, XOP, RXT, SVXY)
+- [x] Optional: Telegram redelivery of Monday DAR only if the operator asks — not requested; live pending count 0 as of 2026-08-18
+
+Operator confirmed complete 2026-08-18. Live `/operations` first paint: no actionable items.

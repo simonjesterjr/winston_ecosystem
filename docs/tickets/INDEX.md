@@ -29,7 +29,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 |----------|--------|------|-------|
 | P0 | Done | [`2026-08-18-after-close-eod-session-contract.md`](2026-08-18-after-close-eod-session-contract.md) | After-close EOD session contract (DM to-date + Wv2 exact bar) |
 | P1 | Proposed | [`2026-08-18-observe-tuesday-unattended-eod-cycle.md`](2026-08-18-observe-tuesday-unattended-eod-cycle.md) | Observe Tuesday unattended EOD cycle (DM 15:30 MT → DAR 16:30 MT) |
-| P1 | Proposed | [`2026-08-18-work-monday-catchup-desk-tasks.md`](2026-08-18-work-monday-catchup-desk-tasks.md) | Work Monday 2026-08-17 catch-up desk tasks (12 pending) |
+| P1 | Done | [`2026-08-18-work-monday-catchup-desk-tasks.md`](2026-08-18-work-monday-catchup-desk-tasks.md) | Work Monday 2026-08-17 catch-up desk tasks (12 pending) |
 | P2 | Proposed | [`2026-08-18-eodhd-lag-retry-after-close.md`](2026-08-18-eodhd-lag-retry-after-close.md) | EODHD lag retry when 15:30 MT pull misses today’s print |
 | P2 | Proposed | [`2026-08-18-persist-dm-download-runs.md`](2026-08-18-persist-dm-download-runs.md) | Persist DM download_runs / download_tasks for after-close sync |
 | P3 | Done | [`archive/2026-08-18-commit-wv2-signal-inspect-legend-sheet.md`](archive/2026-08-18-commit-wv2-signal-inspect-legend-sheet.md) | Commit leftover Wv2 signal-inspect legend sheet (`2d86e7a`) |
@@ -40,7 +40,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P1 | Done | [`2026-08-17-wv2-equity-wut-parity-flow-dar-shell.md`](2026-08-17-wv2-equity-wut-parity-flow-dar-shell.md) | Ticket: Wv2 equity WUT-parity — short flow + DAR + shell |
 | P1 | In progress | [`2026-08-12-turtle-systems-eval-and-ops-alignment.md`](2026-08-12-turtle-systems-eval-and-ops-alignment.md) | Ticket: Turtle systems eval + heat + capital + ops voice |
 | P1 | Proposed | [`2026-08-12-dar-next-steps-portfolio-name-truncation.md`](2026-08-12-dar-next-steps-portfolio-name-truncation.md) | Ticket: DAR Next Steps — portfolio column truncates to “Portfolio” |
-| P1 | Proposed | [`2026-08-12-ops-shell-next-steps-by-portfolio.md`](2026-08-12-ops-shell-next-steps-by-portfolio.md) | Ticket: Ops shell — pending/next steps grouped by portfolio |
+| P1 | Done | [`2026-08-12-ops-shell-next-steps-by-portfolio.md`](2026-08-12-ops-shell-next-steps-by-portfolio.md) | Ticket: Ops shell — pending/next steps grouped by portfolio |
 | P1 | Done | [`2026-08-13-handoff-mint-s2-yellow-s1-observation.md`](2026-08-13-handoff-mint-s2-yellow-s1-observation.md) | Ticket: Handoff Mint+TS#77 and Yellow+TS#75 observation OPs |
 | P1 | Done | [`2026-08-13-importer-risk-percentage-one-percent.md`](2026-08-13-importer-risk-percentage-one-percent.md) | Ticket: Importer treats risk_percentage 1.0 as 100% |
 | P1 | Proposed | [`2026-08-13-evaluate-turtle-mint-s2-yellow-s1.md`](2026-08-13-evaluate-turtle-mint-s2-yellow-s1.md) | Ticket: First Daily Analysis on Turtle Mint S2 + Yellow S1 |
@@ -200,4 +200,4 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 77 closed tickets in [`archive/`](archive/) — includes 2026-07-24 multi-cohort evaluate smoke (Mint #311 + Yellow #330).
 
-_Updated 2026-08-17 MDT (wrap: Wv2 short-flow / DAR / shell equity WUT-parity)._
+_Updated 2026-08-18 MDT (ops shell pending grouped by portfolio; Monday desk catch-up Done)._
