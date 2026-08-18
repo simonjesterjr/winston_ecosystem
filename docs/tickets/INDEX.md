@@ -27,7 +27,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
-| P1 | Proposed | [`2026-08-18-rust-11-drafts-937-938-desk.md`](2026-08-18-rust-11-drafts-937-938-desk.md) | Desk decision — Rust #11 drafts 937 (GOOGL) and 938 (RXT) |
+| P1 | In progress | [`2026-08-18-rust-11-drafts-937-938-desk.md`](2026-08-18-rust-11-drafts-937-938-desk.md) | Desk decision — Rust #11 drafts 937 (GOOGL) and 938 (RXT) |
 | P3 | Proposed | [`2026-08-18-mcp-list-journals-for-portfolio.md`](2026-08-18-mcp-list-journals-for-portfolio.md) | MCP list-journals for a portfolio |
 | P0 | Done | [`2026-08-18-after-close-eod-session-contract.md`](2026-08-18-after-close-eod-session-contract.md) | After-close EOD session contract (DM to-date + Wv2 exact bar) |
 | P1 | Proposed | [`2026-08-18-observe-tuesday-unattended-eod-cycle.md`](2026-08-18-observe-tuesday-unattended-eod-cycle.md) | Observe Tuesday unattended EOD cycle (DM 15:30 MT → DAR 16:30 MT) |
