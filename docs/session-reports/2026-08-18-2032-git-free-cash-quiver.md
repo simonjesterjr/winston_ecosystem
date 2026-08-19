@@ -80,16 +80,16 @@ Cross-monolith. Secrets (`quiver.env`, `eodhd.env`) **not** committed.
 
 ### Commits
 
-- `e3203e1` (winston_v2) — fix(ops): sign Daily Analysis draft journal flows like WUT
+- `5ae82b6` (winston_v2) — fix(ops): sign Daily Analysis draft journal flows like WUT
 - `7e31e4c` (data_manager) — feat(alt): Quiver Congress/insider Alt Filing adapter
-- `b553cbb` (ecosystem) — docs: ADR-011 Alt Filings, free-cash investigation, session wrap
+- `d997d8e` (ecosystem) — docs: ADR-011 Alt Filings, free-cash investigation, session wrap
 - `18a82ad` (winston_unit_test) — chore(lab): Quiver House Long-Short reconstruct script and live portfolio map
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on each repo
-- Pushed: pending wrap push
-- PR: not opened (direct `main`, existing convention)
+- Branch: `main` on each repo — clean, pushed
+- Pushed: yes
+- PR: not opened (direct `main`)
 
 ---
 
