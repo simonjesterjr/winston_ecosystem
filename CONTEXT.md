@@ -17,8 +17,12 @@ The cross-monolith knowledge base in `ecosystem/` — principles, plans, interfa
 _Avoid_: platform (overloaded), framework
 
 **data_manager (DM)**:
-The data acquisition monolith. Owns EODHD download, parquet production, derivative calculation, reconciliation, and Cromwell download notifications.
+The data acquisition monolith. Owns EODHD download, parquet production, derivative calculation, reconciliation, Cromwell download notifications, and **Alt Filing** acquisition.
 _Avoid_: data service, downloader (too narrow)
+
+**Alt Filing**:
+A sparse alternative-data event (Congress or insider trade, contract, etc.) acquired by **DM** and stored as a filing row — not a daily bar and not a **Daily Analysis** signal.
+_Avoid_: Quiver bar, alt candle, baking Congress into Winston EOD Standard
 
 **winston_unit_test (WUT)**:
 The backtesting and laboratory monolith — candidate selection for markets, strategies, **TradingStrategy**, portfolios, risk, and signals before operational engagement. Mature reference for data sync, portfolios, strategies, and Sidekiq patterns.
@@ -319,6 +323,7 @@ _Avoid_: daily analysis alone (the job; DAR is the report), flat “all Active�
 - A **Portfolio** has many **Books** (one per **Market**)
 - A **Portfolio** applies one **TradingStrategy** (loose coupling — strategy is a separate entity)
 - **DM** produces **Winston EOD Standard** parquet per **Market**; **Consumers** (WUT, Wv2) read it
+- **DM** owns **Alt Filings** (Quiver and later vendors); WUT/Wv2 read them via DM and never hold the vendor API key
 - **DM** maintains **DataCoverage** metadata that reflects parquet reality after **Reconciliation**
 - **Broker Gateway** owns adapter transport and the **Winston Broker Evidence Standard** (files + API); **Wv2** owns **Confirmation Intake** match/prefill, **Desk Confirm** / later **Desk Send**, journals, and capital — same split pattern as **DM** (parquet + API) vs consumers
 - **WUT** runs **Portfolio Signal Optimization** → **Optimization Candidate** → validation backtest → fingerprinted **TradingStrategy** + **TradingStrategy Selection** → (viability gates) → **Trade-Ready Portfolio** JSON *or* **Observation Portfolio** JSON → **Wv2** imports an **Operational Portfolio** + **CashEvent** + linked **TradingStrategy**
@@ -423,7 +428,8 @@ _Avoid_: daily analysis alone (the job; DAR is the report), flat “all Active�
 ## Flagged ambiguities
 
 - "account" can mean broker account, Portfolio, or Cromwell principal — resolved: use **Portfolio** for trading config, **Cromwell principal** for the human operator.
-- "sync" is overloaded — resolved: **Data Acquisition** (DM←EODHD); **Reconciliation** (parquet→PG metadata); **Symbol Demand** (consumers→DM discovery). WUT `Operations::DataSync` (Yahoo→activities) is legacy, not the target model.
+- "sync" is overloaded — resolved: **Data Acquisition** (DM←EODHD); **Reconciliation** (parquet→PG metadata); **Symbol Demand** (consumers→DM discovery); **Alt Filing** sync (DM←Quiver/events). WUT `Operations::DataSync` (Yahoo→activities) is legacy, not the target model.
+- Quiver / Congress / insider prints are not EOD bars and not desk signals — resolved: **Alt Filing**.
 - "audit log" is overloaded — resolved: **Ecosystem Audit Log** = integration/coordination events only; monolith application errors and request logs remain local per monolith.
 - "strategy" alone is overloaded — resolved: **TradingStrategy** for the reusable methodology entity; strategy class names (e.g. `Breakout20DayStrategy`) are implementation identifiers.
 - "vetted" / "export" overloaded — resolved: optimization complete → **Optimization Candidate**; breakeven+ gates → **Trade-Ready Portfolio**; sub-breakeven observation → **Observation Portfolio**; Wv2 hosting → **Operational Portfolio** (may be paper-only).

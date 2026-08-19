@@ -1,0 +1,12 @@
+# Quiver Quantitative API key (NOT the marketing site URL)
+# https://api.quiverquant.com/
+#
+# Copy to quiver.env (never commit the real token).
+# Mount on data_manager and data_manager_sidekiq only — not WUT, Wv2, or MCP.
+#
+# QUIVER_API_KEY=your_token_here
+#
+# Optional overrides:
+# QUIVER_API_BASE=https://api.quiverquant.com
+# QUIVER_CONGRESS_PATH=/beta/live/congresstrading
+# QUIVER_INSIDER_PATH=/beta/live/insiders
