@@ -46,7 +46,7 @@ WUT and Wv2 read parquet from DM; they do **not** re-run suitability. Portfolio 
 Register or re-evaluate via:
 
 ```bash
-bin/rails dm:symbol_registry:import_seeds[AMAT,TSMC,GLTR,CPER]
+bin/rails dm:symbol_registry:import_seeds[AMAT,TSM,GLTR,CPER]
 bin/rails dm:symbol_registry:evaluate[AMAT]
 ```
 

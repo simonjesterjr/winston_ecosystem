@@ -27,10 +27,14 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P1 | Proposed | [`2026-08-19-observe-wednesday-eod-tsm.md`](2026-08-19-observe-wednesday-eod-tsm.md) | Observe Wednesday unattended EOD — DAR must say TSM |
+| P1 | Proposed | [`2026-08-19-googl-rxt-correct-fill-if-open-gaps.md`](2026-08-19-googl-rxt-correct-fill-if-open-gaps.md) | Correct-fill Rust GOOGL / RXT if 2026-08-19 open gaps |
+| P2 | Proposed | [`2026-08-19-tsm-remap-operator-clickthrough.md`](2026-08-19-tsm-remap-operator-clickthrough.md) | Operator click-through — TSMC → TSM storage remap |
+| P3 | Proposed | [`2026-08-19-delete-predecessor-tsmc-parquet.md`](2026-08-19-delete-predecessor-tsmc-parquet.md) | Optional delete of predecessor TSMC parquet folder |
+| P1 | Done | [`archive/2026-08-18-observe-tuesday-unattended-eod-cycle.md`](archive/2026-08-18-observe-tuesday-unattended-eod-cycle.md) | Observe Tuesday unattended EOD cycle (DM 15:30 MT → DAR 16:30 MT) |
 | P1 | Done | [`archive/2026-08-18-rust-11-drafts-937-938-desk.md`](archive/2026-08-18-rust-11-drafts-937-938-desk.md) | Desk decision — Rust #11 drafts 937 (GOOGL) and 938 (RXT) |
 | P3 | Proposed | [`2026-08-18-mcp-list-journals-for-portfolio.md`](2026-08-18-mcp-list-journals-for-portfolio.md) | MCP list-journals for a portfolio |
 | P0 | Done | [`2026-08-18-after-close-eod-session-contract.md`](2026-08-18-after-close-eod-session-contract.md) | After-close EOD session contract (DM to-date + Wv2 exact bar) |
-| P1 | Proposed | [`2026-08-18-observe-tuesday-unattended-eod-cycle.md`](2026-08-18-observe-tuesday-unattended-eod-cycle.md) | Observe Tuesday unattended EOD cycle (DM 15:30 MT → DAR 16:30 MT) |
 | P2 | Proposed | [`2026-08-18-verify-ops-shell-pending-grouped-live.md`](2026-08-18-verify-ops-shell-pending-grouped-live.md) | Verify ops-shell Pending grouping on a live multi-OP mint |
 | P1 | Done | [`2026-08-18-work-monday-catchup-desk-tasks.md`](2026-08-18-work-monday-catchup-desk-tasks.md) | Work Monday 2026-08-17 catch-up desk tasks (12 pending) |
 | P2 | Proposed | [`2026-08-18-eodhd-lag-retry-after-close.md`](2026-08-18-eodhd-lag-retry-after-close.md) | EODHD lag retry when 15:30 MT pull misses today’s print |
@@ -68,12 +72,12 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P1 | Done | [`2026-08-09-bg-evidence-store-jsonl-and-cursors.md`](2026-08-09-bg-evidence-store-jsonl-and-cursors.md) | Ticket: Broker Gateway — evidence store JSONL + cursors |
 | P1 | Done | [`2026-08-09-bg-internal-api-refresh-events.md`](2026-08-09-bg-internal-api-refresh-events.md) | Ticket: Broker Gateway — internal API refresh + events |
 | P1 | Ready | [`2026-08-09-bg-schwab-read-adapter-l1.md`](2026-08-09-bg-schwab-read-adapter-l1.md) | Ticket: Broker Gateway — Schwab read adapter (L1) |
-| P1 | Ready | [`2026-08-09-wv2-bg-client-and-event-cursor.md`](2026-08-09-wv2-bg-client-and-event-cursor.md) | Ticket: Wv2 — BG client + event cursor |
-| P1 | Ready | [`2026-08-09-wv2-trade-notification-store-and-normalize.md`](2026-08-09-wv2-trade-notification-store-and-normalize.md) | Ticket: Wv2 — TradeNotification store + normalize |
-| P1 | Ready | [`2026-08-09-wv2-match-prefill-confirmation-intake.md`](2026-08-09-wv2-match-prefill-confirmation-intake.md) | Ticket: Wv2 — match + prefill Confirmation Intake |
-| P1 | Ready | [`2026-08-09-wv2-desk-workflow-hitl-evidence-ui.md`](2026-08-09-wv2-desk-workflow-hitl-evidence-ui.md) | Ticket: Wv2 — desk workflow HITL evidence UI |
-| P1 | Ready | [`2026-08-09-wv2-confirmation-intake-integration-specs.md`](2026-08-09-wv2-confirmation-intake-integration-specs.md) | Ticket: Wv2 — Confirmation Intake integration specs |
-| P1 | Ready | [`2026-08-09-l1-contract-fixtures-and-test-harness.md`](2026-08-09-l1-contract-fixtures-and-test-harness.md) | Ticket: L1 contract fixtures + test harness |
+| P1 | Done | [`2026-08-09-wv2-bg-client-and-event-cursor.md`](2026-08-09-wv2-bg-client-and-event-cursor.md) | Ticket: Wv2 — BG client + event cursor |
+| P1 | Done | [`2026-08-09-wv2-trade-notification-store-and-normalize.md`](2026-08-09-wv2-trade-notification-store-and-normalize.md) | Ticket: Wv2 — TradeNotification store + normalize |
+| P1 | Done | [`2026-08-09-wv2-match-prefill-confirmation-intake.md`](2026-08-09-wv2-match-prefill-confirmation-intake.md) | Ticket: Wv2 — match + prefill Confirmation Intake |
+| P1 | Done | [`2026-08-09-wv2-desk-workflow-hitl-evidence-ui.md`](2026-08-09-wv2-desk-workflow-hitl-evidence-ui.md) | Ticket: Wv2 — desk workflow HITL evidence UI |
+| P1 | Done | [`2026-08-09-wv2-confirmation-intake-integration-specs.md`](2026-08-09-wv2-confirmation-intake-integration-specs.md) | Ticket: Wv2 — Confirmation Intake integration specs |
+| P1 | Done | [`2026-08-09-l1-contract-fixtures-and-test-harness.md`](2026-08-09-l1-contract-fixtures-and-test-harness.md) | Ticket: L1 contract fixtures + test harness |
 | P1 | Proposed | [`2026-08-07-schwab-trader-api-sandbox-spike.md`](2026-08-07-schwab-trader-api-sandbox-spike.md) | Ticket: Schwab Trader API sandbox / integration-test spike |
 | P2 | In progress | [`2026-08-04-stack-arr-mer-risk-scale-chart.md`](2026-08-04-stack-arr-mer-risk-scale-chart.md) | Ticket: Stack ARR + MER on trade timeline; risk-scale path chart |
 | P3 | Proposed | [`2026-08-03-portfolio-color-edit-ui.md`](2026-08-03-portfolio-color-edit-ui.md) | Ticket: Portfolio color edit UI (WUT + Wv2) |
@@ -203,4 +207,4 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 77 closed tickets in [`archive/`](archive/) — includes 2026-07-24 multi-cohort evaluate smoke (Mint #311 + Yellow #330).
 
-_Updated 2026-08-18 MDT (filed live Pending-grouping verify ticket)._
+_Updated 2026-08-19 MDT (TSMC→TSM wrap tickets; Tuesday EOD observe archived Done)._

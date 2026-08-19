@@ -14,7 +14,7 @@ description: Book or exit a fill on an Operational Portfolio. Enter requires Sig
 
 **Enter / book**
 - "honor the MSFT enter with LEAPs instead of stock" → link `signal_task_id` / confirm journal
-- "I bought 54 shares of TSMC at 323.44 for Magenta" → **force=true** + notes (no DA signal) **or** confirm draft if one exists
+- "I bought 54 shares of TSM at 323.44 for Magenta" → **force=true** + notes (no DA signal) **or** confirm draft if one exists
 - "book 45 GGG @ 58.87 on YGF" (naked) → force + notes
 - "IBM signaled breakout — buy 2 Jan 2028 150 LEAP calls @ 12.50 on Blue" → `signal_task_id`
 
