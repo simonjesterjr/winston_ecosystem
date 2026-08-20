@@ -89,7 +89,7 @@ Secrets (`quiver.env`) **not** committed.
 - `winston_v2` `77cc3df` — feat(ops): Congress Long-Short copy book with isolation and fractional units
 - `winston_data_manager` `640e713` — fix(alt): raise Congress filing GET limit when from= is set
 - `winston_unit_test` `393a49b` — chore(ops): skip DailyTasks on Quiver lab baskets 282–284
-- `winston_ecosystem` — this wrap (schedule + session report)
+- `winston_ecosystem` `c572dd6` — docs: Congress Long-Short copy-book wrap; schedule digest + Friday job
 
 ### Branch / PR state at sign-off
 
