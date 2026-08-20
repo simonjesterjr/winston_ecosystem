@@ -82,10 +82,10 @@
 - Live DM HTTP 500 / hourly Telegram DEGRADED caused by unapplied `20260819000000_create_quiver_filings_and_sync_runs` — migrated; live health check `ok=true`.
 
 ### Deferred
-- Watchdog recovery hints are not probe-specific (always nanobot/ollama).
-- DM `GET /up` 404 vs registered `rails/health#show`.
-- Many compose services stuck in `(starting)` (WUT, Wv2, MCP, nanobot, BG, open-webui) — not diagnosed.
-- Live Alt Filing sync / `quiver.env` mount — already open in `docs/session-reports/2026-08-18-2032-git-free-cash-quiver.md` §10; tables now exist so that path is unblocked.
+- Watchdog recovery hints are not probe-specific (always nanobot/ollama). See: [`docs/tickets/2026-08-20-health-watchdog-probe-specific-hints.md`](../tickets/2026-08-20-health-watchdog-probe-specific-hints.md)
+- DM `GET /up` 404 vs registered `rails/health#show`. See: [`docs/tickets/2026-08-20-dm-rails-health-up-404.md`](../tickets/2026-08-20-dm-rails-health-up-404.md)
+- Many compose services stuck in `(starting)` (WUT, Wv2, MCP, nanobot, BG, open-webui) — not diagnosed. See: [`docs/tickets/2026-08-20-compose-starting-healthcheck-inventory.md`](../tickets/2026-08-20-compose-starting-healthcheck-inventory.md)
+- Live Alt Filing sync / `quiver.env` mount — already open in `docs/session-reports/2026-08-18-2032-git-free-cash-quiver.md` §10; tables now exist so that path is unblocked. See: [`docs/tickets/2026-08-20-mount-quiver-env-live-alt-filing-sync.md`](../tickets/2026-08-20-mount-quiver-env-live-alt-filing-sync.md)
 
 ---
 
@@ -162,10 +162,10 @@
 
 ## 14. Follow-up Actions
 
-- [ ] Probe-specific Telegram recovery hints in `EcosystemHealthCheckService#format_message` — owner: agent/operator — due: whenever the footer misleads again
-- [ ] Diagnose DM `GET /up` 404 — owner: agent — due: if compose healthchecks matter
-- [ ] Inventory why compose services sit in `(starting)` — owner: agent — due: ops hygiene
-- [ ] Mount `quiver.env` and run live Alt Filing sync now that tables exist — owner: operator — due: already tracked 2026-08-18
+- [ ] Probe-specific Telegram recovery hints in `EcosystemHealthCheckService#format_message` — owner: agent/operator — due: whenever the footer misleads again. See: [`docs/tickets/2026-08-20-health-watchdog-probe-specific-hints.md`](../tickets/2026-08-20-health-watchdog-probe-specific-hints.md)
+- [ ] Diagnose DM `GET /up` 404 — owner: agent — due: if compose healthchecks matter. See: [`docs/tickets/2026-08-20-dm-rails-health-up-404.md`](../tickets/2026-08-20-dm-rails-health-up-404.md)
+- [ ] Inventory why compose services sit in `(starting)` — owner: agent — due: ops hygiene. See: [`docs/tickets/2026-08-20-compose-starting-healthcheck-inventory.md`](../tickets/2026-08-20-compose-starting-healthcheck-inventory.md)
+- [ ] Mount `quiver.env` and run live Alt Filing sync now that tables exist — owner: operator — due: already tracked 2026-08-18. See: [`docs/tickets/2026-08-20-mount-quiver-env-live-alt-filing-sync.md`](../tickets/2026-08-20-mount-quiver-env-live-alt-filing-sync.md)
 
 ---
 

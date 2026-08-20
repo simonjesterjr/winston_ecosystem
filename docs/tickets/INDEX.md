@@ -27,6 +27,10 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P2 | Proposed | [`2026-08-20-mount-quiver-env-live-alt-filing-sync.md`](2026-08-20-mount-quiver-env-live-alt-filing-sync.md) | Mount quiver.env and run live Alt Filing sync |
+| P3 | Proposed | [`2026-08-20-health-watchdog-probe-specific-hints.md`](2026-08-20-health-watchdog-probe-specific-hints.md) | Ecosystem health Telegram hints should match the failed probe |
+| P3 | Proposed | [`2026-08-20-dm-rails-health-up-404.md`](2026-08-20-dm-rails-health-up-404.md) | Diagnose data_manager GET /up 404 |
+| P3 | Proposed | [`2026-08-20-compose-starting-healthcheck-inventory.md`](2026-08-20-compose-starting-healthcheck-inventory.md) | Inventory compose services stuck in (starting) |
 | P1 | Proposed | [`2026-08-19-observe-wednesday-eod-tsm.md`](2026-08-19-observe-wednesday-eod-tsm.md) | Observe Wednesday unattended EOD — DAR must say TSM |
 | P1 | Proposed | [`2026-08-19-googl-rxt-correct-fill-if-open-gaps.md`](2026-08-19-googl-rxt-correct-fill-if-open-gaps.md) | Correct-fill Rust GOOGL / RXT if 2026-08-19 open gaps |
 | P2 | Proposed | [`2026-08-19-tsm-remap-operator-clickthrough.md`](2026-08-19-tsm-remap-operator-clickthrough.md) | Operator click-through — TSMC → TSM storage remap |
