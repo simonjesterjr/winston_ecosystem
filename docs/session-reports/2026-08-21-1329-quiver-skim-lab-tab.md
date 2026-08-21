@@ -83,12 +83,12 @@ Workspace-only (not in a monolith git): `/Users/alexkoisch/Winston/compose.yml` 
 
 - `42fe33a` (winston_unit_test) — feat(lab): Quiver Skim tab with weekly reconstructed books
 - `ff8d273` (winston_data_manager) — feat(alt): Quiver book catalog and bulk/live Congress sync
-- _(ecosystem sha after this commit)_
+- `7399380` (winston_ecosystem) — docs: Quiver Skim glossary, weekly schedule, session report
 
 ### Branch / PR state at sign-off
 
 - Branch: `main` on each repo
-- Pushed: wrap in progress
+- Pushed: yes
 - PR: not opened (direct `main`, same as prior Quiver sessions)
 
 ---
