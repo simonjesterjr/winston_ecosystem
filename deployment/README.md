@@ -59,6 +59,8 @@ Redis isolation: DM `redis://redis:6379/0`, WUT `/1`, Wv2 `/2`.
 - Never commit real keys. Use the templates in this directory.
 - Inter-monolith tokens (for /api/internal/*) live in the same place or as compose secrets / env.
 
+Quiver (Alt Filings) uses the same pattern: copy `quiver-env-template.txt` to `quiver.env` and mount it on `data_manager` / `data_manager_sidekiq` only. Never mount the Quiver key on WUT, Wv2, or MCP.
+
 Example template file (create `eodhd.env.template` or similar and copy to a non-committed `eodhd.env`):
 
 ```

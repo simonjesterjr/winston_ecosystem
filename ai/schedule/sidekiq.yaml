@@ -12,6 +12,11 @@ data_manager:
     class: WeekendDataSyncJob
     active_job: true
     queue: default
+  quiver_alt_sync:
+    cron: "0 16 * * 1-5 America/Denver"
+    class: QuiverSyncJob
+    active_job: true
+    queue: default
   # Independent of Cromwell — alerts if AI/gateway/LLM or monoliths are down.
   ecosystem_health_hourly:
     cron: "10 * * * * America/Denver"
