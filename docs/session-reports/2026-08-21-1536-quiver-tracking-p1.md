@@ -64,7 +64,7 @@
 ### Commits
 
 - `122df58` — `feat(ops): Quiver Tracking desk v1 (page, PDF ingest, parquet demand, paper forms)` (winston_v2)
-- `a542c26` — `docs: Quiver Tracking P1 session report` (ecosystem)
+- `e735d5a` — `docs: Quiver Tracking P1 session report` (ecosystem)
 
 ### Branch / PR state at sign-off
 
@@ -175,7 +175,7 @@
 
 ## 11. Handoff & Resume Notes
 
-- **Where I left off:** v1 desk live on `:3002/wv2/quiver_tracking`; wv2 `122df58`; ecosystem `a542c26`; leftover CI/MMS unstaged.
+- **Where I left off:** v1 desk live on `:3002/wv2/quiver_tracking`; wv2 `122df58`; ecosystem `e735d5a`; leftover CI/MMS unstaged.
 - **Next concrete step:** Operator uploads a real Congress Long-Short PDF + extracted holdings table; confirm add tasks on the empty OP.
 - **Files to read first:** `ecosystem/plans/quiver-tracking-desk.md`; `winston_v2/app/services/operations/quiver_tracking.rb`; `winston_v2/app/services/quiver_tracking/ingest.rb`
 
