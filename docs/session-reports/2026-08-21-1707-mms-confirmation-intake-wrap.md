@@ -44,8 +44,8 @@ This wrap **does not invent** the features; it records work that had been runnin
 
 ### Commits
 
-- `winston_v2` — feat(ops): Confirmation Intake L1 and Mid-month Scoreboard (this wrap)
-- `ecosystem` — docs: MMS MCP/skill and Confirmation Intake ticket status (this wrap)
+- `winston_v2` `4f13e3e` — feat(ops): Confirmation Intake L1 and Mid-month Scoreboard
+- `ecosystem` `891c737` — docs: MMS MCP/skill and Confirmation Intake L1 ticket status
 
 ### Branch / PR state at sign-off
 
