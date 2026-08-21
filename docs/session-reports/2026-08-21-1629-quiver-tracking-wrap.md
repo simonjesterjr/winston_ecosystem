@@ -53,12 +53,14 @@
 - `winston_v2` `122df58` — feat(ops): Quiver Tracking desk v1 (page, PDF ingest, parquet demand, paper forms)
 - `ecosystem` `e735d5a` — docs: Quiver Tracking P1 session report
 - `ecosystem` `165deed` — docs: fill wrap commit SHA e735d5a
-- Header-link + DM database.yml — **pending this wrap commit**
+- `winston_v2` `817fc9c` — feat(ops): link Quiver Tracking from ops-shell header
+- `data_manager` `0ab2f4c` — fix(db): compose container defaults for postgres service
+- `ecosystem` `091837e` — docs: Quiver Tracking wrap report and four P2 follow-up tickets
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on Wv2 / ecosystem / DM — tracking v1 pushed; header + DM yml dirty
-- Pushed: yes for v1; header not yet
+- Branch: `main` on Wv2 / ecosystem / DM
+- Pushed: pending wrap push
 - PR: not opened (direct `main`)
 
 ---
