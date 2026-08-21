@@ -33,6 +33,10 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P1 | Done | [`archive/2026-08-21-wv2-quiver-tracking-population-forms.md`](archive/2026-08-21-wv2-quiver-tracking-population-forms.md) | Quiver Tracking paper population / weighting forms |
 | P3 | Proposed — not v1 | [`2026-08-21-quiver-pdf-bot-scrape.md`](2026-08-21-quiver-pdf-bot-scrape.md) | Automate Quiver Strategies PDF grab / scrape |
 | P3 | Proposed — not now | [`2026-08-21-quiver-tracking-bg-fulfillment.md`](2026-08-21-quiver-tracking-bg-fulfillment.md) | Broker Gateway path for Quiver Tracking |
+| P2 | Proposed | [`2026-08-21-wv2-quiver-tracking-native-pdf-parser.md`](2026-08-21-wv2-quiver-tracking-native-pdf-parser.md) | Native PDF parser for Quiver Tracking Premium print-PDF |
+| P2 | Proposed | [`2026-08-21-cromwell-telegram-quiver-tracking-ingest.md`](2026-08-21-cromwell-telegram-quiver-tracking-ingest.md) | Cromwell Telegram document → Quiver Tracking ingest |
+| P2 | Proposed | [`2026-08-21-wv2-quiver-tracking-equity-curve.md`](2026-08-21-wv2-quiver-tracking-equity-curve.md) | Real equity curve on Quiver Tracking desk |
+| P2 | Proposed | [`2026-08-21-grill-quiver-tracking-membership-vs-successor.md`](2026-08-21-grill-quiver-tracking-membership-vs-successor.md) | Grill Quiver Tracking in-place membership vs ADR-006 successor |
 | P2 | Proposed | [`2026-08-20-mount-quiver-env-live-alt-filing-sync.md`](2026-08-20-mount-quiver-env-live-alt-filing-sync.md) | Mount quiver.env and run live Alt Filing sync |
 | P3 | Proposed | [`2026-08-20-health-watchdog-probe-specific-hints.md`](2026-08-20-health-watchdog-probe-specific-hints.md) | Ecosystem health Telegram hints should match the failed probe |
 | P3 | Proposed | [`2026-08-20-dm-rails-health-up-404.md`](2026-08-20-dm-rails-health-up-404.md) | Diagnose data_manager GET /up 404 |
