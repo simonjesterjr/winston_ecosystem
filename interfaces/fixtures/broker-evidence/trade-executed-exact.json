@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.1",
+  "event_id": "22222222-2222-4222-8222-222222222222",
+  "idempotency_key": "dummy_sim:txn:hash:paper:exact-2026-08-19",
+  "occurred_at": "2026-08-19T15:42:11Z",
+  "ingested_at": "2026-08-19T15:43:02Z",
+  "binding_id": "bnd_dummy_paper",
+  "adapter_key": "dummy_sim",
+  "event_type": "trade.executed",
+  "vendor_account_ref": "hash:paper",
+  "raw_payload_ref": null,
+  "payload": {
+    "source_channel": "sim",
+    "external_order_id": "SIM-ORD-EXACT",
+    "external_txn_id": "SIM-EXACT-2026-08-19",
+    "symbol": "SPY",
+    "instrument_type": "etf",
+    "underlying_hint": "SPY",
+    "side": "buy",
+    "quantity": "10",
+    "fill_price": "500.00",
+    "filled_at": "2026-08-19T15:42:11Z",
+    "partial": false,
+    "fees": "0.00",
+    "scenario": "exact"
+  }
+}

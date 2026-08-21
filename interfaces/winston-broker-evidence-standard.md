@@ -463,6 +463,7 @@ Deferred by design until after build phases; listed so implementers do not inven
 - `docs/tickets/2026-08-09-winston-broker-evidence-standard-interface.md` — acceptance ticket  
 - `docs/tickets/2026-08-09-bg-evidence-store-jsonl-and-cursors.md` — BG store implement  
 - `docs/tickets/2026-08-09-bg-internal-api-refresh-events.md` — pull/refresh API implement  
+- `interfaces/fixtures/broker-evidence/` — L1 contract fixtures (v0.1)
 
 ---
 

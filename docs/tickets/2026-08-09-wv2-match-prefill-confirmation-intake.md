@@ -1,6 +1,6 @@
 # Ticket: Wv2 — match + prefill Confirmation Intake (never auto-book)
 
-**Status:** Ready  
+**Status:** Done  
 **Priority:** P1  
 **Date:** 2026-08-09  
 **Series:** `trade-fulfillment-engine`  
@@ -43,12 +43,14 @@ Inbound TradeNotifications must attach to a **Single Fulfillment Identity** (dra
 
 ## Acceptance
 
-- [ ] Match service returns typed MatchResult outcomes  
-- [ ] Prefill updates draft fields only  
-- [ ] Specs prove **no** Position open / journal execute from match alone  
-- [ ] Extra-modal: no symbol-equality-only match  
-- [ ] Orphan + ambiguous paths do not invent links  
-- [ ] Q9 deferred notes documented  
+- [x] Match service returns typed MatchResult outcomes  
+- [x] Prefill updates draft fields only  
+- [x] Specs prove **no** Position open / journal execute from match alone  
+- [x] Extra-modal: no symbol-equality-only match  
+- [x] Orphan + ambiguous paths do not invent links  
+- [x] Q9 deferred notes documented  
+
+Shipped 2026-08-19: `ConfirmationIntake::MatchNotification` (header documents v1 Q9 assumptions), `PrefillFromMatch`, `AttachNotification`, `IngestOrchestrator`. Dummy_sim events never match real/manual OPs.  
 
 ## Related
 

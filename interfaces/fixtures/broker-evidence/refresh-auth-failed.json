@@ -1,0 +1,8 @@
+{
+  "binding_id": "bnd_dummy_paper",
+  "status": "auth_failed",
+  "events_appended": 0,
+  "head_cursor": "0",
+  "auth_status": "failed",
+  "error": "needs_reauth"
+}

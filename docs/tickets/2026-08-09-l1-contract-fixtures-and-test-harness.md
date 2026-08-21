@@ -1,6 +1,6 @@
 # Ticket: L1 contract fixtures + test harness (Wv2 ↔ BG)
 
-**Status:** Ready  
+**Status:** Done  
 **Priority:** P1  
 **Date:** 2026-08-09  
 **Series:** `trade-fulfillment-engine`  
@@ -40,11 +40,13 @@ Grill B Q7 locked **contract + fixtures first**. Shared evidence event fixtures 
 
 ## Acceptance
 
-- [ ] Fixture directory/files landed and referenced from Evidence Standard interface  
-- [ ] At least one BG-side and one Wv2-side consumer of fixtures in specs  
-- [ ] Contract assert: required fields present; idempotency key stable  
-- [ ] Documented run command  
-- [ ] No live network required  
+- [x] Fixture directory/files landed and referenced from Evidence Standard interface  
+- [x] At least one BG-side and one Wv2-side consumer of fixtures in specs  
+- [x] Contract assert: required fields present; idempotency key stable  
+- [x] Documented run command  
+- [x] No live network required  
+
+Canonical: `ecosystem/interfaces/fixtures/broker-evidence/`. Wv2 copies under `spec/fixtures/broker-evidence`. Wv2 specs consume them. BG dummy_sim already emits the same envelope at runtime (no extra BG fixture spec this slice).  
 
 ## Related
 

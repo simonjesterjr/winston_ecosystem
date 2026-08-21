@@ -78,6 +78,21 @@ tasks:
       - storage/reports/wv2_{date}.pdf
     status: active
 
+  - id: wv2_mid_month_scoreboard
+    owner: sidekiq
+    service: winston_v2
+    job: MidMonthScoreboardJob
+    cron: "0 6 * * 3"
+    tz: America/Denver
+    description: >
+      Every Wednesday 06:00 MT; job no-ops unless that date is the third Wednesday.
+      Writes Mid-month Scoreboard PDF/JSON and a mid_month_scoreboards row.
+      Telegram only on the scheduled run (not rake force).
+    produces:
+      - storage/reports/mms_{date}.pdf
+      - storage/mms_notifications/mms_{date}.json
+    status: active
+
   - id: wut_daily_operations
     owner: sidekiq
     service: winston_unit_test

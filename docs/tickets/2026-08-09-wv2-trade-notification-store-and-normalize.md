@@ -1,6 +1,6 @@
 # Ticket: Wv2 — TradeNotification durable store + normalize
 
-**Status:** Ready  
+**Status:** Done  
 **Priority:** P1  
 **Date:** 2026-08-09  
 **Series:** `trade-fulfillment-engine`  
@@ -39,11 +39,13 @@ Evidence events from BG must become durable, queryable **Trade Notifications** i
 
 ## Acceptance
 
-- [ ] Durable TradeNotification rows from BG events  
-- [ ] Idempotent on re-ingest  
-- [ ] Fields sufficient for match + desk prefill  
-- [ ] Specs with shared L1 fixtures  
-- [ ] No Journal executed / Position open side effects  
+- [x] Durable TradeNotification rows from BG events  
+- [x] Idempotent on re-ingest  
+- [x] Fields sufficient for match + desk prefill  
+- [x] Specs with shared L1 fixtures  
+- [x] No Journal executed / Position open side effects  
+
+Shipped 2026-08-19: `TradeNotification` + `ConfirmationIntake::NormalizeNotification` / `StoreNotification`. Fixtures: `ecosystem/interfaces/fixtures/broker-evidence/`.  
 
 ## Related
 

@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.1",
+  "event_id": "55555555-5555-4555-8555-555555555555",
+  "idempotency_key": "dummy_sim:order:hash:paper:cancel-2026-08-19",
+  "occurred_at": "2026-08-19T15:10:00Z",
+  "ingested_at": "2026-08-19T15:10:02Z",
+  "binding_id": "bnd_dummy_paper",
+  "adapter_key": "dummy_sim",
+  "event_type": "order.canceled",
+  "vendor_account_ref": "hash:paper",
+  "raw_payload_ref": null,
+  "payload": {
+    "source_channel": "sim",
+    "external_order_id": "SIM-CXL-2026-08-19",
+    "symbol": "SPY",
+    "status": "canceled",
+    "scenario": "cancel"
+  }
+}

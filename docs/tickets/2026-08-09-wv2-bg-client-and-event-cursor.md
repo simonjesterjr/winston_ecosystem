@@ -1,6 +1,6 @@
 # Ticket: Wv2 — Broker Gateway client + event cursor store
 
-**Status:** Ready  
+**Status:** Done  
 **Priority:** P1  
 **Date:** 2026-08-09  
 **Series:** `trade-fulfillment-engine`  
@@ -40,11 +40,13 @@ Confirmation Intake lives in Wv2 for match/prefill/book, but evidence is produce
 
 ## Acceptance
 
-- [ ] Client can refresh + pull against BG (dummy or WebMock)  
-- [ ] Cursor persists and advances only after successful local accept of events  
-- [ ] Job scheduled or rake-triggerable for ops  
-- [ ] Specs cover empty stream, multi-event page, BG down  
-- [ ] No book/Position mutation in this ticket  
+- [x] Client can refresh + pull against BG (dummy or WebMock)  
+- [x] Cursor persists and advances only after successful local accept of events  
+- [x] Job scheduled or rake-triggerable for ops  
+- [x] Specs cover empty stream, multi-event page, BG down  
+- [x] No book/Position mutation in this ticket  
+
+Shipped 2026-08-19: `BrokerGateway::Client`, `BrokerGatewayCursor`, `ConfirmationIntakeJob` (every 5 min), `bin/rails wv2:confirmation_intake:pull`.  
 
 ## Related
 

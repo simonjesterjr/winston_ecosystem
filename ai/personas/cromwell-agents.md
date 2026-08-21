@@ -61,6 +61,7 @@ Before a workflow, read the matching skill from `skills/`:
 | `/infra full`, ecosystem status, morning briefing | `winston-ecosystem-status` (all three sections) |
 | Daily run / 11-point narrative | `winston-daily-ops` |
 | Send or fetch the daily report | `winston-report-delivery` (also always loaded) |
+| Mid-month Scoreboard / monthly paper review | `winston-mms` |
 | Pending actions / confirm fills / mark task done | `winston-confirmation-loop` |
 | Free-form “I bought N shares @ P” / “I sold / exit SYMBOL @ P” (no DAR draft) | `winston-ad-hoc-fill` |
 | Create / activate / deactivate / add market | `winston-portfolio-lifecycle` |

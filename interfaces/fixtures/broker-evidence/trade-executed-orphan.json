@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.1",
+  "event_id": "33333333-3333-4333-8333-333333333333",
+  "idempotency_key": "dummy_sim:txn:hash:paper:orphan-2026-08-19",
+  "occurred_at": "2026-08-19T16:01:00Z",
+  "ingested_at": "2026-08-19T16:01:05Z",
+  "binding_id": "bnd_dummy_paper",
+  "adapter_key": "dummy_sim",
+  "event_type": "trade.executed",
+  "vendor_account_ref": "hash:paper",
+  "raw_payload_ref": null,
+  "payload": {
+    "source_channel": "sim",
+    "external_txn_id": "SIM-ORPHAN-2026-08-19",
+    "symbol": "IWM",
+    "instrument_type": "etf",
+    "underlying_hint": "IWM",
+    "side": "buy",
+    "quantity": "1",
+    "fill_price": "200.00",
+    "filled_at": "2026-08-19T16:01:00Z",
+    "partial": false,
+    "fees": "0.00",
+    "scenario": "orphan",
+    "orphan": true
+  }
+}

@@ -1,6 +1,6 @@
 # Ticket: Wv2 — Desk Workflow HITL evidence UI
 
-**Status:** Ready  
+**Status:** Done  
 **Priority:** P1  
 **Date:** 2026-08-09  
 **Series:** `trade-fulfillment-engine`  
@@ -43,11 +43,13 @@ Operators need to **see** matched broker evidence, mismatches, and orphans on th
 
 ## Acceptance
 
-- [ ] Operator can view matched evidence on a desk handoff/journal  
-- [ ] Mismatch and orphan states visible  
-- [ ] Confirm still required after prefill  
-- [ ] No Send / place_order control  
-- [ ] Specs cover at least one happy-path prefill render  
+- [x] Operator can view matched evidence on a desk handoff/journal  
+- [x] Mismatch and orphan states visible  
+- [x] Confirm still required after prefill  
+- [x] No Send / place_order control  
+- [x] Specs cover at least one happy-path prefill render  
+
+Shipped 2026-08-19: `/operations/workflow` evidence panel; `/operations/intake` unmatched queue + human attach. Copy: Desk Confirm still books; does not send an order. MCP/Telegram “review unmatched fills” deferred.  
 
 ## Related
 

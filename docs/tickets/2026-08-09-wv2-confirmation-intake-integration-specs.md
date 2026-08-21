@@ -1,6 +1,6 @@
 # Ticket: Wv2 — Confirmation Intake integration specs
 
-**Status:** Ready  
+**Status:** Done  
 **Priority:** P1  
 **Date:** 2026-08-09  
 **Series:** `trade-fulfillment-engine`  
@@ -42,10 +42,21 @@ Unit specs per service are not enough for capital-adjacent L1. Need integration 
 
 ## Acceptance
 
-- [ ] Integration specs green in CI or documented compose path  
-- [ ] Happy path + orphan + ambiguous + idempotent re-pull covered  
-- [ ] Explicit assert: no auto-book; no place_order  
-- [ ] Uses shared fixtures  
+- [x] Integration specs green in CI or documented compose path  
+- [x] Happy path + orphan + ambiguous + idempotent re-pull covered  
+- [x] Explicit assert: no auto-book; no place_order  
+- [x] Uses shared fixtures  
+
+Run (compose):
+
+```bash
+./bin/compose exec -T -e RAILS_ENV=test -e TEST_DB_HOST=wv2_postgres winston_v2 \
+  bundle exec rspec spec/services/broker_gateway spec/services/confirmation_intake \
+  spec/requests/operations_confirmation_intake_spec.rb \
+  spec/requests/operations_desk_workflow_evidence_spec.rb
+```
+
+Live dummy_sim in compose is an ops pull (`wv2:confirmation_intake:pull[binding,exact]`), not a CI dependency.  
 
 ## Related
 

@@ -55,6 +55,10 @@ Runtime config (`ai/data/cromwell-bot/config.json`) must include e.g. `10.0.0.0/
 Daily 6:00 AM MT:
   Cromwell cron  → morning briefing (infrastructure probes, business ops, prior-day EODHD sync summary)
 
+Third Wednesday 6:00 AM MT:
+  Wv2 Sidekiq MidMonthScoreboardJob → Mid-month Scoreboard PDF + publication row
+  (cron is every Wednesday; the job no-ops unless that date is the third Wednesday)
+
 M-F (America/Denver):
   3:30 PM  DM Sidekiq     → EODHD sync for all WUT+Wv2 portfolio symbols (+ Cromwell event log)
   3:35/3:45 PM Cromwell cron → relay DM events via dm_get_cromwell_events

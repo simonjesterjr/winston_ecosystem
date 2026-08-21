@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.1",
+  "event_id": "44444444-4444-4444-8444-444444444444",
+  "idempotency_key": "dummy_sim:txn:hash:paper:leap-ibm-2026-08-19",
+  "occurred_at": "2026-08-19T15:50:00Z",
+  "ingested_at": "2026-08-19T15:50:04Z",
+  "binding_id": "bnd_dummy_paper",
+  "adapter_key": "dummy_sim",
+  "event_type": "trade.executed",
+  "vendor_account_ref": "hash:paper",
+  "raw_payload_ref": null,
+  "payload": {
+    "source_channel": "sim",
+    "external_order_id": "SIM-ORD-LEAP",
+    "external_txn_id": "SIM-LEAP-IBM-2026-08-19",
+    "symbol": "IBM260116C00150000",
+    "instrument_type": "option",
+    "underlying_hint": "IBM",
+    "side": "buy",
+    "quantity": "2",
+    "fill_price": "27.00",
+    "multiplier": "100",
+    "filled_at": "2026-08-19T15:50:00Z",
+    "partial": false,
+    "fees": "1.30",
+    "extra_modal_note": "broker symbol may differ from Winston signal Market"
+  }
+}

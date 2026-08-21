@@ -66,6 +66,7 @@
 | [`2026-08-07-schwab-trader-api-sandbox-spike.md`](2026-08-07-schwab-trader-api-sandbox-spike.md) | Sandbox reality for live Schwab read |
 | [`2026-08-05-signal-path-truth-fulfillment-link-exit-reconcile.md`](2026-08-05-signal-path-truth-fulfillment-link-exit-reconcile.md) | D10 capital — related; not L1 blocking for first ship |
 | [`2026-07-21-broker-confirmation-email-api-intake.md`](2026-07-21-broker-confirmation-email-api-intake.md) | Discovery — **superseded** by this L1 implement set |
+| [`2026-08-20-resting-session-stop-orders.md`](2026-08-20-resting-session-stop-orders.md) | P1 Blocked — Turtle resting stop-market session cycle; **L3+ only**, not an L1 child |
 
 ## Non-goals (epic)
 
@@ -93,8 +94,8 @@
 | Internal API refresh + events (MG1) | **Done** |
 | Adapter registry + CapabilityProfile | **Done** (2026-08-10) |
 | `dummy_sim` scenarios + refresh smoke | **Done** (2026-08-10); compose `broker_gateway` :3003 |
-| Wv2 client → TradeNotification → match/prefill → desk UI | **Next** |
-| Schwab read + fixtures harness | Later |
+| Wv2 client → TradeNotification → match/prefill → desk UI | **Done** (2026-08-19) |
+| Schwab read + fixtures harness | Fixtures **done**; Schwab read adapter still later |
 
 ## Suggested build order
 
@@ -102,10 +103,10 @@
 2. ~~BG Rails scaffold~~ (landed)  
 3. ~~Evidence store + internal API~~ **Done**  
 4. ~~Adapter registry + dummy/sim adapter~~ **Done**  
-5. Wv2 client + TradeNotification store  
-6. Match/prefill + desk UI  
+5. ~~Wv2 client + TradeNotification store~~ **Done**  
+6. ~~Match/prefill + desk UI~~ **Done**  
 7. Schwab read adapter (fixtures first; live after sandbox spike)  
-8. Integration specs + contract fixtures harness  
+8. ~~Integration specs + contract fixtures harness~~ **Done** (Wv2 + shared fixtures; live dummy_sim compose pull is ops)  
 
 ## Open questions
 
