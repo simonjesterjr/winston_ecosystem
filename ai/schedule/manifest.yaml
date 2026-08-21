@@ -39,18 +39,30 @@ tasks:
     audience: lab_and_ops
     status: active
 
-  - id: wut_quiver_lab_weekly_book
+  - id: wut_quiver_skim_monday_books
+    owner: sidekiq
+    service: winston_unit_test
+    job: QuiverLabSnapshotJob
+    cron: "0 8 * * 1"
+    tz: America/Denver
+    description: >
+      Monday Quiver Skim of operator recipes (Congress Buys, Congress Long-Short,
+      Nancy Pelosi, Insider Purchases). Holdings from DM Alt Filings, not EODHD.
+      Registers WUT Markets so Data Sets can open price parquet. No Telegram.
+    depends_on: [dm_quiver_alt_sync]
+    audience: wut_quiver_skim
+    status: active
+
+  - id: wut_quiver_skim_friday_house
     owner: sidekiq
     service: winston_unit_test
     job: QuiverLabSnapshotJob
     cron: "0 17 * * 5"
     tz: America/Denver
     description: >
-      Friday WUT Quiver tab refresh: reconstruct operator recipes from DM filings,
-      persist weekly books, demand EODHD parquet for book tickers.
-      Isolated from Portfolios / PBR / DailyTasks. No Telegram.
+      Friday Quiver Skim of House Long-Short only (job arg quiver_house_long_short).
     depends_on: [dm_quiver_alt_sync]
-    audience: wut_quiver_tab
+    audience: wut_quiver_skim
     status: active
 
   - id: wv2_daily_analysis
