@@ -58,8 +58,14 @@ Daily 6:00 AM MT:
 M-F (America/Denver):
   3:30 PM  DM Sidekiq     → EODHD sync for all WUT+Wv2 portfolio symbols (+ Cromwell event log)
   3:35/3:45 PM Cromwell cron → relay DM events via dm_get_cromwell_events
+  4:00 PM  DM Sidekiq     → Quiver Alt Filing skim (Congress → quiver_filings)
   4:30 PM  Wv2 Sidekiq    → DailyAnalysisJob → JSON + PDF on disk
   4:35 PM  Cromwell cron  → fetch_only report + Telegram (+ PDF)
+  4:45 PM  Wv2 Sidekiq    → Congress Long-Short paper copy rebalance (Friday only)
+
+Friday 5:00 PM MT:
+  WUT Sidekiq → Quiver Skim weekly book (reconstruct from DM filings; EODHD only for prices)
+                WUT Quiver tab only — not Portfolios / PBR / Telegram
 
 NYSE session (7:30 AM–2:00 PM MT ≈ 9:30 AM–4:00 PM Eastern):
   7:30 AM  Cromwell cron  → market snapshot (open)
@@ -70,6 +76,10 @@ Saturday 8:00 AM MT:
 
 WUT 6:00 AM (optional):
   DailyOperationsJob → Winston Operations UI only (not Cromwell/Telegram)
+
+WUT Friday 5:00 PM:
+  QuiverLabSnapshotJob → weekly House/Congress Quiver Skim books on the Quiver Skim tab
+  (depends on DM 4:00 PM Alt Filing skim the same afternoon)
 
 DM Sidekiq ecosystem health (independent of Cromwell LLM):
   :10 every hour  → EcosystemHealthCheckJob hourly (Telegram only if degraded)

@@ -24,6 +24,10 @@ _Avoid_: data service, downloader (too narrow)
 A sparse alternative-data event (Congress or insider trade, contract, etc.) acquired by **DM** and stored as a filing row — not a daily bar and not a **Daily Analysis** signal.
 _Avoid_: Quiver bar, alt candle, baking Congress into Winston EOD Standard
 
+**Quiver Skim**:
+A named Winston reconstruction of a Quiver Quantitative strategy’s **current holdings** (Congress Buys, Congress Long-Short, Nancy Pelosi, Insider Purchases, House Long-Short). **DM** builds the book from Alt Filings (file date only). **WUT** stores versioned skim books and diffs (opened / liquidated / rebalanced). Not EODHD bars, not Trend Following, not a Daily Analysis signal, not the vendor’s unpublished live holdings page. Price bars for skim tickers still come from EODHD parquet.
+_Avoid_: scraping quiverquant.com/strategies, calling a skim book an EODHD data set, treating a skim book as an Operational Portfolio
+
 **winston_unit_test (WUT)**:
 The backtesting and laboratory monolith — candidate selection for markets, strategies, **TradingStrategy**, portfolios, risk, and signals before operational engagement. Mature reference for data sync, portfolios, strategies, and Sidekiq patterns.
 _Avoid_: unit test (misleading — it is a full trading app), test env, production ops (that is **Wv2**)

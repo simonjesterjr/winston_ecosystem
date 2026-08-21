@@ -26,6 +26,33 @@ tasks:
     description: Saturday parquet refresh (same symbol union as dm_daily_sync)
     status: active
 
+  - id: dm_quiver_alt_sync
+    owner: sidekiq
+    service: data_manager
+    job: QuiverSyncJob
+    cron: "0 16 * * 1-5"
+    tz: America/Denver
+    description: >
+      Weekday Alt Filing skim (Congress live). DM owns the Quiver key.
+      Insider is skipped on Hobbyist 403. No Telegram.
+    depends_on: []
+    audience: lab_and_ops
+    status: active
+
+  - id: wut_quiver_lab_weekly_book
+    owner: sidekiq
+    service: winston_unit_test
+    job: QuiverLabSnapshotJob
+    cron: "0 17 * * 5"
+    tz: America/Denver
+    description: >
+      Friday WUT Quiver tab refresh: reconstruct operator recipes from DM filings,
+      persist weekly books, demand EODHD parquet for book tickers.
+      Isolated from Portfolios / PBR / DailyTasks. No Telegram.
+    depends_on: [dm_quiver_alt_sync]
+    audience: wut_quiver_tab
+    status: active
+
   - id: wv2_daily_analysis
     owner: sidekiq
     service: winston_v2

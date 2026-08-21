@@ -9,4 +9,5 @@
 # Optional overrides:
 # QUIVER_API_BASE=https://api.quiverquant.com
 # QUIVER_CONGRESS_PATH=/beta/live/congresstrading
+# QUIVER_CONGRESS_BULK_PATH=/beta/bulk/congresstrading
 # QUIVER_INSIDER_PATH=/beta/live/insiders

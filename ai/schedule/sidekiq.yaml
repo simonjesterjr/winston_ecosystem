@@ -59,3 +59,24 @@ winston_unit_test:
     class: ActiveAccountsBackupJob
     active_job: true
     queue: default
+  quiver_lab_friday_book:
+    cron: "0 17 * * 5 America/Denver"
+    class: QuiverLabSnapshotJob
+    args: ["quiver_house_long_short"]
+    active_job: true
+    queue: default
+  quiver_lab_monday_books:
+    cron: "0 8 * * 1 America/Denver"
+    class: QuiverLabSnapshotJob
+    active_job: true
+    queue: default
+  portfolio_correlation_daily_score:
+    cron: "30 7 * * * America/Denver"
+    class: PortfolioCorrelationDailyScoreJob
+    active_job: true
+    queue: default
+  quiver_lab_friday_book:
+    cron: "0 17 * * 5 America/Denver"
+    class: QuiverLabSnapshotJob
+    active_job: true
+    queue: default
