@@ -28,6 +28,18 @@ _Avoid_: Quiver bar, alt candle, baking Congress into Winston EOD Standard
 A named Winston reconstruction of a Quiver Quantitative strategy’s **current holdings** (Congress Buys, Congress Long-Short, Nancy Pelosi, Insider Purchases, House Long-Short). **DM** builds the book from Alt Filings (file date only). **WUT** stores versioned skim books and diffs (opened / liquidated / rebalanced). Not EODHD bars, not Trend Following, not a Daily Analysis signal, not the vendor’s unpublished live holdings page. Price bars for skim tickers still come from EODHD parquet.
 _Avoid_: scraping quiverquant.com/strategies, calling a skim book an EODHD data set, treating a skim book as an Operational Portfolio
 
+**Quiver Tracking Portfolio**:
+A **paper** **Operational Portfolio** in **Wv2** whose membership and weights track a **published** Quiver strategy book (v1: Congress Long-Short). Target book comes from an operator-uploaded **Quiver Snapshot PDF** (HITL), not from Daily Analysis and not from the WUT Skim reconstruction. Starts empty; gap tasks add/drop/reweight names and ask **DM** for parquet. Journals, pending, positions, and equity are scoped to this OP. **Daily Analysis** skips it. Not live capital; Broker Gateway fills are a later plan.
+_Avoid_: treating it as a TF paper OP, minting DA signals from the PDF, using the Quiver API as the holdings source, mixing fingerprints with the old 15/10 copy-book reconstruction
+
+**Quiver Tracking Desk**:
+The Wv2 page `/quiver_tracking` (public: Tailscale Serve `/wv2/quiver_tracking`) — ops-shell styling, separate route from `/operations`. PDF archive, gap tasks, paper population/weighting forms, tracking-only blotter and equity.
+_Avoid_: stuffing tracking pending into the TF ops-shell 25-row cap
+
+**Quiver Snapshot PDF**:
+A human-downloaded (or later bot-fetched) PDF of a Quiver Strategies holdings table. Stored like a **Daily Activity Report** under Wv2 `storage/reports/quiver_tracking/`. v1 source of truth for **published** weights. Parser failures become HITL tasks, not filing reconstructions.
+_Avoid_: calling DM Alt Filings a snapshot PDF; treating an unreadable PDF as an empty strategy
+
 **winston_unit_test (WUT)**:
 The backtesting and laboratory monolith — candidate selection for markets, strategies, **TradingStrategy**, portfolios, risk, and signals before operational engagement. Mature reference for data sync, portfolios, strategies, and Sidekiq patterns.
 _Avoid_: unit test (misleading — it is a full trading app), test env, production ops (that is **Wv2**)
@@ -328,6 +340,7 @@ _Avoid_: daily analysis alone (the job; DAR is the report), flat “all Active�
 - A **Portfolio** applies one **TradingStrategy** (loose coupling — strategy is a separate entity)
 - **DM** produces **Winston EOD Standard** parquet per **Market**; **Consumers** (WUT, Wv2) read it
 - **DM** owns **Alt Filings** (Quiver and later vendors); WUT/Wv2 read them via DM and never hold the vendor API key
+- A **Quiver Tracking Portfolio** in **Wv2** tracks a **Quiver Snapshot PDF** (published holdings). **DM** supplies parquet (and optional filing-reconstruction footnote). **Quiver Skim** in **WUT** remains lab-only. Tracking is skipped by **Daily Analysis**; paper forms on the **Quiver Tracking Desk** close membership/weight gaps. Broker Gateway is not the v1 fill path.
 - **DM** maintains **DataCoverage** metadata that reflects parquet reality after **Reconciliation**
 - **Broker Gateway** owns adapter transport and the **Winston Broker Evidence Standard** (files + API); **Wv2** owns **Confirmation Intake** match/prefill, **Desk Confirm** / later **Desk Send**, journals, and capital — same split pattern as **DM** (parquet + API) vs consumers
 - **WUT** runs **Portfolio Signal Optimization** → **Optimization Candidate** → validation backtest → fingerprinted **TradingStrategy** + **TradingStrategy Selection** → (viability gates) → **Trade-Ready Portfolio** JSON *or* **Observation Portfolio** JSON → **Wv2** imports an **Operational Portfolio** + **CashEvent** + linked **TradingStrategy**
@@ -429,11 +442,15 @@ _Avoid_: daily analysis alone (the job; DAR is the report), flat “all Active�
 > **Dev:** "I want to skip the pyramid on A and take the entry on D instead."
 > **Domain expert:** "**Desk Pass** the pyramid handoff with a **required reason**, then open the entry D workflow. That is a third **Passed Signal** kind — not process miss and not free-form enter. Capacity still never waived."
 
+> **Dev:** "I downloaded the Congress Long-Short PDF from Quiver. Do we hit the API and run Daily Analysis?"
+> **Domain expert:** "No. Upload the **Quiver Snapshot PDF** on the **Quiver Tracking Desk**. Target weights come from the PDF. **DM** pulls EODHD parquet for those names. The **Quiver API** stays on DM for **Alt Filings** only. This paper **Quiver Tracking Portfolio** is not TF — no Daily Analysis signals."
+
 ## Flagged ambiguities
 
 - "account" can mean broker account, Portfolio, or Cromwell principal — resolved: use **Portfolio** for trading config, **Cromwell principal** for the human operator.
 - "sync" is overloaded — resolved: **Data Acquisition** (DM←EODHD); **Reconciliation** (parquet→PG metadata); **Symbol Demand** (consumers→DM discovery); **Alt Filing** sync (DM←Quiver/events). WUT `Operations::DataSync` (Yahoo→activities) is legacy, not the target model.
 - Quiver / Congress / insider prints are not EOD bars and not desk signals — resolved: **Alt Filing**.
+- Quiver “strategy book” is three things — resolved: **Alt Filings** (events, DM+API); **Quiver Skim** (WUT/DM reconstruction from file dates, not published CAGR); **Quiver Tracking Portfolio** (Wv2 paper OP whose target is a **Quiver Snapshot PDF** of Premium holdings). Do not use the API as the tracking holdings source. Website scrape is a later HITL-removal plan, not v1.
 - "audit log" is overloaded — resolved: **Ecosystem Audit Log** = integration/coordination events only; monolith application errors and request logs remain local per monolith.
 - "strategy" alone is overloaded — resolved: **TradingStrategy** for the reusable methodology entity; strategy class names (e.g. `Breakout20DayStrategy`) are implementation identifiers.
 - "vetted" / "export" overloaded — resolved: optimization complete → **Optimization Candidate**; breakeven+ gates → **Trade-Ready Portfolio**; sub-breakeven observation → **Observation Portfolio**; Wv2 hosting → **Operational Portfolio** (may be paper-only).

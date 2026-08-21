@@ -27,6 +27,12 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P1 | Done | [`archive/2026-08-21-wv2-quiver-tracking-page.md`](archive/2026-08-21-wv2-quiver-tracking-page.md) | Wv2 Quiver Tracking desk page + empty paper OP |
+| P1 | Done | [`archive/2026-08-21-wv2-quiver-pdf-ingest-and-gap-tasks.md`](archive/2026-08-21-wv2-quiver-pdf-ingest-and-gap-tasks.md) | Quiver Tracking PDF ingest + gap tasks |
+| P1 | Done | [`archive/2026-08-21-dm-parquet-for-quiver-tracking-books.md`](archive/2026-08-21-dm-parquet-for-quiver-tracking-books.md) | DM parquet pull for Quiver Tracking names |
+| P1 | Done | [`archive/2026-08-21-wv2-quiver-tracking-population-forms.md`](archive/2026-08-21-wv2-quiver-tracking-population-forms.md) | Quiver Tracking paper population / weighting forms |
+| P3 | Proposed — not v1 | [`2026-08-21-quiver-pdf-bot-scrape.md`](2026-08-21-quiver-pdf-bot-scrape.md) | Automate Quiver Strategies PDF grab / scrape |
+| P3 | Proposed — not now | [`2026-08-21-quiver-tracking-bg-fulfillment.md`](2026-08-21-quiver-tracking-bg-fulfillment.md) | Broker Gateway path for Quiver Tracking |
 | P2 | Proposed | [`2026-08-20-mount-quiver-env-live-alt-filing-sync.md`](2026-08-20-mount-quiver-env-live-alt-filing-sync.md) | Mount quiver.env and run live Alt Filing sync |
 | P3 | Proposed | [`2026-08-20-health-watchdog-probe-specific-hints.md`](2026-08-20-health-watchdog-probe-specific-hints.md) | Ecosystem health Telegram hints should match the failed probe |
 | P3 | Proposed | [`2026-08-20-dm-rails-health-up-404.md`](2026-08-20-dm-rails-health-up-404.md) | Diagnose data_manager GET /up 404 |
