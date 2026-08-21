@@ -37,6 +37,16 @@ winston_v2:
     class: DailyAnalysisJob
     active_job: true
     queue: default
+  quiver_congress_ls_digest:
+    cron: "40 16 * * 1-5 America/Denver"
+    class: QuiverCongressLongShortDigestJob
+    active_job: true
+    queue: default
+  quiver_congress_ls_rebalance:
+    cron: "45 16 * * 5 America/Denver"
+    class: QuiverCongressLongShortRebalanceJob
+    active_job: true
+    queue: default
 
 winston_unit_test:
   daily_operations:
