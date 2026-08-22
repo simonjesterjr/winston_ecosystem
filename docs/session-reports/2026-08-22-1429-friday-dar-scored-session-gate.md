@@ -88,7 +88,7 @@
 
 - **data_manager** `ebd2fdd` — `fix(eod): retry session coverage until 17:00 MT when EODHD lags`
 - **winston_v2** `0932562` — `fix(ops): gate DAR on a scored session; mint-only catch-up`
-- **ecosystem** `3aed6fc` — ADR-012, tickets, session report
+- **ecosystem** `dadd2d7` — ADR-012, tickets, session report
 
 ### Branch / PR state at sign-off
 
