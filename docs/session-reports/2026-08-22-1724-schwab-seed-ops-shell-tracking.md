@@ -54,7 +54,8 @@
 
 ### Commits
 
-Filled after wrap push.
+- `winston_v2` `ca5b305` — feat(ops): show Quiver Tracking OP on the ops shell
+- `winston_ecosystem` `2fc23ce` — this report
 
 ### Branch / PR state at sign-off
 
