@@ -63,6 +63,9 @@ Replace Wv2 `DemoSignalCreator` with a full port of WUT's `SignalEvaluation` + `
 
 ## Open (Phase 2+)
 
-- Auto-requeue analysis when DM `data_ready` webhook fires
 - Full Cromwell notification schema in `interfaces/`
 - WUT daily ops migration off Yahoo DataSync to DM parquet read path
+
+## Later (ADR-012)
+
+Auto-requeue when DM `data_ready` fires is no longer open design: catch-up Daily Analysis mints tasks for a **Not Scored** session once exact bars exist; DAR publication waits on a **Scored Session**. See `eod-scored-session-and-dar-publication.md`.

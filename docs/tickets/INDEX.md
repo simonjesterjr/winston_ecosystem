@@ -29,6 +29,9 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 |----------|--------|------|-------|
 | P0 | In progress | [`2026-08-22-corporate-action-stop-safeguards.md`](2026-08-22-corporate-action-stop-safeguards.md) | Corporate-action stop safeguards (unadjusted reverse-split jumps × cover-at-open) |
 | P0 | In progress | [`2026-08-18-eodhd-lag-retry-after-close.md`](2026-08-18-eodhd-lag-retry-after-close.md) | EODHD lag retry + scored-session DAR gate (ADR-012; Friday 2026-08-21 miss) |
+| P1 | Proposed | [`2026-08-22-observe-friday-scored-session-dar.md`](2026-08-22-observe-friday-scored-session-dar.md) | Observe next Friday unattended EOD — scored DAR, not hold |
+| P1 | Proposed | [`2026-08-22-work-friday-catchup-desk-tasks.md`](2026-08-22-work-friday-catchup-desk-tasks.md) | Work Friday 2026-08-21 catch-up desk tasks (13 pending) |
+| P3 | Proposed | [`2026-08-22-catchup-telegram-one-liner.md`](2026-08-22-catchup-telegram-one-liner.md) | Optional catch-up Telegram one-liner (desk-only is the default) |
 | P1 | Done | [`archive/2026-08-21-wv2-quiver-tracking-page.md`](archive/2026-08-21-wv2-quiver-tracking-page.md) | Wv2 Quiver Tracking desk page + empty paper OP |
 | P1 | Done | [`archive/2026-08-21-wv2-quiver-pdf-ingest-and-gap-tasks.md`](archive/2026-08-21-wv2-quiver-pdf-ingest-and-gap-tasks.md) | Quiver Tracking PDF ingest + gap tasks |
 | P1 | Done | [`archive/2026-08-21-dm-parquet-for-quiver-tracking-books.md`](archive/2026-08-21-dm-parquet-for-quiver-tracking-books.md) | DM parquet pull for Quiver Tracking names |

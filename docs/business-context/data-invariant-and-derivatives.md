@@ -38,6 +38,7 @@ A Wv2 **Portfolio** has **Books** for AAPL, MSFT, IBM. On daily analysis:
 | Symptom | Likely cause | Resolution |
 |---------|--------------|------------|
 | Strategy shows no signals | Missing parquet for a Book's Market | `dm:sync_from_wv2` or consumer-triggered download |
+| DAR says hold but books skipped `missing_data` | EODHD print lagged the 15:30 MT pull; Daily Analysis published anyway | Retry DM until the completed session is on parquet or 17:00 MT; do not publish Hold for a Not Scored session (ADR-012) |
 | WUT backtest ≠ Wv2 live signals | Different indicator values | Verify both read DM parquet; check DM atr_17 semantics |
 | DM thinks data missing but files exist | PG out of sync | Run `data:reconcile` |
 
