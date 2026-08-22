@@ -1,0 +1,74 @@
+{
+  "experiment": "resting_stop_touch_v1",
+  "session_ticket": "2026-08-20-wut-resting-stop-touch-fill-cadence",
+  "created_at": "2026-08-21T15:00:04Z",
+  "chassis": {
+    "risk_evaluation_strategy": "static",
+    "stop_strategy": "move_to_last_entry",
+    "atr_multiplier": 2.0,
+    "pyramid_atr_multiplier": 0.5,
+    "max_pyramid": 4,
+    "max_positions_per_symbol": 4,
+    "max_positions_per_portfolio": 12,
+    "risk_percent": 0.01,
+    "always_in_market": false
+  },
+  "cells": [
+    {
+      "pbr_id": 532,
+      "status": "pending",
+      "portfolio_id": 110,
+      "portfolio_name": "Portfolio Mint",
+      "cell_key": "mint_s2",
+      "strategy_key": "S2",
+      "fill_cadence": "next_bar_open",
+      "fill_arm": "next_open",
+      "parent_pbr_id": 432,
+      "trading_strategy_id": 77,
+      "created_now": true,
+      "ui_path": "/wut/portfolio_backtest_runs/532"
+    },
+    {
+      "pbr_id": 533,
+      "status": "pending",
+      "portfolio_id": 110,
+      "portfolio_name": "Portfolio Mint",
+      "cell_key": "mint_s2",
+      "strategy_key": "S2",
+      "fill_cadence": "resting_stop_touch",
+      "fill_arm": "resting",
+      "parent_pbr_id": 432,
+      "trading_strategy_id": 77,
+      "created_now": true,
+      "ui_path": "/wut/portfolio_backtest_runs/533"
+    },
+    {
+      "pbr_id": 534,
+      "status": "pending",
+      "portfolio_id": 111,
+      "portfolio_name": "Portfolio Yellow",
+      "cell_key": "yellow_s1",
+      "strategy_key": "S1",
+      "fill_cadence": "next_bar_open",
+      "fill_arm": "next_open",
+      "parent_pbr_id": 433,
+      "trading_strategy_id": 75,
+      "created_now": true,
+      "ui_path": "/wut/portfolio_backtest_runs/534"
+    },
+    {
+      "pbr_id": 535,
+      "status": "pending",
+      "portfolio_id": 111,
+      "portfolio_name": "Portfolio Yellow",
+      "cell_key": "yellow_s1",
+      "strategy_key": "S1",
+      "fill_cadence": "resting_stop_touch",
+      "fill_arm": "resting",
+      "parent_pbr_id": 433,
+      "trading_strategy_id": 75,
+      "created_now": true,
+      "ui_path": "/wut/portfolio_backtest_runs/535"
+    }
+  ]
+}

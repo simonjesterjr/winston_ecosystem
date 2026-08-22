@@ -17,6 +17,7 @@ This is the canonical format that DM produces and that consumers (WUT today, Wv2
 - Rows sorted ascending by date.
 - No duplicate (symbol, date) — the file for a symbol is the single source for that symbol's history.
 - Adjusted prices where the upstream (EODHD) provides them; note the source.
+- Reverse-split / split overnight jumps (`open/prev_close` ≥ 1.8 or ≤ 1/1.8) are **not** tradable gaps. DM back-adjusts prior OHLC into post-jump terms before baking ATR/MAs (see issue `2026-08-22-unadjusted-reverse-split-jumps`).
 - Embedded or sidecar metadata: symbol, asof (the "as of" date of the last update), source="eodhd", standard_version="0.1", indicators (list of derived columns present).
 - DuckDB-friendly (excellent predicate pushdown, window functions used by DM during standardization).
 

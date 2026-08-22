@@ -56,3 +56,19 @@ Hybrid keeps this ADR’s morning order for entries (stops → exit fills → en
 ### Addendum (2026-07-26) — pyramid price-level (resting stop)
 
 Fourth mode: `hybrid_entry_next_pyramid_price_level` — entries T+1 open; pyramids fill when OHLC **touches** `last_entry ± N×ATR` (ATR frozen from last-lot bar; only sessions after last lot). Ops analogy: park buy-stop at known scale-in price. Ticket: `2026-07-26-hybrid-fill-price-level-pyramid.md`.
+
+### Addendum (2026-08-20) — resting stop-touch entries (lab opt-in)
+
+Fifth mode: `resting_stop_touch` — **not** pack default, **not** ADR-009 ops default.
+
+| Leg | Cadence |
+|-----|---------|
+| Initial entry | `price_level_touch` on the **signal bar** (no T+1 entry queue) |
+| Pyramid | existing `price_level_touch` |
+| Protective stop | working stop vs bar low/high once live; gap-through stop fills at **open** |
+
+Fill helper: `LabFillCadence.price_level_fill`. Entry level for high/low Donchian: prior-window max high / min low. v1 strategies: `Breakout20DayStrategy` / `Breakout55DayStrategy` and the other `high > max_high` family. Close-confirm recipes are out of v1.
+
+Same-bar OHLC freeze: mid-bar touch (fill = level) does **not** protective-stop on that bar; gap-through (fill = open) may. Ticket: `2026-08-20-wut-resting-stop-touch-fill-cadence.md`.
+
+**Scored 2026-08-21** (Mint S2 #533 vs #532, Yellow S1 #535 vs #534): **do not promote**. Median Δret **−205**, Δdd **+33**. Yellow made more with worse DD. Mint −100% is **not** a clean cadence result: 2026-08-22 diagnosis (`docs/analysis/2026-08-22-mint-resting-stop-touch-ruin.md`) — unadjusted USO/XOP reverse-split jumps × cover-at-open; same-bar stops = 0. Lab switch remains opt-in. Scorecard: `docs/analysis/2026-08-21-resting-stop-touch-v1-scorecard.md`.

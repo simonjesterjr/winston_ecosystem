@@ -27,6 +27,8 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P0 | In progress | [`2026-08-22-corporate-action-stop-safeguards.md`](2026-08-22-corporate-action-stop-safeguards.md) | Corporate-action stop safeguards (unadjusted reverse-split jumps × cover-at-open) |
+| P0 | In progress | [`2026-08-18-eodhd-lag-retry-after-close.md`](2026-08-18-eodhd-lag-retry-after-close.md) | EODHD lag retry + scored-session DAR gate (ADR-012; Friday 2026-08-21 miss) |
 | P1 | Done | [`archive/2026-08-21-wv2-quiver-tracking-page.md`](archive/2026-08-21-wv2-quiver-tracking-page.md) | Wv2 Quiver Tracking desk page + empty paper OP |
 | P1 | Done | [`archive/2026-08-21-wv2-quiver-pdf-ingest-and-gap-tasks.md`](archive/2026-08-21-wv2-quiver-pdf-ingest-and-gap-tasks.md) | Quiver Tracking PDF ingest + gap tasks |
 | P1 | Done | [`archive/2026-08-21-dm-parquet-for-quiver-tracking-books.md`](archive/2026-08-21-dm-parquet-for-quiver-tracking-books.md) | DM parquet pull for Quiver Tracking names |
@@ -37,6 +39,8 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P2 | Proposed | [`2026-08-21-cromwell-telegram-quiver-tracking-ingest.md`](2026-08-21-cromwell-telegram-quiver-tracking-ingest.md) | Cromwell Telegram document → Quiver Tracking ingest |
 | P2 | Proposed | [`2026-08-21-wv2-quiver-tracking-equity-curve.md`](2026-08-21-wv2-quiver-tracking-equity-curve.md) | Real equity curve on Quiver Tracking desk |
 | P2 | Proposed | [`2026-08-21-grill-quiver-tracking-membership-vs-successor.md`](2026-08-21-grill-quiver-tracking-membership-vs-successor.md) | Grill Quiver Tracking in-place membership vs ADR-006 successor |
+| P1 | Scored — no pack default; v2 Mint survived | [`2026-08-20-wut-resting-stop-touch-fill-cadence.md`](2026-08-20-wut-resting-stop-touch-fill-cadence.md) | WUT lab cadence — resting stop-touch entries (Donchian fill at parked level) |
+| P1 | Blocked | [`2026-08-20-resting-session-stop-orders.md`](2026-08-20-resting-session-stop-orders.md) | Resting session stop-market orders (entry / pyramid / protect) — post-BG L3 |
 | P2 | Proposed | [`2026-08-20-mount-quiver-env-live-alt-filing-sync.md`](2026-08-20-mount-quiver-env-live-alt-filing-sync.md) | Mount quiver.env and run live Alt Filing sync |
 | P3 | Proposed | [`2026-08-20-health-watchdog-probe-specific-hints.md`](2026-08-20-health-watchdog-probe-specific-hints.md) | Ecosystem health Telegram hints should match the failed probe |
 | P3 | Proposed | [`2026-08-20-dm-rails-health-up-404.md`](2026-08-20-dm-rails-health-up-404.md) | Diagnose data_manager GET /up 404 |
@@ -51,7 +55,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P0 | Done | [`2026-08-18-after-close-eod-session-contract.md`](2026-08-18-after-close-eod-session-contract.md) | After-close EOD session contract (DM to-date + Wv2 exact bar) |
 | P2 | Proposed | [`2026-08-18-verify-ops-shell-pending-grouped-live.md`](2026-08-18-verify-ops-shell-pending-grouped-live.md) | Verify ops-shell Pending grouping on a live multi-OP mint |
 | P1 | Done | [`2026-08-18-work-monday-catchup-desk-tasks.md`](2026-08-18-work-monday-catchup-desk-tasks.md) | Work Monday 2026-08-17 catch-up desk tasks (12 pending) |
-| P2 | Proposed | [`2026-08-18-eodhd-lag-retry-after-close.md`](2026-08-18-eodhd-lag-retry-after-close.md) | EODHD lag retry when 15:30 MT pull misses today’s print |
+
 | P2 | Proposed | [`2026-08-18-persist-dm-download-runs.md`](2026-08-18-persist-dm-download-runs.md) | Persist DM download_runs / download_tasks for after-close sync |
 | P3 | Done | [`archive/2026-08-18-commit-wv2-signal-inspect-legend-sheet.md`](archive/2026-08-18-commit-wv2-signal-inspect-legend-sheet.md) | Commit leftover Wv2 signal-inspect legend sheet (`2d86e7a`) |
 | P2 | Proposed | [`2026-08-17-exit-at-stop-classic-desk-and-ops-shell.md`](2026-08-17-exit-at-stop-classic-desk-and-ops-shell.md) | Ticket: Exit-at-stop on classic desk and ops shell |
