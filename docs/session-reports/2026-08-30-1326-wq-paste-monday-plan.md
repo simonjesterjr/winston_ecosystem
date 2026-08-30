@@ -84,7 +84,7 @@
 
 - `broker_gateway` `5459488` — feat(dummy_sim): sandbox_fills for WQ Plan Approve test cycles
 - `winston_v2` `aad8cb8` — feat(ops): WQ Monday plan and Holdings+Shorts paste merge
-- `ecosystem` _(this wrap)_ — docs: WQ paste/Monday-plan session report + CONTEXT/ADR-009
+- `ecosystem` `24d08ce` — docs: WQ shadow book, paste merge, Monday plan session wrap
 
 ### Branch / PR state at sign-off
 
