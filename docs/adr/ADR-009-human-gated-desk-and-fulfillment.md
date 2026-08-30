@@ -35,7 +35,8 @@ We choose **C: Human-gated desk and fulfillment boundary**.
 7. **Dual spines:** **Signal Spine** (methodology/process) + **Booked Capital Spine** (live cash/risk/DAR). Live OP uses booked.  
 8. **Stops:** methodology default ATR + **Working Stop** on Position; real-world stop-out via **Stop-Out Reconciliation** (required position link, working-stop snapshot, warn on gap).  
 9. **Desk Workflow:** every handoff carries a guided Wv2 confirm path link (plus Telegram/shell). Full workflow page is product intent; partial desk form today.  
-10. **Engagement:** any **Journal** including draft engages the OP (ADR-006); independent of Active/paper/real.
+10. **Engagement:** any **Journal** including draft engages the OP (ADR-006); independent of Active/paper/real.  
+11. **Plan Approve (WQ addendum, 2026-08-28):** On the **WQ Shadow Portfolio** only, the Human-Gated verb is **Plan Approve** of a **Monday Rebalance Plan** (or flatten plan), not per-leg Desk Confirm. After Approve, remaining legs may auto-execute at-market (dummy_sim next-open in test). Reject leaves lots unchanged. Test **blow-away** is allowed only on paper tracking OPs. Mint / Ops Trend Following / Execution Mode `real` stay per-leg Human-Gated. Live WQ Schwab write is a later binding change after test cycles — not implied by this addendum.
 
 ## Rationale
 

@@ -17,9 +17,11 @@ Prices for Skim and Tracking both come from **DM parquet** (EODHD). Neither uses
 ## Tracking is not TF
 
 - No Daily Analysis enter/pyramid/exit from a PDF or a filing.
-- Paper forms on the tracking desk close **population and weight** gaps.
-- First journal still **engages** the OP (ADR-006) except the planned tracking exception: membership may change in place when a new PDF lands (see plan; grill before code if disputed).
-- Broker Gateway is out of v1.
+- Ingest (PDF or TXT) builds a **Monday Rebalance Plan**. **Plan Approve** is the Human-Gated verb; approved legs auto-execute at next session open (dummy_sim in test).
+- Two exclusive calendar modes: flatten-all on a weekday, or rebalance-to-published-book (Monday live cadence).
+- Membership may mutate in place on this paper shadow OP (that is the desk). Test blow-away wipes paper tracking lots only.
+- First journal still **engages** the OP (ADR-006) for TF books; the tracking exception is this in-place plan path.
+- Broker Gateway dummy_sim sandbox fills are the test fulfillment path. Live Schwab write is after test cycles, on a separate WQ binding from Wv2 Ops.
 
 ## API vs site
 

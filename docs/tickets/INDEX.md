@@ -27,6 +27,8 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P1 | In progress | [`2026-08-28-wq-monday-rebalance-plan.md`](2026-08-28-wq-monday-rebalance-plan.md) | WQ Monday plan → Plan Approve → dummy_sim execute |
+| P1 | In progress | [`2026-08-28-bg-dummy-sim-sandbox-fills.md`](2026-08-28-bg-dummy-sim-sandbox-fills.md) | dummy_sim sandbox fills (not L3 write) |
 | P0 | In progress | [`2026-08-22-corporate-action-stop-safeguards.md`](2026-08-22-corporate-action-stop-safeguards.md) | Corporate-action stop safeguards (unadjusted reverse-split jumps × cover-at-open) |
 | P0 | In progress | [`2026-08-18-eodhd-lag-retry-after-close.md`](2026-08-18-eodhd-lag-retry-after-close.md) | EODHD lag retry + scored-session DAR gate (ADR-012; Friday 2026-08-21 miss) |
 | P1 | Proposed | [`2026-08-22-observe-friday-scored-session-dar.md`](2026-08-22-observe-friday-scored-session-dar.md) | Observe next Friday unattended EOD — scored DAR, not hold |
