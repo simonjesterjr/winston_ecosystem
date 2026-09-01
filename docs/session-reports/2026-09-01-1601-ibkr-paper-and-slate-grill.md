@@ -103,13 +103,16 @@ Also dirty in ecosystem (account for before commit; some may predate this wrap):
 
 ### Commits
 
-- _None this wrap._ Trees dirty vs `origin/main`.
+- `ecosystem` `8b0e8af` — docs: IBKR paper DUT evidence, slate-automation grill, follow-up tickets
+- `winston_v2` `17d098e` — feat(ops): IBKR adapter key, split-fill intake, WQ reweight on DUT
+- `broker_gateway` `13605e4` — feat(L1): Interactive Brokers read adapter, tickle, class-share remap
+- `data_manager` `d693136` — feat(data): class-share ticker remap (BRK.B / BRK-B / BRK B)
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on each repo — **dirty**
-- Pushed: no (wrap Step 2 must run before commit)
-- PR: not opened
+- Branch: `main` on each repo
+- Pushed: pending wrap push
+- PR: not opened (direct `main`)
 
 ---
 
@@ -254,7 +257,7 @@ Also dirty in ecosystem (account for before commit; some may predate this wrap):
 
 ## 11. Handoff & Resume Notes
 
-- **Where I left off:** Grill Q12 locked (D). `/wrap` Step 1 (this report). Step 2 follow-up promotion **not yet answered**. Trees still dirty.
+- **Where I left off:** Grill Q12 locked (D). Follow-up tickets filed. Wrap commits on `main` (SHAs in §3).
 - **Next concrete step:** Operator shortcut on follow-ups (`create all tickets` / `skip all` / `ask`), then commit per-monolith precise paths. Operating resume: finish WQ paper, **not** Mint automation.
 - **Files to read first:**
   1. `ecosystem/CONTEXT.md` — flagged ambiguities Capital Authority through Accept-Fill / discovery
