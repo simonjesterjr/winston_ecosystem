@@ -1,0 +1,41 @@
+{
+  "trades": [
+    {
+      "execution_id": "0000e1a4.00007fec.01.01",
+      "symbol": "AAPL",
+      "supportSymbol": "AAPL",
+      "side": "B",
+      "size": 10,
+      "price": "192.26",
+      "exchange": "NASDAQ.NMS",
+      "secType": "STK",
+      "currency": "USD",
+      "order_ref": "wq-paper-1",
+      "order_id": "987654",
+      "account": "DU123456",
+      "trade_time": "20260808-15:42:11",
+      "trade_time_r": 1691509331000,
+      "commission": "1.00"
+    },
+    {
+      "execution_id": "0000e1a4.00007fed.01.01",
+      "symbol": "IBM",
+      "supportSymbol": "IBM",
+      "side": "B",
+      "size": 2,
+      "price": "27.00",
+      "exchange": "CBOE",
+      "secType": "OPT",
+      "putOrCall": "C",
+      "strike": "300",
+      "expiry": "20280121",
+      "multiplier": "100",
+      "currency": "USD",
+      "order_id": "987655",
+      "account": "DU123456",
+      "trade_time": "20260808-16:10:00",
+      "trade_time_r": 1691511000000,
+      "commission": "1.30"
+    }
+  ]
+}

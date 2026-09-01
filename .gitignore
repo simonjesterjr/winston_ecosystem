@@ -32,3 +32,12 @@ logs/
 # Temporary files
 tmp/
 *.tmp
+
+# IBKR Client Portal Gateway binaries + portable JRE (re-download if missing)
+vendor/jdk-17-jre/
+vendor/ibkr-clientportal-gw/dist/
+vendor/ibkr-clientportal-gw/build/
+vendor/ibkr-clientportal-gw/root/log/
+vendor/ibkr-clientportal-gw/root/*.log
+vendor/ibkr-clientportal-gw/logs/
+vendor/ibkr-clientportal-gw/bin/logs/

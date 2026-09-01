@@ -27,7 +27,7 @@ This is **not** Trend Following (TF) Daily Analysis. It is not the WUT Quiver Sk
 | Artifacts | PDFs under `storage/reports/quiver_tracking/` (same family as Daily Activity Report (DAR) `storage/reports/`). |
 | Daily Analysis | **Skip** this OP (`quiver_tracking_book`). No TF signals. |
 | Desk / paper forms | Humans confirm population and weighting changes (enter/exit/reweight) — Human-Gated, same journal/confirm spine, fractional units OK. |
-| BG | **Not now.** Future plan `quiver-tracking-bg-fulfillment.md`. |
+| BG | Paper: dummy_sim (production-ready-WQ Phase 1). Live Schwab: [`production-ready-wq.md`](production-ready-wq.md) Phases 2–4. Old `quiver-tracking-bg-fulfillment.md` superseded. |
 
 ## 3. Sources of truth (priority)
 
@@ -84,7 +84,7 @@ Existing Friday copy-book packager (`QuiverCongressLongShortRebalanceJob`) must 
 | 3 | `docs/tickets/2026-08-21-dm-parquet-for-quiver-tracking-books.md` | `dm_pull` → DM Symbol Demand; coverage on the tracking desk |
 | 4 | `docs/tickets/2026-08-21-wv2-quiver-tracking-population-forms.md` | Paper enter/exit/reweight forms on the tracking page |
 | later | `docs/tickets/2026-08-21-quiver-pdf-bot-scrape.md` | Bot/scrape — **not now** |
-| later | `docs/tickets/2026-08-21-quiver-tracking-bg-fulfillment.md` | BG — **not now** |
+| later | `docs/tickets/2026-08-30-production-ready-wq.md` | BG / Schwab — production-ready WQ phases 1–4 |
 
 Also keep `2026-08-20-mount-quiver-env-live-alt-filing-sync.md` if we want the DM footnote reconstruction.
 

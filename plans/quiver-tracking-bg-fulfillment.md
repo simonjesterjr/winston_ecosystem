@@ -1,10 +1,10 @@
 # Plan: Broker Gateway fills for Quiver Tracking (future)
 
-**Status:** Proposed — **not now**. Paper desk confirm is the v1 fulfillment path.  
+**Status:** **Superseded 2026-08-30** by [`production-ready-wq.md`](production-ready-wq.md) Phases 3–4. Kept as historical intent.  
 **Date:** 2026-08-21  
 **Monoliths:** Broker Gateway (BG), Winston v2 (Wv2)  
-**Depends on:** Tracking desk v1 (`quiver-tracking-desk.md`); L1 Confirmation Intake already in flight; ADR-010 before any `order_write`  
-**Ticket:** `docs/tickets/2026-08-21-quiver-tracking-bg-fulfillment.md`
+**Depends on:** Tracking desk v1 (`quiver-tracking-desk.md`); L1 Confirmation Intake already in flight; fulfillment-write ADR (not current ADR-010) before any `order_write`  
+**Ticket:** `docs/tickets/2026-08-21-quiver-tracking-bg-fulfillment.md` (status: Superseded)
 
 ## Why not now
 

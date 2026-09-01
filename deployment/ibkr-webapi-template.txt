@@ -1,0 +1,27 @@
+# Interactive Brokers Web API — Broker Gateway (gitignored copy: ibkr.env)
+#
+#   cp ecosystem/deployment/ibkr-webapi-template.txt ecosystem/deployment/ibkr.env
+#   # edit values — never commit ibkr.env
+#   ./bin/compose up -d broker_gateway broker_gateway_sidekiq
+#
+# Do NOT put username, password, or private keys in git, tickets, or adapter code.
+# Individuals authenticate by logging into the Client Portal Gateway in a browser.
+# This file only holds flags + account id + gateway URL.
+
+# Fixture mode (safe default). Set true only after CPGW is running and you have
+# logged in with the *paper* username.
+BG_IBKR_LIVE_READ=false
+
+# Paper account id (often DU…). Not the live U… account.
+IBKR_ACCOUNT_ID=
+
+# From inside compose, the host gateway is host.docker.internal.
+# From a host process: https://localhost:5000/v1/api
+# Start CPGW: ./ecosystem/deployment/bin/run-ibkr-cpgw  then browser-login paper.
+IBKR_CPGW_BASE=https://host.docker.internal:5000/v1/api
+
+# Client Portal Gateway uses a self-signed cert. Keep false for CPGW.
+IBKR_TLS_VERIFY=false
+
+# Optional. CPGW usually holds the session after browser SSO; leave blank.
+IBKR_SESSION_COOKIE=

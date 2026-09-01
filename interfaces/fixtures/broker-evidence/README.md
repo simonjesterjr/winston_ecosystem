@@ -16,6 +16,9 @@
 
 Consumers: `winston_v2` Confirmation Intake specs (copies under `spec/fixtures/broker-evidence`); Broker Gateway dummy_sim emits the same envelope at runtime.
 
+Vendor-shaped Schwab JSON (before normalize) lives in [`../schwab/`](../schwab/) and `broker_gateway/lib/adapters/schwab/fixtures/`.  
+Vendor-shaped Interactive Brokers JSON lives in [`../ibkr/`](../ibkr/) and `broker_gateway/lib/adapters/ibkr/fixtures/`.
+
 Run (from `winston_v2/`):
 
 ```bash

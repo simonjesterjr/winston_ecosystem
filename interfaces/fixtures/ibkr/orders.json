@@ -1,0 +1,44 @@
+{
+  "orders": [
+    {
+      "acct": "DU123456",
+      "conid": 265598,
+      "account": "DU123456",
+      "orderId": 987654,
+      "cashCcy": "USD",
+      "description1": "AAPL",
+      "ticker": "AAPL",
+      "secType": "STK",
+      "listingExchange": "NASDAQ.NMS",
+      "remainingQuantity": 0.0,
+      "filledQuantity": 10.0,
+      "totalSize": 10.0,
+      "status": "Filled",
+      "avgPrice": "192.26",
+      "orderType": "Market",
+      "timeInForce": "DAY",
+      "lastExecutionTime_r": 1691509331000,
+      "side": "BUY"
+    },
+    {
+      "acct": "DU123456",
+      "conid": 265598,
+      "account": "DU123456",
+      "orderId": 987699,
+      "cashCcy": "USD",
+      "description1": "AAPL",
+      "ticker": "AAPL",
+      "secType": "STK",
+      "remainingQuantity": 5.0,
+      "filledQuantity": 0.0,
+      "totalSize": 5.0,
+      "status": "Cancelled",
+      "orderType": "Limit",
+      "price": "165",
+      "timeInForce": "DAY",
+      "lastExecutionTime_r": 1691508000000,
+      "side": "BUY"
+    }
+  ],
+  "snapshot": true
+}

@@ -27,8 +27,22 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
-| P1 | In progress | [`2026-08-28-wq-monday-rebalance-plan.md`](2026-08-28-wq-monday-rebalance-plan.md) | WQ Monday plan → Plan Approve → dummy_sim execute |
-| P1 | In progress | [`2026-08-28-bg-dummy-sim-sandbox-fills.md`](2026-08-28-bg-dummy-sim-sandbox-fills.md) | dummy_sim sandbox fills (not L3 write) |
+| P1 | In progress | [`2026-08-30-production-ready-wq.md`](2026-08-30-production-ready-wq.md) | Epic: production-ready Winston Quiver (phases 1–4) |
+| P1 | In progress | [`2026-08-30-wq-phase1-paper-cadence-verify.md`](2026-08-30-wq-phase1-paper-cadence-verify.md) | WQ Phase 1 — paper cadence human-verify + glue |
+| P1 | In progress | [`2026-08-31-bg-ibkr-read-adapter-l1.md`](2026-08-31-bg-ibkr-read-adapter-l1.md) | Broker Gateway — Interactive Brokers L1 read adapter (paper CPGW `DUT070450`) |
+| P1 | In progress | [`2026-08-30-wq-phase2-schwab-read-and-sandbox.md`](2026-08-30-wq-phase2-schwab-read-and-sandbox.md) | WQ Phase 2 — Schwab sandbox spike + L1 read adapter |
+| P1 | In progress | [`2026-09-01-wq-ibkr-paper-evidence-bind.md`](2026-09-01-wq-ibkr-paper-evidence-bind.md) | WQ Phase 3 analog — bind paper WQ to IBKR DUT (evidence, not send) |
+| P1 | Proposed | [`2026-09-01-wq-cost-basis-corrective-amend-dut.md`](2026-09-01-wq-cost-basis-corrective-amend-dut.md) | WQ cost-basis / Corrective Amend vs DUT fills |
+| P1 | Proposed — blocked | [`2026-09-01-ibkr-paper-reset-bind-mint.md`](2026-09-01-ibkr-paper-reset-bind-mint.md) | After WQ setup — reset IBKR paper DUT and bind paper Mint |
+| P2 | Proposed | [`2026-09-01-adr-009-resting-slate-addendum.md`](2026-09-01-adr-009-resting-slate-addendum.md) | ADR-009 addendum — next-open lab default vs live resting slate |
+| P2 | Proposed — blocked | [`2026-09-01-slate-automation-accept-fill-adr.md`](2026-09-01-slate-automation-accept-fill-adr.md) | Slate Automation + Accept-Fill ADR (leave discovery) |
+| P2 | Proposed | [`2026-09-01-fulfillment-packaging-policy-ops-ui.md`](2026-09-01-fulfillment-packaging-policy-ops-ui.md) | Fulfillment Packaging Policy UI in Winston v2 operations |
+| P2 | Proposed | [`2026-09-01-wv2-unit-heat-slate-contest.md`](2026-09-01-wv2-unit-heat-slate-contest.md) | Port Unit Heat and Slate Contest into Winston v2 Daily Analysis |
+| P3 | Proposed | [`2026-09-01-whole-slate-accept-fill-later-grill.md`](2026-09-01-whole-slate-accept-fill-later-grill.md) | Whole-slate accept-fill waits for a later grill |
+| P1 | Proposed | [`2026-08-30-wq-phase3-wq-schwab-evidence-bind.md`](2026-08-30-wq-phase3-wq-schwab-evidence-bind.md) | WQ Phase 3 — bind WQ to Schwab as evidence (not send) |
+| P1 | Proposed — blocked | [`2026-08-30-wq-phase4-one-at-a-time-send.md`](2026-08-30-wq-phase4-one-at-a-time-send.md) | WQ Phase 4 — one-at-a-time Schwab Desk Send + Confirm |
+| P1 | In progress | [`2026-08-28-wq-monday-rebalance-plan.md`](2026-08-28-wq-monday-rebalance-plan.md) | WQ Monday plan → Plan Approve → dummy_sim execute (Phase 1 child) |
+| P1 | In progress | [`2026-08-28-bg-dummy-sim-sandbox-fills.md`](2026-08-28-bg-dummy-sim-sandbox-fills.md) | dummy_sim sandbox fills (not L3 write; Phase 1 child) |
 | P0 | In progress | [`2026-08-22-corporate-action-stop-safeguards.md`](2026-08-22-corporate-action-stop-safeguards.md) | Corporate-action stop safeguards (unadjusted reverse-split jumps × cover-at-open) |
 | P0 | In progress | [`2026-08-18-eodhd-lag-retry-after-close.md`](2026-08-18-eodhd-lag-retry-after-close.md) | EODHD lag retry + scored-session DAR gate (ADR-012; Friday 2026-08-21 miss) |
 | P1 | Proposed | [`2026-08-22-observe-friday-scored-session-dar.md`](2026-08-22-observe-friday-scored-session-dar.md) | Observe next Friday unattended EOD — scored DAR, not hold |
@@ -39,7 +53,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P1 | Done | [`archive/2026-08-21-dm-parquet-for-quiver-tracking-books.md`](archive/2026-08-21-dm-parquet-for-quiver-tracking-books.md) | DM parquet pull for Quiver Tracking names |
 | P1 | Done | [`archive/2026-08-21-wv2-quiver-tracking-population-forms.md`](archive/2026-08-21-wv2-quiver-tracking-population-forms.md) | Quiver Tracking paper population / weighting forms |
 | P3 | Proposed — not v1 | [`2026-08-21-quiver-pdf-bot-scrape.md`](2026-08-21-quiver-pdf-bot-scrape.md) | Automate Quiver Strategies PDF grab / scrape |
-| P3 | Proposed — not now | [`2026-08-21-quiver-tracking-bg-fulfillment.md`](2026-08-21-quiver-tracking-bg-fulfillment.md) | Broker Gateway path for Quiver Tracking |
+| P3 | Superseded | [`2026-08-21-quiver-tracking-bg-fulfillment.md`](2026-08-21-quiver-tracking-bg-fulfillment.md) | Broker Gateway path for Quiver Tracking → production-ready-WQ phases 3–4 |
 | P2 | Proposed | [`2026-08-21-wv2-quiver-tracking-native-pdf-parser.md`](2026-08-21-wv2-quiver-tracking-native-pdf-parser.md) | Native PDF parser for Quiver Tracking Premium print-PDF |
 | P2 | Proposed | [`2026-08-21-cromwell-telegram-quiver-tracking-ingest.md`](2026-08-21-cromwell-telegram-quiver-tracking-ingest.md) | Cromwell Telegram document → Quiver Tracking ingest |
 | P2 | Proposed | [`2026-08-21-wv2-quiver-tracking-equity-curve.md`](2026-08-21-wv2-quiver-tracking-equity-curve.md) | Real equity curve on Quiver Tracking desk |
@@ -94,14 +108,14 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P3 | Proposed | [`2026-08-12-bg-compose-first-time-up-docs.md`](2026-08-12-bg-compose-first-time-up-docs.md) | Ticket: Document first-time Broker Gateway compose bring-up |
 | P1 | Done | [`2026-08-09-bg-evidence-store-jsonl-and-cursors.md`](2026-08-09-bg-evidence-store-jsonl-and-cursors.md) | Ticket: Broker Gateway — evidence store JSONL + cursors |
 | P1 | Done | [`2026-08-09-bg-internal-api-refresh-events.md`](2026-08-09-bg-internal-api-refresh-events.md) | Ticket: Broker Gateway — internal API refresh + events |
-| P1 | Ready | [`2026-08-09-bg-schwab-read-adapter-l1.md`](2026-08-09-bg-schwab-read-adapter-l1.md) | Ticket: Broker Gateway — Schwab read adapter (L1) |
+| P1 | In progress | [`2026-08-09-bg-schwab-read-adapter-l1.md`](2026-08-09-bg-schwab-read-adapter-l1.md) | Ticket: Broker Gateway — Schwab read adapter (L1; WQ Phase 2 child) |
 | P1 | Done | [`2026-08-09-wv2-bg-client-and-event-cursor.md`](2026-08-09-wv2-bg-client-and-event-cursor.md) | Ticket: Wv2 — BG client + event cursor |
 | P1 | Done | [`2026-08-09-wv2-trade-notification-store-and-normalize.md`](2026-08-09-wv2-trade-notification-store-and-normalize.md) | Ticket: Wv2 — TradeNotification store + normalize |
 | P1 | Done | [`2026-08-09-wv2-match-prefill-confirmation-intake.md`](2026-08-09-wv2-match-prefill-confirmation-intake.md) | Ticket: Wv2 — match + prefill Confirmation Intake |
 | P1 | Done | [`2026-08-09-wv2-desk-workflow-hitl-evidence-ui.md`](2026-08-09-wv2-desk-workflow-hitl-evidence-ui.md) | Ticket: Wv2 — desk workflow HITL evidence UI |
 | P1 | Done | [`2026-08-09-wv2-confirmation-intake-integration-specs.md`](2026-08-09-wv2-confirmation-intake-integration-specs.md) | Ticket: Wv2 — Confirmation Intake integration specs |
 | P1 | Done | [`2026-08-09-l1-contract-fixtures-and-test-harness.md`](2026-08-09-l1-contract-fixtures-and-test-harness.md) | Ticket: L1 contract fixtures + test harness |
-| P1 | Proposed | [`2026-08-07-schwab-trader-api-sandbox-spike.md`](2026-08-07-schwab-trader-api-sandbox-spike.md) | Ticket: Schwab Trader API sandbox / integration-test spike |
+| P1 | Proposed | [`2026-08-07-schwab-trader-api-sandbox-spike.md`](2026-08-07-schwab-trader-api-sandbox-spike.md) | Ticket: Schwab Trader API sandbox / integration-test spike (WQ Phase 2 child) |
 | P2 | In progress | [`2026-08-04-stack-arr-mer-risk-scale-chart.md`](2026-08-04-stack-arr-mer-risk-scale-chart.md) | Ticket: Stack ARR + MER on trade timeline; risk-scale path chart |
 | P3 | Proposed | [`2026-08-03-portfolio-color-edit-ui.md`](2026-08-03-portfolio-color-edit-ui.md) | Ticket: Portfolio color edit UI (WUT + Wv2) |
 | P3 | Proposed | [`2026-08-03-align-portfolio-color-fallback.md`](2026-08-03-align-portfolio-color-fallback.md) | Ticket: Align WUT/Wv2 PortfolioColor fallback + from_name |
@@ -230,4 +244,4 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 77 closed tickets in [`archive/`](archive/) — includes 2026-07-24 multi-cohort evaluate smoke (Mint #311 + Yellow #330).
 
-_Updated 2026-08-19 MDT (TSMC→TSM wrap tickets; Tuesday EOD observe archived Done)._
+_Updated 2026-08-30 (production-ready-WQ epic + phases 1–4; dual-path and nil-binding issues)._

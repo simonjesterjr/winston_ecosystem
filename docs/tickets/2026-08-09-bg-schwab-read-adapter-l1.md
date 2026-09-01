@@ -1,9 +1,10 @@
 # Ticket: Broker Gateway — Schwab L1 read adapter (`auth` + `order_read` + `txn_read`)
 
-**Status:** Ready  
+**Status:** In progress  
 **Priority:** P1  
 **Date:** 2026-08-09  
-**Series:** `trade-fulfillment-engine`  
+**Series:** `trade-fulfillment-engine` / `production-ready-wq` Phase 2  
+**Parent:** [`plans/production-ready-wq.md`](../../plans/production-ready-wq.md) Phase 2 · [`2026-08-30-wq-phase2-schwab-read-and-sandbox.md`](2026-08-30-wq-phase2-schwab-read-and-sandbox.md)  
 **Domain:** Broker Gateway, Confirmation Intake, Trade Notification  
 **Glossary:** Broker Gateway, CapabilityProfile, Confirmation Intake  
 **Monoliths:** **broker_gateway**  
@@ -43,12 +44,12 @@ First real-broker L1 adapter is **Schwab Trader API** read path: authenticate, l
 
 ## Acceptance
 
-- [ ] Fixture-based refresh produces valid evidence events  
-- [ ] CapabilityProfile exposes L1 read only; write gated off  
-- [ ] Idempotent re-poll  
-- [ ] Live path documented behind env flag / binding env; default safe (fixtures/dev without live credentials)  
-- [ ] Auth failure fails closed with operator-visible status  
-- [ ] No place_order code path  
+- [x] Fixture-based refresh produces valid evidence events  
+- [x] CapabilityProfile exposes L1 read only; write gated off  
+- [x] Idempotent re-poll  
+- [x] Live path documented behind env flag / binding env; default safe (fixtures/dev without live credentials)  
+- [x] Auth failure fails closed with operator-visible status (fixture + live-unauthed specs)  
+- [x] No place_order code path  
 - [ ] Cross-link sandbox spike verdict when available  
 
 ## Depends on

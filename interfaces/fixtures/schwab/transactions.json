@@ -1,0 +1,62 @@
+[
+  {
+    "activityId": 88001122,
+    "time": "2026-08-08T15:42:11+0000",
+    "type": "TRADE",
+    "status": "VALID",
+    "tradeDate": "2026-08-08T15:42:11+0000",
+    "orderId": 1001001,
+    "netAmount": -500.0,
+    "accountNumber": "123456789",
+    "transferItems": [
+      {
+        "instrument": {
+          "assetType": "EQUITY",
+          "symbol": "WMT",
+          "cusip": "931142103",
+          "description": "WALMART INC"
+        },
+        "amount": 10,
+        "cost": -500.0,
+        "price": 50.00,
+        "positionEffect": "OPENING"
+      }
+    ]
+  },
+  {
+    "activityId": 88001123,
+    "time": "2026-08-08T16:10:00+0000",
+    "type": "TRADE",
+    "status": "VALID",
+    "tradeDate": "2026-08-08T16:10:00+0000",
+    "orderId": 1001002,
+    "netAmount": -5400.0,
+    "accountNumber": "123456789",
+    "transferItems": [
+      {
+        "instrument": {
+          "assetType": "OPTION",
+          "symbol": "IBM  280121C00300000",
+          "underlyingSymbol": "IBM",
+          "description": "IBM JAN 21 2028 300 CALL",
+          "putCall": "CALL",
+          "multiplier": 100
+        },
+        "amount": 2,
+        "cost": -5400.0,
+        "price": 27.00,
+        "positionEffect": "OPENING"
+      },
+      {
+        "instrument": {
+          "assetType": "CURRENCY",
+          "symbol": "USD"
+        },
+        "amount": -1.30,
+        "cost": -1.30,
+        "price": 1,
+        "feeType": "COMMISSION"
+      }
+    ]
+  }
+]

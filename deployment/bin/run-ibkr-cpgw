@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Start Interactive Brokers Client Portal Gateway on https://localhost:5000
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+GW="$ROOT/vendor/ibkr-clientportal-gw"
+JAVA_HOME="${JAVA_HOME:-$ROOT/vendor/jdk-17-jre}"
+JAVA="$JAVA_HOME/bin/java"
+
+if [[ ! -x "$JAVA" ]]; then
+  echo "Java JRE not found at $JAVA" >&2
+  echo "Download Temurin 17 JRE into ecosystem/vendor/jdk-17-jre or set JAVA_HOME." >&2
+  exit 1
+fi
+if [[ ! -f "$GW/dist/ibgroup.web.core.iblink.router.clientportal.gw.jar" ]]; then
+  echo "Gateway jar missing. Unzip clientportal.gw.zip into $GW" >&2
+  exit 1
+fi
+
+export JAVA_HOME
+export PATH="$JAVA_HOME/bin:$PATH"
+cd "$GW"
+echo "IBKR Client Portal Gateway — https://localhost:5000/"
+echo "Log in with the PAPER username. Ctrl+C to stop."
+exec bin/run.sh root/conf.yaml

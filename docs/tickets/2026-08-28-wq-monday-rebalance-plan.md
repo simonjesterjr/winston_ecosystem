@@ -3,8 +3,11 @@
 **Status:** In progress  
 **Priority:** P1  
 **Date:** 2026-08-28  
+**Mode:** normal  
+**Graph nodes:** winston_v2, broker_gateway  
 **Monoliths:** winston_v2 (primary), broker_gateway (sandbox fills), ecosystem  
-**Plan:** [`plans/wq-shadow-monday-plan.md`](../../plans/wq-shadow-monday-plan.md)
+**Plan:** [`plans/wq-shadow-monday-plan.md`](../../plans/wq-shadow-monday-plan.md)  
+**Parent:** [`plans/production-ready-wq.md`](../../plans/production-ready-wq.md) Phase 1 · [`2026-08-30-wq-phase1-paper-cadence-verify.md`](2026-08-30-wq-phase1-paper-cadence-verify.md)
 
 ## Problem
 

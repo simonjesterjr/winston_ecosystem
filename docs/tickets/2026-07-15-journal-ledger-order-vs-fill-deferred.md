@@ -52,4 +52,6 @@ That is fine for paper hygiene and ATR strategy stops. It is **not** fine if the
 ## Discovery
 
 Search: `journal-to-ledger`, analysis series ticket #7, status Deferred.  
-Do **not** pick this up in the first journal→ledger session unless desk explicitly needs resting-order semantics beyond Position.updated_stop.  
+Do **not** pick this up in the first journal→ledger session unless desk explicitly needs resting-order semantics beyond Position.updated_stop.
+
+**See also (methodology, L3+):** [`2026-08-20-resting-session-stop-orders.md`](2026-08-20-resting-session-stop-orders.md) — session-cycle stop-market slates (entry / pyramid / protect). Activate this ledger ticket with that one when Broker Gateway write exists; do not implement either on L1.  

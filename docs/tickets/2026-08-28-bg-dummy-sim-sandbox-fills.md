@@ -3,8 +3,11 @@
 **Status:** In progress  
 **Priority:** P1  
 **Date:** 2026-08-28  
+**Mode:** normal  
+**Graph nodes:** broker_gateway  
 **Monoliths:** broker_gateway  
-**Related:** [`2026-08-28-wq-monday-rebalance-plan.md`](2026-08-28-wq-monday-rebalance-plan.md)
+**Related:** [`2026-08-28-wq-monday-rebalance-plan.md`](2026-08-28-wq-monday-rebalance-plan.md)  
+**Parent:** [`plans/production-ready-wq.md`](../../plans/production-ready-wq.md) Phase 1 · [`2026-08-30-wq-phase1-paper-cadence-verify.md`](2026-08-30-wq-phase1-paper-cadence-verify.md)
 
 ## Problem
 

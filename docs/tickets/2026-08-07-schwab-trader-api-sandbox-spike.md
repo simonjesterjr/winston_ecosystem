@@ -3,9 +3,10 @@
 **Status:** Proposed  
 **Priority:** P1  
 **Date:** 2026-08-07  
-**Series:** `trade-fulfillment-engine`  
+**Series:** `trade-fulfillment-engine` / `production-ready-wq` Phase 2  
 **Monoliths:** `broker_gateway` (future); ecosystem docs  
 **Plan:** [`plans/trade-fulfillment-engine.md`](../../plans/trade-fulfillment-engine.md) Grill B Q7  
+**Parent:** [`plans/production-ready-wq.md`](../../plans/production-ready-wq.md) Phase 2 · [`2026-08-30-wq-phase2-schwab-read-and-sandbox.md`](2026-08-30-wq-phase2-schwab-read-and-sandbox.md)  
 **Related:** landscape §7.3 paperMoney/sandbox; discovery 2026-07-22  
 
 ## Problem
