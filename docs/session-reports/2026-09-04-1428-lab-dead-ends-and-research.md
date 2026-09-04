@@ -76,7 +76,7 @@
 ### Commits
 
 - `winston_unit_test` `2a12e1c` — lab: stamp next_bar_open on Mint/Yellow transfer and Mango/Rust rescue
-- `ecosystem` — this wrap (SHA filled after commit)
+- `ecosystem` `2c8c2ab` — docs: close lab dead ends; Turtle DA, OWDC-353, Mango/Rust, Mint/Yellow matrix
 
 ### Branch / PR state at sign-off
 
