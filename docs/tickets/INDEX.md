@@ -40,6 +40,8 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P2 | Proposed | [`2026-09-04-tf-p4-compounding-and-champion-freeze.md`](2026-09-04-tf-p4-compounding-and-champion-freeze.md) | P4 — Compounding: champion freeze and sit-vs-kill |
 | P1 | Proposed | [`2026-09-04-tf-p5-desk-discipline-completion.md`](2026-09-04-tf-p5-desk-discipline-completion.md) | P5 — Desk discipline completion (do not rewrite doctrine) |
 | P2 | Proposed | [`2026-09-04-tf-p6-map-territory-and-model-death.md`](2026-09-04-tf-p6-map-territory-and-model-death.md) | P6 — Map vs territory and model death |
+| P2 | Proposed | [`2026-09-04-export-yellow-pbr550-inactive-paper.md`](2026-09-04-export-yellow-pbr550-inactive-paper.md) | Export Yellow PBR 550 / TS #101 as inactive paper OP |
+| P3 | Proposed | [`2026-09-04-wut-pbr-show-captured-ts.md`](2026-09-04-wut-pbr-show-captured-ts.md) | WUT PBR show page should link the captured TradingStrategy |
 | P1 | In progress | [`2026-08-30-production-ready-wq.md`](2026-08-30-production-ready-wq.md) | Epic: production-ready Winston Quiver (phases 1–4) |
 | P1 | In progress | [`2026-08-30-wq-phase1-paper-cadence-verify.md`](2026-08-30-wq-phase1-paper-cadence-verify.md) | WQ Phase 1 — paper cadence human-verify + glue |
 | P1 | In progress | [`2026-08-31-bg-ibkr-read-adapter-l1.md`](2026-08-31-bg-ibkr-read-adapter-l1.md) | Broker Gateway — Interactive Brokers L1 read adapter (paper CPGW `DUT070450`) |

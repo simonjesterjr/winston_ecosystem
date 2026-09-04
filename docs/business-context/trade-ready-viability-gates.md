@@ -2,7 +2,7 @@
 
 **Type:** Domain rule  
 **Glossary:** `CONTEXT.md` — **Viability Gates**, **Trade-Ready Portfolio**, **Observation Portfolio**  
-**Status:** Agreed in grill session 2026-07-07 (thresholds are placeholders pending backtesting revisit)
+**Status:** Agreed in grill session 2026-07-07. Thresholds remain placeholders. Doctrine/gates review closed as operator dead end 2026-09-04 (`docs/tickets/archive/2026-07-09-first-pass-doctrine-gates-review.md`) — do not retune.
 
 ## Purpose
 
@@ -32,10 +32,10 @@ Failure on any gate → export path is **Observation Portfolio** only (if export
 - Wired into `PortfolioTrendVetter#export_run!` and `portfolios:vet_trend` summary output
 - Export JSON fields: top-level `export_kind`, nested `vetting.viability`
 
-## Open work
+## Closed (not open work)
 
-- Backtesting revisit ticket: tune **TradingStrategy** components comprehensively before trusting gates.
-- Blue membership post-mortem (observation economics catastrophic — strategy vs membership).
+- **2026-09-04:** first-pass doctrine / gates review will not retune thresholds or `FIRST_PASS_BASE_CONFIG`. Gates remain labels for `export_kind`.
+- Blue membership post-mortem closed: keep the 11-name book; OWD + capacity rescued economics (see archived `2026-07-07-revisit-portfolio-blue-membership-strategy.md`).
 
 ## Related
 
