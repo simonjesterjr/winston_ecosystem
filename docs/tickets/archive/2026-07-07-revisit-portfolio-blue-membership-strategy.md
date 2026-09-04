@@ -1,6 +1,6 @@
 # Ticket: Revisit Portfolio Blue membership and strategy viability
 
-**Status:** In progress (membership still open; **strategy/risk rescue evidence strong**)
+**Status:** Done — closed as operator dead end 2026-09-04  
 **Priority:** P1
 
 **Date:** 2026-07-07
@@ -47,3 +47,17 @@ Investigate and decide (document decision in plan or analysis):
 
 - Plan task #3
 - Priority: `docs/tickets/2026-07-07-portfolio-trading-strategy-evaluation-framework.md`
+
+---
+
+## Close-out (2026-09-04)
+
+**Operator:** operational experience makes membership revisit a dead end / noise.
+
+**Written recommendation:** **keep current Blue membership.** Do not rebuild the book. Do not run corr_v2 membership as a viability path.
+
+Evidence already on this ticket (PBR 23 vs 48/62/63) and [`business_analysis/2026-07-13-pbr-return-dd-pcs-evaluation.md`](../../business_analysis/2026-07-13-pbr-return-dd-pcs-evaluation.md): same 11 names (AAL, AMZN, GLD, GOOGL, JNJ, PG, RXT, TSLA, TSMC, WMT, XLE) went from −137% / 134% max drawdown under static/isomorphic to trade-ready under One-Way Dynamic (OWD) R1 + capacity. Membership was not the failure mode.
+
+**Do not import Blue to Winston v2 (Wv2) from this ticket.** Paper exploration of Blue 62 remains optional and is not unblocked by a new sidecar. `portfolio-blue-sidecar.json` is unchanged.
+
+Acceptance: keep membership; strategy/risk-regime already answered.

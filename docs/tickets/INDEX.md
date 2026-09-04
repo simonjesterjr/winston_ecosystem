@@ -23,10 +23,23 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 2. **Done** → move file to `archive/`.
 3. Prefer few **In progress**.
 
+## Program trackers (not a substitute for the table)
+
+| Program | File |
+|---------|------|
+| Trend Following six-principles competency | [`2026-09-04-tf-foundations-INDEX.md`](2026-09-04-tf-foundations-INDEX.md) |
+
 ## Active tickets
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P2 | Proposed | [`2026-09-04-tf-foundations-competency-epic.md`](2026-09-04-tf-foundations-competency-epic.md) | Program: TF six-principles competency (Shannon→Lo) |
+| P1 | Proposed | [`2026-09-04-tf-p1-residual-signal-and-oos.md`](2026-09-04-tf-p1-residual-signal-and-oos.md) | P1 — Residual signal proof and true out-of-sample |
+| P2 | Proposed | [`2026-09-04-tf-p2-tails-ruin-and-uncertainty.md`](2026-09-04-tf-p2-tails-ruin-and-uncertainty.md) | P2 — Tails, ruin functionals, Knightian uncertainty |
+| P1 | Proposed | [`2026-09-04-tf-p3-live-sizing-and-capital-authority.md`](2026-09-04-tf-p3-live-sizing-and-capital-authority.md) | P3 — Live sizing: Capital Authority into the sizer |
+| P2 | Proposed | [`2026-09-04-tf-p4-compounding-and-champion-freeze.md`](2026-09-04-tf-p4-compounding-and-champion-freeze.md) | P4 — Compounding: champion freeze and sit-vs-kill |
+| P1 | Proposed | [`2026-09-04-tf-p5-desk-discipline-completion.md`](2026-09-04-tf-p5-desk-discipline-completion.md) | P5 — Desk discipline completion (do not rewrite doctrine) |
+| P2 | Proposed | [`2026-09-04-tf-p6-map-territory-and-model-death.md`](2026-09-04-tf-p6-map-territory-and-model-death.md) | P6 — Map vs territory and model death |
 | P1 | In progress | [`2026-08-30-production-ready-wq.md`](2026-08-30-production-ready-wq.md) | Epic: production-ready Winston Quiver (phases 1–4) |
 | P1 | In progress | [`2026-08-30-wq-phase1-paper-cadence-verify.md`](2026-08-30-wq-phase1-paper-cadence-verify.md) | WQ Phase 1 — paper cadence human-verify + glue |
 | P1 | In progress | [`2026-08-31-bg-ibkr-read-adapter-l1.md`](2026-08-31-bg-ibkr-read-adapter-l1.md) | Broker Gateway — Interactive Brokers L1 read adapter (paper CPGW `DUT070450`) |
@@ -87,7 +100,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P1 | Done | [`2026-08-12-ops-shell-next-steps-by-portfolio.md`](2026-08-12-ops-shell-next-steps-by-portfolio.md) | Ticket: Ops shell — pending/next steps grouped by portfolio |
 | P1 | Done | [`2026-08-13-handoff-mint-s2-yellow-s1-observation.md`](2026-08-13-handoff-mint-s2-yellow-s1-observation.md) | Ticket: Handoff Mint+TS#77 and Yellow+TS#75 observation OPs |
 | P1 | Done | [`2026-08-13-importer-risk-percentage-one-percent.md`](2026-08-13-importer-risk-percentage-one-percent.md) | Ticket: Importer treats risk_percentage 1.0 as 100% |
-| P1 | Proposed | [`2026-08-13-evaluate-turtle-mint-s2-yellow-s1.md`](2026-08-13-evaluate-turtle-mint-s2-yellow-s1.md) | Ticket: First Daily Analysis on Turtle Mint S2 + Yellow S1 |
+| P1 | Done — live DA verified 2026-09-04 | [`archive/2026-08-13-evaluate-turtle-mint-s2-yellow-s1.md`](archive/2026-08-13-evaluate-turtle-mint-s2-yellow-s1.md) | Ticket: First Daily Analysis on Turtle Mint S2 + Yellow S1 |
 | P3 | Proposed | [`2026-08-13-hygiene-close-unused-inactive-ops.md`](2026-08-13-hygiene-close-unused-inactive-ops.md) | Ticket: Hygiene-close unused inactive Mint/Yellow/Blue leftovers |
 | P3 | Proposed | [`2026-08-13-closed-paper-residue-cleanup.md`](2026-08-13-closed-paper-residue-cleanup.md) | Ticket: Human cleanup of open residue on closed paper OPs #6 and #383 |
 | P2 | Proposed | [`2026-08-13-rebuild-winston-mcp-snapshot-timeout.md`](2026-08-13-rebuild-winston-mcp-snapshot-timeout.md) | Ticket: Rebuild winston_mcp after snapshot timeout + tool description |
@@ -124,7 +137,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P2 | Proposed | [`2026-07-31-adr-risk-scale-orthogonality.md`](2026-07-31-adr-risk-scale-orthogonality.md) | Ticket: ADR — risk_scale_policy orthogonal to base geometry |
 | P2 | Proposed | [`2026-07-31-business-analysis-risk-scale-matrix-345-356.md`](2026-07-31-business-analysis-risk-scale-matrix-345-356.md) | Ticket: Business analysis scorecard — matrix PBRs 345–356 |
 | P2 | Proposed | [`2026-07-31-kelly-scale-not-global-default.md`](2026-07-31-kelly-scale-not-global-default.md) | Ticket: Kelly scale — not global default |
-| P2 | Proposed | [`2026-07-31-yellow-owdc-none-paper-candidate.md`](2026-07-31-yellow-owdc-none-paper-candidate.md) | Ticket: Yellow OWDC + scale=none paper candidate |
+| P2 | Done — OP #1400 inactive paper | [`archive/2026-07-31-yellow-owdc-none-paper-candidate.md`](archive/2026-07-31-yellow-owdc-none-paper-candidate.md) | Ticket: Yellow OWDC + scale=none paper candidate |
 | P2 | In progress — Yellow S/M/K scored | [`2026-07-30-kelly-martingale-sizing-portfolio-management.md`](2026-07-30-kelly-martingale-sizing-portfolio-management.md) | Ticket: Kelly / Martingale sizing in portfolio management (WUT lab → Wv2 daily managers) |
 | P2 | Proposed | [`2026-07-30-parallel-trading-system-swing-options-intraday.md`](2026-07-30-parallel-trading-system-swing-options-intraday.md) | Ticket: Parallel trading system (swing / options / intraday) reusing Winston rails |
 | P1 | In progress | [`2026-07-25-strategy-bakeoff-v1-phase1.md`](2026-07-25-strategy-bakeoff-v1-phase1.md) | Ticket: Strategy bake-off V1 — Phase 1 (cross-portfolio TS selection) |
@@ -135,7 +148,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P2 | Scored — keep ladder A (B/C null) | [`2026-07-26-s4-phase2-ladder-mildness.md`](2026-07-26-s4-phase2-ladder-mildness.md) | Ticket: Phase 2 step 3b — S4 milder OWD ladder at frozen heat |
 | P2 | Scored — keep $10k ($20k hurts) | [`2026-07-26-s4-capital-20k-survivability.md`](2026-07-26-s4-capital-20k-survivability.md) | Ticket: S4 — does 2× initial capital ($20k) improve survivability? |
 | P3 | Proposed | [`2026-07-26-bakeoff-scorecard-cagr-calmar.md`](2026-07-26-bakeoff-scorecard-cagr-calmar.md) | Ticket: Bake-off scorecards — CAGR and Calmar metrics |
-| P2 | Proposed | [`2026-07-25-owdc-owd-four-cell-matrix.md`](2026-07-25-owdc-owd-four-cell-matrix.md) | Ticket: OWDC / OWD 4-cell lab matrix (trust close-out) |
+| P2 | Done — operator dead end 2026-09-04 | [`archive/2026-07-25-owdc-owd-four-cell-matrix.md`](archive/2026-07-25-owdc-owd-four-cell-matrix.md) | Ticket: OWDC / OWD 4-cell lab matrix (trust close-out) |
 | P3 | Proposed | [`2026-07-25-pbr-cash-ledger-return-scorecard.md`](2026-07-25-pbr-cash-ledger-return-scorecard.md) | Ticket: PBR free-cash ledger — total-return scorecard |
 | P3 | Proposed | [`2026-07-25-pbr-status-poll-missing-run-ux.md`](2026-07-25-pbr-status-poll-missing-run-ux.md) | Ticket: PBR status-poll UX when run HTML is missing (404) |
 | P2 | Proposed | [`2026-07-24-dar-telegram-force-republish-runbook.md`](2026-07-24-dar-telegram-force-republish-runbook.md) | Ticket: DAR Telegram force re-publish runbook |
@@ -149,9 +162,9 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P1 | Proposed | [`2026-07-23-mcp-transfer-activate-flow-smooth.md`](2026-07-23-mcp-transfer-activate-flow-smooth.md) | Ticket: Smooth MCP transfer + activate flow (errors, timeouts, reply contract) — includes run-121 false 500 |
 | P1 | Proposed | [`2026-07-23-wut-puma-large-pbr-results-json.md`](2026-07-23-wut-puma-large-pbr-results-json.md) | Ticket: WUT puma timeouts under large multi-market PBR results_json |
 | P2 | Proposed | [`2026-07-23-reexport-mint-yellow-vet-winners.md`](2026-07-23-reexport-mint-yellow-vet-winners.md) | Ticket: Re-export Mint/Yellow first-pass vet winners (opt #47/#48) |
-| P2 | Proposed | [`2026-07-23-mint-yellow-risk-transfer-matrix.md`](2026-07-23-mint-yellow-risk-transfer-matrix.md) | Ticket: Mint/Yellow risk-transfer matrix (R1 ladder + capacity) |
+| P2 | Done — Mint none; Yellow PBR 550 static | [`archive/2026-07-23-mint-yellow-risk-transfer-matrix.md`](archive/2026-07-23-mint-yellow-risk-transfer-matrix.md) | Ticket: Mint/Yellow risk-transfer matrix (R1 ladder + capacity) |
 | P2 | Proposed | [`2026-07-23-dm-lookback-exclusive-overlap-specs.md`](2026-07-23-dm-lookback-exclusive-overlap-specs.md) | Ticket: Specs for DM lookback/date-range and exclusive MAX_OVERLAP=0 |
-| P1 | In progress (membership still open; **strategy/risk rescu… | [`2026-07-07-revisit-portfolio-blue-membership-strategy.md`](2026-07-07-revisit-portfolio-blue-membership-strategy.md) | Ticket: Revisit Portfolio Blue membership and strategy viability |
+| P1 | Done — keep membership; OWD+capacity rescued | [`archive/2026-07-07-revisit-portfolio-blue-membership-strategy.md`](archive/2026-07-07-revisit-portfolio-blue-membership-strategy.md) | Ticket: Revisit Portfolio Blue membership and strategy viability |
 | P1 | In progress (mitigations landed 2026-07-09; await natural… | [`2026-07-09-cromwell-cron-llm-timeout.md`](2026-07-09-cromwell-cron-llm-timeout.md) | Ticket: Harden Cromwell cron LLM path (timeouts on scheduled Telegram) |
 | P1 | In progress (ops fixes applied host-side; remaining work … | [`2026-07-15-cromwell-llm-cpu-reliability.md`](2026-07-15-cromwell-llm-cpu-reliability.md) | Ticket: Cromwell LLM CPU reliability (timeouts, think, cron isolation) |
 | P1 | Proposed | [`2026-07-15-cromwell-thin-cron-and-priority.md`](2026-07-15-cromwell-thin-cron-and-priority.md) | Ticket: Thin / LLM-light Cromwell cron + user priority (Tier 2) — elevated 2026-07-23 |
@@ -179,7 +192,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P2 | Proposed | [`2026-07-08-wut-dm-parquet-controller-cleanup.md`](2026-07-08-wut-dm-parquet-controller-cleanup.md) | Ticket: WUT DM parquet: clean up remaining Activity queries in controllers |
 | P2 | Proposed | [`2026-07-08-wut-dm-parquet-remaining-services.md`](2026-07-08-wut-dm-parquet-remaining-services.md) | Ticket: WUT DM parquet: refactor remaining services for direct DM loader usage |
 | P2 | Proposed | [`2026-07-08-wut-dm-parquet-result-views-repull.md`](2026-07-08-wut-dm-parquet-result-views-repull.md) | Ticket: WUT DM parquet: implement full bar re-pull + rendering in all backtest result views and charts |
-| P2 | Proposed | [`2026-07-09-first-pass-doctrine-gates-review.md`](2026-07-09-first-pass-doctrine-gates-review.md) | Ticket: First-pass trend doctrine and viability gates review |
+| P2 | Done — keep placeholder gates; no doctrine retune | [`archive/2026-07-09-first-pass-doctrine-gates-review.md`](archive/2026-07-09-first-pass-doctrine-gates-review.md) | Ticket: First-pass trend doctrine and viability gates review |
 | P2 | Proposed | [`2026-07-09-link-validation-pbr-to-optimization.md`](2026-07-09-link-validation-pbr-to-optimization.md) | Ticket: Link validation PortfolioBacktestRun to PortfolioSignalOptimization |
 | P2 | Proposed | [`2026-07-09-telegram-agent-reply-visibility.md`](2026-07-09-telegram-agent-reply-visibility.md) | Ticket: Telegram agent reply visibility (inbound OK, human may not see) |
 | P2 | Proposed | [`2026-07-09-track-ai-runtime-config-in-git.md`](2026-07-09-track-ai-runtime-config-in-git.md) | Ticket: Track AI runtime Containerfile + example config in git |
@@ -188,7 +201,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P2 | Proposed | [`2026-07-09-wut-active-account-id-sidekiq-failures.md`](2026-07-09-wut-active-account-id-sidekiq-failures.md) | Ticket: WUT Sidekiq jobs failing on missing active_account_id columns |
 | P2 | Proposed | [`2026-07-10-promote-wv2-daily-ops-smoke-scripts.md`](2026-07-10-promote-wv2-daily-ops-smoke-scripts.md) | Ticket: Promote Wv2 daily-ops smoke scripts out of tmp/ |
 | P2 | Proposed | [`2026-07-10-watch-sidekiq-eod-daily-analysis-path.md`](2026-07-10-watch-sidekiq-eod-daily-analysis-path.md) | Ticket: Watch Sidekiq EOD path (DM sync → Wv2 analysis → Cromwell) |
-| P2 | Proposed | [`2026-07-12-re-vet-mango-rust-trade-ready.md`](2026-07-12-re-vet-mango-rust-trade-ready.md) | Ticket: Re-vet Portfolio Mango and Rust for trade-ready gates |
+| P2 | Done — keep observation | [`archive/2026-07-12-re-vet-mango-rust-trade-ready.md`](archive/2026-07-12-re-vet-mango-rust-trade-ready.md) | Ticket: Re-vet Portfolio Mango and Rust for trade-ready gates |
 | P2 | Proposed | [`2026-07-13-cromwell-dream-memory-path-hygiene.md`](2026-07-13-cromwell-dream-memory-path-hygiene.md) | Ticket: Fix Cromwell dream routing for MEMORY.md and skill status paths |
 | P2 | Proposed | [`2026-07-13-extend-cron-llm-timeout-acceptance.md`](2026-07-13-extend-cron-llm-timeout-acceptance.md) | Ticket: Extend Jul 9 cron LLM timeout ticket with post-truncation acceptance |
 | P2 | Proposed | [`2026-07-13-market-radar-core-portfolio-scope.md`](2026-07-13-market-radar-core-portfolio-scope.md) | Ticket: Limit intraday market radar to core Active portfolios |

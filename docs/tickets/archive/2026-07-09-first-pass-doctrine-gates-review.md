@@ -1,6 +1,6 @@
 # Ticket: First-pass trend doctrine and viability gates review
 
-**Status:** Proposed
+**Status:** Done — closed as operator dead end 2026-09-04
 **Priority:** P2
 
 **Date:** 2026-07-09
@@ -37,3 +37,20 @@ Gates (return ≥0%, DD ≤50%, trades ≥20) work as labels but the **doctrine*
 - Plan: `plans/portfolio-overlap-rebuild.md` (Phase 7 residual)
 - Ticket: `2026-07-07-portfolio-trading-strategy-evaluation-framework.md`
 - Session: `docs/session-reports/2026-07-09-1308-orange-white-vet-trend.md`
+
+---
+
+## Close-out (2026-09-04)
+
+**Operator:** operational experience makes a first-pass doctrine / gates review a dead end / noise.
+
+**Keep / change**
+
+| Knob | Decision |
+|------|----------|
+| Viability gates | **Keep** placeholders: return ≥ 0%, max drawdown ≤ 50%, trades ≥ 20. Do not retune. |
+| `FIRST_PASS_BASE_CONFIG` (static / isomorphic vet grid) | **Do not** treat as live Trend Following (TF) doctrine. It labeled Red/Blue/Orange/White as observation; later lab (OWD rescue, Turtle S1/S2, bake-off S4, Yellow OWDC-none) superseded it. |
+| Ranking | Keep `practical_sharpe_ratio` as the vet label. Null Sharpes on early Blue cells were a data bug, not a reason to change gates. |
+| Re-vet smoke under revised doctrine | **Not run.** Recipe families in paper/lab now: Turtle static 1%, S4 FastBO5, optional OWDC-none. |
+
+Gates stay labels for `export_kind` (`trade_ready` vs `observation`). They are not a research program. Business-context [`trade-ready-viability-gates.md`](../business-context/trade-ready-viability-gates.md) updated to match.
