@@ -126,12 +126,14 @@ Gitignored (not committed): `ecosystem/deployment/ibkr.env` now has `BG_IBKR_ORD
 
 ### Commits
 
-- _None yet — wrap paused at follow-up promotion._
+- `ecosystem` `be4e178` — docs: ADR-013 paper DUT WQ Confirm-Send and follow-up tickets
+- `broker_gateway` `abedb98` — feat(ADR-013): paper DUT place_order behind kill switch
+- `winston_v2` `d1d753c` — feat(WQ): IBKR-paper Confirm sends one MKT; Accept-Fill at print
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on all three repos — dirty
-- Pushed: no
+- Branch: `main` on all three repos
+- Pushed: pending wrap push
 - PR: not opened
 
 ---
