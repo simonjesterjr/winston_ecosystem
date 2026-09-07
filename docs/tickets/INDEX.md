@@ -33,6 +33,12 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P1 | In progress | [`2026-09-06-wv2-fulfillment-label-and-desk.md`](2026-09-06-wv2-fulfillment-label-and-desk.md) | Fulfillment Label + Fulfillment Desk (Wv2 v1) |
+| P1 | Proposed | [`2026-09-06-fulfillment-desk-compose-clickthrough.md`](2026-09-06-fulfillment-desk-compose-clickthrough.md) | Restart Wv2 and click through Fulfillment Desk v1 |
+| P2 | Proposed | [`2026-09-06-bg-binding-labels-dut-ut.md`](2026-09-06-bg-binding-labels-dut-ut.md) | Set BG binding labels (DUT / UT) |
+| P2 | Proposed | [`2026-09-06-ibkr-cpgw-unattended-session.md`](2026-09-06-ibkr-cpgw-unattended-session.md) | IBKR Client Portal unattended session (tickle ≠ login) |
+| P3 | Proposed | [`2026-09-06-persist-fulfillment-label-on-op.md`](2026-09-06-persist-fulfillment-label-on-op.md) | Persist Fulfillment Label nickname on the OP |
+| P3 | Proposed | [`2026-09-06-fulfillment-desk-rebind-waits-q8.md`](2026-09-06-fulfillment-desk-rebind-waits-q8.md) | Fulfillment Desk rebind / unbind waits on Q8 |
 | P2 | Proposed | [`2026-09-04-tf-foundations-competency-epic.md`](2026-09-04-tf-foundations-competency-epic.md) | Program: TF six-principles competency (Shannon→Lo) |
 | P1 | Proposed | [`2026-09-04-tf-p1-residual-signal-and-oos.md`](2026-09-04-tf-p1-residual-signal-and-oos.md) | P1 — Residual signal proof and true out-of-sample |
 | P2 | Proposed | [`2026-09-04-tf-p2-tails-ruin-and-uncertainty.md`](2026-09-04-tf-p2-tails-ruin-and-uncertainty.md) | P2 — Tails, ruin functionals, Knightian uncertainty |
