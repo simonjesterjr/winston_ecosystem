@@ -78,12 +78,14 @@
 
 ### Commits
 
-- _Pending wrap commit._
+- `data_manager` `794098b` — fix(eod): probe session print before retry rewrite; stop at 17:00 MT
+- `winston_v2` `5f826c4` — fix(ops): session gate pokes DM once then polls ingest
+- `ecosystem` `7f57d10` — docs: close ADR-012 lag retry; Labor Day Not Scored; holiday P2
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on all three — dirty with this session’s files
-- Pushed: pending wrap
+- Branch: `main` on all three
+- Pushed: pending this wrap
 - PR: not opened (direct `main`)
 
 ---
