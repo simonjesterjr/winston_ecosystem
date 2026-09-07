@@ -55,7 +55,7 @@ Working backwards from Phase 4 without skipping 1–3 would put `place_order` on
 | Confirm ≠ Send | **Desk Confirm** = book only. **Desk Send** = place Order Intent only. Booking still needs Confirm (or a later explicit accept-fill policy). |
 | BG owns transport + evidence | OAuth, adapter, JSONL. Wv2 owns match / prefill / book / Plan Approve. No shared PG. Secrets never in Wv2. |
 | L1 capabilities until Phase 4 ADR | `auth` + `order_read` + `txn_read`. `order_write: false` on every shipped binding. |
-| Write ADR is **not** current ADR-010 | ADR-010 is Risk Scale Meta-Layer. Phase 4 drafts the **next free** fulfillment-write ADR. Older tickets that say “ADR-010 before `order_write`” mean that future ADR. |
+| Write ADR is **not** current ADR-010 | ADR-010 is Risk Scale Meta-Layer. Fulfillment write is **ADR-013** (IBKR paper WQ first; market-only is WQ policy, not the IBKR adapter). Older tickets that said “ADR-010 before `order_write`” mean ADR-013. |
 | BG never talks to Quiver | Published book comes from operator paste / PDF. |
 | Mint / TF Ops stay off this binding | Per-leg Human-Gated; no auto-send; no WQ Schwab credentials on those OPs. |
 
@@ -166,17 +166,19 @@ Desk Send, auto-send of the Monday basket, mixing Mint with this Schwab login, t
 ## 8. Phase 4 — One-at-a-time order entry / confirmation
 
 **Ticket:** [`docs/tickets/2026-08-30-wq-phase4-one-at-a-time-send.md`](../docs/tickets/2026-08-30-wq-phase4-one-at-a-time-send.md)  
-**Blocked on:** Phases 1–3 green + **new fulfillment-write ADR** (next free id; not ADR-010).
+**Law:** ADR-013. First write is IBKR **paper DUT** (2026-09-06), not live Schwab. WQ Confirm on that bind = Desk Send of one regular-hours MKT; journal stays working until Accept-Fill at the print.
 
-### 8.1 Outcome
+### 8.1 Outcome (paper DUT, shipped)
 
-After Plan Approve on the **real** WQ series:
+After Plan Approve on the IBKR-paper **WQ Shadow Portfolio**:
 
-1. Remaining legs become a **send queue** (not auto `place_order`).
-2. Operator **Desk Send** one name → BG `place_order`.
-3. Fill evidence → Confirmation Intake.
-4. Operator **Desk Confirm** books that lot.
-5. Repeat. Skip-line still omits a name. Kill switch on.
+1. Remaining legs run one at a time: exits, then rebalances, then enters.
+2. Tracking Confirm Desk Sends one market Order Intent → Broker Gateway `place_order`.
+3. Journal stays **working** (cash not moved).
+4. Matched DUT fill evidence Accept-Fills at the print.
+5. Repeat. Skip-line still omits a name. Kill switch: `BG_IBKR_ORDER_WRITE` + binding `cap_order_write`.
+
+Live Schwab / live IBKR / dummy_sim write stay off. Mint/TF Confirm stays book-only.
 
 ### 8.2 Work (when authorized)
 

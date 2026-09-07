@@ -47,6 +47,11 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P1 | In progress | [`2026-08-31-bg-ibkr-read-adapter-l1.md`](2026-08-31-bg-ibkr-read-adapter-l1.md) | Broker Gateway — Interactive Brokers L1 read adapter (paper CPGW `DUT070450`) |
 | P1 | In progress | [`2026-08-30-wq-phase2-schwab-read-and-sandbox.md`](2026-08-30-wq-phase2-schwab-read-and-sandbox.md) | WQ Phase 2 — Schwab sandbox spike + L1 read adapter |
 | P1 | In progress | [`2026-09-01-wq-ibkr-paper-evidence-bind.md`](2026-09-01-wq-ibkr-paper-evidence-bind.md) | WQ Phase 3 analog — bind paper WQ to IBKR DUT (evidence, not send) |
+| P1 | Proposed | [`2026-09-06-wq-ghost-journal-1279-spcx.md`](2026-09-06-wq-ghost-journal-1279-spcx.md) | Reverse or leave WQ ghost journal #1279 (SPCX drop) |
+| P1 | Proposed | [`2026-09-06-wq-first-dut-confirm-send-proof.md`](2026-09-06-wq-first-dut-confirm-send-proof.md) | First paper DUT Confirm-Send proof (one exit) |
+| P2 | Proposed | [`2026-09-06-ibkr-day-mkt-closed-cash-queue.md`](2026-09-06-ibkr-day-mkt-closed-cash-queue.md) | Observe DUT DAY MKT queue when cash is closed |
+| P1 | Proposed | [`2026-09-06-fractional-units-toi-confirm.md`](2026-09-06-fractional-units-toi-confirm.md) | Fractional units dropped by `to_i` on confirm / sizer |
+| P3 | Proposed | [`2026-09-06-intake-match-fixture-window.md`](2026-09-06-intake-match-fixture-window.md) | Confirmation Intake match specs — freeze fixture window |
 | P1 | Proposed | [`2026-09-01-wq-cost-basis-corrective-amend-dut.md`](2026-09-01-wq-cost-basis-corrective-amend-dut.md) | WQ cost-basis / Corrective Amend vs DUT fills |
 | P1 | Proposed — blocked | [`2026-09-01-ibkr-paper-reset-bind-mint.md`](2026-09-01-ibkr-paper-reset-bind-mint.md) | After WQ setup — reset IBKR paper DUT and bind paper Mint |
 | P2 | Proposed | [`2026-09-01-adr-009-resting-slate-addendum.md`](2026-09-01-adr-009-resting-slate-addendum.md) | ADR-009 addendum — next-open lab default vs live resting slate |
@@ -55,7 +60,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P2 | Proposed | [`2026-09-01-wv2-unit-heat-slate-contest.md`](2026-09-01-wv2-unit-heat-slate-contest.md) | Port Unit Heat and Slate Contest into Winston v2 Daily Analysis |
 | P3 | Proposed | [`2026-09-01-whole-slate-accept-fill-later-grill.md`](2026-09-01-whole-slate-accept-fill-later-grill.md) | Whole-slate accept-fill waits for a later grill |
 | P1 | Proposed | [`2026-08-30-wq-phase3-wq-schwab-evidence-bind.md`](2026-08-30-wq-phase3-wq-schwab-evidence-bind.md) | WQ Phase 3 — bind WQ to Schwab as evidence (not send) |
-| P1 | Proposed — blocked | [`2026-08-30-wq-phase4-one-at-a-time-send.md`](2026-08-30-wq-phase4-one-at-a-time-send.md) | WQ Phase 4 — one-at-a-time Schwab Desk Send + Confirm |
+| P1 | Done | [`2026-08-30-wq-phase4-one-at-a-time-send.md`](2026-08-30-wq-phase4-one-at-a-time-send.md) | WQ Phase 4 — IBKR paper DUT Confirm-Send MKT (ADR-013) |
 | P1 | In progress | [`2026-08-28-wq-monday-rebalance-plan.md`](2026-08-28-wq-monday-rebalance-plan.md) | WQ Monday plan → Plan Approve → dummy_sim execute (Phase 1 child) |
 | P1 | In progress | [`2026-08-28-bg-dummy-sim-sandbox-fills.md`](2026-08-28-bg-dummy-sim-sandbox-fills.md) | dummy_sim sandbox fills (not L3 write; Phase 1 child) |
 | P0 | In progress | [`2026-08-22-corporate-action-stop-safeguards.md`](2026-08-22-corporate-action-stop-safeguards.md) | Corporate-action stop safeguards (unadjusted reverse-split jumps × cover-at-open) |

@@ -1,18 +1,18 @@
 # Ticket: WQ Phase 4 — one-at-a-time Schwab Desk Send + Confirm
 
-**Status:** Proposed  
+**Status:** Done  
 **Priority:** P1  
 **Date:** 2026-08-30  
 **Mode:** contractor  
 **Graph nodes:** winston_v2, broker_gateway, ecosystem  
-**Edges:** new fulfillment-write ADR (next free id); CapabilityGate `order_write`; Desk Send ≠ Desk Confirm  
-**Human gates:** grill + accept write ADR; operator authorizes implementation; each live Send click  
-**DoD:** Plan Approve queues legs; Send one → evidence → Confirm one; no basket `place_order`; paper never live write  
+**Edges:** ADR-013; CapabilityGate `order_write`; WQ IBKR-paper Confirm = Desk Send MKT + Accept-Fill at print  
+**Human gates:** ADR-013 accepted (2026-09-06); each Confirm-Send click (paper DUT)  
+**DoD:** Plan Approve queues legs; one Confirm-Send → working journal → DUT fill evidence → Accept-Fill at print; no basket; no live Schwab; IBKR adapter still fixtures limit/stop-market  
 **Series:** `production-ready-wq`  
 **Plan:** [`plans/production-ready-wq.md`](../../plans/production-ready-wq.md) §8  
 **Epic:** [`2026-08-30-production-ready-wq.md`](2026-08-30-production-ready-wq.md)  
 **Monoliths:** winston_v2, broker_gateway, ecosystem  
-**Blocked on:** Phases 1–3 green; **write ADR accepted**; operator implementation auth  
+**Blocked on:** — implementation session 2026-09-06  
 
 ## Problem
 
@@ -22,10 +22,10 @@ Older tickets that say “no `order_write` until ADR-010” mean this **future**
 
 ## Scope (when unblocked)
 
-1. Grill + file the next-free-id fulfillment-write ADR: Confirm ≠ Send; fail closed; paper never live write; WQ does not inherit paper auto-execute onto Schwab; kill switch; audit; no Daily Analysis place; G20-style idempotent `client_order_key`.
-2. Enable `order_write` **only** on the real WQ `schwab_trader_api` binding. dummy_sim and paper #1372 stay `order_write: false`.
-3. After Plan Approve on the real series: remaining legs = **send queue**, not auto place.
-4. Desk Send one name → BG `place_order` → poll fill → Confirmation Intake → Desk Confirm books that lot. Repeat.
+1. ~~Grill + file fulfillment-write ADR~~ → **ADR-013** (2026-09-06). First write is IBKR **paper DUT**, not live Schwab.
+2. Enable `order_write` **only** on the IBKR **paper** DUT binding used by WQ #1372. dummy_sim, live IBKR, and Schwab stay `order_write: false`.
+3. After Plan Approve: remaining legs = **send queue** (exits, then rebalances, then enters), not auto place.
+4. Tracking Confirm on that OP = Desk Send of one **market** Order Intent → journal **working** → BG poll fill → **Accept-Fill** at the print. Repeat. IBKR adapter must still transport limit and stop-market for a later paper Mint bind.
 5. Skip-line still omits a name. Reject leaves lots unchanged.
 6. Mint / TF Ops stay Confirm-only on their bindings.
 7. Contract tests: refuse basket send; refuse write on L1 profile; refuse write if kill switch / auth failed.
@@ -34,21 +34,23 @@ Supersedes [`2026-08-21-quiver-tracking-bg-fulfillment.md`](2026-08-21-quiver-tr
 
 ## Non-goals
 
-- L4 autotrader / policy send without click
-- Resting Turtle session stops (separate blocked ticket)
-- IBKR as first write adapter
-- Silent accept-fill without Confirm (unless the write ADR later carves it)
-- Implementing this ticket before Phases 1–3 and the ADR
+- L4 autotrader / policy send without a Confirm click
+- Resting Turtle session stops (separate ticket; same IBKR adapter must still **accept** stop-market Order Intents)
+- Live Schwab or live IBKR `order_write`
+- Hard-coding the IBKR adapter to market-only because WQ is market
+- Basket Send; Daily Analysis `place_order`
+- Implementing `place_order` in the ADR-draft session
 
 ## Acceptance
 
-- [ ] Fulfillment-write ADR exists and is Accepted (new number, not 010)
-- [ ] Operator explicitly authorizes L3 implementation
-- [ ] Send one / Confirm one works on the real WQ series in a dedicated account
-- [ ] Remaining Monday legs do not auto-place
-- [ ] dummy_sim / paper #1372 still cannot `place_order`
-- [ ] CapabilityGate + specs cover refuse-write paths
+- [x] Fulfillment-write ADR exists and is Accepted — **ADR-013** (not 010)
+- [x] Operator explicitly authorizes **implementation** of paper DUT write
+- [x] One Confirm-Send → working journal → DUT fill → Accept-Fill at print (WQ paper)
+- [x] Remaining Monday legs do not auto-place; exits before rebalances before enters
+- [x] dummy_sim, live IBKR, and Schwab still cannot `place_order`
+- [x] IBKR adapter fixtures include market **and** limit/stop-market Order Intents
+- [x] CapabilityGate + specs cover refuse-write paths (cite ADR-013)
 
 ## Resume
 
-Do **not** implement in the Phase 1 or Phase 2 sessions. Track only. Unblock when the plan §8 gates are true.
+Law is **ADR-013**. Paper DUT write shipped 2026-09-06: kill switch + `cap_order_write` on the DUT binding; WQ Confirm = Desk Send MKT; Accept-Fill at print.

@@ -12,6 +12,10 @@
 # logged in with the *paper* username.
 BG_IBKR_LIVE_READ=false
 
+# ADR-013: paper DUT place_order. Live IBKR/Schwab stay off even if this is true.
+BG_IBKR_ORDER_WRITE=false
+BG_IBKR_ORDER_WRITE_LIVE=false
+
 # Paper account id (often DU…). Not the live U… account.
 IBKR_ACCOUNT_ID=
 
