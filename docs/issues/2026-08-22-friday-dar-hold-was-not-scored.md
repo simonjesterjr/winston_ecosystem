@@ -1,11 +1,11 @@
 ---
 id: ISSUE-20260822-friday-dar-hold-was-not-scored
 title: Friday DAR published hold because session bars lagged; 15 recipe fires never tasked
-status: in-progress
+status: done
 type: bug
 priority: high
 created: 2026-08-22
-updated: 2026-08-22
+updated: 2026-09-07
 labels: [dm, wv2, dar, eod, friday]
 related:
   - 2026-08-18-dm-yesterday-window-misses-after-close-session
@@ -14,7 +14,7 @@ related:
 
 # Friday DAR published hold because session bars lagged; 15 recipe fires never tasked
 
-**Status banner:** In progress — ADR-012 + session gate in tree; Friday 2026-08-21 catch-up minted 13 tasks onto Saturday desk (fill 2026-08-24), Friday DAR not replaced
+**Status banner:** Done — ADR-012 gate live. Fridays 2026-08-28 and 2026-09-04 scored at 16:30 MT. Labor Day 2026-09-07 wrote `daily_not_scored` at 17:03 MT (not a hold). Retry job now probes the session print and stops at 17:00 MT before work.
 
 ## Summary
 
