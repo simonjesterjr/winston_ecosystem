@@ -80,7 +80,7 @@
 ### Commits
 
 - `winston_v2` `c11d587` — feat(ops): Fulfillment Label chip and read-only Fulfillment Desk
-- `ecosystem` — this docs commit (SHA filled after push if needed)
+- `ecosystem` `3977b0d` — docs: Fulfillment Label grill, desk v1 ticket, wrap follow-ups
 
 ### Branch / PR state at sign-off
 
