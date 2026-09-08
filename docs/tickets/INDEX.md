@@ -70,6 +70,8 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P1 | In progress | [`2026-08-28-wq-monday-rebalance-plan.md`](2026-08-28-wq-monday-rebalance-plan.md) | WQ Monday plan → Plan Approve → dummy_sim execute (Phase 1 child) |
 | P1 | In progress | [`2026-08-28-bg-dummy-sim-sandbox-fills.md`](2026-08-28-bg-dummy-sim-sandbox-fills.md) | dummy_sim sandbox fills (not L3 write; Phase 1 child) |
 | P0 | In progress | [`2026-08-22-corporate-action-stop-safeguards.md`](2026-08-22-corporate-action-stop-safeguards.md) | Corporate-action stop safeguards (unadjusted reverse-split jumps × cover-at-open) |
+| P2 | Proposed | [`2026-09-07-classify-remaining-split-jump-parquet.md`](2026-09-07-classify-remaining-split-jump-parquet.md) | Classify remaining 271 split-like parquet jumps (do not universe-APPLY) |
+| P3 | Proposed | [`2026-09-07-mint-s2-rescore-after-ung-weat-amcr.md`](2026-09-07-mint-s2-rescore-after-ung-weat-amcr.md) | Optional Mint S2 re-score after UNG / WEAT / AMCR stitch |
 | P0 | Done — probe + 17:00 stop 2026-09-07 | [`2026-08-18-eodhd-lag-retry-after-close.md`](2026-08-18-eodhd-lag-retry-after-close.md) | EODHD lag retry + scored-session DAR gate (ADR-012; Friday 2026-08-21 miss) |
 | P1 | Done — Fri 08-28 / 09-04 scored; Labor Day not-scored | [`2026-08-22-observe-friday-scored-session-dar.md`](2026-08-22-observe-friday-scored-session-dar.md) | Observe next Friday unattended EOD — scored DAR, not hold |
 | P2 | Proposed | [`2026-09-07-completed-ny-session-us-holiday-calendar.md`](2026-09-07-completed-ny-session-us-holiday-calendar.md) | CompletedNySession US holiday calendar (Labor Day waited for a print that will never come) |
