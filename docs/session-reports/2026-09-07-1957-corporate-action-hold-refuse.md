@@ -74,7 +74,7 @@
 ### Commits
 
 - `winston_v2` `445815c` — fix(ops): refuse split-like stop-out fills until named override
-- `ecosystem` — this wrap (SHA filled after commit)
+- `ecosystem` `5350b1d` — docs: CORPORATE_ACTION_HOLD refuse wrap; two child tickets
 
 ### Branch / PR state at sign-off
 
