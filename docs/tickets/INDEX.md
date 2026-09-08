@@ -33,6 +33,10 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P2 | Proposed | [`2026-09-08-wev-pulse-turbo-frame.md`](2026-09-08-wev-pulse-turbo-frame.md) | Pulse tablets via Turbo Frame (no WebSockets) |
+| P2 | Proposed | [`2026-09-08-wev-pulse-action-cable.md`](2026-09-08-wev-pulse-action-cable.md) | Pulse push via Action Cable (after DM emit) |
+| P3 | Proposed | [`2026-09-08-wev-pulse-other-monolith-emits.md`](2026-09-08-wev-pulse-other-monolith-emits.md) | Pulse emit from WUT / Wv2 / BG jobs |
+| P2 | In progress | [`2026-09-07-winston-ecosystem-view.md`](2026-09-07-winston-ecosystem-view.md) | Winston Ecosystem View (four-plane operator console) |
 | P1 | In progress | [`2026-09-06-wv2-fulfillment-label-and-desk.md`](2026-09-06-wv2-fulfillment-label-and-desk.md) | Fulfillment Label + Fulfillment Desk (Wv2 v1) |
 | P1 | Proposed | [`2026-09-06-fulfillment-desk-compose-clickthrough.md`](2026-09-06-fulfillment-desk-compose-clickthrough.md) | Restart Wv2 and click through Fulfillment Desk v1 |
 | P2 | Proposed | [`2026-09-06-bg-binding-labels-dut-ut.md`](2026-09-06-bg-binding-labels-dut-ut.md) | Set BG binding labels (DUT / UT) |
@@ -190,7 +194,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 | P1 | Proposed | [`2026-07-13-cromwell-scrub-placeholder-path-memory.md`](2026-07-13-cromwell-scrub-placeholder-path-memory.md) | Ticket: Scrub Cromwell permanent memory of `path/to/file.txt` hallucination |
 | P1 | Proposed | [`2026-07-13-observe-cromwell-market-snapshot-hourlies.md`](2026-07-13-observe-cromwell-market-snapshot-hourlies.md) | Ticket: Observe Cromwell market-snapshot hourlies for real MCP + clean Telegram |
 | P1 | Proposed | [`2026-07-21-cromwell-hourly-telegram-attention-discipline.md`](2026-07-21-cromwell-hourly-telegram-attention-discipline.md) | Ticket: Cromwell hourly Telegram â€” attention discipline (quiet = one line) |
-| P1 | Proposed | [`2026-07-13-stale-parquet-prior-close-active-symbols.md`](2026-07-13-stale-parquet-prior-close-active-symbols.md) | Ticket: Stale DM parquet last-dates for some Active symbols |
+| P1 | Done | [`archive/2026-07-13-stale-parquet-prior-close-active-symbols.md`](archive/2026-07-13-stale-parquet-prior-close-active-symbols.md) | Ticket: Stale DM parquet last-dates for some Active symbols |
 | P1 | Proposed | [`2026-07-15-journal-ledger-stop-on-confirm-and-update.md`](2026-07-15-journal-ledger-stop-on-confirm-and-update.md) | Ticket: Human stop on confirm/book + stop update path |
 | P1 | Proposed | [`2026-07-18-ops-mcp-recreate-after-demo-tools.md`](2026-07-18-ops-mcp-recreate-after-demo-tools.md) | Ticket: Recreate winston_mcp after ops demo tool surface changes |
 | P1 | Proposed | [`2026-07-20-dar-real-process-miss-attention.md`](2026-07-20-dar-real-process-miss-attention.md) | Ticket: DAR attention for Active real process-miss Passed Signals |

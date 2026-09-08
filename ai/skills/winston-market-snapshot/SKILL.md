@@ -23,6 +23,7 @@ Schedule: `ecosystem/ai/schedule/manifest.yaml` — `cromwell_market_snapshot_op
 
 - **Current price / session OHLV**: live internet quote (not EODHD, not stored bars)
 - **Previous close + atr_17**: latest EOD bar from DM parquet (boundary reference only)
+- A parquet bar more than one weekday session behind `summary.expected_previous_close_date` is flagged `previous_close_stale` (false ATR breaches from a week-old close)
 - Symbols without a live quote are **omitted**
 - Each scheduled run **reshuffles** the population so the radar does not walk A→Z (AAAU / AAL / AAPL) every hour
 - This is a **focusing tool / weather radar** — not authoritative daily analysis or trade instructions
@@ -33,8 +34,8 @@ Schedule: `ecosystem/ai/schedule/manifest.yaml` — `cromwell_market_snapshot_op
 2. Call **`wv2_market_snapshot` only** — **every run** (no args, or `{}`). Never reuse prior session tool output. Runtime **requires** a successful call this turn or posts OPS ERROR (never invent "stable / no movers").
 3. Format **only** from this turn's tool JSON. After truncation: summarize what you already have — do **not** call `read_file`, do **not** invent paths like `path/to/file.txt`, do **not** ask the human for a path.
 4. Post **one** concise message to **Sawtooth Main** via `message` tool (`channel`: `telegram`, `chat_id`: `-1003884714483`) **or** as the natural final reply.
-5. **When `movers` is non-empty**: list **only** movers — symbol, previous close → current, ATR, status (testing / breach_up / breach_down), atr_multiple. **Omit all quiet symbols.**
-6. **When all quiet or no symbols** (and the tool **did** return): **exactly one short line**. Prefer: `All markets quiet.` Optional light rotation is fine (one sentence max). **Do not** list symbols, prices, ATR multiples, volume, or a “Key Metrics Overview.”
+5. **When `movers` is non-empty**: list **only** movers — symbol, previous close → current, ATR, status (testing / breach_up / breach_down), atr_multiple. If a mover has `previous_close_stale: true`, append `(stale prior close YYYY-MM-DD)` so a week-old parquet bar is not treated as a real ATR breach. **Omit all quiet symbols.**
+6. **When all quiet or no symbols** (and the tool **did** return): **exactly one short line**. Prefer: `All markets quiet.` If `summary.stale_previous_close` > 0, add one extra line with those symbols and dates. **Do not** list quiet prices, ATR multiples, volume, or a “Key Metrics Overview.”
 7. **On tool failure / circuit-break**: one-line **OPS ERROR** only (duty failed). No recovery questions.
 
 ### Message shape (when movers exist)
@@ -44,7 +45,7 @@ Keep it short. Example:
 ```
 Radar — active books testing / breaking ATR:
 • MSFT  prev 383.34 → 392.95  ATR 12.16  (+0.79× testing)
-• AMAT  prev 570.50 → 615.20  ATR 43.68  (+1.02× breach_up)
+• AMAT  prev 570.50 → 615.20  ATR 43.68  (+1.02× breach_up) (stale prior close 2026-07-02)
 ```
 
 ### Message shape (all quiet)
