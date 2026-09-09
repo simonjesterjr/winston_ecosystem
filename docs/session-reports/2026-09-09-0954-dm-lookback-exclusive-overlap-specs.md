@@ -49,13 +49,13 @@
 ### Commits
 
 - `a75b10c` — spec: lock DM lookback, exclusive overlap 0, and OWD TS ladder fallback (`winston_unit_test`)
-- `46989aa` — docs: archive DM lookback / exclusive overlap specs ticket as Done (`ecosystem`)
+- `f4e7dd2` — docs: archive DM lookback / exclusive overlap specs ticket as Done (`ecosystem`)
 
 ### Branch / PR state at sign-off
 
 - **winston_unit_test:** `main` `a75b10c` — this session’s spec files committed; unrelated jobs/pulse/ponytail dirty tree left alone
-- **ecosystem:** `main` `46989aa` — ticket archive + this report; unrelated WEV/Walnut/INDEX hunks left in the working tree
-- **Pushed:** pending wrap
+- **ecosystem:** `main` `f4e7dd2` — ticket archive + this report; unrelated WEV/Walnut/INDEX hunks left in the working tree
+- **Pushed:** yes (`origin/main`)
 - **PR:** not opened (commit to `main`)
 
 **Monoliths touched:** `winston_unit_test` (specs); `ecosystem` (ticket + report).
