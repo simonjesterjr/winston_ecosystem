@@ -99,13 +99,15 @@
 
 ### Commits
 
-- _None yet — wrap paused at follow-up promotion._
+- `ecosystem` `f62e4dc` — docs: Winston Ecosystem View four-plane console
+- `winston_v2` `89144ce` — feat(ops): Winston Ecosystem View four-plane console
+- `data_manager` `4671109` — feat(pulse): emit DownloadTask while acquire is in flight
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on three repos — dirty
-- Pushed: no
-- PR: not opened
+- Branch: `main` on three repos
+- Pushed: pending this wrap
+- PR: not opened (commit to `main`)
 
 ---
 
@@ -226,8 +228,8 @@
 
 ## 11. Handoff & Resume Notes
 
-- **Where I left off:** Code plane v2 in working trees; wrap at follow-up promotion; nothing committed.
-- **Next concrete step:** operator shortcut on §14; then commit the three precise file lists (not `git add .`); push `main`.
+- **Where I left off:** WEV committed on three `main` branches; wrap follow-ups filed as child tickets.
+- **Next concrete step:** operator visual QA of Code plane (`2026-09-09-wev-code-plane-visual-qa.md`).
 - **Files to read first:**
   1. `ecosystem/plans/winston-ecosystem-view.md`
   2. `ecosystem/interfaces/winston-ecosystem-view-v1.md`
