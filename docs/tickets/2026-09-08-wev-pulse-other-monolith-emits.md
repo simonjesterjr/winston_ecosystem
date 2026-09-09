@@ -1,13 +1,13 @@
 # Ticket: Pulse emit from WUT / Wv2 / BG jobs (after DM)
 
-**Status:** Proposed
-**Priority:** P3
+**Status:** In progress
+**Priority:** P2
 **Mode:** contractor
 **Program:** Winston Ecosystem View
 **Parent:** [`2026-09-07-winston-ecosystem-view.md`](2026-09-07-winston-ecosystem-view.md)
-**Graph nodes:** winston_unit_test, winston_v2, broker_gateway, ecosystem
+**Graph nodes:** winston_unit_test, winston_v2, broker_gateway, data_manager, ecosystem
 **Depends on:** DM Pulse emit — shipped 2026-09-08
-**DoD:** Pulse Work tablet can name a live WUT/Wv2/BG job the same way it names IBM on DM, without inventing a shared DB
+**DoD:** Pulse Work tablet shows operator titles (`Daily Analysis · {date}` / `Portfolio Backtest Run {id} · {name}`) while those jobs run, including MCP `perform_now`. Tickle / health / expected_returns stay silent. No shared Pulse DB. Contract: `wev:pulse:work` HASH on the owner Redis DB.
 
 ## Why
 
@@ -15,9 +15,10 @@ data_manager now writes `DownloadTask` while a symbol is in flight. Winston Unit
 
 ## Work (when someone stares at Pulse during those jobs)
 
-- WUT: emit a cheap row or Redis key at PortfolioBacktestJob / DailyOperationsJob start/finish.
-- Wv2: DailyAnalysisJob start (`as_of`, active OP count) / finish.
-- BG: optional; tickle every minute should **not** spam the ticker.
-- Contract: add optional `jobs[]` on `winston-ecosystem-view-pulse/v1` — no PnL fields.
+- [x] Contract: Pulse Work Record on `winston-ecosystem-view-pulse/v1` (`wev:pulse:work` HASH, `PUBLISH wev:pulse`). Poll and future Cable are both readers.
+- [x] WUT: PBR / single backtest / optimization / daily ops / PCS / Quiver lab / data sync / backup. Silent: expected_returns, Cable broadcast.
+- [x] Wv2: Daily Analysis (`subject` walks Operational Portfolios) / MMS / Intake (only when it worked) / WQ fill+ingest / Congress LS / hourly radar aggregate.
+- [x] DM: orchestrators + acquire rows beside `DownloadTask`. Silent: health check.
+- [x] BG: refresh / place order / sandbox fills. Silent: tickle.
 
-Until then Pulse already peeks Sidekiq `busy` and queued args when present.
+Until named HASH is empty, projector falls back to Sidekiq `busy` / queued args.

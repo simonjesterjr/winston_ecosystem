@@ -9,6 +9,7 @@
 | **Graph nodes** | `ecosystem/`, `winston_v2`, `data_manager`, `winston_unit_test`, `broker_gateway` |
 | **Human gates** | No new compose service; no docker.sock; no Capital Activation chrome; no invented BookScore |
 | **Contracts** | `ecosystem/interfaces/winston-ecosystem-view-v1.md` |
+| **Task tracking** | [`winston-ecosystem-view.md.tasks.json`](winston-ecosystem-view.md.tasks.json) |
 | **Poster** | `ecosystem/docs/poster/` |
 | **Code** | `ecosystem/ecosystem_view/` |
 | **Ops door** | Wv2 `GET /operations/ecosystem` |
@@ -116,7 +117,8 @@ VERDICT was `broken` on the slogan. Corrections taken: split podman vs Redis; si
 3. UI projects; engines stay in owner monoliths (ADR-007 for PCS).
 4. Host Pulse stays on the CLI until a snapshot file is copied; Tailscale must not lie.
 5. 2.5D is CSS/SVG isometric of the OP list, not a game world.
-6. Pulse reuses the Poster isometric map. Edges animate only from Redis/Sidekiq busy or DM `/internal/pulse` running symbols (e.g. IBM). Tablets poll every 3s. Book Board is the same cuboid language on attention-band floors. Codebase cuboids are TradingStrategy projection placeholders until a real hotspot tool exists.
+6. Pulse reuses the Poster isometric map. Edges animate only from Redis/Sidekiq busy, named Pulse Work, or DM `/internal/pulse` running symbols (e.g. IBM). Tablets poll every 3s. Book Board is the same cuboid language on attention-band floors. Codebase cuboids are TradingStrategy projection placeholders until a real hotspot tool exists.
+7. Named Pulse Work is a Redis HASH on the **owner’s** DB (`wev:pulse:work`) plus `PUBLISH wev:pulse`. The Pulse Work Record is the contract; poll and a later Cable subscriber are both readers. Do not parse sibling Sidekiq args to invent titles. Tickle / health / expected_returns stay silent.
 
 ## UNKNOWN (do not paper over)
 

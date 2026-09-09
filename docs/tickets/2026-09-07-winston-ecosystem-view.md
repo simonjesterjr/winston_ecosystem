@@ -27,7 +27,10 @@ Operators cannot see Winston as it actually runs: four monoliths, containers, jo
 
 - **Done 2026-09-08:** DM Pulse emit — `DownloadTask` running while a symbol is acquired (`DmPulseProgress`).
 - **Done 2026-09-08:** Code plane work catalog (docs, not git/CI health).
-- Near-term: [`2026-09-08-wev-pulse-turbo-frame.md`](2026-09-08-wev-pulse-turbo-frame.md), [`2026-09-08-wev-pulse-action-cable.md`](2026-09-08-wev-pulse-action-cable.md) (WebSockets after emit; skip until a desk needs ≪3s).
+- **In progress:** [`2026-09-08-wev-pulse-other-monolith-emits.md`](2026-09-08-wev-pulse-other-monolith-emits.md) — named Pulse Work on owner Redis (`wev:pulse:work`). Transport stays 3s poll; Cable later subscribes to the same records.
+- Near-term: [`2026-09-08-wev-pulse-turbo-frame.md`](2026-09-08-wev-pulse-turbo-frame.md), [`2026-09-08-wev-pulse-action-cable.md`](2026-09-08-wev-pulse-action-cable.md) (WebSockets after named emit; skip until a desk needs ≪3s).
+- [`2026-09-09-wev-pulse-work-store-single-component.md`](2026-09-09-wev-pulse-work-store-single-component.md) — one PulseWork::Store (import into four apps; not a fifth monolith)
+- [`2026-09-09-wev-pulse-container-catalog-sot.md`](2026-09-09-wev-pulse-container-catalog-sot.md) — grill: Pulse cuboid identity SoT (YAML vs inventory vs hybrid); JS `CONTAINERS` is v1 only
 - [`2026-09-09-wev-code-plane-visual-qa.md`](2026-09-09-wev-code-plane-visual-qa.md) — operator clickthrough of Code tabs / metadata / reader
 - [`2026-09-09-wev-index-work-owner-heuristic.md`](2026-09-09-wev-index-work-owner-heuristic.md) — catalog owner tags
 - [`2026-09-09-wev-index-work-refresh-hook.md`](2026-09-09-wev-index-work-refresh-hook.md) — regenerate `work.json` when docs change
@@ -37,4 +40,4 @@ Operators cannot see Winston as it actually runs: four monoliths, containers, jo
 - Code-health catalog when a real tool exists (git/CI — not the docs tablet)
 - OTel traces if a collector is added
 - Promotion gate after Capital Activation ships
-- Drain/explain WUT `expected_returns` depth (Pulse finding, not this UI)
+- Drain/explain WUT `expected_returns` depth (Pulse finding, not this UI) — **drained 2026-09-09** (227000 → 0). Producer still live; work: `winston_unit_test/docs/tickets/2026-09-09-wut-expected-returns-queue-graveyard.md`. Retry/dead were `active_account_id` cron + `DataSetDmSyncJob` (also drained; tickets updated/filed).

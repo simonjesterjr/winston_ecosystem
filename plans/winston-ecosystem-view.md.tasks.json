@@ -1,0 +1,12 @@
+{
+  "planPath": "plans/winston-ecosystem-view.md",
+  "status": "in_progress",
+  "tasks": [
+    {
+      "id": 1,
+      "subject": "Operator Pulse visual QA — hard-refresh Ecosystem, click cuboids, confirm idle headline is Quiet (not a job dump)",
+      "status": "pending",
+      "note": "docs/session-reports/2026-09-09-1445-wev-pulse-named-work.md §14. Cache-bust wev-live.js?v=20260909q. Work tab empty when idle; Queues may still show WUT expected_returns depth."
+    }
+  ]
+}

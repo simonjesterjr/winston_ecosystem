@@ -39,6 +39,9 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P1 | Proposed | [`2026-09-09-walnut-stp-accept-fill-day-entry.md`](2026-09-09-walnut-stp-accept-fill-day-entry.md) | Prove Accept-Fill at DUT print for a Walnut DAY STP entry |
 | P1 | Proposed | [`2026-09-09-walnut-day-stp-close-reconcile.md`](2026-09-09-walnut-day-stp-close-reconcile.md) | After cash close — reconcile Walnut DAY STPs vs DUT |
 | P2 | Proposed | [`2026-09-09-ibkr-stp-tick-size.md`](2026-09-09-ibkr-stp-tick-size.md) | IBKR STP tick size beyond a hard 0.01 |
+| P2 | Proposed | [`../../../winston_unit_test/docs/tickets/2026-09-09-wut-expected-returns-queue-graveyard.md`](../../../winston_unit_test/docs/tickets/2026-09-09-wut-expected-returns-queue-graveyard.md) | WUT `expected_returns` producer-only graveyard (stop enqueue or add worker) |
+| P2 | Proposed | [`2026-09-09-wev-pulse-work-store-single-component.md`](2026-09-09-wev-pulse-work-store-single-component.md) | WEV PulseWork::Store — one component (import or single deploy) |
+| P2 | Proposed | [`2026-09-09-wev-pulse-container-catalog-sot.md`](2026-09-09-wev-pulse-container-catalog-sot.md) | WEV Pulse container metadata — SoT grill (not YAML-by-default) |
 | P2 | Proposed | [`2026-09-09-wev-code-plane-visual-qa.md`](2026-09-09-wev-code-plane-visual-qa.md) | WEV Code plane — operator visual QA |
 | P3 | Proposed | [`2026-09-09-wev-index-work-owner-heuristic.md`](2026-09-09-wev-index-work-owner-heuristic.md) | WEV work catalog — tighten owner heuristic |
 | P3 | Proposed | [`2026-09-09-wev-index-work-refresh-hook.md`](2026-09-09-wev-index-work-refresh-hook.md) | WEV work catalog — refresh when docs change |

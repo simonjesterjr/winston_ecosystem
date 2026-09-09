@@ -232,4 +232,49 @@ Polled by the Pulse plane (3s). Not first-paint HTML. Forbidden keys: `return_pc
 }
 ```
 
-`state` is `live` (Sidekiq busy or DM running task) or `recent` (Cromwell `symbol_updated` within 15 minutes). UI must not animate idle edges.
+`state` is `live` (Sidekiq busy, named Pulse Work, or DM running task) or `recent` (Cromwell `symbol_updated` within 15 minutes). UI must not animate idle edges.
+
+### Pulse Work Record (`owners.*.jobs[]`)
+
+Named work the operator can sit and watch. **This JSON is the contract.** `GET /operations/ecosystem/pulse` (3s poll) is one reader. A later Action Cable subscriber is another reader of the same records. Do not invent a second schema for push.
+
+Each owner monolith writes to **its own Redis DB** (`/0` DM, `/1` WUT, `/2` Wv2, `/3` BG):
+
+| Redis | Type | Purpose |
+|-------|------|---------|
+| `wev:pulse:work` | HASH `id → JSON` | currently running records |
+| `wev:pulse:recent` | LIST (cap 20) | finished records for the cuboid log |
+| `PUBLISH wev:pulse` | `{ "op": "start\|progress\|finish", "record": {…} }` | nobody subscribes yet; Cable later |
+
+Pub/sub is process-wide in Redis (not per logical DB). Channel is `wev:pulse`; `owner` is on the record. HASH TTL 4h (refresh on write). Projector ignores `started_at` older than 4h.
+
+```json
+{
+  "id": "activejob-uuid",
+  "owner": "wv2",
+  "kind": "daily_analysis",
+  "title": "Daily Analysis · 2026-09-09",
+  "subject": "Mint",
+  "state": "running",
+  "started_at": "2026-09-09T22:30:00Z",
+  "class": "DailyAnalysisJob"
+}
+```
+
+`owners.*.recent[]` is the same shape with `state` `ok` \| `error` and `finished_at`.
+
+| Field | Rule |
+|-------|------|
+| `kind` | Closed enum below. Map edges key off this, not Ruby class names. |
+| `title` | Operator sentence. Stable for the job. |
+| `subject` | Current slice (Operational Portfolio name, symbol, binding). May change via progress. Null if none. |
+| `state` | On the HASH: `running`. Queued work stays on the queue tablet. |
+| Forbidden | `return_pct`, `sharpe`, `pcs`, `pbr`, `equity`, fill prices |
+
+`kind` (first pass): `acquire` · `orchestrate_sync` · `quiver_sync` · `coverage_retry` · `daily_analysis` · `mid_month_scoreboard` · `confirmation_intake` · `wq_working_fill` · `wq_ingest` · `quiver_digest` · `quiver_rebalance` · `market_snapshot` · `portfolio_backtest` · `single_backtest` · `signal_optimization` · `daily_operations` · `pcs_score` · `quiver_lab_snapshot` · `quiver_lab_backtest` · `dm_registry_sync` · `data_set_sync` · `paper_trading` · `accounts_backup` · `bg_refresh` · `bg_place_order` · `bg_sandbox_fills`
+
+**Silence (do not write a record):** WUT `CalculateExpectedReturnJob` / `PostBacktestExpectedReturnJob` (expected_returns graveyard); WUT `BroadcastBacktestUpdateJob`; DM `EcosystemHealthCheckJob`; BG `Adapters::Ibkr::TickleJob` (cron tablet + `ibkr_cpgw` edge only). Confirmation Intake / WQ working-fill / Mid-month Scoreboard / session coverage retry emit only when they actually work (no-op cron is silent). Hourly radar is one `market_snapshot` row, not one row per `MarketSnapshotSymbolJob`.
+
+Wv2 projector prefers `HGETALL wev:pulse:work` for `jobs[]`. Sidekiq `:work` / queued args are fallback only when the HASH is empty. MCP/`perform_now` is visible because emit is ActiveJob `around_perform` (or a service `PulseWork.wrap`), not Sidekiq `:work` peek.
+
+No shared Pulse PG. No Redis `/4`. No `/internal/pulse` copies on WUT/Wv2/BG — sibling Redis peek from Wv2 is the Tailscale-honest path. DM `GET /internal/pulse` remains for `running_symbols` / map edges; DM also writes Redis so the Work tablet uses the same path as the other owners.
