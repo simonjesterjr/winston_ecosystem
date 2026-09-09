@@ -1,6 +1,6 @@
 # Ticket: Specs for DM lookback/date-range and exclusive MAX_OVERLAP=0
 
-**Status:** Proposed  
+**Status:** Done  
 **Priority:** P2  
 **Date:** 2026-07-23  
 **Domain:** PortfolioBacktestRunner, PortfolioOverlapPolicy, regression  
@@ -25,5 +25,19 @@ Without specs, dual-path (activities vs parquet) will regress again.
 
 ## Acceptance
 
-- [ ] Specs green in compose WUT  
-- [ ] Covers at least lookback empty-activities regression  
+- [x] Specs green in compose WUT  
+- [x] Covers at least lookback empty-activities regression  
+
+## Close-out (2026-09-09)
+
+Still applicable: production code from the 2026-07-23 session remained in WUT; the three regression locks were missing. No production-code change — specs only.
+
+| Gap | Spec |
+|-----|------|
+| Empty activities + DmCoverage → overlap + lookback | `spec/services/portfolio_backtest_runner_dm_lookback_spec.rb` |
+| Exclusive `max_overlap_fraction = 0` rejects a peer-book twin | `portfolio_overlap_policy_spec.rb`, `portfolio_correlation_builder_spec.rb` |
+| OWD without ladder fails; TS provenance / factory seed succeeds | `one_way_dynamic_risk_validator_spec.rb`, `portfolio_backtest_run_factory_spec.rb`, `portfolio_config_exporter_spec.rb` |
+
+`EXCLUDE_TAKEN` remains a rake candidate-pool pre-filter. The durable invariant is exclusive `max_overlap_fraction = 0` on policy + builder, which is what the specs lock.
+
+Compose WUT: 47 examples, 0 failures.
