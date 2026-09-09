@@ -63,6 +63,22 @@ Trend Following, live capital, and any OP that is not the IBKR-paper WQ Shadow P
 
 Paper DUT `place_order` is behind `BG_IBKR_ORDER_WRITE` + binding `cap_order_write`. Winston Quiver Confirm on that bind Desk Sends one regular-hours MKT; the journal stays **working** until matched fill evidence Accept-Fills at the print. `drop_book` is an exit. dummy_sim Confirm still books. Live IBKR, Schwab, basket send, and Daily Analysis `place_order` stay off. The IBKR adapter still fixtures LMT / STP / STPLMT.
 
+### 7. Paper TF on the same DUT — named next step (2026-09-09)
+
+Operator lock: **Portfolio Walnut** (paper Trend Following, bound to the same Interactive Brokers paper DUT) may **Confirm = Desk Send** of **one regular-hours MKT**, same working-until-print / Accept-Fill path as WQ. Mint remains dummy_sim and book-only. The MKT path is a **wiring proof**.
+
+**Session Order Slate packaging (Grill 2026-09-09), not yet shipped:**
+
+1. Stops are always **stop-market** (STP). Not limits. Not stop-limit for v1.
+2. **DAY** rebuild for entries and pyramids; **GTC + replace** for protective Working Stops. Never cancel-all of live protective stops.
+3. Working stop / 20-day: while lots < max, 20-day is **not evaluated**; all lots share last-entry **2N** (GTC, `move_to_last_entry` on a pyramid fill) and a DAY add at last fill ± the TS pyramid step. After the max lot fills, stop is last purchase ± 2N and 20-day **is** evaluated; when it has passed 2N in the trade’s favor, replace with the 20-day (may ratchet through last purchase). Trading rules: `docs/business-context/turtle-s2-pyramid-and-working-stop.md`.
+4. Human gate is **Slate Approve** then **per-leg** Confirm = Send (WQ-shaped). Not basket send. Not Slate Automation.
+5. A Desk-Sent Walnut/WQ paper DUT command **Accept-Fills** at the print (entries, pyramids, protective stops). IBKR is fulfillment SoT. Tickle ≠ unattended login.
+6. **Slate Contest** for now: park competing names; Unit Heat + first-to-touch consume cash (revisit later).
+7. **Protective Stop Guardrail:** any open lot with a Working Stop must have a matching GTC stop-market at DUT when the market can carry one. Evaluate continuously. Extra-modal: HITL on the related fill, not a silent option-stop.
+
+Cancel/replace are still CapabilityGate-refused — the slate cannot ship until those writes exist. Cash on Walnut remains a temporary CashEvent align until Broker Account Capital is wired. Reversible by `cap_order_write` off. Live IBKR / Schwab stay off.
+
 ## Rationale
 
 - DUT is already the fulfillment home for this paper OP (**Broker Account Capital**). Booking WQ without a DUT order is a ghost desk.
