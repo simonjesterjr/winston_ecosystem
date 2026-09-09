@@ -1,0 +1,197 @@
+#!/usr/bin/env python3
+"""Index ADRs, tickets, issues, plans for the Code plane. Not live metrics."""
+from __future__ import annotations
+
+import json
+import re
+from datetime import datetime, timezone
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[3]
+ECO = ROOT / "ecosystem"
+OUTS = [
+    ECO / "ecosystem_view" / "catalog" / "work.json",
+    ROOT / "winston_v2" / "public" / "ecosystem" / "work.json",
+]
+BODY_CAP = 16000
+
+OWNERS = (
+    ("wq", ("quiver", "wq ", "wq-", "shadow")),
+    ("dm", ("data_manager", "data-manager", " eodhd", "parquet", "dm ", "dm-", "watermark")),
+    ("wut", ("winston_unit_test", "wut ", "wut-", "pbr", "backtest")),
+    ("bg", ("broker_gateway", "broker-gateway", "ibkr", "bg ", "bg-")),
+    ("wv2", ("winston_v2", "wv2", "ops-shell", "desk", "dar ", "fulfillment", "pulse", "book board")),
+    ("ecosystem", ("ecosystem", "cromwell", "mcp", "cable", "hotwire")),
+)
+
+NODES = [
+    {
+        "id": "ecosystem",
+        "label": "ecosystem",
+        "kind": "gc",
+        "name": "ecosystem/ (general contractor)",
+        "what": "The cross-monolith knowledge base: principles, plans, interfaces, ADRs, tickets, issues. Not a deployable Rails app.",
+        "purpose": "Coordinate the majestic monoliths so they do not invent contracts. Source of truth for language and decisions.",
+        "helps": "Pulse, Book, and Poster only stay honest if this tree names the edges (parquet standard, broker evidence, MCP tools).",
+        "externals": ["Git", "operator / Cromwell skills"],
+        "peers": ["dm", "wut", "wv2", "bg"],
+    },
+    {
+        "id": "dm",
+        "label": "dm",
+        "kind": "monolith",
+        "name": "data_manager",
+        "what": "The data acquisition monolith. Owns End of Day Historical Data (EODHD) download, Winston EOD Standard parquet, derivatives (ATR-17), reconciliation, Alt Filings.",
+        "purpose": "One parquet tree every consumer can trust. Does not trade, size, or keep Operational Portfolios.",
+        "helps": "WUT backtests and Wv2 Daily Analysis read the same bars. Pulse shows DM pulls (e.g. IBM) as live work.",
+        "externals": ["EODHD", "Quiver Quantitative (Alt Filings key)"],
+        "peers": ["wut", "wv2", "ecosystem"],
+    },
+    {
+        "id": "wut",
+        "label": "wut",
+        "kind": "monolith",
+        "name": "winston_unit_test",
+        "what": "The laboratory monolith: Portfolio Backtest Runs, signal optimization, Portfolio Correlation Score (PCS) system of record, Quiver Skim reconstructions.",
+        "purpose": "Choose recipes before they become Operational Portfolios. Not live capital.",
+        "helps": "Exports Trade-Ready / Observation JSON into portfolio_configs for Wv2. PCS snapshots feed Daily Activity Reports.",
+        "externals": ["DM parquet mount", "portfolio_configs/"],
+        "peers": ["dm", "wv2", "ecosystem"],
+    },
+    {
+        "id": "wv2",
+        "label": "wv2",
+        "kind": "monolith",
+        "name": "winston_v2",
+        "what": "The operational trading monolith: Operational Portfolios, Daily Analysis, journals, human-gated desk, MCP surface, this Ecosystem View.",
+        "purpose": "Run paper and real books after lab. Humans Confirm/Send; it is not an unattended autotrader.",
+        "helps": "Book Board and Pulse live here because the operator already sits on /operations. Imports recipes from WUT; evidence from BG.",
+        "externals": ["DM parquet", "WUT PCS/handoff", "Broker Gateway", "Telegram (DAR PDF)"],
+        "peers": ["dm", "wut", "bg", "wq", "ecosystem"],
+    },
+    {
+        "id": "bg",
+        "label": "bg",
+        "kind": "monolith",
+        "name": "broker_gateway",
+        "what": "Broker transport: adapter registry, Winston Broker Evidence Standard JSONL, Interactive Brokers tickle. Not the desk ledger.",
+        "purpose": "Talk to brokers without putting capital math in the adapter. Wv2 matches evidence; BG does not book Positions.",
+        "helps": "Confirmation Intake and Fulfillment Desk. Fail closed if BG is down.",
+        "externals": ["Interactive Brokers Client Portal Gateway (host :5000)", "Schwab adapter (write mostly off)"],
+        "peers": ["wv2", "ecosystem"],
+    },
+    {
+        "id": "wq",
+        "label": "wq",
+        "kind": "desk",
+        "name": "Winston Quiver Tracking desk",
+        "what": "A Wv2 page (/quiver_tracking) plus one paper Operational Portfolio whose target is an uploaded Quiver Snapshot PDF/TXT. Not a fifth Rails app. Not Trend Following Daily Analysis.",
+        "purpose": "Track a published Quiver book with Plan Approve and one-at-a-time legs.",
+        "helps": "Separate attention from the TF ops-shell. DM still supplies Alt Filings and price parquet for the names.",
+        "externals": ["Quiver Snapshot PDF (human-uploaded)", "IBKR paper DUT (Confirm = Desk Send)"],
+        "peers": ["wv2", "dm", "bg"],
+    },
+]
+
+
+def owner_for(text: str) -> str:
+    t = " " + text.lower().replace("_", " ").replace("/", " ") + " "
+    for oid, keys in OWNERS:
+        if any(k in t for k in keys):
+            return oid
+    return "ecosystem"
+
+
+def first_heading(text: str) -> str:
+    for line in text.splitlines():
+        if line.startswith("# "):
+            return line[2:].strip()
+    return ""
+
+
+def meta_status(text: str) -> str:
+    m = re.search(r"\*\*Status:\*\*\s*(.+)", text)
+    if m:
+        return m.group(1).strip()[:80]
+    m = re.search(r"^\|\s*\*\*Status\*\*\s*\|\s*(.+?)\s*\|", text, re.M)
+    if m:
+        return m.group(1).strip()[:80]
+    return ""
+
+
+def clip_body(text: str) -> str:
+    text = text.replace("\r\n", "\n")
+    if len(text) <= BODY_CAP:
+        return text
+    return text[:BODY_CAP] + "\n\n… truncated …"
+
+
+def item(kind, path: Path, owner_src: str, rel: str) -> dict:
+    text = path.read_text(errors="replace") if path.exists() else ""
+    title = first_heading(text) or path.stem
+    return {
+        "kind": kind,
+        "id": path.stem,
+        "title": title,
+        "status": meta_status(text) or "",
+        "owner": owner_for(owner_src + " " + title + " " + path.stem),
+        "path": rel,
+        "body": clip_body(text) if text else "(file not found on disk)",
+    }
+
+
+def collect() -> dict:
+    items = []
+    for p in sorted((ECO / "docs" / "adr").glob("ADR-*.md")):
+        items.append(item("adr", p, p.stem, str(p.relative_to(ECO))))
+
+    idx = ECO / "docs" / "tickets" / "INDEX.md"
+    if idx.exists():
+        for line in idx.read_text(errors="replace").splitlines():
+            if not line.startswith("|") or "File" in line or line.startswith("|---") or "Priority |" in line:
+                continue
+            cols = [c.strip() for c in line.strip("|").split("|")]
+            if len(cols) < 4:
+                continue
+            pri, status, file_col, title = cols[0], cols[1], cols[2], cols[3]
+            m = re.search(r"\(([^)]+\.md)\)", file_col) or re.search(r"`([^`]+\.md)`", file_col)
+            fname = m.group(1) if m else ""
+            if not fname:
+                continue
+            path = ECO / "docs" / "tickets" / fname
+            if not path.exists():
+                path = ECO / "docs" / "tickets" / "archive" / Path(fname).name
+            rec = item("ticket", path, title + " " + fname, f"docs/tickets/{fname}")
+            rec["title"] = title
+            rec["status"] = f"{pri} {status}"
+            items.append(rec)
+
+    for p in sorted((ECO / "docs" / "issues").glob("*.md")):
+        if p.name.startswith("_"):
+            continue
+        items.append(item("issue", p, p.read_text(errors="replace")[:800], str(p.relative_to(ECO))))
+
+    for p in sorted((ECO / "plans").glob("*.md")):
+        if "candidate" in p.name:
+            continue
+        items.append(item("plan", p, p.read_text(errors="replace")[:800], str(p.relative_to(ECO))))
+
+    return {
+        "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "nodes": NODES,
+        "items": items,
+    }
+
+
+def main() -> int:
+    payload = collect()
+    text = json.dumps(payload)
+    for out in OUTS:
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(text + "\n")
+        print(f"wrote {out} items={len(payload['items'])} bytes={out.stat().st_size}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

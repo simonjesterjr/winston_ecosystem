@@ -1,0 +1,35 @@
+{
+  "t": "Winston intended topology",
+  "i": [
+    ["EODHD", "cloud", "Vendor. DM acquires EOD bars"],
+    ["Quiver", "cloud", "Alt filings. Not a compose service"],
+    ["postgres", "storage", "DM metadata PG host 5432"],
+    ["data_manager", "server", "DM rails :3001"],
+    ["dm sidekiq", "queue", "Redis /0 orchestrator + watchdog"],
+    ["parquet", "storage", "sawtooth_dm_data Winston EOD"],
+    ["wut_postgres", "storage", "WUT metadata PG host 5433"],
+    ["winston_unit_test", "server", "WUT rails :3000 lab / PBR / PCS"],
+    ["wut sidekiq", "queue", "Redis /1 including expected_returns"],
+    ["redis", "queue", "Shared Redis :6379 DBs 0-3"],
+    ["wv2_postgres", "storage", "Wv2 metadata PG host 5434"],
+    ["winston_v2", "server", "Wv2 rails :3002 OPs and desk"],
+    ["wv2 sidekiq", "queue", "Redis /2 Daily Analysis + intake"],
+    ["bg_postgres", "storage", "BG metadata PG host 5435"],
+    ["broker_gateway", "server", "BG rails :3003 evidence JSONL"],
+    ["bg sidekiq", "queue", "Redis /3 ibkr_tickle"],
+    ["evidence", "storage", "sawtooth_bg_evidence JSONL"],
+    ["ollama", "server", "Local LLM. AI profile"],
+    ["winston_mcp", "server", "MCP :8088. AI profile"],
+    ["open-webui", "desktop", "127.0.0.1:8080. AI profile"],
+    ["nanobot", "server", "Cromwell gateway :18790"],
+    ["IBKR CPGW", "router", "Host process :5000 not a container"],
+    ["Schwab", "router", "BG adapter. No compose service"]
+  ],
+  "v": [
+    [
+      [[0,-6,2],[1,-6,5],[2,1,1],[3,4,1],[4,4,4],[5,1,4],[6,11,1],[7,14,1],[8,14,4],[9,8,8],[10,11,11],[11,14,11],[12,14,14],[13,1,11],[14,4,11],[15,4,14],[16,1,14],[17,21,4],[18,24,4],[19,21,8],[20,24,8],[21,-6,13],[22,-6,16]],
+      [[0,3],[1,3],[3,5],[5,7],[5,11],[3,7],[3,11],[7,11],[4,9],[8,9],[12,9],[15,9],[11,14],[14,21],[14,22],[11,18],[18,20],[17,20]]
+    ]
+  ],
+  "_": { "f": "compact", "v": "1.0" }
+}

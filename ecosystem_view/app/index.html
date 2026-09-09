@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <title>Winston Ecosystem View</title>
+  <link rel="stylesheet" href="wev.css">
+</head>
+<body>
+  <header class="wev-header">
+    <div>
+      <h1>Winston Ecosystem View</h1>
+      <p class="muted">Four planes. Pulse is not PnL. Slabs are Operational Portfolios, not Books.</p>
+    </div>
+    <div class="wev-meta">
+      <span id="as-of" class="chip">snapshot UNKNOWN</span>
+      <button type="button" id="refresh" class="btn">Refresh</button>
+    </div>
+  </header>
+  <nav class="wev-tabs" aria-label="Planes">
+    <a href="#poster">Poster</a>
+    <a href="#pulse">Pulse</a>
+    <a href="#board">Book Board</a>
+    <a href="#code">Codebase</a>
+  </nav>
+  <main>
+    <section id="poster" class="plane">
+      <h2>Poster — intended shape</h2>
+      <p class="muted">Not live metrics. Nested compose children under wv2 / wut / dm / bg.</p>
+      <iframe title="Winston topology poster" src="../../docs/poster/index.html"></iframe>
+    </section>
+    <section id="pulse" class="plane">
+      <h2>Pulse — is work flowing?</h2>
+      <p class="muted">Containers, queues, cron. No returns, no Sharpe, no PCS.</p>
+      <h3>Containers</h3>
+      <div id="containers" class="table-wrap">Run <code>python3 ecosystem/ecosystem_view/bin/inventory containers --pretty</code></div>
+      <h3>Queues</h3>
+      <div id="queues" class="table-wrap"></div>
+      <h3>Cron</h3>
+      <div id="cron" class="table-wrap"></div>
+    </section>
+    <section id="board" class="plane">
+      <h2>Book Board — Operational Portfolios</h2>
+      <p class="muted">Same list as the 2.5D rack. Mode is paper|real. Book rows are membership chips.</p>
+      <div class="toolbar">
+        <label><input type="radio" name="proj" value="table" checked> 2D table</label>
+        <label><input type="radio" name="proj" value="rack"> 2.5D rack</label>
+      </div>
+      <div id="op-table" class="table-wrap"></div>
+      <div id="op-rack" class="rack hidden" aria-hidden="true"></div>
+    </section>
+    <section id="code" class="plane">
+      <h2>Codebase — estate health</h2>
+      <p class="unknown">UNKNOWN — no CodeScene / CodeCity in this repo. Do not invent hotspots.</p>
+    </section>
+  </main>
+  <script src="wev.js"></script>
+</body>
+</html>

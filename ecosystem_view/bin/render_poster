@@ -1,0 +1,283 @@
+#!/usr/bin/env python3
+"""Render the Winston intended-topology poster as an Isoflow-style isometric SVG.
+
+Not live metrics. Nodes come from catalog/runtime.yaml. Writes:
+  ecosystem/docs/poster/winston-topology.svg
+  winston_v2/public/ecosystem/winston-topology.svg
+"""
+from __future__ import annotations
+
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[3]
+OUT_ECO = ROOT / "ecosystem" / "docs" / "poster" / "winston-topology.svg"
+OUT_WV2 = ROOT / "winston_v2" / "public" / "ecosystem" / "winston-topology.svg"
+
+# 2:1 isometric (Isoflow / FossFLOW tile convention)
+TW, TH, EH = 54.0, 27.0, 34.0
+
+
+def iso(x: float, y: float, z: float = 0.0) -> tuple[float, float]:
+    return (x - y) * TW / 2.0, (x + y) * TH / 2.0 - z * EH
+
+
+def pts(pairs) -> str:
+    return " ".join(f"{x:.1f},{y:.1f}" for x, y in pairs)
+
+
+# tile-space regions: (x0, y0, x1, y1, fill, stroke, label)
+REGIONS = [
+    (-7, 1, -1, 8, "#243018", "#6a8f4a", "vendors"),
+    (0, 0, 8, 7, "#1c3328", "#3d9a6a", "dm"),
+    (10, 0, 18, 7, "#332c18", "#c9a84c", "wut"),
+    (7, 7, 11, 11, "#2a2430", "#8b9bb0", "redis"),
+    (10, 10, 18, 18, "#1a2838", "#5b9fd4", "wv2"),
+    (0, 10, 8, 18, "#331c1c", "#c45c5c", "bg"),
+    (20, 3, 28, 13, "#261c38", "#8b7cc9", "ai"),
+    (-7, 12, -1, 18, "#2a2a22", "#9aa07a", "host"),
+]
+
+# nodes: id, label, sub, kind, x, y, parent, w, d, h
+NODES = [
+    ("eodhd", "EODHD", "vendor", "vendor", -6.1, 2.2, "vendors", 1.5, 1.5, 0.9),
+    ("quiver", "Quiver", "alt filings", "vendor", -6.1, 5.0, "vendors", 1.5, 1.5, 0.9),
+    ("postgres", "postgres", ":5432", "db", 1.0, 1.0, "dm", 1.7, 1.7, 1.15),
+    ("data_manager", "data_manager", "rails :3001", "web", 4.4, 1.0, "dm", 1.9, 1.7, 1.35),
+    ("data_manager_sidekiq", "dm sidekiq", "redis /0", "worker", 4.4, 4.1, "dm", 1.9, 1.7, 1.15),
+    ("parquet", "parquet", "sawtooth_dm_data", "volume", 1.0, 4.1, "dm", 1.7, 1.7, 0.7),
+    ("wut_postgres", "wut_postgres", ":5433", "db", 11.0, 1.0, "wut", 1.7, 1.7, 1.15),
+    ("winston_unit_test", "winston_unit_test", "rails :3000", "web", 14.4, 1.0, "wut", 1.9, 1.7, 1.35),
+    ("winston_unit_test_sidekiq", "wut sidekiq", "redis /1", "worker", 14.4, 4.1, "wut", 1.9, 1.7, 1.15),
+    ("redis", "redis", ":6379  /0–/3", "cache", 8.2, 8.2, "infra", 1.8, 1.8, 1.25),
+    ("wv2_postgres", "wv2_postgres", ":5434", "db", 11.0, 11.0, "wv2", 1.7, 1.7, 1.15),
+    ("winston_v2", "winston_v2", "rails :3002", "web", 14.4, 11.0, "wv2", 1.9, 1.7, 1.35),
+    ("winston_v2_sidekiq", "wv2 sidekiq", "redis /2", "worker", 14.4, 14.2, "wv2", 1.9, 1.7, 1.15),
+    ("bg_postgres", "bg_postgres", ":5435", "db", 1.0, 11.0, "bg", 1.7, 1.7, 1.15),
+    ("broker_gateway", "broker_gateway", "rails :3003", "web", 4.4, 11.0, "bg", 1.9, 1.7, 1.35),
+    ("broker_gateway_sidekiq", "bg sidekiq", "redis /3", "worker", 4.4, 14.2, "bg", 1.9, 1.7, 1.15),
+    ("evidence", "evidence", "JSONL volume", "volume", 1.0, 14.2, "bg", 1.7, 1.7, 0.7),
+    ("ollama", "ollama", "local LLM", "ai", 21.0, 4.2, "ai", 1.7, 1.7, 1.2),
+    ("winston_mcp", "winston_mcp", ":8088", "ai", 24.4, 4.2, "ai", 1.7, 1.7, 1.2),
+    ("open_webui", "open-webui", "127.0.0.1:8080", "ai", 21.0, 8.4, "ai", 1.7, 1.7, 1.0),
+    ("nanobot_cromwell", "nanobot", "Cromwell :18790", "ai", 24.4, 8.4, "ai", 1.7, 1.7, 1.2),
+    ("ibkr_cpgw", "IBKR CPGW", "host :5000", "host", -6.1, 13.0, "host", 1.5, 1.5, 1.0),
+    ("schwab", "Schwab", "adapter, no ctr", "host", -6.1, 15.5, "host", 1.5, 1.5, 0.85),
+]
+
+# from_id, to_id, kind, label
+EDGES = [
+    ("eodhd", "data_manager", "http", "ADR-002"),
+    ("quiver", "data_manager", "http", "alt"),
+    ("data_manager", "parquet", "file", "write"),
+    ("parquet", "winston_unit_test", "file", "ro mount"),
+    ("parquet", "winston_v2", "file", "ro mount"),
+    ("data_manager", "winston_unit_test", "webhook", "data_ready"),
+    ("data_manager", "winston_v2", "webhook", "data_ready"),
+    ("winston_unit_test", "winston_v2", "file", "configs"),
+    ("winston_unit_test", "winston_v2", "http", "PCS"),
+    ("data_manager_sidekiq", "redis", "queue", "/0"),
+    ("winston_unit_test_sidekiq", "redis", "queue", "/1"),
+    ("winston_v2_sidekiq", "redis", "queue", "/2"),
+    ("broker_gateway_sidekiq", "redis", "queue", "/3"),
+    ("winston_v2", "broker_gateway", "http", "intake"),
+    ("broker_gateway", "ibkr_cpgw", "http", "CPGW"),
+    ("broker_gateway", "schwab", "http", "adapter"),
+    ("winston_v2", "winston_mcp", "http", "/internal"),
+    ("winston_mcp", "nanobot_cromwell", "sse", "MCP"),
+    ("ollama", "nanobot_cromwell", "http", "LLM"),
+]
+
+KIND_COLORS = {
+    "db": ("#4aa3c7", "#2a6a82", "#1d4c5e"),
+    "web": ("#7eb3e0", "#3d6f96", "#2a4d6a"),
+    "worker": ("#d4b36a", "#8a7038", "#5c4a24"),
+    "volume": ("#8fbf88", "#4a7a46", "#335533"),
+    "cache": ("#d07070", "#8a3a3a", "#5c2828"),
+    "vendor": ("#9bb07a", "#5a6a44", "#3d4a30"),
+    "host": ("#b8b090", "#6e6a52", "#4a4738"),
+    "ai": ("#a898d4", "#5e5088", "#40365e"),
+}
+
+EDGE_COLOR = {
+    "http": "#5b9fd4",
+    "webhook": "#3d9a6a",
+    "file": "#c9a84c",
+    "queue": "#c45c5c",
+    "sse": "#8b7cc9",
+}
+
+
+def node_by_id(nid: str):
+    return next(n for n in NODES if n[0] == nid)
+
+
+def cube_faces(x, y, w, d, h, top, right, left):
+    # origin is back-left of footprint at z=0; height along +z
+    a = iso(x, y, h)
+    b = iso(x + w, y, h)
+    c = iso(x + w, y + d, h)
+    dpt = iso(x, y + d, h)
+    e = iso(x, y + d, 0)
+    f = iso(x + w, y + d, 0)
+    g = iso(x + w, y, 0)
+    faces = [
+        (f"M {pts([dpt, c, f, e])} Z", left),   # south / left-ish
+        (f"M {pts([b, c, f, g])} Z", right),    # east
+        (f"M {pts([a, b, c, dpt])} Z", top),    # top
+    ]
+    return faces, (a, b, c, dpt, e, f, g)
+
+
+def region_poly(x0, y0, x1, y1):
+    return [iso(x0, y0), iso(x1, y0), iso(x1, y1), iso(x0, y1)]
+
+
+def connector_path(a, b):
+    ax, ay, aw, ad = a[4], a[5], a[7], a[8]
+    bx, by, bw, bd = b[4], b[5], b[7], b[8]
+    p1 = iso(ax + aw / 2, ay + ad, 0.15)
+    p3 = iso(bx + bw / 2, by, 0.15)
+    # isometric manhattan via (bx+bw/2, ay+ad)
+    p2 = iso(bx + bw / 2, ay + ad, 0.15)
+    return p1, p2, p3
+
+
+def glyph(kind, cx, cy):
+    """Tiny icon on the top face (screen coords)."""
+    if kind == "db":
+        return (
+            f'<ellipse cx="{cx:.1f}" cy="{cy-4:.1f}" rx="9" ry="4" fill="none" stroke="#0f1419" stroke-width="1.4"/>'
+            f'<path d="M{cx-9:.1f},{cy-4:.1f} v8 a9,4 0 0 0 18,0 v-8" fill="none" stroke="#0f1419" stroke-width="1.4"/>'
+        )
+    if kind == "web":
+        return (
+            f'<rect x="{cx-9:.1f}" y="{cy-7:.1f}" width="18" height="12" rx="1.5" fill="none" stroke="#0f1419" stroke-width="1.4"/>'
+            f'<path d="M{cx-9:.1f},{cy-2:.1f} h18 M{cx:.1f},{cy-7:.1f} v12" stroke="#0f1419" stroke-width="1"/>'
+        )
+    if kind == "worker":
+        return (
+            f'<path d="M{cx-8:.1f},{cy:.1f} l8,-7 8,7 M{cx-8:.1f},{cy+6:.1f} l8,-7 8,7" fill="none" stroke="#0f1419" stroke-width="1.5"/>'
+        )
+    if kind == "volume":
+        return (
+            f'<rect x="{cx-10:.1f}" y="{cy-5:.1f}" width="20" height="10" rx="2" fill="none" stroke="#0f1419" stroke-width="1.4"/>'
+            f'<path d="M{cx-6:.1f},{cy-2:.1f} h12 M{cx-6:.1f},{cy+2:.1f} h12" stroke="#0f1419" stroke-width="1"/>'
+        )
+    if kind == "cache":
+        return f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="7" fill="none" stroke="#0f1419" stroke-width="1.5"/>'
+    return f'<rect x="{cx-7:.1f}" y="{cy-7:.1f}" width="14" height="14" rx="2" fill="none" stroke="#0f1419" stroke-width="1.3"/>'
+
+
+def render() -> str:
+    grid = []
+    for i in range(-8, 30):
+        p0, p1 = iso(i, -1), iso(i, 20)
+        grid.append(f'<line x1="{p0[0]:.1f}" y1="{p0[1]:.1f}" x2="{p1[0]:.1f}" y2="{p1[1]:.1f}"/>')
+        q0, q1 = iso(-8, i), iso(29, i)
+        grid.append(f'<line x1="{q0[0]:.1f}" y1="{q0[1]:.1f}" x2="{q1[0]:.1f}" y2="{q1[1]:.1f}"/>')
+
+    regions = []
+    region_labels = []
+    for x0, y0, x1, y1, fill, stroke, label in REGIONS:
+        poly = region_poly(x0, y0, x1, y1)
+        regions.append(
+            f'<polygon class="pad" data-region="{label}" points="{pts(poly)}" fill="{fill}" stroke="{stroke}" stroke-width="1.6"/>'
+        )
+        lx, ly = iso((x0 + x1) / 2, y0 + 0.35, 0)
+        region_labels.append(
+            f'<text class="region-label" x="{lx:.1f}" y="{ly:.1f}" fill="{stroke}">{label}</text>'
+        )
+
+    edges = []
+    for src, dst, kind, label in EDGES:
+        a, b = node_by_id(src), node_by_id(dst)
+        p1, p2, p3 = connector_path(a, b)
+        color = EDGE_COLOR.get(kind, "#8b9bb0")
+        edges.append(
+            f'<polyline class="edge edge-{kind}" data-from="{src}" data-to="{dst}" '
+            f'points="{pts([p1, p2, p3])}" fill="none" stroke="{color}" '
+            f'stroke-width="2.2" stroke-linejoin="round" marker-end="url(#arrow)"/>'
+        )
+        mx, my = p2
+        edges.append(
+            f'<text class="edge-label" x="{mx:.1f}" y="{my-4:.1f}" fill="{color}">{label}</text>'
+        )
+
+    cubes = []
+    # painter: far first (x+y descending)
+    for node in sorted(NODES, key=lambda n: (n[4] + n[5])):
+        nid, label, sub, kind, x, y, parent, w, d, h = node
+        top, right, left = KIND_COLORS[kind]
+        faces, corners = cube_faces(x, y, w, d, h, top, right, left)
+        a, b, c, dpt, *_ = corners
+        cx = (a[0] + c[0]) / 2
+        cy = (a[1] + c[1]) / 2
+        cubes.append(f'<g class="node" id="node-{nid}" data-id="{nid}" data-parent="{parent}" data-kind="{kind}">')
+        cubes.append(f'<title>{label} — {sub} ({parent})</title>')
+        for dpath, fill in faces:
+            cubes.append(f'<path d="{dpath}" fill="{fill}" stroke="#0b1014" stroke-width="0.8"/>')
+        cubes.append(glyph(kind, cx, cy + 1))
+        lx, ly = iso(x + w / 2, y + d + 0.15, 0)
+        cubes.append(f'<text class="node-label" x="{lx:.1f}" y="{ly+12:.1f}">{label}</text>')
+        cubes.append(f'<text class="node-sub" x="{lx:.1f}" y="{ly+24:.1f}">{sub}</text>')
+        cubes.append("</g>")
+
+    # bounds
+    xs, ys = [], []
+    for x0, y0, x1, y1, *_ in REGIONS:
+        for p in region_poly(x0, y0, x1, y1):
+            xs.append(p[0])
+            ys.append(p[1])
+    pad = 80
+    minx, maxx = min(xs) - pad, max(xs) + pad
+    miny, maxy = min(ys) - pad, max(ys) + pad + 40
+    vb = f"{minx:.0f} {miny:.0f} {maxx-minx:.0f} {maxy-miny:.0f}"
+
+    return f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="{vb}" role="img"
+     aria-label="Winston intended topology isometric poster" class="wev-iso">
+  <title>Winston intended topology</title>
+  <desc>Isoflow-style isometric map of wv2, wut, dm, bg, redis, ai profile, and host/vendors. Not live metrics.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8b9bb0"/>
+    </marker>
+    <style>
+      .wev-iso {{ background: #0f1419; font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif; }}
+      .grid line {{ stroke: #243044; stroke-width: 0.6; }}
+      .pad {{ fill-opacity: 0.92; }}
+      .region-label {{ font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+        text-anchor: middle; pointer-events: none; }}
+      .node {{ cursor: pointer; }}
+      .node:hover path {{ filter: brightness(1.12); }}
+      .node-label {{ fill: #e7ecf3; font-size: 11px; font-weight: 600; text-anchor: middle; pointer-events: none; }}
+      .node-sub {{ fill: #8b9bb0; font-size: 9px; text-anchor: middle; pointer-events: none; }}
+      .edge {{ fill: none; opacity: 0.9; }}
+      .edge-label {{ font-size: 9px; text-anchor: middle; pointer-events: none; }}
+      .caption {{ fill: #8b9bb0; font-size: 12px; }}
+    </style>
+  </defs>
+  <rect x="{minx:.0f}" y="{miny:.0f}" width="{maxx-minx:.0f}" height="{maxy-miny:.0f}" fill="#0f1419"/>
+  <g class="grid">{''.join(grid)}</g>
+  <g class="regions">{''.join(regions)}</g>
+  <g class="region-labels">{''.join(region_labels)}</g>
+  <g class="edges">{''.join(edges)}</g>
+  <g class="nodes">{''.join(cubes)}</g>
+  <text class="caption" x="{minx+16:.0f}" y="{maxy-18:.0f}">Intended topology · compose.yml · not live Pulse · click a cuboid</text>
+</svg>
+'''
+
+
+def main() -> int:
+    svg = render()
+    OUT_ECO.parent.mkdir(parents=True, exist_ok=True)
+    OUT_WV2.parent.mkdir(parents=True, exist_ok=True)
+    OUT_ECO.write_text(svg)
+    OUT_WV2.write_text(svg)
+    print(f"wrote {OUT_ECO.relative_to(ROOT)}")
+    print(f"wrote {OUT_WV2.relative_to(ROOT)}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

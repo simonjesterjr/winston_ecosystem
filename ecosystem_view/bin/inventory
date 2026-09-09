@@ -1,0 +1,415 @@
+#!/usr/bin/env python3
+"""Winston Ecosystem View — inventory CLI (pulse + catalog, not PnL).
+
+Dumps JSON snapshots of containers, Sidekiq queues, cron catalogs, Operational
+Portfolios, and data watermarks. Missing live fields are "UNKNOWN", never invented.
+
+Run from repo root:
+  python3 ecosystem/ecosystem_view/bin/inventory
+  python3 ecosystem/ecosystem_view/bin/inventory queues
+  python3 ecosystem/ecosystem_view/bin/inventory --pretty > /tmp/wev-snapshot.json
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import subprocess
+import sys
+import urllib.error
+import urllib.request
+from datetime import datetime, timezone
+from pathlib import Path
+
+try:
+    import yaml
+except ImportError:  # pragma: no cover
+    yaml = None
+
+ROOT = Path(__file__).resolve().parents[3]
+CATALOG = Path(__file__).resolve().parents[1] / "catalog" / "runtime.yaml"
+COMPOSE = ROOT / "compose.yml"
+
+REDIS_DB = {"dm": 0, "wut": 1, "wv2": 2, "bg": 3}
+HOST_PORTS = {
+    "wv2": "http://127.0.0.1:3002",
+    "wut": "http://127.0.0.1:3000",
+    "dm": "http://127.0.0.1:3001",
+    "bg": "http://127.0.0.1:3003",
+}
+
+# Queue depth/age SLOs are not documented. Flag only these operator-visible breaches.
+QUEUE_DEPTH_ALERT = 100
+DEAD_ALERT = 10
+EXPECTED_RETURNS_ALERT = 1  # produced; worker subscription UNKNOWN
+
+CRON_FILES = {
+    "dm": ROOT / "data_manager" / "config" / "sidekiq_schedule.yml",
+    "wut": ROOT / "winston_unit_test" / "config" / "sidekiq_schedule.yml",
+    "wv2": ROOT / "winston_v2" / "config" / "sidekiq_schedule.yml",
+    "bg": ROOT / "broker_gateway" / "config" / "sidekiq_schedule.yml",
+}
+
+
+def now_iso() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def run(cmd: list[str], timeout: int = 20) -> subprocess.CompletedProcess:
+    return subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+
+
+def load_catalog() -> dict:
+    if yaml is None or not CATALOG.exists():
+        return {}
+    return yaml.safe_load(CATALOG.read_text()) or {}
+
+
+def redis(db: int, *args: str) -> str:
+    proc = run(["podman", "exec", "redis", "redis-cli", "-n", str(db), *args])
+    if proc.returncode != 0:
+        return ""
+    return (proc.stdout or "").strip()
+
+
+def http_json(url: str, timeout: float = 8.0):
+    try:
+        with urllib.request.urlopen(url, timeout=timeout) as resp:
+            return json.loads(resp.read().decode())
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, ValueError) as exc:
+        return {"error": str(exc), "url": url}
+
+
+def health_from_status(status: str) -> str:
+    s = (status or "").lower()
+    if "(healthy)" in s or s.startswith("up ") and "unhealthy" not in s and "starting" not in s:
+        if "unhealthy" in s:
+            return "down"
+        if "starting" in s:
+            return "degraded"
+        if "healthy" in s:
+            return "ok"
+        return "ok"
+    if "starting" in s:
+        return "degraded"
+    if "unhealthy" in s or "exited" in s or "dead" in s:
+        return "down"
+    if not s:
+        return "down"
+    return "degraded"
+
+
+def inventory_containers() -> dict:
+    catalog = load_catalog()
+    intended = {c["name"]: c for c in catalog.get("containers", [])}
+
+    live = {}
+    proc = run(["podman", "ps", "--format", "{{.Names}}\t{{.Status}}\t{{.Ports}}"])
+    if proc.returncode == 0:
+        for line in proc.stdout.splitlines():
+            parts = line.split("\t")
+            if not parts or not parts[0]:
+                continue
+            name = parts[0]
+            status = parts[1] if len(parts) > 1 else ""
+            ports = parts[2] if len(parts) > 2 else ""
+            live[name] = {"status": status, "ports": ports}
+
+    rows = []
+    for name, spec in intended.items():
+        row = {
+            "id": name,
+            "plane": "pulse",
+            "parent": spec.get("parent"),
+            "intended": True,
+            "profile": spec.get("profile"),
+            "ports_intended": spec.get("ports") or spec.get("expose"),
+            "healthcheck_declared": bool(spec.get("healthcheck")),
+        }
+        if name in live:
+            row["live"] = True
+            row["status"] = live[name]["status"]
+            row["ports_live"] = live[name]["ports"]
+            row["health"] = health_from_status(live[name]["status"])
+        else:
+            row["live"] = False
+            row["status"] = "absent"
+            row["health"] = "down" if not spec.get("profile") else "UNKNOWN"
+            row["note"] = "not in podman ps; ai profile may be down" if spec.get("profile") else "missing"
+        rows.append(row)
+
+    extra = sorted(set(live) - set(intended))
+    # Ignore unrelated host containers (lfg_*, obsidian, …)
+    winston_extra = [
+        n for n in extra
+        if n in intended
+        or n.startswith(("data_manager", "winston", "broker", "nanobot", "ollama", "open-webui"))
+        or n.endswith("_postgres")
+        or n in ("redis", "postgres")
+    ]
+    drift = [n for n in extra if n in winston_extra]
+
+    return {
+        "generated_at": now_iso(),
+        "canonical_compose": str(COMPOSE),
+        "containers": rows,
+        "unrelated_live": [n for n in extra if n not in drift],
+        "drift_extra_winston": drift,
+        "intended_count": len(intended),
+        "live_intended": sum(1 for r in rows if r.get("live")),
+    }
+
+
+def inventory_queues() -> dict:
+    queues = []
+    for owner, db in REDIS_DB.items():
+        ping = redis(db, "PING")
+        reachable = ping == "PONG"
+        names = ["default"]
+        if owner == "wut":
+            names.append("expected_returns")
+        for qname in names:
+            if not reachable:
+                queues.append({
+                    "name": qname,
+                    "owning_monolith": owner,
+                    "redis_db": db,
+                    "depth": "UNKNOWN",
+                    "retry": "UNKNOWN",
+                    "dead": "UNKNOWN",
+                    "health": "down",
+                    "note": "redis unreachable",
+                })
+                continue
+            depth = redis(db, "LLEN", f"queue:{qname}")
+            retry = redis(db, "ZCARD", "retry") if qname == "default" else None
+            dead = redis(db, "ZCARD", "dead") if qname == "default" else None
+            try:
+                depth_n = int(depth or 0)
+            except ValueError:
+                depth_n = None
+            try:
+                dead_n = int(dead) if dead not in (None, "") else None
+            except ValueError:
+                dead_n = None
+            alerts = []
+            if depth_n is not None and depth_n >= QUEUE_DEPTH_ALERT:
+                alerts.append(f"depth>={QUEUE_DEPTH_ALERT} (flag, not a product SLO)")
+            if qname == "expected_returns" and depth_n and depth_n >= EXPECTED_RETURNS_ALERT:
+                alerts.append(
+                    "producer-only graveyard; worker -q subscription UNKNOWN; discard_on StandardError"
+                )
+            if dead_n is not None and dead_n >= DEAD_ALERT:
+                alerts.append(f"dead>={DEAD_ALERT} (flag, not a product SLO)")
+            # health = Redis reachable, not depth. Depth flags are not SLOs (none documented).
+            health = "ok"
+            queues.append({
+                "name": qname,
+                "owning_monolith": owner,
+                "redis_db": db,
+                "plane": "pulse",
+                "depth": depth_n if depth_n is not None else "UNKNOWN",
+                "retry": int(retry) if retry and retry.isdigit() else retry,
+                "dead": dead_n if dead_n is not None else dead,
+                "p50_wait": "UNKNOWN",
+                "p95_wait": "UNKNOWN",
+                "oldest_job_age": "UNKNOWN",
+                "last_error_class": "UNKNOWN",
+                "slo": None,
+                "health": health,
+                "alerts": alerts,
+            })
+    return {"generated_at": now_iso(), "queues": queues}
+
+
+def _load_yaml(path: Path) -> dict:
+    if yaml is None or not path.exists():
+        return {}
+    return yaml.safe_load(path.read_text()) or {}
+
+
+def inventory_cron() -> dict:
+    rows = []
+    for owner, path in CRON_FILES.items():
+        data = _load_yaml(path)
+        for job_id, spec in (data or {}).items():
+            if not isinstance(spec, dict):
+                continue
+            rows.append({
+                "id": job_id,
+                "owner": owner,
+                "schedule": spec.get("cron"),
+                "class": spec.get("class"),
+                "queue": spec.get("queue", "default"),
+                "last_ok": "UNKNOWN",
+                "last_duration": "UNKNOWN",
+                "next_run": "UNKNOWN",
+                "overdue": "UNKNOWN",
+                "source": str(path.relative_to(ROOT)),
+                "plane": "pulse",
+            })
+    cromwell = ROOT / "ecosystem" / "ai" / "schedule" / "manifest.yaml"
+    manifest = _load_yaml(cromwell)
+    for task in manifest.get("tasks", []) if isinstance(manifest, dict) else []:
+        rows.append({
+            "id": task.get("id"),
+            "owner": task.get("owner"),
+            "service": task.get("service"),
+            "schedule": task.get("cron"),
+            "class": task.get("job"),
+            "status": task.get("status"),
+            "last_ok": "UNKNOWN",
+            "last_duration": "UNKNOWN",
+            "next_run": "UNKNOWN",
+            "overdue": "UNKNOWN",
+            "source": "ecosystem/ai/schedule/manifest.yaml",
+            "plane": "pulse",
+        })
+    return {"generated_at": now_iso(), "cron": rows}
+
+
+OP_RUNNER = r"""
+require "json"
+rows = Portfolio.includes(:markets, :trading_strategy).order(:id).map do |p|
+  {
+    object: "operational_portfolio",
+    id: p.id,
+    name: p.name,
+    seed_name: p.seed_name,
+    fingerprint: p.fingerprint,
+    execution_mode: p.execution_mode,
+    export_kind: p.export_kind,
+    active: p.active,
+    closed: p.closed?,
+    closed_at: p.closed_at&.iso8601,
+    trading_strategy: p.trading_strategy&.name,
+    trading_strategy_fingerprint: p.trading_strategy&.fingerprint,
+    fulfillment_adapter_key: p.fulfillment_adapter_key,
+    broker_binding_id: p.broker_binding_id,
+    markets: p.markets.map(&:trading_symbol),
+    monolith_owner: "wv2",
+    note: "Book in CONTEXT.md is Portfolio↔Market join; this row is an Operational Portfolio"
+  }
+end
+puts JSON.generate(rows)
+"""
+
+
+def inventory_ops() -> dict:
+    """Operational Portfolios (not CONTEXT Books)."""
+    http = http_json(f"{HOST_PORTS['wv2']}/internal/portfolios")
+    rich = None
+    proc = run(
+        ["podman", "exec", "-T", "winston_v2", "bin/rails", "runner", OP_RUNNER],
+        timeout=60,
+    )
+    if proc.returncode == 0 and proc.stdout.strip().startswith("["):
+        try:
+            rich = json.loads(proc.stdout.strip().splitlines()[-1])
+        except json.JSONDecodeError:
+            rich = None
+    return {
+        "generated_at": now_iso(),
+        "object": "operational_portfolio",
+        "glossary_note": (
+            "CONTEXT Book = portfolio↔market join. Board slabs are Operational Portfolios. "
+            "execution_mode is paper|real (not live)."
+        ),
+        "http_list": http,
+        "ops": rich if rich is not None else "UNKNOWN",
+        "http_list_includes_execution_mode": False,
+        "rich_source": "winston_v2 rails runner" if rich is not None else "UNKNOWN",
+    }
+
+
+WM_RUNNER = r"""
+require "json"
+session = CompletedNySession.date
+rows = DataCoverage.joins(:market).order("markets.trading_symbol").map do |c|
+  latest = c.latest
+  lag_days = latest ? (session - latest).to_i : nil
+  {
+    dataset: "winston_eod_parquet",
+    symbol: c.market.trading_symbol,
+    asof: latest&.iso8601,
+    expected_asof: session.iso8601,
+    lag_days: lag_days,
+    bar_count: c.bar_count,
+    source: c.source,
+    last_reconciled_at: c.last_reconciled_at&.iso8601,
+    blocking: lag_days.nil? || lag_days.positive?
+  }
+end
+stale = rows.count { |r| r[:blocking] }
+puts JSON.generate({ session: session.iso8601, stale_count: stale, coverages: rows })
+"""
+
+
+def inventory_watermarks() -> dict:
+    proc = run(
+        ["podman", "exec", "-T", "data_manager", "bin/rails", "runner", WM_RUNNER],
+        timeout=90,
+    )
+    payload = "UNKNOWN"
+    if proc.returncode == 0:
+        line = proc.stdout.strip().splitlines()[-1] if proc.stdout.strip() else ""
+        if line.startswith("{"):
+            try:
+                payload = json.loads(line)
+            except json.JSONDecodeError:
+                payload = {"error": "json parse", "raw": line[:500]}
+        else:
+            payload = {"error": proc.stderr[-500:] if proc.stderr else "no json"}
+    else:
+        payload = {"error": (proc.stderr or proc.stdout or "runner failed")[-800:]}
+    return {
+        "generated_at": now_iso(),
+        "plane": "pulse",
+        "feature_asof": "UNKNOWN — parquet asof column not implemented in DM Ruby",
+        "corporate_actions_cron": "absent (rake only)",
+        "roll_calendar": "absent",
+        "data": payload,
+    }
+
+
+def inventory_all() -> dict:
+    return {
+        "generated_at": now_iso(),
+        "product": "winston-ecosystem-view",
+        "planes": ["poster", "codebase", "pulse", "book_board"],
+        "containers": inventory_containers(),
+        "queues": inventory_queues(),
+        "cron": inventory_cron(),
+        "operational_portfolios": inventory_ops(),
+        "watermarks": inventory_watermarks(),
+    }
+
+
+COMMANDS = {
+    "containers": inventory_containers,
+    "queues": inventory_queues,
+    "cron": inventory_cron,
+    "ops": inventory_ops,
+    "watermarks": inventory_watermarks,
+    "all": inventory_all,
+}
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("what", nargs="?", default="all", choices=list(COMMANDS))
+    parser.add_argument("--pretty", action="store_true")
+    parser.add_argument("-o", "--output", help="write JSON to path")
+    args = parser.parse_args(argv)
+    os.chdir(ROOT)
+    payload = COMMANDS[args.what]()
+    text = json.dumps(payload, indent=2 if args.pretty else None, default=str)
+    if args.output:
+        Path(args.output).write_text(text + "\n")
+    else:
+        sys.stdout.write(text + "\n")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

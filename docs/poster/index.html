@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <title>Winston Poster — isometric topology</title>
+  <style>
+    :root { --bg: #0f1419; --text: #e7ecf3; --muted: #8b9bb0; --border: #2a3544; --accent: #5b9fd4; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
+      font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif; }
+    header { padding: 0.65rem 1rem; border-bottom: 1px solid var(--border); background: #121a24;
+      display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: baseline; }
+    h1 { margin: 0; font-size: 1.05rem; }
+    p { margin: 0; color: var(--muted); font-size: 0.85rem; }
+    a { color: var(--accent); }
+    .stage { height: calc(100vh - 58px); overflow: hidden; cursor: grab; touch-action: none; }
+    .stage:active { cursor: grabbing; }
+    .inner { transform-origin: 0 0; }
+    .inner svg { display: block; width: 1600px; height: auto; }
+    #detail { position: fixed; bottom: 0.75rem; left: 0.75rem; right: 0.75rem;
+      background: #121a24; border: 1px solid var(--border); padding: 0.4rem 0.7rem; font-size: 13px;
+      color: var(--muted); pointer-events: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Winston — intended topology</h1>
+      <p>Isoflow-style isometric map. Not live metrics. Drag to pan · wheel to zoom · click a cuboid.</p>
+    </div>
+    <p><a href="winston-topology.svg">SVG</a> · <a href="winston-topology.fossflow.json">FossFLOW JSON</a></p>
+  </header>
+  <div class="stage" id="stage">
+    <div class="inner" id="inner">
+      <object data="winston-topology.svg" type="image/svg+xml" aria-label="Winston isometric topology">Winston topology SVG</object>
+    </div>
+  </div>
+  <div id="detail">Floors: dm · wut · wv2 · bg · redis · ai · vendors · host. IBKR Client Portal Gateway is a host process, not a container.</div>
+  <script>
+    (function () {
+      var stage = document.getElementById("stage");
+      var inner = document.getElementById("inner");
+      var x = 80, y = 30, scale = 0.78, dragging = false, lx = 0, ly = 0;
+      function apply() { inner.style.transform = "translate(" + x + "px," + y + "px) scale(" + scale + ")"; }
+      apply();
+      stage.addEventListener("pointerdown", function (e) {
+        dragging = true; lx = e.clientX; ly = e.clientY; stage.setPointerCapture(e.pointerId);
+      });
+      stage.addEventListener("pointermove", function (e) {
+        if (!dragging) return;
+        x += e.clientX - lx; y += e.clientY - ly; lx = e.clientX; ly = e.clientY; apply();
+      });
+      stage.addEventListener("pointerup", function () { dragging = false; });
+      stage.addEventListener("wheel", function (e) {
+        e.preventDefault();
+        scale = Math.max(0.35, Math.min(2.2, scale * (e.deltaY < 0 ? 1.08 : 0.92)));
+        apply();
+      }, { passive: false });
+    })();
+  </script>
+</body>
+</html>

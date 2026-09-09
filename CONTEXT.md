@@ -16,6 +16,14 @@ _Avoid_: app (ambiguous), component (too vague)
 The cross-monolith knowledge base in `ecosystem/` — principles, plans, interfaces, ADRs, business-context. The general contractor, not a deployable service.
 _Avoid_: platform (overloaded), framework
 
+**Winston Ecosystem View (WEV)**:
+Four-plane operator console of how Winston actually runs: Poster (intended topology), Codebase (estate health), Pulse (containers, queues, cron, watermarks), Book Board (Operational Portfolios). Lives in `ecosystem/`; Winston v2 ops-shell is the human door. Not a fifth monolith. Not a game.
+_Avoid_: collapsing Pulse into PnL; treating WUT lab paper_runs as Operational Portfolios; Winston World / city / weather
+
+**Score Projection**:
+Read-only assembly of scores that already exist (Portfolio Backtest Run metrics, Portfolio Correlation Score, ops equity series, Mid-month Scoreboard, Daily Activity Report scored-session status) onto one Operational Portfolio. The UI does not invent a composite.
+_Avoid_: BookScore as a stored engine; expression_rev; paper_live_hash_ok
+
 **data_manager (DM)**:
 The data acquisition monolith. Owns EODHD download, parquet production, derivative calculation, reconciliation, Cromwell download notifications, and **Alt Filing** acquisition.
 _Avoid_: data service, downloader (too narrow)
@@ -49,8 +57,8 @@ Synonym for the **WQ Shadow Portfolio**. Target book comes from an operator-uplo
 _Avoid_: treating it as a TF paper OP, minting DA signals from the PDF, using the Quiver API as the holdings source, mixing fingerprints with the old 15/10 copy-book reconstruction
 
 **Quiver Tracking Desk**:
-The Wv2 page `/quiver_tracking` (public: Tailscale Serve `/wv2/quiver_tracking`) — ops-shell styling, separate route from `/operations`. PDF/TXT archive, **Monday Rebalance Plan**, Plan Approve, test blow-away, tracking blotter.
-_Avoid_: stuffing tracking pending into the TF ops-shell 25-row cap
+The Wv2 page `/quiver_tracking` (public: Tailscale Serve `/wv2/quiver_tracking`) — ops-shell styling, separate route from `/operations`. PDF/TXT archive, **Monday Rebalance Plan**, Plan Approve, tracking blotter. **Blow away** is a deprecated dummy_sim test wipe (Wv2 rows only); it is not an Interactive Brokers paper reset and not how DUT is time-shared with Trend Following paper.
+_Avoid_: stuffing tracking pending into the TF ops-shell 25-row cap; treating Blow away as flatten/unbind/cash reset
 
 **Working WQ Leg**:
 An approved Monday-plan tracking task whose Interactive Brokers paper market **Order Intent** is in flight (including queued for the next regular cash session) and whose **Journal** is not yet executed on the **Booked Capital Spine**.
@@ -82,7 +90,7 @@ _Avoid_: coverage alone (ambiguous)
 
 **Book**:
 The join between a Portfolio and a Market — the portfolio's exposure to that market.
-_Avoid_: position (Book is the allocation slot; Position is the live holding)
+_Avoid_: position (Book is the allocation slot; Position is the live holding); using Book for a paper/real Operational Portfolio (that object is the **Book Board** slab, not a Book row)
 
 **Portfolio**:
 A named trading account configuration: capital, risk params, linked markets (Books), and an applied TradingStrategy. Optional **preferred color** / chart color is a presentation attribute (CSS hex, e.g. `#16a34a`) for multi-series charts and handoff JSON — not part of methodology fingerprint.
@@ -605,6 +613,7 @@ _Avoid_: treating MMS as a promotion stamp; mixing smoke/test books into the sco
 ## Flagged ambiguities
 
 - "account" can mean broker account, Portfolio, or Cromwell principal — resolved: use **Portfolio** for trading config, **Cromwell principal** for the human operator.
+- "book board" / "paper book" / "live book" in operator-console speech — resolved: the slab is an **Operational Portfolio**. **Book** remains the Portfolio↔Market join. **Execution Mode** is `paper` \| `real` (not live). **Winston Ecosystem View** Book Board projects OPs, never Book rows.
 - "sync" is overloaded — resolved: **Data Acquisition** (DM←EODHD); **Reconciliation** (parquet→PG metadata); **Symbol Demand** (consumers→DM discovery); **Alt Filing** sync (DM←Quiver/events). WUT `Operations::DataSync` (Yahoo→activities) is legacy, not the target model.
 - Quiver / Congress / insider prints are not EOD bars and not desk signals — resolved: **Alt Filing**.
 - Quiver “strategy book” is three things — resolved: **Alt Filings** (events, DM+API); **Quiver Skim** (WUT/DM reconstruction from file dates, not published CAGR); **WQ Shadow Portfolio** / **Quiver Tracking Portfolio** (Wv2 paper OP whose target is a **Quiver Snapshot PDF** or TXT). Do not use the API as the tracking holdings source. Website scrape is a later HITL-removal plan, not v1.

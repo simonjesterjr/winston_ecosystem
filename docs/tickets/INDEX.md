@@ -27,15 +27,20 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Program | File |
 |---------|------|
+| Winston Ecosystem View (four-plane console) | [`2026-09-07-winston-ecosystem-view.md`](2026-09-07-winston-ecosystem-view.md) |
 | Trend Following six-principles competency | [`2026-09-04-tf-foundations-INDEX.md`](2026-09-04-tf-foundations-INDEX.md) |
 
 ## Active tickets
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
-| P2 | Proposed | [`2026-09-08-wev-pulse-turbo-frame.md`](2026-09-08-wev-pulse-turbo-frame.md) | Pulse tablets via Turbo Frame (no WebSockets) |
-| P2 | Proposed | [`2026-09-08-wev-pulse-action-cable.md`](2026-09-08-wev-pulse-action-cable.md) | Pulse push via Action Cable (after DM emit) |
-| P3 | Proposed | [`2026-09-08-wev-pulse-other-monolith-emits.md`](2026-09-08-wev-pulse-other-monolith-emits.md) | Pulse emit from WUT / Wv2 / BG jobs |
+| P2 | Proposed | [`2026-09-09-wev-code-plane-visual-qa.md`](2026-09-09-wev-code-plane-visual-qa.md) | WEV Code plane — operator visual QA |
+| P3 | Proposed | [`2026-09-09-wev-index-work-owner-heuristic.md`](2026-09-09-wev-index-work-owner-heuristic.md) | WEV work catalog — tighten owner heuristic |
+| P3 | Proposed | [`2026-09-09-wev-index-work-refresh-hook.md`](2026-09-09-wev-index-work-refresh-hook.md) | WEV work catalog — refresh when docs change |
+| P3 | Proposed | [`2026-09-09-wev-work-json-split-bodies.md`](2026-09-09-wev-work-json-split-bodies.md) | WEV work catalog — split index vs bodies (if Tailscale hurts) |
+| P2 | Proposed | [`2026-09-08-wev-pulse-turbo-frame.md`](2026-09-08-wev-pulse-turbo-frame.md) | WEV Pulse tablets via Turbo Frame (no WebSockets) |
+| P2 | Proposed | [`2026-09-08-wev-pulse-action-cable.md`](2026-09-08-wev-pulse-action-cable.md) | WEV Pulse push via Action Cable (after DM emit) |
+| P3 | Proposed | [`2026-09-08-wev-pulse-other-monolith-emits.md`](2026-09-08-wev-pulse-other-monolith-emits.md) | WEV Pulse emit from WUT / Wv2 / BG jobs |
 | P2 | In progress | [`2026-09-07-winston-ecosystem-view.md`](2026-09-07-winston-ecosystem-view.md) | Winston Ecosystem View (four-plane operator console) |
 | P1 | In progress | [`2026-09-06-wv2-fulfillment-label-and-desk.md`](2026-09-06-wv2-fulfillment-label-and-desk.md) | Fulfillment Label + Fulfillment Desk (Wv2 v1) |
 | P1 | Proposed | [`2026-09-06-fulfillment-desk-compose-clickthrough.md`](2026-09-06-fulfillment-desk-compose-clickthrough.md) | Restart Wv2 and click through Fulfillment Desk v1 |
