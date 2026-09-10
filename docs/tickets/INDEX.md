@@ -34,6 +34,9 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P2 | Proposed | [`2026-09-10-unit-risk-vs-parked-gtc.md`](2026-09-10-unit-risk-vs-parked-gtc.md) | Remaining unit risk vs parked GTC when the row stop differs |
+| P3 | Proposed | [`2026-09-10-signal-inspect-first-paint-eval-card.md`](2026-09-10-signal-inspect-first-paint-eval-card.md) | Browser-verify Signal Inspect first-paint Evaluation card |
+| P3 | Proposed | [`2026-09-10-dar-wq-open-lots-unit-risk.md`](2026-09-10-dar-wq-open-lots-unit-risk.md) | Unit-risk column on DAR and Winston Quiver open-lot tables |
 | P3 | Proposed | [`2026-09-09-wut-dataset-dm-sync-dead-jobs.md`](2026-09-09-wut-dataset-dm-sync-dead-jobs.md) | WUT DataSetDmSyncJob dead-lettered on unacquirable / unmapped symbols |
 | P1 | In progress | [`2026-09-09-walnut-paper-session-order-slate.md`](2026-09-09-walnut-paper-session-order-slate.md) | Walnut paper Session Order Slate (stop-market) â€” first STP round parked; fill-driven repark in progress |
 | P1 | Proposed | [`2026-09-10-bg-broker-push-websocket-eval.md`](2026-09-10-bg-broker-push-websocket-eval.md) | Evaluate IBKR/Schwab push/websocket vs 15-minute poll (do not implement) |
