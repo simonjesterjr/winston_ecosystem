@@ -41,6 +41,8 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P1 | Proposed | [`2026-09-09-walnut-day-stp-close-reconcile.md`](2026-09-09-walnut-day-stp-close-reconcile.md) | After cash close — reconcile Walnut DAY STPs vs DUT |
 | P1 | Proposed — blocked | [`2026-09-09-extra-modal-leap-unit-evaluation.md`](2026-09-09-extra-modal-leap-unit-evaluation.md) | Extra-modal LEAP vs share unit — blocked until Walnut grain is automated |
 | P2 | Proposed | [`2026-09-10-dm-restandardize-macd-corpus.md`](2026-09-10-dm-restandardize-macd-corpus.md) | Re-bake remaining DM parquet for MACD 12/26/9 |
+| P2 | Proposed | [`2026-09-10-dm-market-issuer-exchange-metadata.md`](2026-09-10-dm-market-issuer-exchange-metadata.md) | Record issuer name and exchange on DM Market / registry |
+| P3 | Proposed | [`2026-09-10-signal-inspect-focus-chart-browser-verify.md`](2026-09-10-signal-inspect-focus-chart-browser-verify.md) | Browser-verify Signal Inspect Focus chart |
 | P2 | Proposed — blocked | [`2026-09-10-macd-confirm-one-axis.md`](2026-09-10-macd-confirm-one-axis.md) | One-axis MACD confirm vs EMA-20 (blocked on residual-signal P1) |
 | P2 | Proposed | [`2026-09-09-ibkr-stp-tick-size.md`](2026-09-09-ibkr-stp-tick-size.md) | IBKR STP tick size beyond a hard 0.01 |
 | P2 | Proposed | [`../../../winston_unit_test/docs/tickets/2026-09-09-wut-expected-returns-queue-graveyard.md`](../../../winston_unit_test/docs/tickets/2026-09-09-wut-expected-returns-queue-graveyard.md) | WUT `expected_returns` producer-only graveyard (stop enqueue or add worker) |

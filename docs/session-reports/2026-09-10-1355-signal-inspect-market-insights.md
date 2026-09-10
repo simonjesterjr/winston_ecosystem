@@ -117,9 +117,9 @@
 
 ### Deferred
 - Remaining corpus restandardize — already ticketed: `ecosystem/docs/tickets/2026-09-10-dm-restandardize-macd-corpus.md`.
-- Issuer/exchange metadata empty on many registry rows (GOOGL).
-- True “delete parquet + EODHD re-fetch” not built.
-- Browser click-through of Focus chart (HTTP dump only).
+- Issuer/exchange metadata empty on many registry rows (GOOGL). See: [`docs/tickets/2026-09-10-dm-market-issuer-exchange-metadata.md`](../tickets/2026-09-10-dm-market-issuer-exchange-metadata.md).
+- True “delete parquet + EODHD re-fetch” not built (left in report only).
+- Browser click-through of Focus chart (HTTP dump only). See: [`docs/tickets/2026-09-10-signal-inspect-focus-chart-browser-verify.md`](../tickets/2026-09-10-signal-inspect-focus-chart-browser-verify.md).
 
 ---
 
@@ -206,10 +206,10 @@
 
 ## 14. Follow-up Actions
 
-- [ ] Enrich DM `Market`/`SymbolRegistryEntry` name + exchange (GOOGL → Alphabet / Nasdaq) — owner: next session — due: when Market card feels thin
+- [ ] Enrich DM `Market`/`SymbolRegistryEntry` name + exchange (GOOGL → Alphabet / Nasdaq) — owner: next session — due: when Market card feels thin — ticket [`2026-09-10-dm-market-issuer-exchange-metadata.md`](../tickets/2026-09-10-dm-market-issuer-exchange-metadata.md)
 - [ ] Restandardize remaining Active OP Book symbols — owner: operator or next session — due: see ticket `2026-09-10-dm-restandardize-macd-corpus.md` (per-symbol button now exists)
-- [ ] Optional: force-reacquire (delete + EODHD fetch) — owner: only if operator wants true blow-away — due: unscheduled
-- [ ] Browser-verify Focus chart — owner: operator on reload — due: now
+- [ ] Optional: force-reacquire (delete + EODHD fetch) — owner: only if operator wants true blow-away — due: unscheduled (skipped at wrap)
+- [ ] Browser-verify Focus chart — owner: operator on reload — due: now — ticket [`2026-09-10-signal-inspect-focus-chart-browser-verify.md`](../tickets/2026-09-10-signal-inspect-focus-chart-browser-verify.md)
 
 ---
 
