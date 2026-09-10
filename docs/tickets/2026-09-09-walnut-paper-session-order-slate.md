@@ -46,7 +46,7 @@ Walnut is paper-bound to Interactive Brokers DUT. Confirm can Desk-Send **one DA
 - Stop-limit / trail  
 - Whole-slate one-click Accept-Fill  
 - Broker Account Capital as durable sizer (CashEvent align stays temporary)  
-- Fixing Daily Analysis 20-day exit tasks while still adding (call out as a follow-on; slate rule wins at the broker)
+- Fixing Daily Analysis 20-day exit tasks while still adding — follow-on `ISSUE-20260909-da-20day-exit-under-max-lots` in winston_v2 (paper HITL evaluates Working Stop; do not dummy-sim Confirm on a live GTC)
 
 ## Acceptance
 

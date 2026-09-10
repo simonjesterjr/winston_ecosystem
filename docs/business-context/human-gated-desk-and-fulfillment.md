@@ -56,7 +56,7 @@ Naked free-form enter is **out of policy**. Force + audit is the only exception.
 
 ### Unsignaled Exit Allowance
 
-Exits **may** be booked without a Winston exit signal: stop-outs, broker/clearing misses, downstream errors, discretionary flatten. Do **not** invent fake exit signals to tidy the ledger. Use reason codes + lot linkage.
+Exits **may** be booked without a Winston exit signal when Winston **did not compute** the close: broker/clearing misses, downstream errors, discretionary flatten, a print the engine never saw. Do **not** invent fake exit signals to tidy the ledger. Use reason codes + lot linkage. A **Working Stop** pierce **is** a methodology signal — **Daily Analysis** evaluates it on paper HITL, WUT, and live; this allowance is not “DA may skip 2N on paper.”
 
 ## Capacity and multi-leg packages
 
@@ -104,17 +104,17 @@ Example: signal sized 206 shares ABC; human confirms 2× Jan 2028 LEAP calls →
 | Concept | Role |
 |---------|------|
 | Signal / default stop | ATR × methodology at open (or strategy update) |
-| **Working Stop** | Current stop on the open **Position** (desk-updatable) |
-| Broker stop | Outside Winston — not system of record |
+| **Working Stop** | Current stop on the open **Position** (desk-updatable); **Daily Analysis** evaluates it each session |
+| Broker stop | Fulfillment print — slate / live SoT; not a substitute for DA evaluating the Working Stop |
 
 ### Stop-Out Reconciliation
 
-When life stops out a lot:
+When a **Working Stop** is hit, or life exits a lot Winston did not compute:
 
-1. Human books exit linked to **required** `position_id` (or unique open lot).  
+1. Book exit linked to **required** `position_id` (or unique open lot).  
 2. Journal stores snapshot: `working_stop_at_exit`, `fill_price`, gap, reason e.g. `external_stop`.  
 3. **Warn** if \|fill − working_stop\| large; allow confirm with note (no hard-block by default).  
-4. No Winston exit signal invented.
+4. **Fulfillment** only: paper **dummy_sim** — DA mints a **signaled** stop-out; Desk Confirm books at simulated GTC fill (touch → stop, gap → open, same session). Walnut **Session Order Slate** — Accept-Fill at DUT print; do not dummy-sim Confirm on a live GTC. Live — broker print. Unsignaled (no DA signal) only when Winston did not compute the close.
 
 Order lifecycle (resting stop orders separate from Position fields) remains **deferred** until this path is insufficient.
 
