@@ -35,9 +35,13 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
 | P3 | Proposed | [`2026-09-09-wut-dataset-dm-sync-dead-jobs.md`](2026-09-09-wut-dataset-dm-sync-dead-jobs.md) | WUT DataSetDmSyncJob dead-lettered on unacquirable / unmapped symbols |
-| P1 | In progress | [`2026-09-09-walnut-paper-session-order-slate.md`](2026-09-09-walnut-paper-session-order-slate.md) | Walnut paper Session Order Slate (stop-market) — first STP round parked; cancel/replace open |
-| P1 | Proposed | [`2026-09-09-walnut-stp-accept-fill-day-entry.md`](2026-09-09-walnut-stp-accept-fill-day-entry.md) | Prove Accept-Fill at DUT print for a Walnut DAY STP entry |
+| P1 | In progress | [`2026-09-09-walnut-paper-session-order-slate.md`](2026-09-09-walnut-paper-session-order-slate.md) | Walnut paper Session Order Slate (stop-market) — first STP round parked; fill-driven repark in progress |
+| P1 | Proposed | [`2026-09-10-bg-broker-push-websocket-eval.md`](2026-09-10-bg-broker-push-websocket-eval.md) | Evaluate IBKR/Schwab push/websocket vs 15-minute poll (do not implement) |
+| P1 | Done | [`2026-09-09-walnut-stp-accept-fill-day-entry.md`](2026-09-09-walnut-stp-accept-fill-day-entry.md) | Prove Accept-Fill at DUT print — DD / DBC / SCHZ 2026-09-10 (archive after wrap) |
 | P1 | Proposed | [`2026-09-09-walnut-day-stp-close-reconcile.md`](2026-09-09-walnut-day-stp-close-reconcile.md) | After cash close — reconcile Walnut DAY STPs vs DUT |
+| P1 | Proposed — blocked | [`2026-09-09-extra-modal-leap-unit-evaluation.md`](2026-09-09-extra-modal-leap-unit-evaluation.md) | Extra-modal LEAP vs share unit — blocked until Walnut grain is automated |
+| P2 | Proposed | [`2026-09-10-dm-restandardize-macd-corpus.md`](2026-09-10-dm-restandardize-macd-corpus.md) | Re-bake remaining DM parquet for MACD 12/26/9 |
+| P2 | Proposed — blocked | [`2026-09-10-macd-confirm-one-axis.md`](2026-09-10-macd-confirm-one-axis.md) | One-axis MACD confirm vs EMA-20 (blocked on residual-signal P1) |
 | P2 | Proposed | [`2026-09-09-ibkr-stp-tick-size.md`](2026-09-09-ibkr-stp-tick-size.md) | IBKR STP tick size beyond a hard 0.01 |
 | P2 | Proposed | [`../../../winston_unit_test/docs/tickets/2026-09-09-wut-expected-returns-queue-graveyard.md`](../../../winston_unit_test/docs/tickets/2026-09-09-wut-expected-returns-queue-graveyard.md) | WUT `expected_returns` producer-only graveyard (stop enqueue or add worker) |
 | P2 | Proposed | [`2026-09-09-wev-pulse-work-store-single-component.md`](2026-09-09-wev-pulse-work-store-single-component.md) | WEV PulseWork::Store — one component (import or single deploy) |

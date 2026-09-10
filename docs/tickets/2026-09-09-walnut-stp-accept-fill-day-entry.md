@@ -1,6 +1,6 @@
 # Ticket: Prove Accept-Fill at DUT print for a Walnut DAY STP entry
 
-**Status:** Proposed  
+**Status:** Done  
 **Priority:** P1  
 **Date:** 2026-09-09  
 **Mode:** contractor  
@@ -31,6 +31,16 @@ Without that proof, Walnut Confirm-Send of STP is only “parked,” not “the 
 
 ## Acceptance
 
-- [ ] One DAY STP entry or pyramid journal goes `working` → `executed` from DUT fill evidence  
-- [ ] Booked price/size match the print, not parquet last close  
-- [ ] Session note or this ticket updated with ids  
+- [x] One DAY STP entry or pyramid journal goes `working` → `executed` from DUT fill evidence — **2026-09-10 ~13:30 UTC** (three prints, not one)  
+- [x] Booked price/size match the print, not parquet last close  
+- [x] Session note or this ticket updated with ids  
+
+## Proof (2026-09-10, Portfolio Walnut #1428, slate #40)
+
+| Journal | Name | Role | DUT order | Fill | Position |
+|---|---|---|---|---|---|
+| 1577 | DD short 36 | DAY entry STP @ 127.75 | 576658786 | 127.10 | #784 |
+| 1571 | DBC long 281 | DAY pyramid STP @ 33.06 | 576658780 | 33.21 (split 116+165) | #785 |
+| 1589 | SCHZ short 914 | DAY entry STP @ 22.56 | 576658798 | 22.49 (split) | #786 |
+
+Path: BG poll `GET /iserver/account/trades` → Confirmation Intake → `WqFillBind` (sums splits by `broker_order_id`). Cadence after 2026-09-10: **15 minutes** (not 1 min). Fill-driven GTC repark is the parent slate ticket.  
