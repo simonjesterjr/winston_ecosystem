@@ -1,14 +1,15 @@
-# Winston EOD Parquet Standard (v0.1 — Initial)
+# Winston EOD Parquet Standard (v0.2)
 
 This is the canonical format that DM produces and that consumers (WUT today, Wv2 later) are expected to understand.
 
 **Location convention (DM)**: `data/markets/{UPPER_SYMBOL}/bars.parquet` (or partitioned sub-structure under it).
 
-**Required columns (minimum for v1)**:
+**Required columns (minimum for v0.2)**:
 - date (date)
 - open, high, low, close (float)
 - volume (bigint or int)
 - atr_17 (float, simple method, period 17 — exactly as WUT calculates it)
+- macd_line, macd_signal, macd_histogram (float; MACD 12/26/9 — fast EMA 12, slow EMA 26, signal EMA 9 of the MACD line; histogram = line − signal; nil until warm-up, first valid around bar index 33). Semantics match WUT `IndicatorCalculator.calculate_macd`.
 - Plus the moving average columns currently supported and used by WUT strategies for entry/exit (to be confirmed exactly during implementation by inspecting WUT `app/strategies/` and `app/services/indicator_calculator.rb` + `market_moving_average.rb` usage):
   - Examples from existing WUT: sma_20, ema_20, wma_20, sma_55, ema_55, wma_55, etc.
 - Any other derived columns agreed for the "running" set that DM will keep fresh.
@@ -18,10 +19,10 @@ This is the canonical format that DM produces and that consumers (WUT today, Wv2
 - No duplicate (symbol, date) — the file for a symbol is the single source for that symbol's history.
 - Adjusted prices where the upstream (EODHD) provides them; note the source.
 - Reverse-split / split overnight jumps (`open/prev_close` ≥ 1.8 or ≤ 1/1.8) are **not** tradable gaps. DM back-adjusts prior OHLC into post-jump terms before baking ATR/MAs (see issue `2026-08-22-unadjusted-reverse-split-jumps`).
-- Embedded or sidecar metadata: symbol, asof (the "as of" date of the last update), source="eodhd", standard_version="0.1", indicators (list of derived columns present).
+- Embedded or sidecar metadata: symbol, asof (the "as of" date of the last update), source="eodhd", standard_version="0.2", indicators (list of derived columns present).
 - DuckDB-friendly (excellent predicate pushdown, window functions used by DM during standardization).
 
-**Versioning**: Start with 0.1. When we add columns or change semantics, bump and document here + in principles. Old files should still be readable (DM reconciliation + consumers should be tolerant or have a migration path).
+**Versioning**: Start with 0.1. Current is **0.2** (adds required MACD 12/26/9 columns). When we add columns or change semantics, bump and document here + in principles. Old files should still be readable (DM reconciliation + consumers should be tolerant or have a migration path).
 
 **Consumer expectations**:
 - WUT (initial) will load via its new DM/Parquet adapter (reusing DatasetLoader bulk patterns) into its local structures (activities + market_indicator_values or equivalent) for evaluation.

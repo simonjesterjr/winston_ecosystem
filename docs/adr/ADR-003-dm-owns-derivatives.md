@@ -23,6 +23,7 @@ We chose **Approach B: DM owns derivatives**.
 DM calculates and writes into parquet on every acquire/update:
 
 - **atr_17** — simple method, period 17, matching WUT's `calculate_atr` semantics
+- **MACD 12/26/9** — `macd_line`, `macd_signal`, `macd_histogram` (fast EMA 12, slow EMA 26, signal EMA 9), matching WUT `calculate_macd`
 - **Moving averages** — the exact SMA/EMA/WMA periods currently used by WUT strategies (authoritative list from WUT `app/strategies/` and `indicator_calculator.rb`)
 
 Consumers read precomputed columns. They do not recalculate ATR or MAs from raw OHLCV for ecosystem-standard data paths.
