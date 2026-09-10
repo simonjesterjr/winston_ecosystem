@@ -30,10 +30,10 @@ We choose **C: Human-gated desk and fulfillment boundary**.
 2. **Real** is always **Human-Gated**. **Paper** still requires confirm today; optional paper autofill and future autotrader are **separate explicit decisions**, not implied by drafts. Future automation is a **separate component**, not DA silently filling.  
 3. **EOD cadence (target):** **Signal Date** T → **Fill Date** T+1 next session **open** as default paper/EOD fill story. Dual concepts even if schema is interim single `trade_date`.  
 4. **Signaled Entry Rule:** enter/pyramid only against a **methodology-originated** signal (DA draft or algorithm package leg). Naked free-form enter is out of policy (force + audit only).  
-5. **Unsignaled Exit Allowance:** exits may be booked without a Winston exit signal (stop-out, broker/clearing miss, discretionary flatten) with reason + lot linkage.  
+5. **Unsignaled Exit Allowance:** exits may be booked without a Winston exit signal (broker/clearing miss, discretionary flatten, a print the engine never computed) with reason + lot linkage. A **Working Stop** pierce Daily Analysis **does** compute is a **signaled** stop-out — see addendum 2026-09-10.  
 6. **Capacity contests:** algorithm emits one deterministic **Desk Handoff** package (or algorithmic pass) — not multi-choice ER menus. Multi-leg packages ordered; out-of-order confirm **warns**.  
 7. **Dual spines:** **Signal Spine** (methodology/process) + **Booked Capital Spine** (live cash/risk/DAR). Live OP uses booked.  
-8. **Stops:** methodology default ATR + **Working Stop** on Position; real-world stop-out via **Stop-Out Reconciliation** (required position link, working-stop snapshot, warn on gap).  
+8. **Stops:** methodology default ATR + **Working Stop** on Position. Daily Analysis evaluates that Working Stop as **methodology** (same Trend Following / Donchian / 2N rules on paper HITL as live). Realization is **Fulfillment** (Stop-Out Reconciliation: required position link, working-stop snapshot, warn on gap). See addendum 2026-09-10.  
 9. **Desk Workflow:** every handoff carries a guided Wv2 confirm path link (plus Telegram/shell). Full workflow page is product intent; partial desk form today.  
 10. **Engagement:** any **Journal** including draft engages the OP (ADR-006); independent of Active/paper/real.  
 11. **Plan Approve (WQ addendum, 2026-08-28; corrected 2026-08-30; IBKR paper 2026-09-06):** On the **WQ Shadow Portfolio** only, the Human-Gated verb is **Plan Approve** of a **Monday Rebalance Plan** (or flatten plan). Approve **locks** the package (buttons disabled). Remaining ready legs run **one at a time** (exits, then rebalances, then enters). dummy_sim Confirm still **books** that lot. On the Interactive Brokers **paper**-bound WQ OP, that Confirm is **Desk Send** of one market **Order Intent**; the journal stays working until matched fill **Accept-Fills** at the print (**ADR-013**). A name that cannot resolve a fill is a per-leg HITL flag, not a plan-wide fail. Reject leaves lots unchanged. Test **blow-away** is allowed only on paper tracking OPs and also clears Quiver target snapshots. Mint / Ops Trend Following / Execution Mode `real` stay per-leg Human-Gated Confirm (book only). Live WQ Schwab write is a later binding change — not implied. Do **not** auto-book or auto-send the whole remaining package on Approve.
@@ -63,7 +63,7 @@ We choose **C: Human-gated desk and fulfillment boundary**.
 
 - Silent DA fills → Human-Gated invariant  
 - Naked entries → Signaled Entry Rule  
-- Fake exit signals to tidy ledger → Unsignaled Exit Allowance + reconciliation  
+- Fake channel-exit signals to tidy a stop-out ledger → Unsignaled Exit Allowance + reconciliation (a computed Working Stop pierce is **not** fake; it is signaled)  
 - Human re-solving strategy at capacity → deterministic Desk Handoff  
 - OMS illusion → Fulfillment / dual spines  
 
@@ -76,4 +76,26 @@ We choose **C: Human-gated desk and fulfillment boundary**.
 - `interfaces/winston-mcp-tools.md`  
 - `docs/analysis/2026-07-15-winston-journal-vs-trading-ledger.md`  
 - Implementation series `adr-009-desk-fulfillment` #1–#6 under `docs/tickets/2026-07-20-*.md` (see INDEX)  
-- ADR-013 — fulfillment write (IBKR paper WQ first; Order Intent types stay open for Mint)  
+- ADR-013 — fulfillment write (IBKR paper WQ first; Order Intent types stay open for Mint)
+
+## Addendum (2026-09-10) — Working Stop is a methodology signal
+
+**Deciders:** Operator grill 2026-09-10 (paper HITL vs live).  
+**Issue:** `winston_v2/docs/issues/2026-09-09-da-20day-exit-under-max-lots.md`
+
+Paper Human-in-the-Loop, Winston Unit Test, Session Order Slate, and live brokered books share one **methodology**. Paper vs live vs Walnut slate differs only in **Fulfillment**.
+
+1. **Signaled stop-out.** A Working Stop pierce Daily Analysis computes (2N GTC, or 20-day Working Stop after Turtle S2 max lots when that channel has passed 2N) is a **Winston signal** (`:stop_out` on the Signal Spine). It is not an invented 20-day/10-day channel exit and not an ad-hoc unsignaled book. `winston_signal: true`. Move-together recipes flatten all open lots on the name.
+
+2. **GTC fill (same session).** Touch → Working Stop price; gap-through → session **open**. Skip the newest lot’s fill bar. This is **not** the default EOD story in decision 3 (channel entries/exits remain Signal Date T → Fill Date T+1 next open).
+
+3. **Fulfillment split (same signal).**
+   - Paper dummy_sim (e.g. Mint): DA mints a stop-out draft; Desk Confirm **books** at the simulated GTC fill.
+   - Walnut paper Session Order Slate: same Working Stop; protective GTC stop-market is parked; **Accept-Fill** at the DUT print is source of truth. Do not dummy-sim Confirm or send a second order while that GTC is live.
+   - Live / brokered: parked GTC; print is the book.
+
+4. **Unsignaled Exit Allowance (narrowed).** Still required for closes Winston **did not compute**: broker/clearing miss, discretionary flatten, a print the engine never saw. Decision 1 still holds: Daily Analysis never opens or closes Positions — Confirm / Accept-Fill does.
+
+5. **Turtle S2.** While lots on the name are under max, 20-day is **not evaluated**. After maxed, 20-day is watched; Working Stop stays 2N until 20-day has passed 2N in the trade’s favor, then Working Stop **is** the 20-day. A pierce of the then-current Working Stop is still a signaled stop-out.
+
+Related: `CONTEXT.md` Working Stop / Unsignaled Exit Allowance / Stop-Out Reconciliation; `docs/business-context/turtle-s2-pyramid-and-working-stop.md`.  

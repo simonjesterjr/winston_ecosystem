@@ -9,15 +9,15 @@
 
 ## Purpose
 
-State when the **2N protective stop** is in force, when the **20-day Donchian exit** is even *evaluated*, and how pyramids park. This is methodology law for the Session Order Slate — not Daily Analysis (DA) as it ships today.
+State when the **2N protective stop** is in force, when the **20-day Donchian exit** is even *evaluated*, and how pyramids park. This is methodology law for **Daily Analysis**, WUT, live, and the **Session Order Slate**. Paper HITL vs live vs Walnut slate differs only in **Fulfillment**.
 
 **N** = the ATR the TS uses for unit risk. Stop distance = `atr_multiplier × N`. Add step = `pyramid_atr_multiplier × N`. Exemplars below use round numbers; Walnut uses **0.5N** adds and **2N** stops.
 
 ## Two phases on one name
 
-Until that name holds **max lots**, the 20-day breakout is **not evaluated and not in play**. Only 2N and the next add exist at the broker.
+Until that name holds **max lots**, the 20-day breakout is **not evaluated and not in play**. Only 2N and the next add exist.
 
-Once that name is **maxed**, 20-day **is** evaluated each session. The working stop stays at last-entry 2N until the 20-day trigger has **passed** that 2N level in the trade’s favor. Then the working stop **is** the 20-day, which may ratchet (and may go through the last lot’s purchase — all units profitable — that is good).
+Once that name is **maxed**, 20-day **is** watched each session. The working stop stays at last-entry 2N until the 20-day trigger has **passed** that 2N level in the trade’s favor. Then the working stop **is** the 20-day, which may ratchet (and may go through the last lot’s purchase — all units profitable — that is good). A pierce of the then-current Working Stop is a stop-out flatten-all (`move_to_last_entry`).
 
 ## Long walk-through (operator IBM)
 
@@ -54,8 +54,8 @@ Stop = last lot purchase **+ 2N**. Next add = last purchase **− step×N**. 20-
 
 - **Not** “always the tighter of 2N and 20-day.” While adding, 20-day does not exist.
 - **Not** a daily ATR trail. `move_to_last_entry` only on a **pyramid fill**; 20-day only after **max lots**.
-- **Not** two live protective stops on the same name. One Working Stop at the broker.
-- **Not** DA’s current 20-day exit task while lots < max. If DA still mints that, it is a recipe gap; the slate rule wins at the broker.
+- **Not** two live protective stops on the same name. One Working Stop.
+- **Not** a 20-day exit task while lots < max. If DA still mints that, it is a recipe gap (`ISSUE-20260909-da-20day-exit-under-max-lots` in winston_v2) — not permission to skip 2N on paper.
 
 ## Session Order Slate mapping
 
@@ -67,6 +67,14 @@ Stop = last lot purchase **+ 2N**. Next add = last purchase **− step×N**. 20-
 | Protective 20-day | Maxed **and** 20-day has passed 2N | GTC stop-market at the 20-day; **replace nightly** as the channel moves |
 
 Unfilled DAY entries/pyramids die at the close and are rebuilt. Protective GTC is replaced, never cancel-all.
+
+## Fulfillment (the only split)
+
+| Mode | How a Working Stop pierce is realized |
+|------|----------------------------------------|
+| Paper HITL (`dummy_sim`) | DA mints a **signaled** stop-out; Desk Confirm books at simulated GTC fill (touch → stop, gap → open, same session). |
+| Walnut Session Order Slate | Same Working Stop; GTC stop-market parked; **Accept-Fill** at DUT print is SoT. Do not dummy-sim Confirm on a live GTC. |
+| Live | Broker print. |
 
 ## Protective Stop Guardrail
 
