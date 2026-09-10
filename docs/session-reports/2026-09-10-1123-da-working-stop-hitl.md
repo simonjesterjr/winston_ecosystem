@@ -86,11 +86,10 @@
 
 ### Branch / PR state at sign-off
 
-- Branch: `fix/da-working-stop-hitl` — clean except uncommitted `db/schema.rb` from **test** migrate of `session_order_slates` (do **not** commit from this session)
-- Ecosystem docs branch: `docs/da-working-stop-hitl` — clean
-- Wv2 `main` working tree: **dirty** (slate/WQ/MACD + **index has DA-stop files checked out** so compose could run)
-- Pushed: no
-- PR: not opened
+- Winston v2 `main` / `origin/main`: `8df584f` (engine in `2489897`; issue history `8df584f`)
+- Ecosystem `main` / `origin/main`: `84f8986` (CONTEXT recast, ADR-009 addendum `5c322b6`, this report)
+- Pushed: yes
+- PR: not opened (direct `main`)
 
 ---
 
@@ -215,8 +214,8 @@ RAILS_ENV=test TEST_DB_HOST=127.0.0.1 PGPORT=5434 bundle exec rspec \
 
 ## 11. Handoff & Resume Notes
 
-- **Where I left off:** Engine on `fix/da-working-stop-hitl` (`951a7d5`); docs on `docs/da-working-stop-hitl` (`e250345`); compose smoke 09-09 OK; 09-10 parquet missing; wrap not yet committed/pushed.
-- **Next concrete step:** When DM parquet has 2026-09-10, run DA (or `SignalEvaluation` + `TaskGenerator`) on Active paper; Confirm dummy_sim stop-outs for OIH/REMX/VXX; **do not** dummy-sim Walnut DBC.
+- **Where I left off:** Wrap complete. Engine + ADR-009 on origin `main`. 09-10 parquet still missing.
+- **Next concrete step:** When DM parquet has 2026-09-10, run DA; Confirm dummy_sim stop-outs for OIH/REMX/VXX; **do not** dummy-sim Walnut DBC.
 - **Files to read first:**
   1. `winston_v2/docs/issues/2026-09-09-da-20day-exit-under-max-lots.md`
   2. `app/services/operations/working_stop_signal.rb`
@@ -233,7 +232,7 @@ RAILS_ENV=test TEST_DB_HOST=127.0.0.1 PGPORT=5434 bundle exec rspec \
 
 ## 13. Tools & Workflow Notes
 
-- **Skills used:** operator-prose, manage-issue-ticket (initial file), session-report, wrap (in progress).
+- **Skills used:** operator-prose, manage-issue-ticket (initial file), session-report, wrap.
 - **What worked well:** Disjoint worktrees (engine / tasking / desk / docs) merged with **zero** conflicts; 76 specs green before compose checkout.
 - **Friction points:** `spawn_subagent` `cwd` + `isolation=worktree` are mutually exclusive — created worktrees by hand. Compose bind-mounts **main**, not worktrees. Dirty `main` made landing unsafe.
 - **Subagent usage:** docs, engine, tasking, desk (implement); remaining-lots + Walnut audit (explore). GC merged and added `ProtectiveGtcGuard`.
@@ -242,11 +241,12 @@ RAILS_ENV=test TEST_DB_HOST=127.0.0.1 PGPORT=5434 bundle exec rspec \
 
 ## 14. Follow-up Actions
 
-- [x] ADR-009 addendum: computed Working Stop pierce is signaled — this wrap
+- [x] ADR-009 addendum: computed Working Stop pierce is signaled — ecosystem `5c322b6` / wrap
+- [x] Push/merge DA-stop onto `main` — Wv2 `2489897`+`8df584f`; ecosystem `84f8986`
+- [x] Remove DA-stop worktrees
 - [ ] Catchup DA + dummy_sim Confirm when 2026-09-10 parquet arrives (OIH #797/#384, REMX #798, VXX #308)
 - [ ] Walnut GTC Accept-Fill proof (do not dummy-sim DBC) — existing ticket
 - [ ] DA as-of open lots (ignore positions created after `report_date`)
-- [ ] Remove DA-stop worktrees after push/merge — this wrap if merge succeeds
 
 ---
 
@@ -260,8 +260,4 @@ RAILS_ENV=test TEST_DB_HOST=127.0.0.1 PGPORT=5434 bundle exec rspec \
 
 **2026-09-10 in-session (Yahoo, not parquet) likely GTC:** OIH 417.78 touch (Mint #797 and #384); REMX gap ~73.68; VXX short gap ~18.73.
 
-**Worktrees at wrap (do not delete until push/merge):**
-
-- `.worktrees/wv2-da-hitl` → `fix/da-working-stop-hitl`
-- `.worktrees/wv2-da-engine|tasking|desk` (source branches, already merged)
-- `.worktrees/eco-da-stop-docs` → `docs/da-working-stop-hitl`
+**Worktrees:** removed after wrap. Leftover dirty files on both `main` working trees are WQ/slate/docs **not** from this session.
