@@ -45,6 +45,8 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P2 | Proposed | [`2026-09-09-wev-code-plane-visual-qa.md`](2026-09-09-wev-code-plane-visual-qa.md) | WEV Code plane — operator visual QA |
 | P3 | Proposed | [`2026-09-09-wev-index-work-owner-heuristic.md`](2026-09-09-wev-index-work-owner-heuristic.md) | WEV work catalog — tighten owner heuristic |
 | P3 | Proposed | [`2026-09-09-wev-index-work-refresh-hook.md`](2026-09-09-wev-index-work-refresh-hook.md) | WEV work catalog — refresh when docs change |
+| P3 | Proposed | [`2026-09-09-wev-index-work-yaml-status.md`](2026-09-09-wev-index-work-yaml-status.md) | WEV work catalog — parse YAML / Status-banner into `status` |
+| P3 | Proposed | [`2026-09-09-wev-index-work-archive-tickets.md`](2026-09-09-wev-index-work-archive-tickets.md) | WEV work catalog — index archive tickets not listed in INDEX |
 | P3 | Proposed | [`2026-09-09-wev-work-json-split-bodies.md`](2026-09-09-wev-work-json-split-bodies.md) | WEV work catalog — split index vs bodies (if Tailscale hurts) |
 | P2 | Proposed | [`2026-09-08-wev-pulse-turbo-frame.md`](2026-09-08-wev-pulse-turbo-frame.md) | WEV Pulse tablets via Turbo Frame (no WebSockets) |
 | P2 | Proposed | [`2026-09-08-wev-pulse-action-cable.md`](2026-09-08-wev-pulse-action-cable.md) | WEV Pulse push via Action Cable (after DM emit) |

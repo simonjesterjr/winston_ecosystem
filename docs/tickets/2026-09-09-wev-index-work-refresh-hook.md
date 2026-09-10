@@ -28,3 +28,5 @@ If nobody re-runs it, new ADRs never appear under the cuboids.
 
 - Owner heuristic quality — [`2026-09-09-wev-index-work-owner-heuristic.md`](2026-09-09-wev-index-work-owner-heuristic.md)
 - Splitting the 1.1 MB JSON — [`2026-09-09-wev-work-json-split-bodies.md`](2026-09-09-wev-work-json-split-bodies.md)
+- YAML / Status-banner into catalog `status` — [`2026-09-09-wev-index-work-yaml-status.md`](2026-09-09-wev-index-work-yaml-status.md)
+- Index archive files missing from INDEX — [`2026-09-09-wev-index-work-archive-tickets.md`](2026-09-09-wev-index-work-archive-tickets.md)
