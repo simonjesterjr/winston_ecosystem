@@ -32,7 +32,8 @@ Three isolated candidates. Scorecard: glossary, no invented services, four plane
 | Plane | Question | Views | Must not show |
 |-------|----------|-------|----------------|
 | **Poster** | How is Winston *supposed* to be wired? | VIEW-01 isometric topology | Live CPU; OP returns |
-| **Codebase** | Is the implementation rotting? | VIEW-07 module map | Invented CodeCity ranks (absent) |
+| **Monoliths** | What repos/desks exist, and what work touches them? | Cuboid catalog + work.json | Invented CodeCity ranks |
+| **Code** | How is the estate connected in Graphify? | vis-network node–edge (estate first, drill to monolith) | Pulse health; live CPU |
 | **Pulse** | Is work flowing? | VIEW-02 runtime, VIEW-03 queues, VIEW-04 cron, VIEW-05 watermarks, VIEW-06 traces | `return_pct`, Sharpe, PCS |
 | **Book Board** | What is the economic reality of **Operational Portfolios**? | VIEW-08 rack+table, VIEW-09 detail, VIEW-10 scoreboard, VIEW-11 promotion | Queue depth as “book health”; WUT `paper_runs` mixed in |
 

@@ -68,6 +68,7 @@ Recompute units and date intervals independently. Verify whether a reported dura
 
 Start at the entry point and follow the actual branches for the target through ordering, selection, calculation, post-processing, persistence, and presentation. Cite file and line for every load-bearing code claim.
 
+- Prefer `graphify path` between the two implementations when graphs exist (`graphify-ponytail`); then read the cited files. The graph is the map; executing branches are proof.
 - Verify which implementation is invoked; do not cite dead, test-only, or historical variants as runtime behavior.
 - Treat comments, names, and old decisions as leads. The executing code proves current behavior; current requirements prove intended behavior.
 - For deployed database routines or configuration, verify the deployed artifact when repository copies can drift.

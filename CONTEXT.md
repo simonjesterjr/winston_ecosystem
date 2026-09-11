@@ -17,8 +17,8 @@ The cross-monolith knowledge base in `ecosystem/` — principles, plans, interfa
 _Avoid_: platform (overloaded), framework
 
 **Winston Ecosystem View (WEV)**:
-Four-plane operator console of how Winston actually runs: Poster (intended topology), Codebase (estate health), Pulse (containers, queues, cron, watermarks), Book Board (Operational Portfolios). Lives in `ecosystem/`; Winston v2 ops-shell is the human door. Not a fifth monolith. Not a game.
-_Avoid_: collapsing Pulse into PnL; treating WUT lab paper_runs as Operational Portfolios; Winston World / city / weather
+Operator console of how Winston actually runs: Poster (intended topology), Pulse (containers, queues, cron, watermarks), Book Board (Operational Portfolios), **Monoliths** (estate cuboids + work catalog), **Code** (Graphify Graph node–edge map, estate first then drill into a monolith). Lives in `ecosystem/`; Winston v2 ops-shell is the human door. Not a fifth monolith. Not a game.
+_Avoid_: collapsing Pulse into PnL; treating WUT lab paper_runs as Operational Portfolios; Winston World / city / weather; calling the cuboid catalog Code (that tab is Monoliths)
 
 **Score Projection**:
 Read-only assembly of scores that already exist (Portfolio Backtest Run metrics, Portfolio Correlation Score, ops equity series, Mid-month Scoreboard, Daily Activity Report scored-session status) onto one Operational Portfolio. The UI does not invent a composite.
@@ -332,12 +332,16 @@ Broker Gateway account-level instance of a fulfillment adapter — vendor accoun
 _Avoid_: treating the adapter class as the account; putting OP desk policy on the binding as if it were universal for every OP on that adapter
 
 **Fulfillment Desk**:
-Winston v2 operator surface for stored **Adapter Bindings**: an index of bindings plus one page per binding (**Fulfillment Label**, capabilities, **Fulfillment Rituals** for that bind, which **Operational Portfolios** use it, specialized desk rules **per OP on that bind**). v1 is read-only. Broker Gateway remains transport/API; its later minimal UI is auth/ingest health, not this desk.
+Winston v2 operator surface for stored **Adapter Bindings**: an index of bindings plus one page per binding (**Fulfillment Label**, capabilities, **Fulfillment Rituals** for that bind, which **Operational Portfolios** use it, specialized desk rules **per OP on that bind**). v1 is read-only except **Session Yield** (binding-wide ritual control). Broker Gateway remains transport/API; its later minimal UI is auth/ingest health, not this desk.
 _Avoid_: a second desk UI in Broker Gateway; Confirm=Send as adapter-wide law; putting **Fulfillment Packaging Policy** on the binding instead of the OP; hiding binding-wide login/keep-alive on only one OP
 
+**Session Yield**:
+Operator tells Winston they are using the same broker credentials in another client (Interactive Brokers Desktop / Trader Workstation) on this **Adapter Binding**. Winston holds off automated fulfillment on that bind — tickle, brokerage compete, live polls, Desk Send — until the operator resumes or an optional until time. Does not log into Client Portal Gateway. Distinct from `needs login` (session is dead) and from keep-alive (Winston holds the session).
+_Avoid_: treating yield as unattended login; competing Desktop and Client Portal Gateway without yielding; DAR/Telegram yield noise
+
 **Fulfillment Ritual**:
-Human operational steps required to keep a bound fulfillment adapter usable — binding-wide, for every **Operational Portfolio** on that **Adapter Binding**. Example: Interactive Brokers Client Portal Gateway needs a paper-username browser login; `/tickle` only keeps an existing session (~6 min idle); until that login/keep-alive is solved, a human must start the gateway, log in, and re-SSO on `needs_reauth`. Distinct from per-OP desk rules (Confirm vs Send, Capital Authority, packaging).
-_Avoid_: treating tickle as unattended login; competing TWS and Client Portal Gateway on the same username; putting CPGW SSO on WQ vs Mint as if they differed
+Human operational steps required to keep a bound fulfillment adapter usable — binding-wide, for every **Operational Portfolio** on that **Adapter Binding**. Interactive Brokers Client Portal Gateway: operator `run-ibkr-cpgw up`, paper-username browser login, explicit keep-alive window, `down` when the window ends. `/tickle` only keeps an **existing** session (idle ~6 min without tickle; a logged-in gateway self-tickles for hours). It is not unattended login and not 24×7. Re-SSO on `needs_reauth`. Distinct from per-OP desk rules (Confirm vs Send, Capital Authority, packaging).
+_Avoid_: treating tickle as unattended login; competing TWS/IBKR Desktop and Client Portal Gateway on the same username without **Session Yield**; putting CPGW SSO on WQ vs Mint as if they differed; minute tickle while the session is 401
 
 **Winston Broker Evidence Standard**:
 Versioned, human-readable file contract owned by **Broker Gateway** for broker order/fill lifecycle truth (primary: append-only JSONL events with idempotency keys; optional per-entity snapshots rebuildable from the log). Consumers (Wv2 **Confirmation Intake**) read via API and/or mount; they do not write the evidence store. Orthogonal to **Winston EOD Standard** (market bars). Interface: `interfaces/winston-broker-evidence-standard.md`.

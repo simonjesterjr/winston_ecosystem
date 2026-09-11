@@ -17,7 +17,7 @@ cat ecosystem/principles/*.md ecosystem/plans/*.md ecosystem/interfaces/*.md eco
 - `CONTEXT.md` — Domain glossary (canonical terms; use with `/grill-with-docs`).
 - `docs/` — ADRs, business-context, session reports, issues, tickets, technical analysis. See `docs/README.md` for the filing guide.
 - `business_analysis/` — business / operator evaluations (PBR rankings, promotion candidates, experiment economics). See `business_analysis/README.md`.
-- `.grok/skills/` — Developer session skills (`session-report`, `wrap`, `record`, `adversary`, `stakeholder`, `grill-with-docs`). Cromwell *runtime* skills remain in `ai/skills/`.
+- `.grok/skills/` — Developer session skills (`session-report`, `wrap`, `record`, `adversary`, `stakeholder`, `grill-with-docs`, `graphify-ponytail`). Cromwell *runtime* skills remain in `ai/skills/`.
 - `ai/` — Cromwell agent assets: personas, skills, memory templates. Deploy with `bin/seed-cromwell-workspace`. Part 2 backlog: `plans/cromwell-ai-skills-part2.md`.
 - `deployment/` — Podman / compose, env templates, credential placement (EODHD key goes in the documented spot once supplied), volume strategies.
 - `hints/` — Growing collection of cues, gotchas, "always do X", references back to WUT mature code, etc.

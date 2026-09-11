@@ -40,6 +40,7 @@ Create `docs/session-reports/` if missing. On name collision, append `-v2`, `-v3
 3. List files touched from tool-call history.
 4. Check unfinished TODOs and deferred items.
 5. Note environment changes (packages, migrations, compose services).
+6. Graphify Graph: which `graphify-out/graph.json` files exist for touched repos; wrap (step 2) refreshes them — draft `pending wrap` here if this report runs before that step.
 
 Don't fabricate. Mark uncertain claims as such.
 
@@ -174,6 +175,8 @@ Fill every section. Empty sections get `_None._` — do not delete them.
 Lessons learned for future sessions (this is the primary "lessons learned" capture).
 
 - **Skills used:** <list>
+- **Graphify Graph:** <updated: paths / skipped: no graph.json / skipped: no code-doc changes / merge refused / pending wrap>
+- **Ponytail flags:** <none / new helper that already exists on the graph>
 - **What worked well:**
 - **Friction points:**
 - **Subagent usage:**
@@ -200,7 +203,7 @@ Lessons learned for future sessions (this is the primary "lessons learned" captu
 
 ## Non-negotiable sections
 
-For any session that produced code or decisions: §1 Goal, §2 Work, §3 Code, §7 Verification, §11 Handoff.
+For any session that produced code or decisions: §1 Goal, §2 Work, §3 Code, §7 Verification, §11 Handoff. If code or contractor docs changed: §13 **Graphify Graph** (filled by `/wrap` step 2).
 
 ## After saving
 

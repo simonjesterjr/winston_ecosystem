@@ -57,6 +57,7 @@ A practical subset of the full `safe-bug-fix` kit. **No** `.agent-harness` requi
 
 ### 5. Map impact (brief)
 
+- If `graphify-out/graph.json` exists (this monolith or workspace), query it first (`graphify-ponytail`): `graphify query` / `path` the symptom, then confirm in cited files.
 - List files/contracts likely touched (API, parquet columns, journal fields, Telegram, cron allowlist).
 - Name behaviors that **must preserve** (from issue + ADRs).
 

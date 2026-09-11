@@ -11,7 +11,7 @@ Before planning, designing, or coding any cross-monolith change, read:
 - `hints/` — gotchas and cues
 - `CONTEXT.md` — domain glossary (canonical terms)
 - `docs/README.md` — filing guide for dated work artifacts
-- `docs/adr/` — architecture decision records (ADR-001..005; see especially ADR-005 responsive user pages)
+- `docs/adr/` — architecture decision records (ADR-001..014; see especially ADR-005 responsive user pages, ADR-014 Graphify-first + Ponytail)
 - `docs/business-context/` — domain rules and explainers
 
 ## What lives here vs monolith repos
@@ -46,7 +46,7 @@ End every substantive session with `/wrap` or `/session-report`. Skills in `.gro
 
 | Skill | Use |
 |-------|-----|
-| `/session-report`, `/wrap` | Audit handoff; commit/push |
+| `/session-report`, `/wrap` | Audit handoff; Graphify Graph refresh (ADR-014); commit/push |
 | `/record` | Route to issues / tickets / analysis / operations / ADRs |
 | `manage-issue-ticket` | Defect intake with readiness gate (`docs/issues/_template.md`) |
 | `lightweight-bug-fix` | Ready issue → regression test → minimal fix → verify |
@@ -56,6 +56,9 @@ End every substantive session with `/wrap` or `/session-report`. Skills in `.gro
 | `/adversary` | Hostile review before committing to a conclusion |
 | `/stakeholder` | Plain-English outward communication |
 | `/grill-with-docs` | Stress-test a plan against CONTEXT.md and ADRs |
+| `graphify-ponytail` | Query Graphify Graph, then Ponytail to collapse duplicates (ADR-014) |
+| `/ponytail` | Parsimonious code (YAGNI, stdlib first). Grok plugin: `/ponytail`, `/ponytail-review`, `/ponytail-audit` |
+| `/ibkr-cpgw` | Client Portal Gateway up / paper SSO / keep-alive window / down |
 
 Rails app review: use `rails-code-review` **inside** `data_manager/`, `winston_unit_test/`, or `winston_v2/` (each has `PROJECT_PROFILE.md`).
 
@@ -67,6 +70,7 @@ Rails app review: use `rails-code-review` **inside** `data_manager/`, `winston_u
 - Tickets: `**Priority:** P0–P3|unset`; Done → `docs/tickets/archive/`; see `docs/tickets/INDEX.md`.
 - Second time you explain an ops ritual → `docs/operations/` runbook.
 - Use `/grill-with-docs` before large cross-monolith designs.
+- Traverse code via the **Graphify Graph** before grep; **Ponytail** after the map (ADR-014, skill `graphify-ponytail`).
 - Use `bin/seed-cromwell-workspace` after changing `ai/` assets.
 
 ## Current workstream (2026-06)

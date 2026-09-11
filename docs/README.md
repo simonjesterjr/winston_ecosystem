@@ -70,7 +70,7 @@ Canonical terms: [`../CONTEXT.md`](../CONTEXT.md). Stress-test plans with `/gril
 
 | Skill | Use |
 |-------|-----|
-| `session-report`, `wrap` | End-of-session audit + commit |
+| `session-report`, `wrap` | End-of-session audit + Graphify Graph refresh + commit |
 | `record` | File into the right bucket |
 | `manage-issue-ticket` | Evidence-based defect intake → `ready` |
 | `lightweight-bug-fix` | Ready issue → test → minimal fix → verify |
@@ -78,6 +78,8 @@ Canonical terms: [`../CONTEXT.md`](../CONTEXT.md). Stress-test plans with `/gril
 | `ship-to-test` | Checks → compose → smoke |
 | `rails-code-review` | On each Rails monolith |
 | `adversary`, `stakeholder`, `grill-with-docs` | Challenge, communicate, design grill |
+| `graphify-ponytail` | Graphify Graph then Ponytail collapse (ADR-014) |
+| `ponytail` | Parsimonious code (Grok plugin, not in `.grok/skills/`) |
 
 ## See also
 

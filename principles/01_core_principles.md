@@ -28,4 +28,6 @@
 
 13. **Evolving** — This list will grow. When we decide something (provisioning model, exact parquet columns, auth for internal APIs, etc.), document the decision + rationale here and in the relevant principles/ or plans/ file.
 
+14. **Graphify map, Ponytail edit** — Query the Graphify Graph before walking trees. Confirm in cited files (the graph is not runtime proof). Then Ponytail: reuse the owning monolith, collapse copies, shortest working diff (ADR-014).
+
 See the approved data download service plan (in `plans/`) for the concrete application of these principles to the first monolith (DM).

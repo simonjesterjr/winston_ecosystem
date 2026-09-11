@@ -24,7 +24,8 @@ Forbidden keys on Book Board documents: `queue_depth`, `cpu`, `restart_count`.
     "poster": {},
     "pulse": {},
     "book_board": {},
-    "codebase": { "status": "UNKNOWN", "reason": "no CodeScene/CodeCity in repo" }
+    "monoliths": { "status": "ok", "note": "cuboid catalog + work.json" },
+    "code": { "status": "ok", "note": "Graphify Graph; GET /operations/ecosystem/graphify" }
   }
 }
 ```
