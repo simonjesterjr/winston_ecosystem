@@ -6,7 +6,7 @@
 **Mode:** contractor  
 **Graph nodes:** winston_v2  
 **Edges:** Broker Gateway `GET /api/v1/bindings` + `GET /api/v1/adapters` (read-only)  
-**Human gates:** none (read-only indication). Rebind is not this page (Q8).  
+**Human gates:** none for glance. **Session Yield** is the one write (operator holds IBKR Desktop on the same paper username). Rebind is not this page (Q8).  
 **DoD:** Ops shell, WQ, DAR, and Telegram show who fills; bound chips link to a Wv2 Fulfillment Desk page with rituals + per-OP rules  
 **Origin:** Grill 2026-09-06 — `ecosystem/CONTEXT.md` (**Fulfillment Label**, **Adapter Binding**, **Fulfillment Desk**, **Fulfillment Ritual**)
 
@@ -29,7 +29,7 @@ The `paper` / `real` chip on the Winston v2 ops shell is **Execution Mode**, not
 - Broker Gateway HTML desk  
 - Fulfillment Packaging Policy editor (separate ticket)  
 - Telegram / DAR auth attention  
-- Solving IBKR tickle/login (document the ritual only)
+- Solving IBKR tickle/login (document the ritual; Session Yield holds automation while Desktop has the session)
 
 ## Acceptance
 

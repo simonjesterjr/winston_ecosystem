@@ -8,8 +8,9 @@
 # Individuals authenticate by logging into the Client Portal Gateway in a browser.
 # This file only holds flags + account id + gateway URL.
 
-# Fixture mode (safe default). Set true only after CPGW is running and you have
-# logged in with the *paper* username.
+# Live GET against CPGW. Keep-alive is a separate window:
+#   ./ecosystem/deployment/bin/run-ibkr-cpgw up|down|keepalive on|off
+# TickleJob no-ops unless broker_gateway/tmp/ibkr_keepalive.on exists.
 BG_IBKR_LIVE_READ=false
 
 # ADR-013: paper DUT place_order. Live IBKR/Schwab stay off even if this is true.
@@ -21,7 +22,7 @@ IBKR_ACCOUNT_ID=
 
 # From inside compose, the host gateway is host.docker.internal.
 # From a host process: https://localhost:5000/v1/api
-# Start CPGW: ./ecosystem/deployment/bin/run-ibkr-cpgw  then browser-login paper.
+# Start CPGW: ./ecosystem/deployment/bin/run-ibkr-cpgw up
 IBKR_CPGW_BASE=https://host.docker.internal:5000/v1/api
 
 # Client Portal Gateway uses a self-signed cert. Keep false for CPGW.

@@ -23,6 +23,7 @@ Do **not** put one-off incident narrative here — that belongs in `docs/issues/
 | MCP recreate after tool schema | tool missing / stale schema |
 | Cron tool allowlist | off-duty tool calls, historical DAR |
 | Telegram channel policy | wrong chat, leak of paper noise |
+| [IBKR Client Portal Gateway](ibkr-cpgw.md) | CPGW up/down, paper SSO, keep-alive window, tickle 401s |
 
 ## Related
 

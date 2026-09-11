@@ -1,24 +1,251 @@
 #!/usr/bin/env bash
-# Start Interactive Brokers Client Portal Gateway on https://localhost:5000
+# Interactive Brokers Client Portal Gateway (CPGW) lifecycle on this host.
+# Not a compose service. Paper SSO is a browser step; this script does not
+# store or type the password.
 set -euo pipefail
-ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-GW="$ROOT/vendor/ibkr-clientportal-gw"
-JAVA_HOME="${JAVA_HOME:-$ROOT/vendor/jdk-17-jre}"
+
+ECOSYSTEM="$(cd "$(dirname "$0")/../.." && pwd)"
+SAWTOOTH="$(cd "$ECOSYSTEM/.." && pwd)"
+GW="$ECOSYSTEM/vendor/ibkr-clientportal-gw"
+JAVA_HOME="${JAVA_HOME:-$ECOSYSTEM/vendor/jdk-17-jre}"
 JAVA="$JAVA_HOME/bin/java"
+PIDFILE="$GW/gw.pid"
+FLAG="$SAWTOOTH/broker_gateway/tmp/ibkr_keepalive.on"
+PORT=5000
+BASE="https://localhost:${PORT}"
+API="${BASE}/v1/api"
 
-if [[ ! -x "$JAVA" ]]; then
-  echo "Java JRE not found at $JAVA" >&2
-  echo "Download Temurin 17 JRE into ecosystem/vendor/jdk-17-jre or set JAVA_HOME." >&2
-  exit 1
-fi
-if [[ ! -f "$GW/dist/ibgroup.web.core.iblink.router.clientportal.gw.jar" ]]; then
-  echo "Gateway jar missing. Unzip clientportal.gw.zip into $GW" >&2
-  exit 1
-fi
+usage() {
+  cat <<'EOF'
+Usage: run-ibkr-cpgw <command>
 
-export JAVA_HOME
-export PATH="$JAVA_HOME/bin:$PATH"
-cd "$GW"
-echo "IBKR Client Portal Gateway — https://localhost:5000/"
-echo "Log in with the PAPER username. Ctrl+C to stop."
-exec bin/run.sh root/conf.yaml
+  status              process, port, brokerage auth, keep-alive flag
+  start               start CPGW in the background (does not log in)
+  start --fg          start in the foreground (Ctrl+C stops)
+  stop                keep-alive off, then stop the Java process
+  up                  start + print login URL + wait for paper SSO + keep-alive on
+  down                keep-alive off + stop (end of window)
+  keepalive on|off    Broker Gateway minute tickle window (off = no 401 hammering)
+
+Non-programmatic: `up`, browser-login paper at https://localhost:5000/, leave it;
+`down` when the cash session / DAY-order wait is over.
+
+Java is the vendored Eclipse Temurin 17 JRE under ecosystem/vendor/jdk-17-jre
+(a portable OpenJDK 17 runtime so CPGW does not depend on system Java).
+EOF
+}
+
+need_java() {
+  if [[ ! -x "$JAVA" ]]; then
+    echo "Java JRE not found at $JAVA" >&2
+    echo "Vendored Eclipse Temurin 17 belongs in ecosystem/vendor/jdk-17-jre (or set JAVA_HOME)." >&2
+    exit 1
+  fi
+  if [[ ! -f "$GW/dist/ibgroup.web.core.iblink.router.clientportal.gw.jar" ]]; then
+    echo "Gateway jar missing. Unzip clientportal.gw.zip into $GW" >&2
+    exit 1
+  fi
+}
+
+gw_pids() {
+  pgrep -f 'ibgroup.web.core.clientportal.gw.GatewayStart' 2>/dev/null || true
+}
+
+running() {
+  [[ -n "$(gw_pids)" ]]
+}
+
+port_up() {
+  ss -lnt 2>/dev/null | grep -q ":${PORT} " || return 1
+}
+
+http_code() {
+  local path="$1"
+  curl -sk --max-time 5 -o /dev/null -w '%{http_code}' "${API}${path}" 2>/dev/null || echo "000"
+}
+
+keepalive_on() {
+  mkdir -p "$(dirname "$FLAG")"
+  date -u +"%Y-%m-%dT%H:%M:%SZ" > "$FLAG"
+}
+
+keepalive_off() {
+  rm -f "$FLAG"
+}
+
+keepalive_wanted() {
+  [[ -f "$FLAG" ]]
+}
+
+tws_running() {
+  pgrep -af 'brandingId=ntws|/ntws/' 2>/dev/null | grep -v grep | grep -q . || return 1
+}
+
+cmd_status() {
+  local pids auth tickle
+  pids="$(gw_pids | tr '\n' ' ' | sed 's/[[:space:]]*$//')"
+  echo "CPGW process:  $(if running; then echo "up  pid ${pids}"; else echo "down"; fi)"
+  echo "listen :${PORT}: $(if port_up; then echo up; else echo down; fi)"
+  if running; then
+    auth="$(http_code /iserver/auth/status)"
+    tickle="$(http_code /tickle)"
+    echo "auth/status:   HTTP ${auth}  (200 = brokerage session; 401 = needs paper SSO)"
+    echo "tickle:        HTTP ${tickle}"
+  else
+    echo "auth/status:   n/a (process down)"
+    echo "tickle:        n/a"
+  fi
+  echo "keep-alive:    $(if keepalive_wanted; then echo "on  ($FLAG)"; else echo "off"; fi)"
+  echo "login URL:     ${BASE}/"
+  if tws_running; then
+    echo "WARN: IBKR Desktop / Trader Workstation is also running. Do not hold the paper username there while CPGW holds the session."
+  fi
+}
+
+start_fg() {
+  need_java
+  if running; then
+    echo "CPGW already running: $(gw_pids)" >&2
+    exit 1
+  fi
+  export JAVA_HOME
+  export PATH="$JAVA_HOME/bin:$PATH"
+  cd "$GW"
+  echo "IBKR Client Portal Gateway — ${BASE}/"
+  echo "Log in with the PAPER username. Ctrl+C to stop."
+  echo "Keep-alive tickle stays off until: $0 keepalive on"
+  exec bin/run.sh root/conf.yaml
+}
+
+start_bg() {
+  need_java
+  if running; then
+    echo "CPGW already running: $(gw_pids)"
+    return 0
+  fi
+  export JAVA_HOME
+  export PATH="$JAVA_HOME/bin:$PATH"
+  mkdir -p "$GW/logs"
+  cd "$GW"
+  nohup bin/run.sh root/conf.yaml >> "$GW/logs/console.out" 2>&1 &
+  echo $! > "$PIDFILE"
+  local i
+  for i in 1 2 3 4 5 6 7 8 9 10; do
+    if running && port_up; then
+      echo "CPGW started (background). Login: ${BASE}/"
+      return 0
+    fi
+    sleep 0.5
+  done
+  echo "CPGW start issued but :${PORT} is not listening yet. Check $GW/logs/" >&2
+  return 1
+}
+
+stop_gw() {
+  keepalive_off
+  local pids
+  pids="$(gw_pids)"
+  if [[ -z "$pids" ]]; then
+    rm -f "$PIDFILE"
+    echo "CPGW already down. Keep-alive off."
+    return 0
+  fi
+  curl -sk --max-time 5 -X POST "${API}/logout" >/dev/null 2>&1 || true
+  # Parent run.sh + Java GatewayStart
+  if [[ -f "$PIDFILE" ]]; then
+    kill "$(cat "$PIDFILE")" 2>/dev/null || true
+  fi
+  kill $pids 2>/dev/null || true
+  local i
+  for i in 1 2 3 4 5 6 7 8 9 10; do
+    running || break
+    sleep 0.3
+  done
+  if running; then
+    kill -9 $(gw_pids) 2>/dev/null || true
+  fi
+  rm -f "$PIDFILE"
+  echo "CPGW stopped. Keep-alive off."
+}
+
+wait_for_sso() {
+  local timeout="${1:-300}"
+  local start now elapsed code
+  start="$(date +%s)"
+  echo "Waiting up to ${timeout}s for paper SSO at ${BASE}/ …"
+  while true; do
+    code="$(http_code /iserver/auth/status)"
+    if [[ "$code" == "200" ]]; then
+      echo "Brokerage session is up (HTTP 200)."
+      return 0
+    fi
+    now="$(date +%s)"
+    elapsed=$((now - start))
+    if (( elapsed >= timeout )); then
+      echo "Timed out waiting for paper SSO (last HTTP ${code}). Keep-alive stays off." >&2
+      echo "Login at ${BASE}/ then: $0 keepalive on" >&2
+      return 2
+    fi
+    sleep 2
+  done
+}
+
+cmd_keepalive() {
+  local state="${1:-}"
+  case "$state" in
+    on)
+      if ! running; then
+        echo "CPGW is down. Start it first ($0 start / $0 up)." >&2
+        exit 1
+      fi
+      local code
+      code="$(http_code /iserver/auth/status)"
+      if [[ "$code" != "200" && "${FORCE:-}" != "1" ]]; then
+        echo "Brokerage session is not authenticated (HTTP ${code}). Log in at ${BASE}/ then retry, or FORCE=1 $0 keepalive on" >&2
+        exit 1
+      fi
+      keepalive_on
+      echo "Keep-alive on. Broker Gateway TickleJob will GET /tickle each minute while BG_IBKR_LIVE_READ=true."
+      ;;
+    off)
+      keepalive_off
+      echo "Keep-alive off. TickleJob will no-op. CPGW process may still self-tickle until you $0 down."
+      ;;
+    *)
+      echo "Usage: $0 keepalive on|off" >&2
+      exit 2
+      ;;
+  esac
+}
+
+cmd="${1:-status}"
+shift || true
+
+case "$cmd" in
+  -h|--help|help) usage ;;
+  status) cmd_status ;;
+  start)
+    if [[ "${1:-}" == "--fg" ]]; then start_fg; else start_bg; fi
+    ;;
+  stop|down) stop_gw ;;
+  up)
+    timeout=300
+    if [[ "${1:-}" == "--timeout" ]]; then timeout="${2:-300}"; fi
+    start_bg
+    echo "Open ${BASE}/  (accept the self-signed cert; paper username, not live)."
+    xdg-open "${BASE}/" >/dev/null 2>&1 || true
+    if [[ "$timeout" == "0" ]]; then
+      echo "Not waiting. After SSO: $0 keepalive on"
+      exit 0
+    fi
+    wait_for_sso "$timeout"
+    keepalive_on
+    echo "Keep-alive on. $0 down when the window ends (e.g. after DAY-order eval)."
+    cmd_status
+    ;;
+  keepalive) cmd_keepalive "${1:-}" ;;
+  *)
+    usage >&2
+    exit 2
+    ;;
+esac

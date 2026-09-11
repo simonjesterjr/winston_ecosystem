@@ -8,7 +8,8 @@
 **Human gates:** none (read-only UI)  
 **DoD:** Ops shell, Winston Quiver, Fulfillment Desk index/show, and one bound chip work on the local compose stack  
 **Origin:** [`docs/session-reports/2026-09-06-2149-fulfillment-label-and-desk.md`](../session-reports/2026-09-06-2149-fulfillment-label-and-desk.md)  
-**Depends:** code in `2026-09-06-wv2-fulfillment-label-and-desk.md` (implemented, not compose-restarted)
+**Depends:** code in `2026-09-06-wv2-fulfillment-label-and-desk.md` (implemented, not compose-restarted)  
+**See also:** 2026-09-11 header + Session Yield click path [`2026-09-11-fulfillment-desk-adapters-yield-browser-verify.md`](2026-09-11-fulfillment-desk-adapters-yield-browser-verify.md)
 
 ## Problem
 

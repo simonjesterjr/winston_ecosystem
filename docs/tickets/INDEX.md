@@ -34,6 +34,8 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P2 | Proposed | [`2026-09-11-wev-pulse-ibkr-cpgw-session-truth.md`](2026-09-11-wev-pulse-ibkr-cpgw-session-truth.md) | Pulse `ibkr_cpgw` from brokerage session, not tickle cron |
+| P3 | Proposed | [`2026-09-11-fulfillment-desk-adapters-yield-browser-verify.md`](2026-09-11-fulfillment-desk-adapters-yield-browser-verify.md) | Browser-verify All adapters header + Session Yield |
 | P2 | Proposed | [`2026-09-10-unit-risk-vs-parked-gtc.md`](2026-09-10-unit-risk-vs-parked-gtc.md) | Remaining unit risk vs parked GTC when the row stop differs |
 | P3 | Proposed | [`2026-09-10-signal-inspect-first-paint-eval-card.md`](2026-09-10-signal-inspect-first-paint-eval-card.md) | Browser-verify Signal Inspect first-paint Evaluation card |
 | P3 | Proposed | [`2026-09-10-dar-wq-open-lots-unit-risk.md`](2026-09-10-dar-wq-open-lots-unit-risk.md) | Unit-risk column on DAR and Winston Quiver open-lot tables |
@@ -64,7 +66,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** â†
 | P1 | In progress | [`2026-09-06-wv2-fulfillment-label-and-desk.md`](2026-09-06-wv2-fulfillment-label-and-desk.md) | Fulfillment Label + Fulfillment Desk (Wv2 v1) |
 | P1 | Proposed | [`2026-09-06-fulfillment-desk-compose-clickthrough.md`](2026-09-06-fulfillment-desk-compose-clickthrough.md) | Restart Wv2 and click through Fulfillment Desk v1 |
 | P2 | Proposed | [`2026-09-06-bg-binding-labels-dut-ut.md`](2026-09-06-bg-binding-labels-dut-ut.md) | Set BG binding labels (DUT / UT) |
-| P2 | Proposed | [`2026-09-06-ibkr-cpgw-unattended-session.md`](2026-09-06-ibkr-cpgw-unattended-session.md) | IBKR Client Portal unattended session (tickle â‰  login) |
+| P2 | In progress | [`2026-09-06-ibkr-cpgw-unattended-session.md`](2026-09-06-ibkr-cpgw-unattended-session.md) | IBKR Client Portal unattended session (tickle â‰  login; explicit keep-alive window) |
 | P3 | Proposed | [`2026-09-06-persist-fulfillment-label-on-op.md`](2026-09-06-persist-fulfillment-label-on-op.md) | Persist Fulfillment Label nickname on the OP |
 | P3 | Proposed | [`2026-09-06-fulfillment-desk-rebind-waits-q8.md`](2026-09-06-fulfillment-desk-rebind-waits-q8.md) | Fulfillment Desk rebind / unbind waits on Q8 |
 | P2 | Proposed | [`2026-09-04-tf-foundations-competency-epic.md`](2026-09-04-tf-foundations-competency-epic.md) | Program: TF six-principles competency (Shannonâ†’Lo) |

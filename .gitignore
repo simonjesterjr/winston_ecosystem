@@ -41,3 +41,4 @@ vendor/ibkr-clientportal-gw/root/log/
 vendor/ibkr-clientportal-gw/root/*.log
 vendor/ibkr-clientportal-gw/logs/
 vendor/ibkr-clientportal-gw/bin/logs/
+vendor/ibkr-clientportal-gw/gw.pid
