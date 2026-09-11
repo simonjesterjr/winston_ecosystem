@@ -35,6 +35,7 @@ winston_v2:
   daily_analysis:
     cron: "30 16 * * 1-5 America/Denver"
     class: DailyAnalysisJob
+    # Also Walnut overnight Session Order Slate rebuild after SessionDataGate.
     active_job: true
     queue: default
   quiver_congress_ls_digest:

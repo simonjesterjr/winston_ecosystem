@@ -6,7 +6,7 @@
 **Mode:** contractor  
 **Graph nodes:** winston_v2, broker_gateway  
 **Human gates:** Slate Approve then remaining ready legs Desk Send automatically (one Order Intent at a time); operator never HTTP-baskets; paper DUT only  
-**DoD:** After EODHD, Walnut rebuild cancels DAY entries on DUT; Approve Desk-Sends remaining STPs automatically; GTC protective stays/replaces; DUT print Accept-Fills  
+**DoD:** After EODHD / SessionDataGate, Walnut overnight rebuild is the DA evaluative step (same `DailyAnalysisJob`, including DM catchup); DUT-first; aligned GTC not redrawn; Approve Desk-Sends remaining STPs automatically; DUT print Accept-Fills  
 **Origin:** Grill 2026-09-09 (operator answers 1–6) — ADR-013 §7, `CONTEXT.md` **Slate Approve** / **Session Order Slate** / **Working Stop** / **Accept-Fill**  
 **Related:** `2026-08-20-resting-session-stop-orders.md` (methodology cycle; still blocked on cancel/replace); `2026-09-06-ibkr-cpgw-unattended-session.md` (tickle ≠ login); `2026-09-01-adr-009-resting-slate-addendum.md`; first STP round [`docs/session-reports/2026-09-09-1444-walnut-paper-stp-slate.md`](../session-reports/2026-09-09-1444-walnut-paper-stp-slate.md); Accept-Fill [`2026-09-09-walnut-stp-accept-fill-day-entry.md`](2026-09-09-walnut-stp-accept-fill-day-entry.md); close reconcile [`2026-09-09-walnut-day-stp-close-reconcile.md`](2026-09-09-walnut-day-stp-close-reconcile.md); tick [`2026-09-09-ibkr-stp-tick-size.md`](2026-09-09-ibkr-stp-tick-size.md); **Direction 2 parked** [`2026-09-09-extra-modal-leap-unit-evaluation.md`](2026-09-09-extra-modal-leap-unit-evaluation.md) + analysis [`docs/analysis/2026-09-09-extra-modal-leap-unit-vs-shares.md`](../analysis/2026-09-09-extra-modal-leap-unit-vs-shares.md) (do not start until this grain is automated)
 
@@ -55,7 +55,7 @@ Walnut is paper-bound to Interactive Brokers DUT. Confirm can Desk-Send **one DA
 - [ ] Open lot: GTC protective STP at 2N; replace moves the stop; cancel-all is refused  
 - [x] Protective GTC can park on an open DBC lot (stock). Naked-lot attention / extra-modal HITL still follow-on  
 - [ ] Maxed name with 20-day past 2N: next replace parks the 20-day, not 2N  
-- [ ] Unfilled DAY entry is gone after the close; protective GTC still live (`2026-09-09-walnut-day-stp-close-reconcile.md`)  
+- [x] Unfilled DAY entry is gone after the close in Winston (expire if DUT already dropped TIF); protective GTC still live — DUT-first rebuild 2026-09-10 (`2026-09-09-walnut-day-stp-close-reconcile.md`)  
 - [ ] Mint Confirm still books; WQ Confirm still market  
 
 ## First slice

@@ -41,7 +41,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P1 | In progress | [`2026-09-09-walnut-paper-session-order-slate.md`](2026-09-09-walnut-paper-session-order-slate.md) | Walnut paper Session Order Slate (stop-market) — first STP round parked; fill-driven repark in progress |
 | P1 | Proposed | [`2026-09-10-bg-broker-push-websocket-eval.md`](2026-09-10-bg-broker-push-websocket-eval.md) | Evaluate IBKR/Schwab push/websocket vs 15-minute poll (do not implement) |
 | P1 | Done | [`2026-09-09-walnut-stp-accept-fill-day-entry.md`](2026-09-09-walnut-stp-accept-fill-day-entry.md) | Prove Accept-Fill at DUT print — DD / DBC / SCHZ 2026-09-10 (archive after wrap) |
-| P1 | Proposed | [`2026-09-09-walnut-day-stp-close-reconcile.md`](2026-09-09-walnut-day-stp-close-reconcile.md) | After cash close — reconcile Walnut DAY STPs vs DUT |
+| P1 | In progress | [`2026-09-09-walnut-day-stp-close-reconcile.md`](2026-09-09-walnut-day-stp-close-reconcile.md) | After cash close — DUT-first overnight rebuild expires DAY already gone |
 | P1 | Proposed — blocked | [`2026-09-09-extra-modal-leap-unit-evaluation.md`](2026-09-09-extra-modal-leap-unit-evaluation.md) | Extra-modal LEAP vs share unit — blocked until Walnut grain is automated |
 | P2 | Proposed | [`2026-09-10-dm-restandardize-macd-corpus.md`](2026-09-10-dm-restandardize-macd-corpus.md) | Re-bake remaining DM parquet for MACD 12/26/9 |
 | P2 | Proposed | [`2026-09-10-dm-market-issuer-exchange-metadata.md`](2026-09-10-dm-market-issuer-exchange-metadata.md) | Record issuer name and exchange on DM Market / registry |

@@ -1,6 +1,6 @@
 # Ticket: After cash close — reconcile Walnut DAY STPs vs DUT
 
-**Status:** Proposed  
+**Status:** In progress — DUT-first overnight rebuild expires DAY already gone from DUT (2026-09-10)  
 **Priority:** P1  
 **Date:** 2026-09-09  
 **Mode:** contractor  
