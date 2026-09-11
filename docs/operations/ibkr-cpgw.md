@@ -26,11 +26,11 @@ Leaving CPGW logged in **is** a multi-hour keep-alive (the Java process tickles 
 ## Non-programmatic (operator)
 
 1. Do not leave Interactive Brokers Desktop / Trader Workstation logged in as the **paper** username.
-2. `./ecosystem/deployment/bin/run-ibkr-cpgw up`
-3. Browser: https://localhost:5000/ — accept the self-signed cert — **paper** username.
-4. Script waits until `auth/status` is HTTP 200, then turns keep-alive on.
-5. Bound Operational Portfolios may use Broker Gateway (polls, Desk Send, 15-minute DAY-order eval).
-6. When the window ends: `./ecosystem/deployment/bin/run-ibkr-cpgw down`
+2. Fulfillment Desk (IBKR binding) → **Initiate connection**.
+3. Browser: https://localhost:5000/ — accept the self-signed cert — **paper** username. The desk waits (reload) until `auth/status` is HTTP 200, then turns keep-alive on.
+4. Bound Operational Portfolios may use Broker Gateway (polls, Desk Send, 15-minute DAY-order eval).
+5. **Yield session to Desktop** when you need the same paper username in Desktop. **Initiate connection** to take it back.
+6. Host process down (page does not load): `./ecosystem/deployment/bin/run-ibkr-cpgw start` once, then Initiate connection again. End of window: `down` (stops Java) or leave CPGW running.
 
 Foreground alternative: `start --fg` in a terminal (Ctrl+C stops). From another terminal after SSO: `keepalive on`.
 
@@ -60,9 +60,19 @@ On the Fulfillment Desk binding page (`/operations/fulfillment/:id`): **Yield se
 - best-effort CPGW logout so Desktop can take the session
 - makes TickleJob, live polls, and Desk Send fail closed on that bind
 
-**Resume Client Portal Gateway** clears the hold. It does not log in — then `run-ibkr-cpgw up`. Optional **hold until** auto-clears the yield at that time (Winston may take the session back).
+**Resume Client Portal Gateway** clears the hold only. **Initiate connection** is the take-back: clears yield, waits for paper SSO, keep-alive on. Browser login without Initiate connection is **keep-alive off**.
 
-Glance tag: `Desktop holds session` (not `needs login`).
+Fulfillment Desk session (not Adapter Binding `status`):
+
+| Session | Tag | Yield |
+|---|---|---|
+| Keep-alive on and authenticated | `active` (Winston holds) | offered |
+| Operator using Desktop | `Desktop holds session` | Resume |
+| Gateway logged in, keep-alive off | `keep-alive off` | disabled — **Initiate connection** turns tickle on |
+| Waiting for paper SSO | `waiting for login` | disabled — desk polling |
+| Brokerage session dead | `needs login` | disabled — **Initiate connection** then login |
+
+Glance tag: `Desktop holds session` (not `needs login`). Do not print Adapter Binding lifecycle `active` as if Winston holds.
 
 ## Winston cannot yet
 

@@ -21,8 +21,8 @@ Operator console of how Winston actually runs: Poster (intended topology), Pulse
 _Avoid_: collapsing Pulse into PnL; treating WUT lab paper_runs as Operational Portfolios; Winston World / city / weather; calling the cuboid catalog Code (that tab is Monoliths)
 
 **Score Projection**:
-Read-only assembly of scores that already exist (Portfolio Backtest Run metrics, Portfolio Correlation Score, ops equity series, Mid-month Scoreboard, Daily Activity Report scored-session status) onto one Operational Portfolio. The UI does not invent a composite.
-_Avoid_: BookScore as a stored engine; expression_rev; paper_live_hash_ok
+Read-only assembly of scores that already exist (Portfolio Backtest Run metrics, Portfolio Correlation Score, **Edge Snapshot**, ops equity series, Mid-month Scoreboard, Daily Activity Report scored-session status) onto one Operational Portfolio. The UI does not invent a composite.
+_Avoid_: BookScore as a stored engine; expression_rev; paper_live_hash_ok; folding Edge (R), Calmar, and PCS into one 0–100
 
 **data_manager (DM)**:
 The data acquisition monolith. Owns EODHD download, parquet production, derivative calculation, reconciliation, Cromwell download notifications, and **Alt Filing** acquisition.
@@ -332,16 +332,28 @@ Broker Gateway account-level instance of a fulfillment adapter — vendor accoun
 _Avoid_: treating the adapter class as the account; putting OP desk policy on the binding as if it were universal for every OP on that adapter
 
 **Fulfillment Desk**:
-Winston v2 operator surface for stored **Adapter Bindings**: an index of bindings plus one page per binding (**Fulfillment Label**, capabilities, **Fulfillment Rituals** for that bind, which **Operational Portfolios** use it, specialized desk rules **per OP on that bind**). v1 is read-only except **Session Yield** (binding-wide ritual control). Broker Gateway remains transport/API; its later minimal UI is auth/ingest health, not this desk.
-_Avoid_: a second desk UI in Broker Gateway; Confirm=Send as adapter-wide law; putting **Fulfillment Packaging Policy** on the binding instead of the OP; hiding binding-wide login/keep-alive on only one OP
+Winston v2 operator surface for stored **Adapter Bindings**: an index of bindings plus one page per binding (**Fulfillment Label**, capabilities, **Fulfillment Rituals** for that bind, which **Operational Portfolios** use it, specialized desk rules **per OP on that bind**). v1 writes are **Initiate connection** and **Session Yield** (binding-wide ritual control). Interactive Brokers session on that page is **Winston holds** / **Desktop holds** / `needs login` / **keep-alive off** — not Adapter Binding lifecycle `status=active`. Broker Gateway remains transport/API; its later minimal UI is auth/ingest health, not this desk.
+_Avoid_: a second desk UI in Broker Gateway; Confirm=Send as adapter-wide law; putting **Fulfillment Packaging Policy** on the binding instead of the OP; hiding binding-wide login/keep-alive on only one OP; printing Adapter Binding `status=active` as if Winston holds the gateway
+
+**Winston holds**:
+Fulfillment Desk session state: the **keep-alive window** is on and the Interactive Brokers Client Portal Gateway brokerage session is authenticated. That is what `active` means on the IBKR binding page. **Session Yield** is offered only in this state.
+_Avoid_: Adapter Binding lifecycle `status=active`; a logged-in gateway with keep-alive off; treating Resume + browser login as this state
+
+**Keep-alive window**:
+Explicit operator window during which Winston holds the Interactive Brokers Client Portal Gateway session. Off is not **Session Yield** and not `needs login`. A logged-in gateway may still self-tickle; that is not Winston holding.
+_Avoid_: treating keep-alive off as Desktop holds; Adapter Binding `status=active` as this window; minute tickle while the session is 401
+
+**Initiate connection**:
+Fulfillment Desk verb: Winston waits for paper-username browser SSO at the Client Portal Gateway, then turns the **keep-alive window** on. Does not type the password. Takes the session back after **Session Yield**.
+_Avoid_: unattended login; treating this as Desktop yield; requiring a CLI keepalive on after a successful SSO
 
 **Session Yield**:
-Operator tells Winston they are using the same broker credentials in another client (Interactive Brokers Desktop / Trader Workstation) on this **Adapter Binding**. Winston holds off automated fulfillment on that bind — tickle, brokerage compete, live polls, Desk Send — until the operator resumes or an optional until time. Does not log into Client Portal Gateway. Distinct from `needs login` (session is dead) and from keep-alive (Winston holds the session).
-_Avoid_: treating yield as unattended login; competing Desktop and Client Portal Gateway without yielding; DAR/Telegram yield noise
+Operator tells Winston they are using the same broker credentials in another client (Interactive Brokers Desktop / Trader Workstation) on this **Adapter Binding**, and only from **Winston holds**. Winston holds off automated fulfillment on that bind — tickle, brokerage compete, live polls, Desk Send — until the operator resumes or an optional until time. Does not log into Client Portal Gateway. Resume clears the hold and does not turn the **keep-alive window** on. Distinct from `needs login` (session is dead) and from **keep-alive off** (gateway may be logged in; Winston is not holding; nothing to yield).
+_Avoid_: treating yield as unattended login; yielding when Winston is not holding; competing Desktop and Client Portal Gateway without yielding; DAR/Telegram yield noise
 
 **Fulfillment Ritual**:
-Human operational steps required to keep a bound fulfillment adapter usable — binding-wide, for every **Operational Portfolio** on that **Adapter Binding**. Interactive Brokers Client Portal Gateway: operator `run-ibkr-cpgw up`, paper-username browser login, explicit keep-alive window, `down` when the window ends. `/tickle` only keeps an **existing** session (idle ~6 min without tickle; a logged-in gateway self-tickles for hours). It is not unattended login and not 24×7. Re-SSO on `needs_reauth`. Distinct from per-OP desk rules (Confirm vs Send, Capital Authority, packaging).
-_Avoid_: treating tickle as unattended login; competing TWS/IBKR Desktop and Client Portal Gateway on the same username without **Session Yield**; putting CPGW SSO on WQ vs Mint as if they differed; minute tickle while the session is 401
+Human operational steps required to keep a bound fulfillment adapter usable — binding-wide, for every **Operational Portfolio** on that **Adapter Binding**. Interactive Brokers Client Portal Gateway: **Initiate connection** on the Fulfillment Desk, paper-username browser login at https://localhost:5000/, keep-alive starts when SSO succeeds. `/tickle` only keeps an **existing** session. It is not unattended login and not 24×7. Re-SSO on `needs_reauth`. Distinct from per-OP desk rules (Confirm vs Send, Capital Authority, packaging).
+_Avoid_: treating tickle as unattended login; competing TWS/IBKR Desktop and Client Portal Gateway on the same username without **Session Yield**; putting CPGW SSO on WQ vs Mint as if they differed; minute tickle while the session is 401; requiring a CLI keepalive on after desk Initiate connection
 
 **Winston Broker Evidence Standard**:
 Versioned, human-readable file contract owned by **Broker Gateway** for broker order/fill lifecycle truth (primary: append-only JSONL events with idempotency keys; optional per-entity snapshots rebuildable from the log). Consumers (Wv2 **Confirmation Intake**) read via API and/or mount; they do not write the evidence store. Orthogonal to **Winston EOD Standard** (market bars). Interface: `interfaces/winston-broker-evidence-standard.md`.
@@ -472,8 +484,32 @@ A Scored Session that produced no actionable next steps after recipes and heat/c
 _Avoid_: using Hold for Not Scored / missing_data skips
 
 **Mid-month Scoreboard (MMS)**:
-The operator-facing Wv2 **monthly business review** (markdown/PDF + `mid_month_scoreboards` publication row) of paper/real **Operational Portfolios**: take vs **Passed Signals**, entries/exits, Portfolio Correlation Score, period return / drawdown / Sharpe, and a scored operating grade. Generated by Wv2 Sidekiq at beginning of day (06:00 America/Denver) on the **third Wednesday**. Not a Daily Analysis; not a lab Portfolio Backtest Run. Paper results remain a **regime heuristic** for a fingerprint.
-_Avoid_: treating MMS as a promotion stamp; mixing smoke/test books into the score; using one-month Sharpe as if it were a multi-year PBR; Cromwell generating the numbers (Cromwell may fetch/attach the PDF only)
+The operator-facing Wv2 **monthly business review** (markdown/PDF + `mid_month_scoreboards` publication row) of paper/real **Operational Portfolios**: take vs **Passed Signals**, entries/exits, Portfolio Correlation Score, period return / drawdown / Sharpe, **Edge (R)**, and a scored operating grade. Generated by Wv2 Sidekiq at beginning of day (06:00 America/Denver) on the **third Wednesday**. Not a Daily Analysis; not a lab Portfolio Backtest Run. Paper results remain a **regime heuristic** for a fingerprint. Operating grade is desk process — **Edge (R)** is reported beside compounding, not folded into that 0–100.
+_Avoid_: treating MMS as a promotion stamp; mixing smoke/test books into the score; using one-month Sharpe as if it were a multi-year PBR; Cromwell generating the numbers (Cromwell may fetch/attach the PDF only); putting Edge into operating_score
+
+**1R**:
+Initial risk dollars on a lot: absolute entry-to-original-stop distance times units. Fallback is entry Average True Range times the stop multiplier times units when the stop is missing.
+_Avoid_: remaining unit risk (mark to working stop); share notional; treating ATR-move Stack ARR as 1R
+
+**Lot R**:
+Realized P&L of a closed lot divided by that lot’s **1R**. Wins positive, losses negative.
+_Avoid_: Stack ARR lot \(r_i\) (that is price move / ATR, not P&L / stop dollars); MER expectancy
+
+**Edge (R)**:
+After-fill expectancy in R on closed lots: \((W \times \overline{W}_R) - (L \times \overline{L}_R)\). The glance number for whether each unit of risk paid. Lab sample is a Portfolio Backtest Run; ops sample is an Operational Portfolio’s closed journals — two samples, same formula.
+_Avoid_: MER expectancy (4 ATR thesis); equity-curve total return as “the edge”; a 0–100 mashup; ranking Daily Analysis by Edge
+
+**Profit Factor**:
+Gross winning-lot P&L divided by the absolute value of gross losing-lot P&L, after fills. Pair with **Edge (R)** so one monster winner cannot hide a weak process.
+_Avoid_: using PF alone as the edge; in-sample PF > 2.5 on a short window as proof
+
+**E-ratio**:
+Faith / Trading Blox entry quality: mean(MFE/ATR) over mean(MAE/ATR) for N days after the signal, independent of the exit. Not **Edge (R)**. Not in `edge_v1`.
+_Avoid_: calling E-ratio “expectancy”; using it as a live contest ranker
+
+**Edge Snapshot**:
+Versioned (`edge_v1`) payload of **Edge (R)** plus transparent components (win rate, average win/loss R, Profit Factor, rolling 100-trade Edge, by pyramid level, sample size). WUT persists it on a Portfolio Backtest Run; Wv2 computes it from ops closed lots. Not a composite of PCS, Calmar, and MMS operating grade.
+_Avoid_: BookScore; copying a lab PBR snapshot onto a live Operational Portfolio as if fills matched; treating n<20 as confirmed TF edge
 
 **Graphify Graph**:
 The persistent code-and-docs knowledge graph (`graphify-out/graph.json`, per-monolith and one merged workspace graph) used to traverse the estate before editing.
@@ -505,6 +541,7 @@ _Avoid_: using Ponytail to skip the graph; deleting trust-boundary or money-path
 - Capacity contests are resolved by **Unit Heat** (refuse correlated overflow) and **Slate Contest** (buy-strength / sell-weakness, first-to-touch) into a single **Desk Handoff** package (or algorithmic **Passed Signal**). Live ops do not rank by expected return; Winston Unit Test expected-return cycles stay lab/audit. Human does not pick from an expected-return menu. Human may **Desk Pass** a ranked handoff (required reason) to act on another **current** handoff only — not free-form markets. **Slate Automation** is opt-in per Operational Portfolio + TradingStrategy fingerprint and **policy-automatic Desk Send** of the mechanical slate; the Daily Activity Report for those pairs is a review (moved stops/levels, Turtle priorities), not a rank gate or a send click. Each handoff carries a **Desk Workflow** link (and Telegram/shell) for confirm + extra fields. Multi-leg packages are ordered; out-of-order confirm warns. Discovery **Accept-Fill** books matched protective Working Stop prints only; entries and pyramids stay Confirm; whole-slate accept-fill waits for a later grill (not a scheduled promotion).
 - **Winston (Wv2 ops)** prioritizes signal-driven work for **Fulfillment** by humans (or later a separate autotrader component). It does not assume full market/OMS truth; **Human-Gated** desk is the intentional gap between signal and lot state
 - Analytics: **Signal Spine** (methodology / process); **Signal-Path Operational Lot** (mid-life ops truth in signal units); **Booked Capital Spine** after reconcile (cash honesty). Gaps are first-class, not errors to hide
+- **Edge (R)** is computed from closed lots (**1R** = stop dollars at entry). WUT persists an **Edge Snapshot** on the Portfolio Backtest Run; Wv2 evaluates a separate snapshot on Operational Portfolio journals. MER on the trade timeline stays the 4 ATR thesis — not Edge. Score Projection may show Edge; it does not mix Edge with PCS or MMS operating grade. Live ops still do not rank contests by Edge.
 - Stops: methodology **Working Stop** is evaluated by **Daily Analysis** (same 2N / Donchian law as WUT and live). Paper **dummy_sim**: DA mints a **signaled** stop-out; Desk Confirm books at the simulated GTC fill (touch → stop, gap → open, same session). **Session Order Slate**: same Working Stop, GTC parked, **Accept-Fill** at the print — do not dummy-sim Confirm on a live GTC. Live: broker print. A stop Winston **did not compute** is booked via **Stop-Out Reconciliation** (required position link + working-stop snapshot + fill; warn on gap). Under **Slate Automation** in discovery, a matched parked protective-stop print **Accept-Fills** that path so Unit Heat is not a ghost lot. Winston never assumes broker sync without that match.
 - **Signaled Entry Rule** vs **Unsignaled Exit Allowance**: opens/pyramids need a Winston signal; a **Working Stop** pierce is also a Winston signal. Unsignaled closes are for market reality Winston **did not compute** (broker miss, discretionary flatten) with reasons so the booked spine stays honest. Desk default: **intent-first** for signaled enters and dummy_sim stop-outs; **trade-first** (life/broker then book) for Accept-Fill / live prints and other unsignaled exits
 - **Cromwell** receives webhooks/notifications from **DM** and **Wv2**; invokes **MCP Tools** for actions
@@ -644,8 +681,18 @@ _Avoid_: using Ponytail to skip the graph; deleting trust-boundary or money-path
 > **Dev:** "The ABC signal is filled in two LEAPs. Do we park a stop on the calls?"
 > **Domain expert:** "Evaluate the **Working Stop** on ABC. If it would fire, that is **HITL** to sell the LEAPs — not a silent STP on the option unless **Fulfillment Packaging Policy** says so."
 
+> **Dev:** "I yielded DUT to Desktop, finished, logged into localhost:5000, and the Fulfillment Desk still says `active`. Yield is enabled. Keep-alive is off."
+> **Domain expert:** "The page was lying. Adapter Binding lifecycle is still `active`; that is not the session. `active` on that page means **Winston holds**. After Resume plus browser login without **Initiate connection**, the session is **keep-alive off** — nothing to yield. Press **Initiate connection** (already logged in → tickle on immediately). Yield only from **Winston holds**. `needs login` is a dead brokerage session. **Desktop holds session** is **Session Yield**."
+
+> **Dev:** "I do not want a CLI to turn keep-alive on after I log in at localhost:5000."
+> **Domain expert:** "**Initiate connection** on the Fulfillment Desk waits for paper SSO and starts tickle. You still type the paper password in the gateway browser. If https://localhost:5000/ does not load, the Java gateway is down on the host — that start is still a host process, not compose."
+
+> **Dev:** "The PBR equity curve is up 80%. Does Winston have an edge? The timeline MER expectancy is +1.2 ATR."
+> **Domain expert:** "Those are not **Edge (R)**. MER is the 4 ATR thesis. Edge is after-fill expectancy in R on closed lots. Look at the Edge Snapshot: if n is under 20, the chip stays `E —`. Do not treat a two-month paper book as a seven-year PBR."
+
 ## Flagged ambiguities
 
+- "expectancy" — resolved: **Edge (R)** is realized \((W \times \overline{W}_R) - (L \times \overline{L}_R)\) on closed lots. **MER expectancy** is the 4 ATR thesis \(p\cdot 4+(1-p)(-s)\). **E-ratio** is MFE/MAE entry quality (not in `edge_v1`). Do not call MER “the edge.”
 - "graph" — resolved: **Work Graph** = how we organize work (`WORK_GRAPH.md`); **Graphify Graph** = traversable code/docs map (`graphify-out/graph.json`). Do not mix.
 - "account" can mean broker account, Portfolio, or Cromwell principal — resolved: use **Portfolio** for trading config, **Cromwell principal** for the human operator.
 - "book board" / "paper book" / "live book" in operator-console speech — resolved: the slab is an **Operational Portfolio**. **Book** remains the Portfolio↔Market join. **Execution Mode** is `paper` \| `real` (not live). **Winston Ecosystem View** Book Board projects OPs, never Book rows.
@@ -663,6 +710,7 @@ _Avoid_: using Ponytail to skip the graph; deleting trust-boundary or money-path
 - "paper" on the ops shell vs who fills — resolved (Grill 2026-09-06): keep **Execution Mode** / attention-band `paper`/`real`. Add **Fulfillment Label** `{Vendor} {Nickname}` from the bound **Adapter Binding**. dummy_sim and manual: no extra chip. Never replace paper/real with the broker name. Never dump full live account numbers (last-4 or operator nickname only).
 - Fulfillment config home — resolved (Grill 2026-09-06): Winston v2 owns the operator **Fulfillment Desk** (index of stored **Adapter Bindings** + one page per binding). Chip links to that binding page. Broker Gateway stays API/transport; its later minimal UI is auth/ingest health, not desk Confirm/Send or packaging.
 - Fulfillment Desk rules — resolved (Grill 2026-09-06): two layers. **Fulfillment Rituals** are binding-wide (IBKR Client Portal Gateway paper-username SSO; tickle keeps an existing session, it is not unattended login; re-SSO on needs_reauth; do not compete TWS on the same username). Per-OP rows hold Confirm vs Send, Capital Authority, packaging. v1 read-only; rebind is not this page (Q8).
+- Fulfillment Desk IBKR `active` — resolved (Grill 2026-09-11): on the binding page, `active` means **Winston holds** (keep-alive on and authenticated). Not Adapter Binding lifecycle. **keep-alive off** = logged-in gateway, Winston not holding, Yield disabled. `needs login` = dead session. **Desktop holds session** = **Session Yield**. **Initiate connection** waits for paper SSO then keep-alive on; Resume does not turn keep-alive on.
 - Fulfillment chip vs runbook — resolved (Grill 2026-09-06): the **Fulfillment Label** chip is a glance, not a runbook. Ritual steps stay on the **Fulfillment Desk** binding page. `needs login` / `auth` is ops-shell and WQ attention only (Active OPs, positions/pending headers, WQ header, live-eval). **DAR** and Telegram: inline **Fulfillment Label** only — not `needs login`, not SSO steps, not a Telegram ping on tickle failure.
 - Fulfillment glance surfaces (v1) — resolved (Grill 2026-09-06): Active OPs; positions-by-band and pending-by-portfolio headers; WQ header + Tracking OP broker row (replace raw adapter key / `bnd_…`); portfolio live-eval; **All adapters** link on ops shell and WQ headers → Fulfillment Desk index; **DAR** and Telegram (label only). Not every pending task row. dummy_sim / manual: no extra chip; they still appear on the index.
 - "dual-Active hygiene" — resolved: not collapse to one OP. Differentiate **attention bands** (inactive / Active paper / Active real) in **DAR** and ops; soft planning norms ~1–7 paper, ~1–3 real (warn only; hard caps would need a new decision).

@@ -10,7 +10,7 @@
 **Origin:** Grill 2026-09-06 Fulfillment Ritual — [`docs/session-reports/2026-09-06-2149-fulfillment-label-and-desk.md`](../session-reports/2026-09-06-2149-fulfillment-label-and-desk.md)  
 **Related:** `2026-08-31-bg-ibkr-read-adapter-l1.md` (tickle job exists); `2026-09-01-wq-ibkr-paper-evidence-bind.md` (tickle every minute)  
 **Runbook:** [`docs/operations/ibkr-cpgw.md`](../operations/ibkr-cpgw.md)  
-**See also:** Pulse session truth [`2026-09-11-wev-pulse-ibkr-cpgw-session-truth.md`](2026-09-11-wev-pulse-ibkr-cpgw-session-truth.md)
+**See also:** Pulse session truth [`2026-09-11-wev-pulse-ibkr-cpgw-session-truth.md`](2026-09-11-wev-pulse-ibkr-cpgw-session-truth.md); Winston-owned login (next) [`2026-09-11-winston-owned-ibkr-login.md`](2026-09-11-winston-owned-ibkr-login.md) / [`plans/winston-owned-ibkr-login.md`](../../plans/winston-owned-ibkr-login.md)
 
 ## Problem
 
@@ -31,7 +31,7 @@ Logs (`ecosystem/vendor/ibkr-clientportal-gw/logs/gw.2026-09-0{9,10,11}.log`):
 
 1. [x] Spike: tickle + `ssodh/init` do **not** recover without a browser. SSO stays mandatory for individuals.  
 2. [x] Ritual + ops: `run-ibkr-cpgw`; TickleJob gated on `tmp/ibkr_keepalive.on`; 401 closes the window; `needs login` on ops/WQ; no DAR/Telegram spam.  
-3. [ ] Winston-owned window: stand CPGW up, wait for human SSO, keep-alive, Broker Gateway for bound clients, then `down` **or** leave up for 15-minute DAY-order eval — still no password in git.
+3. [x] Winston-owned window from the Fulfillment Desk: **Initiate connection** waits for human paper SSO, then keep-alive / TickleJob. Still no password in git. Standing the host Java process up from compose is **not** this slice (`run-ibkr-cpgw start` if https://localhost:5000/ does not load). `down` remains the host off switch.
 
 ## Non-goals
 
@@ -42,4 +42,4 @@ Logs (`ecosystem/vendor/ibkr-clientportal-gw/logs/gw.2026-09-0{9,10,11}.log`):
 
 - [x] Spike on this ticket: unattended is **not** possible with tickle; human SSO stays law; measured hold ~44.5h after one SSO  
 - [x] Fulfillment Ritual + runbook match (explicit window, not 24×7 tickle)  
-- [ ] If a later login path is automated: kill switch + `needs_reauth` still refuse write (ADR-013)  
+- [ ] If a later login path is automated: kill switch + `needs_reauth` still refuse write (ADR-013) — tracked as [`2026-09-11-winston-owned-ibkr-login.md`](2026-09-11-winston-owned-ibkr-login.md) (Phase 0 spike first; desk Initiate connection stays)  

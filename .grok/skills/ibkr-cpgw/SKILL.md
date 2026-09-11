@@ -19,7 +19,7 @@ Runbook (source of truth): `ecosystem/docs/operations/ibkr-cpgw.md`
 ```
 
 - Host process on https://localhost:5000 — **not** compose.
-- Human paper SSO in a browser. Do not store or type the password. Same paper username: yield the session on the Fulfillment Desk binding page before using Interactive Brokers Desktop / Trader Workstation.
+- Operator path: Fulfillment Desk **Initiate connection**, then paper SSO in a browser. Do not store or type the password. Same paper username: **Yield session to Desktop** on that page before using Interactive Brokers Desktop / Trader Workstation.
 - `TickleJob` (every minute) runs **only** while `broker_gateway/tmp/ibkr_keepalive.on` exists and `BG_IBKR_LIVE_READ=true`. A 401 closes the window.
 - Idle without tickle ~6 minutes. A logged-in gateway self-tickles; measured hold ~44 hours until DNS/IBKR drop. **`down` ends the window.**
 - Vendored Java is Eclipse Temurin 17 (`ecosystem/vendor/jdk-17-jre`), not a second product.
