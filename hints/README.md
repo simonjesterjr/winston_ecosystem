@@ -32,6 +32,10 @@ Use `bin/compose` from the sawtooth root.
 
 DM (like WUT/Wv2) bind-mounts source in root `compose.yml`. If `bin/rails` is "permission denied" inside the container, host `data_manager/bin/*` lost executable bits — fix with `chmod +x data_manager/bin/*` (and git `100755`). Day-to-day code does not need rebuild; Gemfile/Containerfile changes use `./bin/rebuild-dm`.
 
+### Ops UI: layout vs information
+
+Phone pain on Desk Workflow / Pending **desk form** is a **layout** problem (reflow, touch targets). Do not hide live-book fields in closed folds. See `ops-ui-layout-not-information.md`.
+
 ### Session discipline
 
 End every substantive session with `/wrap` or `/session-report`. Lessons learned go in session report §13.
