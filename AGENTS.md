@@ -59,6 +59,8 @@ End every substantive session with `/wrap` or `/session-report`. Skills in `.gro
 | `graphify-ponytail` | Query Graphify Graph, then Ponytail to collapse duplicates (ADR-014) |
 | `/ponytail` | Parsimonious code (YAGNI, stdlib first). Grok plugin: `/ponytail`, `/ponytail-review`, `/ponytail-audit` |
 | `/ibkr-cpgw` | Client Portal Gateway up / paper SSO / keep-alive window / down |
+| `/lab-sweep` | Lab eval cells via Shell/MCP; default smoke; `FULL=1` UAT opt-in |
+| `/edge-scorecard` | Rank completed lab cells by Edge (R) |
 
 Rails app review: use `rails-code-review` **inside** `data_manager/`, `winston_unit_test/`, or `winston_v2/` (each has `PROJECT_PROFILE.md`).
 

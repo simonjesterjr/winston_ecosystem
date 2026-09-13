@@ -125,6 +125,65 @@ _TOOL_HTTP_OVERRIDES: dict[str, dict[int, str]] = {
             "deactivate only when replacing that seed; force=true only for short dual-Active experiments."
         ),
     },
+    "wut_list_trading_strategies": {
+        404: "TradingStrategy not found — omit id or use name_contains / wut_list_trading_strategies.",
+        422: "List refused — id / name_contains / active_only / limit; not testing_strategies (signal classes).",
+    },
+    "wut_get_portfolio_backtest_run": {
+        404: "PBR not found — check pbr_id via wut_list_portfolio_runs or wut_list_experiment_cells.",
+        422: "Get refused — read message (bad include flags or id).",
+    },
+    "wut_create_portfolio_backtest_run": {
+        404: "Portfolio or TradingStrategy not found — wut_list_portfolios / wut_list_trading_strategies.",
+        422: (
+            "Create refused — authorization must be lab_geometry_report_only; "
+            "need TS id or TS name or parent_pbr_id; pending idempotency may reuse. "
+            "risk_percentage is a WUT fraction (0.01=1%), not percent."
+        ),
+    },
+    "wut_set_fill_cadence": {
+        404: "PBR not found — check pbr_id.",
+        422: "Fill cadence refused — pending PBR only; authorization lab_geometry_report_only.",
+    },
+    "wut_set_heat": {
+        404: "PBR not found — check pbr_id.",
+        422: (
+            "Heat stamp refused — pending PBR only; heat is turtle | object | null (legacy). "
+            "authorization lab_geometry_report_only."
+        ),
+    },
+    "wut_set_risk": {
+        404: "PBR not found — check pbr_id.",
+        422: (
+            "Risk stamp refused — pending PBR only; risk_percentage is a WUT fraction "
+            "(0.01=1%), not percent. authorization lab_geometry_report_only."
+        ),
+    },
+    "wut_execute_portfolio_backtest_run": {
+        404: "PBR not found — check pbr_id.",
+        422: (
+            "Execute refused — authorization lab_geometry_report_only; not pending or already running. "
+            "Default wait=false (enqueue) then poll wut_get_portfolio_backtest_run. "
+            "wait=true is smoke-only; full-window Turtle books exceed 600s."
+        ),
+    },
+    "wut_list_experiment_cells": {
+        422: "experiment is required; optional cell_key / status / portfolio_id_or_name / trading_strategy_id / limit.",
+    },
+    "wut_get_run_edge_report": {
+        404: "PBR not found — check pbr_id.",
+        422: (
+            "Edge report unavailable — run may still be pending/running; poll get. "
+            "Scoreboard key is edge_r (not expectancy_r)."
+        ),
+    },
+    "wut_compare_runs": {
+        422: (
+            "Compare refused — provide pbr_ids or experiment; primary_metric default edge_r; "
+            "thin cells (n<min_trades, default 100) are listed with disqualified_reason, not ranked. "
+            "Report only — no pack promotion."
+        ),
+    },
 }
 
 

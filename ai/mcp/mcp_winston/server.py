@@ -38,7 +38,12 @@ from mcp_winston.audit import (
 from mcp_winston.errors import build_error_payload
 from mcp_winston.progress import attach_long_running_meta, log_progress
 from mcp_winston.rate_limit import check_rate_limit
-from mcp_winston.tools_schema import LONG_RUNNING_TOOLS, with_observability
+from mcp_winston.tools_schema import (
+    HEAT_CONFIG_SCHEMA,
+    LAB_AUTHORIZATION_SCHEMA,
+    LONG_RUNNING_TOOLS,
+    with_observability,
+)
 
 # mcp package provides the protocol. We use a simple Server + stdio + a small
 # ASGI app for the HTTP/SSE transport when run under uvicorn.
@@ -94,6 +99,43 @@ async def _get(
             audit_hops.append((monolith_label(base), f"/{path.lstrip('/')}", resp.status_code))
         resp.raise_for_status()
         return resp.json()
+
+
+_LAB_SOFT_HTTP = (404, 422)
+
+
+def _lab_error_json(exc: httpx.HTTPStatusError) -> Any:
+    """Parse WUT JSON error bodies on 404/422; otherwise re-raise (like daily ops)."""
+    if exc.response.status_code not in _LAB_SOFT_HTTP:
+        raise exc
+    try:
+        return exc.response.json()
+    except Exception:
+        raise exc
+
+
+async def _wut_lab_get(
+    path: str,
+    params: dict | None = None,
+    timeout: float = 30.0,
+    **hop_kw: Any,
+) -> Any:
+    try:
+        return await _get(WUT_BASE, path, params=params, timeout=timeout, **hop_kw)
+    except httpx.HTTPStatusError as exc:
+        return _lab_error_json(exc)
+
+
+async def _wut_lab_post(
+    path: str,
+    json: dict | None = None,
+    timeout: float = 30.0,
+    **hop_kw: Any,
+) -> Any:
+    try:
+        return await _post(WUT_BASE, path, json=json, timeout=timeout, **hop_kw)
+    except httpx.HTTPStatusError as exc:
+        return _lab_error_json(exc)
 
 
 # ---------------------------------------------------------------------------
@@ -877,6 +919,304 @@ async def list_tools() -> list[Tool]:
                 "required": ["portfolio_id_or_name"],
             },
         ),
+        # WUT lab eval Wave 1–2 (experiment control + Edge R). Report-only; no BG order_write.
+        Tool(
+            name="wut_list_trading_strategies",
+            description=(
+                "List WUT TradingStrategy rows (id, name, active, fingerprint, chassis_summary, heat). "
+                "Lab eval — not GET /internal/testing_strategies (those are signal classes). "
+                "Resolve TurtleV1 S2 Breakout55/20 by name (id can drift)."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "id": {"type": ["integer", "null"], "description": "TradingStrategy id"},
+                    "name_contains": {
+                        "type": ["string", "null"],
+                        "description": "Case-insensitive name substring",
+                    },
+                    "active_only": {
+                        "type": ["boolean", "null"],
+                        "description": "If true, only active strategies",
+                    },
+                    "limit": {"type": ["integer", "null"], "description": "Max rows"},
+                },
+            },
+        ),
+        Tool(
+            name="wut_get_portfolio_backtest_run",
+            description=(
+                "Fetch one WUT PortfolioBacktestRun (status, fill/heat/risk, edge_r when complete). "
+                "Poll after async execute. Lab geometry / report-only."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "pbr_id": {"type": "integer", "description": "PortfolioBacktestRun id"},
+                    "include_equity_history": {
+                        "type": ["boolean", "null"],
+                        "description": "Include equity series (default false)",
+                    },
+                    "include_results_json_keys": {
+                        "type": ["array", "null"],
+                        "items": {"type": "string"},
+                        "description": "Subset of results_json keys to return",
+                    },
+                },
+                "required": ["pbr_id"],
+            },
+        ),
+        Tool(
+            name="wut_create_portfolio_backtest_run",
+            description=(
+                "LAB GEOMETRY / REPORT-ONLY. Create a pending WUT PortfolioBacktestRun "
+                "(or reuse by experiment+cell_key / idempotency_key). "
+                "authorization must be lab_geometry_report_only. "
+                "Need portfolio_id_or_name plus trading_strategy_id or trading_strategy_name or parent_pbr_id. "
+                "risk_percentage is a WUT fraction (0.01=1%). Heat: turtle | object | null (legacy). "
+                "No pack promotion. No Broker Gateway order_write."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "authorization": LAB_AUTHORIZATION_SCHEMA,
+                    "portfolio_id_or_name": {
+                        "type": "string",
+                        "description": "WUT lab portfolio id or name",
+                    },
+                    "trading_strategy_id": {
+                        "type": ["integer", "null"],
+                        "description": "WUT TradingStrategy id",
+                    },
+                    "trading_strategy_name": {
+                        "type": ["string", "null"],
+                        "description": "WUT TradingStrategy name (preferred when id can drift)",
+                    },
+                    "parent_pbr_id": {
+                        "type": ["integer", "null"],
+                        "description": "Inherit window/chassis from this PBR",
+                    },
+                    "start_date": {
+                        "type": ["string", "null"],
+                        "description": "YYYY-MM-DD (else inherit parent / default)",
+                    },
+                    "end_date": {
+                        "type": ["string", "null"],
+                        "description": "YYYY-MM-DD",
+                    },
+                    "initial_capital": {
+                        "type": ["number", "null"],
+                        "description": "Chassis capital (UAT $10000)",
+                    },
+                    "fill_cadence": {
+                        "type": ["string", "null"],
+                        "description": "Default resting_stop_touch",
+                        "default": "resting_stop_touch",
+                    },
+                    "heat_mode": {
+                        "type": ["string", "null"],
+                        "description": "turtle | legacy (legacy stamps heat null/omit)",
+                    },
+                    "heat": HEAT_CONFIG_SCHEMA,
+                    "risk_percentage": {
+                        "type": ["number", "null"],
+                        "description": "WUT fraction (0.01=1%). Do not send 1 for 1%.",
+                    },
+                    "experiment": {
+                        "type": ["string", "null"],
+                        "description": "Experiment name for cell listing",
+                    },
+                    "cell_key": {
+                        "type": ["string", "null"],
+                        "description": "Idempotent cell key within experiment",
+                    },
+                    "session_ticket": {"type": ["string", "null"]},
+                    "idempotency_key": {
+                        "type": ["string", "null"],
+                        "description": "Reuse existing pending/completed cell when set",
+                    },
+                },
+                "required": ["authorization", "portfolio_id_or_name"],
+                "anyOf": [
+                    {"required": ["trading_strategy_id"]},
+                    {"required": ["trading_strategy_name"]},
+                    {"required": ["parent_pbr_id"]},
+                ],
+            },
+        ),
+        Tool(
+            name="wut_set_fill_cadence",
+            description=(
+                "LAB GEOMETRY / REPORT-ONLY. Stamp fill_cadence on a pending PBR. "
+                "authorization must be lab_geometry_report_only. Pending runs only."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "authorization": LAB_AUTHORIZATION_SCHEMA,
+                    "pbr_id": {"type": "integer"},
+                    "fill_cadence": {
+                        "type": "string",
+                        "description": "e.g. resting_stop_touch, next_bar_open",
+                    },
+                },
+                "required": ["authorization", "pbr_id", "fill_cadence"],
+            },
+        ),
+        Tool(
+            name="wut_set_heat",
+            description=(
+                "LAB GEOMETRY / REPORT-ONLY. Stamp heat on a pending PBR. "
+                "authorization must be lab_geometry_report_only. "
+                "heat is turtle | object | null (legacy). Pending runs only."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "authorization": LAB_AUTHORIZATION_SCHEMA,
+                    "pbr_id": {"type": "integer"},
+                    "heat_mode": {
+                        "type": ["string", "null"],
+                        "description": "turtle | legacy",
+                    },
+                    "heat": HEAT_CONFIG_SCHEMA,
+                },
+                "required": ["authorization", "pbr_id"],
+            },
+        ),
+        Tool(
+            name="wut_set_risk",
+            description=(
+                "LAB GEOMETRY / REPORT-ONLY. Stamp risk_percentage on a pending PBR. "
+                "authorization must be lab_geometry_report_only. "
+                "WUT fraction (0.01=1%), not percent. Pending runs only."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "authorization": LAB_AUTHORIZATION_SCHEMA,
+                    "pbr_id": {"type": "integer"},
+                    "risk_percentage": {
+                        "type": "number",
+                        "description": "WUT fraction (0.01=1%). Do not send 1 for 1%.",
+                    },
+                },
+                "required": ["authorization", "pbr_id", "risk_percentage"],
+            },
+        ),
+        Tool(
+            name="wut_execute_portfolio_backtest_run",
+            description=(
+                "LAB GEOMETRY / REPORT-ONLY. Enqueue PortfolioBacktestJob for a pending PBR. "
+                "authorization must be lab_geometry_report_only. Default wait=false (async); "
+                "poll wut_get_portfolio_backtest_run. wait=true is smoke-only. "
+                "Forbidden on Cromwell cron / Sawtooth Main / Telegram. No pack promotion."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "authorization": LAB_AUTHORIZATION_SCHEMA,
+                    "pbr_id": {"type": "integer"},
+                    "wait": {
+                        "type": ["boolean", "null"],
+                        "description": "If true, block until complete (smoke only). Default false.",
+                        "default": False,
+                    },
+                    "timeout_seconds": {
+                        "type": ["integer", "number", "null"],
+                        "description": "Client wait budget when wait=true (default 120). Full books exceed 600s.",
+                        "default": 120,
+                    },
+                },
+                "required": ["authorization", "pbr_id"],
+            },
+        ),
+        Tool(
+            name="wut_list_experiment_cells",
+            description=(
+                "List WUT PBRs for an experiment (results_json.experiment) as RunSummary cells. "
+                "Lab geometry / report-only."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "experiment": {
+                        "type": "string",
+                        "description": "Experiment name (required)",
+                    },
+                    "cell_key": {"type": ["string", "null"]},
+                    "status": {
+                        "type": ["string", "null"],
+                        "description": "pending | running | completed | failed",
+                    },
+                    "portfolio_id_or_name": {"type": ["string", "null"]},
+                    "trading_strategy_id": {"type": ["integer", "null"]},
+                    "limit": {"type": ["integer", "null"]},
+                },
+                "required": ["experiment"],
+            },
+        ),
+        Tool(
+            name="wut_get_run_edge_report",
+            description=(
+                "Edge (R) scoreboard for one PBR: stored edge_components (edge_v1) plus e_ratio/path extras. "
+                "Key is edge_r — not expectancy_r. Rank/glance: n<20 hide, 20–99 thin, ≥100 glance. "
+                "costs=fill_only. Lab geometry / report-only — no pack promotion."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "pbr_id": {"type": "integer"},
+                    "include_per_market": {
+                        "type": ["boolean", "null"],
+                        "description": "Include per-market edge (default true)",
+                        "default": True,
+                    },
+                    "after_costs": {
+                        "type": ["boolean", "null"],
+                        "description": "Include after-cost view when present (default true). costs=fill_only.",
+                        "default": True,
+                    },
+                },
+                "required": ["pbr_id"],
+            },
+        ),
+        Tool(
+            name="wut_compare_runs",
+            description=(
+                "Compare PBRs by edge_r (default). Pass pbr_ids or experiment. "
+                "min_trades default 100 (glance bar); thin cells listed with disqualified_reason. "
+                "Report only — no pack promotion. Do not use expectancy_r."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "pbr_ids": {
+                        "type": ["array", "null"],
+                        "items": {"type": "integer"},
+                        "description": "PBR ids to compare",
+                    },
+                    "experiment": {
+                        "type": ["string", "null"],
+                        "description": "Compare all cells in this experiment",
+                    },
+                    "primary_metric": {
+                        "type": ["string", "null"],
+                        "description": "Rank key (default edge_r)",
+                        "default": "edge_r",
+                    },
+                    "min_trades": {
+                        "type": ["integer", "null"],
+                        "description": "Glance bar (default 100). Thin cells are listed, not ranked.",
+                        "default": 100,
+                    },
+                },
+                "anyOf": [
+                    {"required": ["pbr_ids"]},
+                    {"required": ["experiment"]},
+                ],
+            },
+        ),
         # Convenience
         Tool(
             name="wv2_activate_portfolio",
@@ -927,6 +1267,20 @@ def _query_params(arguments: dict[str, Any]) -> dict[str, str]:
     return out
 
 
+def _lab_query(arguments: dict[str, Any], *drop: str) -> dict[str, Any] | None:
+    """GET query for WUT lab tools: keep lists, lowercase bools, skip path keys."""
+    skip = set(drop)
+    out: dict[str, Any] = {}
+    for key, val in (arguments or {}).items():
+        if val is None or key in skip:
+            continue
+        if isinstance(val, bool):
+            out[key] = "true" if val else "false"
+        else:
+            out[key] = val
+    return out or None
+
+
 def _optional_int(val: Any) -> int | None:
     """Coerce optional int tool args; treat null/blank as missing; accept numeric strings."""
     if val is None:
@@ -942,6 +1296,21 @@ def _optional_int(val: Any) -> int | None:
         return int(s)
     except (TypeError, ValueError):
         return None
+
+
+def _require_pbr_id(tool: str, args: dict[str, Any]) -> tuple[int | None, dict[str, Any] | None]:
+    raw = args.get("pbr_id")
+    if isinstance(raw, float) and raw.is_integer():
+        raw = int(raw)
+    pbr_id = _optional_int(raw)
+    if pbr_id is None:
+        return None, build_error_payload(
+            tool,
+            code="invalid_input",
+            message="pbr_id (integer) is required.",
+            details={"pbr_id": args.get("pbr_id")},
+        )
+    return pbr_id, None
 
 
 def _portfolio_id_payload(args: dict[str, Any]) -> dict[str, Any]:
@@ -1909,6 +2278,122 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[TextContent]:
                     data = exc.response.json()
                 else:
                     raise
+
+        elif name == "wut_list_trading_strategies":
+            data = await _wut_lab_get(
+                "/internal/trading_strategies",
+                params=_lab_query(args),
+                **hop_kw,
+            )
+
+        elif name == "wut_get_portfolio_backtest_run":
+            pbr_id, err = _require_pbr_id(name, args)
+            if err is not None:
+                return _finish_tool_response(
+                    name, err, ctx, audit_hops, start,
+                    status="error", error_code="invalid_input",
+                )
+            data = await _wut_lab_get(
+                f"/internal/portfolio_backtest_runs/{pbr_id}",
+                params=_lab_query(args, "pbr_id"),
+                **hop_kw,
+            )
+
+        elif name == "wut_create_portfolio_backtest_run":
+            data = await _wut_lab_post(
+                "/internal/portfolio_backtest_runs",
+                json=args,
+                **hop_kw,
+            )
+
+        elif name == "wut_set_fill_cadence":
+            pbr_id, err = _require_pbr_id(name, args)
+            if err is not None:
+                return _finish_tool_response(
+                    name, err, ctx, audit_hops, start,
+                    status="error", error_code="invalid_input",
+                )
+            data = await _wut_lab_post(
+                f"/internal/portfolio_backtest_runs/{pbr_id}/fill_cadence",
+                json=args,
+                **hop_kw,
+            )
+
+        elif name == "wut_set_heat":
+            pbr_id, err = _require_pbr_id(name, args)
+            if err is not None:
+                return _finish_tool_response(
+                    name, err, ctx, audit_hops, start,
+                    status="error", error_code="invalid_input",
+                )
+            data = await _wut_lab_post(
+                f"/internal/portfolio_backtest_runs/{pbr_id}/heat",
+                json=args,
+                **hop_kw,
+            )
+
+        elif name == "wut_set_risk":
+            pbr_id, err = _require_pbr_id(name, args)
+            if err is not None:
+                return _finish_tool_response(
+                    name, err, ctx, audit_hops, start,
+                    status="error", error_code="invalid_input",
+                )
+            data = await _wut_lab_post(
+                f"/internal/portfolio_backtest_runs/{pbr_id}/risk",
+                json=args,
+                **hop_kw,
+            )
+
+        elif name == "wut_execute_portfolio_backtest_run":
+            pbr_id, err = _require_pbr_id(name, args)
+            if err is not None:
+                return _finish_tool_response(
+                    name, err, ctx, audit_hops, start,
+                    status="error", error_code="invalid_input",
+                )
+            payload = dict(args)
+            if payload.get("wait") is None:
+                payload["wait"] = False
+            timeout = 30.0
+            if payload.get("wait") is True:
+                try:
+                    timeout = float(payload.get("timeout_seconds") or 120) + 15.0
+                except (TypeError, ValueError):
+                    timeout = 135.0
+            data = await _wut_lab_post(
+                f"/internal/portfolio_backtest_runs/{pbr_id}/execute",
+                json=payload,
+                timeout=timeout,
+                **hop_kw,
+            )
+
+        elif name == "wut_list_experiment_cells":
+            data = await _wut_lab_get(
+                "/internal/experiment_cells",
+                params=_lab_query(args),
+                **hop_kw,
+            )
+
+        elif name == "wut_get_run_edge_report":
+            pbr_id, err = _require_pbr_id(name, args)
+            if err is not None:
+                return _finish_tool_response(
+                    name, err, ctx, audit_hops, start,
+                    status="error", error_code="invalid_input",
+                )
+            data = await _wut_lab_get(
+                f"/internal/portfolio_backtest_runs/{pbr_id}/edge_report",
+                params=_lab_query(args, "pbr_id"),
+                **hop_kw,
+            )
+
+        elif name == "wut_compare_runs":
+            data = await _wut_lab_post(
+                "/internal/compare_runs",
+                json=args,
+                **hop_kw,
+            )
 
         else:
             data = build_error_payload(

@@ -45,3 +45,4 @@ bin/compose up -d --force-recreate winston_mcp
 - Tickets: MCP recreate / ops demo tools (see `docs/tickets/` and archive)
 - Skill: `ship-to-test`
 - Interface: `interfaces/winston-mcp-tools.md`
+- Lab eval Shell hop: `docs/operations/grok-bot-shell-lab-eval.md`

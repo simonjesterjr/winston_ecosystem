@@ -1,8 +1,13 @@
 # Plan: Winston MCP Access Layer (Immediate) — Telegram + Core Wv2 Tooling via nanobot + MCP
 
-**Status**: New authoritative plan (2026-06-12). Evaluation complete; immediate slice scoped for build enablement only. Next/LLM plans in sibling docs. Promote all updates here.
+**Status**: **Shipped** (immediate slice: 6 Wv2 tools + optional `ai` profile). Dated 2026-06-12. This file remains SOT for that slice’s architecture (thin MCP, compose-internal, no public ports, no business logic in Python). It is **not** the place to add WUT lab experiment-control tools.
 
-**Authoritative location**: This file in `ecosystem/plans/`. Detailed working notes may live in sessions; final decisions and artifacts promoted here + referenced from README/principles.
+**Authoritative location**: Immediate slice — this file. Later MCP waves:
+- Lab eval (PBR create/execute, heat/risk, Edge (R) scoreboard, Grok Bot UAT): [`winston-lab-eval-grok-cli.md`](winston-lab-eval-grok-cli.md) — **wins on overlap**.
+- Cromwell/Telegram hardening: [`winston-mcp-next-steps.md`](winston-mcp-next-steps.md).
+- Native LLM inside monoliths: [`winston-plus-llm.md`](winston-plus-llm.md).
+
+**Authoritative location (historical)**: This file in `ecosystem/plans/`. Do not promote lab-eval updates here.
 
 ## Context & Goal
 Winston ecosystem (DM + WUT + Wv2 + future Cromwell) is built on majestic monoliths, parquet standard, Sidekiq + webhooks/APIs for coordination, podman compose at root, WUT as reference implementation. Wv2 is the live operational monolith (portfolios with real cash via CashEvents, TradingStrategies for methodology, daily analysis producing journals + action items + Cromwell notifications).

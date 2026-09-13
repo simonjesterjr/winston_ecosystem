@@ -1,10 +1,12 @@
 # Plan: Winston MCP Access Layer — Next Steps (Post-Immediate)
 
-**Status**: Companion to winston-mcp-immediate.md (2026-06-12). Do not execute until immediate slice complete and reviewed. Immediate only is enabled for the next build turn.
+**Status**: Companion to winston-mcp-immediate.md (2026-06-12). Immediate slice is **shipped**. Remaining work here is Cromwell/Telegram polish, DM sync, and **read-only** WUT listing for smarter Wv2 transfer — not lab experiment control.
 
-**Task tracking**: [`winston-mcp-next-steps.md.tasks.json`](winston-mcp-next-steps.md.tasks.json) — 13 tasks across 6 phases with dependencies.
+**Lab eval MCP (2026-09-13):** create/execute PBR, heat/risk/fill stamps, experiment cells, Edge (R) report — **not this file.** Authoritative: [`winston-lab-eval-grok-cli.md`](winston-lab-eval-grok-cli.md). Do not invent a parallel tool list here.
 
-**Scope**: Hardening, completion, Cromwell persona, real flows, production-readiness for the MCP/telegram layer. Builds directly on the 6 core tools and optional ai profile from immediate.
+**Task tracking**: [`winston-mcp-next-steps.md.tasks.json`](winston-mcp-next-steps.md.tasks.json). Task 18 points at lab-eval (do not implement that work as a next-steps task).
+
+**Scope**: Hardening, completion, Cromwell persona, real flows, production-readiness for the MCP/telegram **ops** layer. Builds directly on the 6 core tools and optional ai profile from immediate.
 
 ## Context
 With the immediate MCP server (winston_mcp) + optional ollama/nanobot integration live and the 6 use cases callable over Telegram via our cromwell bot, the agentic surface is proven.
@@ -42,6 +44,7 @@ All work continues to respect: core monoliths runnable standalone; AI layer stri
    - Better error payloads + retry guidance.
    - Observability: structured logs, correlation IDs that appear in Cromwell notifs and Telegram.
    - Add tools surfaced by immediate feedback: list_pending_actions, get_journal, get_position_status, list_trading_strategies (already partially there), request_full_dm_sync_for_all, etc.
+   - **Lab experiment-control tools (PBR create/execute, heat/risk, Edge report) are not this bullet.** See [`winston-lab-eval-grok-cli.md`](winston-lab-eval-grok-cli.md).
    - Config-driven: which portfolios are "managed" by the bot, escalation rules, quiet hours.
    - Security: signed/authorized calls if we move beyond compose-net trust; rate limiting on expensive tools (analysis, DM sync); audit log of every tool invocation (written to a volume mountable by Cromwell).
    - Packaging: make the mcp_winston a proper installable (uv tool or pip) or always run via its Containerfile in compose. Support both stdio (nanobot) and SSE (other clients or direct curl tests).
@@ -57,7 +60,7 @@ All work continues to respect: core monoliths runnable standalone; AI layer stri
 
 5. **Cross-Monolith & Ops**:
    - DM already has good Wv2 symmetry; ensure the generalized `dm:sync_from_consumers` (or equivalent) is solid and exposed as an MCP tool too if useful ("make sure all my portfolios have fresh data").
-   - WUT side: expose a minimal internal endpoint or MCP-facilitated path for "list recent good backtest runs / vetted TS" so transfer tool can be smarter ("transfer the best vetted trend portfolio from last month").
+   - WUT side (**transfer, read-only**): expose a minimal internal endpoint or MCP-facilitated path for "list recent good / vetted runs" so transfer tool can be smarter (`wut_list_vetted_runs` — still Part 2C). **Do not** put PBR create/execute/heat/edge tools in this slice; those live in [`winston-lab-eval-grok-cli.md`](winston-lab-eval-grok-cli.md). `wut_get_run_summary` is subsumed by lab-eval `wut_get_portfolio_backtest_run`.
    - Sidekiq visibility for MCP-triggered jobs (the evaluate tool already enqueues; surface job ids/status in tool responses).
    - **Ecosystem health watchdog (Sidekiq, not Cromwell):** independent Telegram alerts when core services or the Cromwell gateway are down. Cromwell's 6 AM briefing (`cromwell_ecosystem_status_daily`) covers narrative infrastructure probes + business status; authoritative container/DB checks belong in a DM Sidekiq job. Ticket: [`docs/tickets/2026-07-04-sidekiq-ecosystem-health-watchdog.md`](../docs/tickets/2026-07-04-sidekiq-ecosystem-health-watchdog.md). Related: `dm_get_cromwell_events` needs optional `date` for prior-day EODHD market-count line.
    - Governance UI in Wv2 gets light updates only as side-effect (e.g. show "last MCP invocation" or link to the Cromwell notification JSONs). UIs remain secondary.

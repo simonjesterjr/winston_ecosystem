@@ -1,0 +1,327 @@
+{
+  "experiment": "strategy77_rst_heat_risk_v1",
+  "banner": "report only — no pack promotion",
+  "created_at": "2026-09-13T20:51:00Z",
+  "cells": [
+    {
+      "pbr_id": 601,
+      "status": "pending",
+      "cell_key": "blue_rst_legacy_r01",
+      "portfolio_name": "Portfolio Blue",
+      "heat_mode": "legacy",
+      "risk_percentage": 0.01,
+      "parent_pbr_id": 426,
+      "created_now": true
+    },
+    {
+      "pbr_id": 602,
+      "status": "pending",
+      "cell_key": "blue_rst_legacy_r02",
+      "portfolio_name": "Portfolio Blue",
+      "heat_mode": "legacy",
+      "risk_percentage": 0.02,
+      "parent_pbr_id": 426,
+      "created_now": true
+    },
+    {
+      "pbr_id": 603,
+      "status": "pending",
+      "cell_key": "blue_rst_turtle_r01",
+      "portfolio_name": "Portfolio Blue",
+      "heat_mode": "turtle",
+      "risk_percentage": 0.01,
+      "parent_pbr_id": 426,
+      "created_now": true
+    },
+    {
+      "pbr_id": 604,
+      "status": "pending",
+      "cell_key": "blue_rst_turtle_r02",
+      "portfolio_name": "Portfolio Blue",
+      "heat_mode": "turtle",
+      "risk_percentage": 0.02,
+      "parent_pbr_id": 426,
+      "created_now": true
+    },
+    {
+      "pbr_id": 605,
+      "status": "pending",
+      "cell_key": "mango_rst_legacy_r01",
+      "portfolio_name": "Portfolio Mango",
+      "heat_mode": "legacy",
+      "risk_percentage": 0.01,
+      "parent_pbr_id": 429,
+      "created_now": true
+    },
+    {
+      "pbr_id": 606,
+      "status": "pending",
+      "cell_key": "mango_rst_legacy_r02",
+      "portfolio_name": "Portfolio Mango",
+      "heat_mode": "legacy",
+      "risk_percentage": 0.02,
+      "parent_pbr_id": 429,
+      "created_now": true
+    },
+    {
+      "pbr_id": 607,
+      "status": "pending",
+      "cell_key": "mango_rst_turtle_r01",
+      "portfolio_name": "Portfolio Mango",
+      "heat_mode": "turtle",
+      "risk_percentage": 0.01,
+      "parent_pbr_id": 429,
+      "created_now": true
+    },
+    {
+      "pbr_id": 608,
+      "status": "pending",
+      "cell_key": "mango_rst_turtle_r02",
+      "portfolio_name": "Portfolio Mango",
+      "heat_mode": "turtle",
+      "risk_percentage": 0.02,
+      "parent_pbr_id": 429,
+      "created_now": true
+    },
+    {
+      "pbr_id": 609,
+      "status": "pending",
+      "cell_key": "mint_rst_legacy_r01",
+      "portfolio_name": "Portfolio Mint",
+      "heat_mode": "legacy",
+      "risk_percentage": 0.01,
+      "parent_pbr_id": 432,
+      "created_now": true
+    },
+    {
+      "pbr_id": 610,
+      "status": "pending",
+      "cell_key": "mint_rst_legacy_r02",
+      "portfolio_name": "Portfolio Mint",
+      "heat_mode": "legacy",
+      "risk_percentage": 0.02,
+      "parent_pbr_id": 432,
+      "created_now": true
+    },
+    {
+      "pbr_id": 596,
+      "status": "completed",
+      "cell_key": "mint_rst_turtle_r01",
+      "portfolio_name": "Portfolio Mint",
+      "heat_mode": "turtle",
+      "risk_percentage": 0.01,
+      "parent_pbr_id": 432,
+      "created_now": false
+    },
+    {
+      "pbr_id": 611,
+      "status": "pending",
+      "cell_key": "mint_rst_turtle_r02",
+      "portfolio_name": "Portfolio Mint",
+      "heat_mode": "turtle",
+      "risk_percentage": 0.02,
+      "parent_pbr_id": 432,
+      "created_now": true
+    },
+    {
+      "pbr_id": 612,
+      "status": "pending",
+      "cell_key": "yellow_rst_legacy_r01",
+      "portfolio_name": "Portfolio Yellow",
+      "heat_mode": "legacy",
+      "risk_percentage": 0.01,
+      "parent_pbr_id": 435,
+      "created_now": true
+    },
+    {
+      "pbr_id": 613,
+      "status": "pending",
+      "cell_key": "yellow_rst_legacy_r02",
+      "portfolio_name": "Portfolio Yellow",
+      "heat_mode": "legacy",
+      "risk_percentage": 0.02,
+      "parent_pbr_id": 435,
+      "created_now": true
+    },
+    {
+      "pbr_id": 614,
+      "status": "pending",
+      "cell_key": "yellow_rst_turtle_r01",
+      "portfolio_name": "Portfolio Yellow",
+      "heat_mode": "turtle",
+      "risk_percentage": 0.01,
+      "parent_pbr_id": 435,
+      "created_now": true
+    },
+    {
+      "pbr_id": 615,
+      "status": "pending",
+      "cell_key": "yellow_rst_turtle_r02",
+      "portfolio_name": "Portfolio Yellow",
+      "heat_mode": "turtle",
+      "risk_percentage": 0.02,
+      "parent_pbr_id": 435,
+      "created_now": true
+    },
+    {
+      "pbr_id": 616,
+      "status": "pending",
+      "cell_key": "orange_rst_legacy_r01",
+      "portfolio_name": "Portfolio Orange",
+      "heat_mode": "legacy",
+      "risk_percentage": 0.01,
+      "parent_pbr_id": 438,
+      "created_now": true
+    },
+    {
+      "pbr_id": 617,
+      "status": "pending",
+      "cell_key": "orange_rst_legacy_r02",
+      "portfolio_name": "Portfolio Orange",
+      "heat_mode": "legacy",
+      "risk_percentage": 0.02,
+      "parent_pbr_id": 438,
+      "created_now": true
+    },
+    {
+      "pbr_id": 618,
+      "status": "pending",
+      "cell_key": "orange_rst_turtle_r01",
+      "portfolio_name": "Portfolio Orange",
+      "heat_mode": "turtle",
+      "risk_percentage": 0.01,
+      "parent_pbr_id": 438,
+      "created_now": true
+    },
+    {
+      "pbr_id": 619,
+      "status": "pending",
+      "cell_key": "orange_rst_turtle_r02",
+      "portfolio_name": "Portfolio Orange",
+      "heat_mode": "turtle",
+      "risk_percentage": 0.02,
+      "parent_pbr_id": 438,
+      "created_now": true
+    },
+    {
+      "pbr_id": 620,
+      "status": "pending",
+      "cell_key": "red_rst_legacy_r01",
+      "portfolio_name": "Portfolio Red",
+      "heat_mode": "legacy",
+      "risk_percentage": 0.01,
+      "parent_pbr_id": 441,
+      "created_now": true
+    },
+    {
+      "pbr_id": 621,
+      "status": "pending",
+      "cell_key": "red_rst_legacy_r02",
+      "portfolio_name": "Portfolio Red",
+      "heat_mode": "legacy",
+      "risk_percentage": 0.02,
+      "parent_pbr_id": 441,
+      "created_now": true
+    },
+    {
+      "pbr_id": 622,
+      "status": "pending",
+      "cell_key": "red_rst_turtle_r01",
+      "portfolio_name": "Portfolio Red",
+      "heat_mode": "turtle",
+      "risk_percentage": 0.01,
+      "parent_pbr_id": 441,
+      "created_now": true
+    },
+    {
+      "pbr_id": 623,
+      "status": "pending",
+      "cell_key": "red_rst_turtle_r02",
+      "portfolio_name": "Portfolio Red",
+      "heat_mode": "turtle",
+      "risk_percentage": 0.02,
+      "parent_pbr_id": 441,
+      "created_now": true
+    },
+    {
+      "pbr_id": 624,
+      "status": "pending",
+      "cell_key": "green_rst_legacy_r01",
+      "portfolio_name": "Portfolio Green",
+      "heat_mode": "legacy",
+      "risk_percentage": 0.01,
+      "parent_pbr_id": 444,
+      "created_now": true
+    },
+    {
+      "pbr_id": 625,
+      "status": "pending",
+      "cell_key": "green_rst_legacy_r02",
+      "portfolio_name": "Portfolio Green",
+      "heat_mode": "legacy",
+      "risk_percentage": 0.02,
+      "parent_pbr_id": 444,
+      "created_now": true
+    },
+    {
+      "pbr_id": 626,
+      "status": "pending",
+      "cell_key": "green_rst_turtle_r01",
+      "portfolio_name": "Portfolio Green",
+      "heat_mode": "turtle",
+      "risk_percentage": 0.01,
+      "parent_pbr_id": 444,
+      "created_now": true
+    },
+    {
+      "pbr_id": 627,
+      "status": "pending",
+      "cell_key": "green_rst_turtle_r02",
+      "portfolio_name": "Portfolio Green",
+      "heat_mode": "turtle",
+      "risk_percentage": 0.02,
+      "parent_pbr_id": 444,
+      "created_now": true
+    },
+    {
+      "pbr_id": 628,
+      "status": "pending",
+      "cell_key": "rust_rst_legacy_r01",
+      "portfolio_name": "Portfolio Rust",
+      "heat_mode": "legacy",
+      "risk_percentage": 0.01,
+      "parent_pbr_id": 447,
+      "created_now": true
+    },
+    {
+      "pbr_id": 629,
+      "status": "pending",
+      "cell_key": "rust_rst_legacy_r02",
+      "portfolio_name": "Portfolio Rust",
+      "heat_mode": "legacy",
+      "risk_percentage": 0.02,
+      "parent_pbr_id": 447,
+      "created_now": true
+    },
+    {
+      "pbr_id": 630,
+      "status": "pending",
+      "cell_key": "rust_rst_turtle_r01",
+      "portfolio_name": "Portfolio Rust",
+      "heat_mode": "turtle",
+      "risk_percentage": 0.01,
+      "parent_pbr_id": 447,
+      "created_now": true
+    },
+    {
+      "pbr_id": 631,
+      "status": "pending",
+      "cell_key": "rust_rst_turtle_r02",
+      "portfolio_name": "Portfolio Rust",
+      "heat_mode": "turtle",
+      "risk_percentage": 0.02,
+      "parent_pbr_id": 447,
+      "created_now": true
+    }
+  ]
+}

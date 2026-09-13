@@ -97,7 +97,7 @@ We already have paper band / real band / inactive. Treat **each fingerprint seri
 
 | Flavor | Where | Example stop condition |
 |--------|--------|-------------------------|
-| `/goal` | WUT PBR / confirm matrices | Sharpe / DD / trade-count gates on fixed window; cell matrix complete |
+| `/goal` | WUT PBR / confirm matrices | Edge (R) / sample-size gates on a fixed experiment (`winston-lab-eval-grok-cli.md`); cell matrix complete. **Not** Sharpe-as-edge. Builder/Grok Bot UAT owns execute; not Cromwell cron. |
 | `/loop` | Wv2 DAR + Cromwell | Every RTH day after data ready |
 
 Do **not** put open-ended “keep mutating TS until Sharpe > X” on live capital.

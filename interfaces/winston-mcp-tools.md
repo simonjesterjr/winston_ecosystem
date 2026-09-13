@@ -1,9 +1,11 @@
-# Winston MCP Tool Contract (Initial — for Cromwell bot / nanobot access)
+# Winston MCP Tool Contract (Cromwell bot / nanobot access)
 
-**Version**: v0.4 (2026-07-02, task 9 additional MCP tools)
-**Owner**: Wv2 (with coordination via DM and WUT for transfer/sync)
+**Version**: v0.5 (2026-09-13, WUT lab eval Wave 1–2)
+**Owner**: Wv2 (with coordination via DM and WUT for transfer/sync and lab eval)
 **Transport**: Primarily stdio MCP (launched by nanobot per its documented mcpServers config). HTTP/SSE supported for testing/direct clients.
 **Security model**: The MCP server (winston_mcp) runs inside the podman network. It only talks to the monoliths' internal endpoints over compose DNS. No direct DB or broad fs access. All calls are logged/auditable. Nanobot enforces channel allowFrom before tool use.
+
+**Wave 1–2 shipped in this version** (trades/attribution still later). Lab experiment-control + Edge (R) tools are in **WUT lab eval** below. Authoritative plan: [`plans/winston-lab-eval-grok-cli.md`](../plans/winston-lab-eval-grok-cli.md).
 
 ## Tool Inventory (Immediate Scope — The 6 Core Wv2 Use Cases + Essentials)
 Tools are named with `wv2_` prefix for clarity (future DM/WUT/Cromwell tools will follow patterns). All tools are idempotent where possible and return structured JSON (success + data or error + details).
@@ -167,6 +169,104 @@ Tools are named with `wv2_` prefix for clarity (future DM/WUT/Cromwell tools wil
     - Inputs: `{ "portfolio_id_or_name": "...", "date": "YYYY-MM-DD" }`
     - Source: `GET /internal/portfolios/daily_operations_report`.
 
+## WUT lab eval (Wave 1–2) — experiment control + Edge (R)
+
+**Report only — no pack promotion. No Broker Gateway `order_write`.**
+
+Lab geometry on Winston Unit Test (WUT). Thin MCP: JSON in, JSON out; math stays in WUT (`EdgeCalculator`, `PortfolioHeatConfig`). Scoreboard key is **`edge_r`** (ADR-015 / [`winston-edge-v1.md`](winston-edge-v1.md)), not `expectancy_r`. WUT `risk_percentage` is a **fraction** (`0.01` = 1%). Heat is `"turtle"` \| object \| `null` (legacy). Execute defaults to `wait: false` (enqueue `PortfolioBacktestJob`); poll `wut_get_portfolio_backtest_run`. Do **not** wrap `GET /internal/testing_strategies` (signal classes). Mutating tools stay **off** Cromwell `cron-tool-allowlist.json` (Sawtooth Main / Telegram cron must not start PBRs).
+
+**Auth (mutating tools):** MCP `inputSchema` requires `authorization` with `"const": "lab_geometry_report_only"`. Forward that string to WUT. Read tools do not take it.
+
+**Not in this version:** `wut_get_trades`, attribution, book builder (later waves).
+
+### Wave 1 — experiment control
+
+**wut_list_trading_strategies**
+- Purpose: List WUT `TradingStrategy` rows (id, name, active, fingerprint, chassis_summary, heat) for lab stamps. Resolve `TurtleV1 S2 Breakout55/20` by **name** (id can drift).
+- Inputs: `{ "id"?: int, "name_contains"?: string, "active_only"?: bool, "limit"?: int }`
+- Source: `GET /internal/trading_strategies` on WUT (`WUT_BASE` / `WINSTON_UNIT_TEST_URL`)
+- Returns: WUT JSON list (pass-through)
+- Auth: none (read)
+- Report-only: discovery only; does not create runs
+
+**wut_get_portfolio_backtest_run**
+- Purpose: Fetch one Portfolio Backtest Run (PBR) — status, fill/heat/risk, `edge_r` when complete. Poll after async execute. Subsumes Part 2C `wut_get_run_summary`.
+- Inputs: `{ "pbr_id": int, "include_equity_history"?: false, "include_results_json_keys"?: [] }`
+- Source: `GET /internal/portfolio_backtest_runs/{pbr_id}`
+- Returns: `{ "status", "run": RunSummary, "results_subset" }` (WUT shape; MCP pass-through)
+- Auth: none (read)
+- Report-only: read
+
+**wut_create_portfolio_backtest_run**
+- Purpose: Create a **pending** PBR (or reuse by `experiment`+`cell_key` / `idempotency_key`).
+- Inputs: `{ "authorization": "lab_geometry_report_only", "portfolio_id_or_name": "...", "trading_strategy_id"?: int, "trading_strategy_name"?: string, "parent_pbr_id"?: int, "start_date"?: "YYYY-MM-DD", "end_date"?: "YYYY-MM-DD", "initial_capital"?: number, "fill_cadence"?: "resting_stop_touch", "heat_mode"?: "turtle"|"legacy", "heat"?: HeatConfig, "risk_percentage"?: 0.01, "experiment"?: string, "cell_key"?: string, "session_ticket"?: string, "idempotency_key"?: string }` — anyOf TS id / TS name / `parent_pbr_id`
+- Source: `POST /internal/portfolio_backtest_runs`
+- Returns: `{ "action": "created"|"reused", "run": RunSummary }`
+- Auth: **required** `authorization` const `lab_geometry_report_only`
+- Report-only: **banner** — lab geometry only; no pack-default promotion; no BG `order_write`
+
+**wut_set_fill_cadence**
+- Purpose: Stamp `fill_cadence` on a **pending** PBR (e.g. `resting_stop_touch`).
+- Inputs: `{ "authorization": "lab_geometry_report_only", "pbr_id": int, "fill_cadence": string }`
+- Source: `POST /internal/portfolio_backtest_runs/{pbr_id}/fill_cadence`
+- Returns: WUT JSON (updated run / stamp ack)
+- Auth: **required** `lab_geometry_report_only`
+- Report-only: **banner** — pending PBR only; no live orders
+
+**wut_set_heat**
+- Purpose: Stamp heat on a **pending** PBR. `"turtle"` → `PortfolioHeatConfig::TURTLE_DEFAULTS`; `null` / `legacy` → lot caps only; object is explicit L1–L4.
+- Inputs: `{ "authorization": "lab_geometry_report_only", "pbr_id": int, "heat"?: HeatConfig, "heat_mode"?: "turtle"|"legacy" }`
+- Source: `POST /internal/portfolio_backtest_runs/{pbr_id}/heat`
+- Returns: WUT JSON (updated run / stamp ack)
+- Auth: **required** `lab_geometry_report_only`
+- Report-only: **banner** — pending PBR only; explicit `legacy` must not silently re-apply turtle defaults
+
+**wut_set_risk**
+- Purpose: Stamp `risk_percentage` on a **pending** PBR.
+- Inputs: `{ "authorization": "lab_geometry_report_only", "pbr_id": int, "risk_percentage": 0.01 }` — **fraction** (`0.01` = 1%). Do not apply the Wv2 importer percent convention.
+- Source: `POST /internal/portfolio_backtest_runs/{pbr_id}/risk`
+- Returns: WUT JSON (updated run / stamp ack)
+- Auth: **required** `lab_geometry_report_only`
+- Report-only: **banner** — pending PBR only
+
+**wut_execute_portfolio_backtest_run**
+- Purpose: Enqueue `PortfolioBacktestJob`. Default **async**. Supersedes staff-roster name `wut_start_pbr`. Forbidden on Cromwell cron / Sawtooth Main / Telegram.
+- Inputs: `{ "authorization": "lab_geometry_report_only", "pbr_id": int, "wait"?: false, "timeout_seconds"?: 120 }` — MCP default `wait: false`. `wait: true` is smoke-only; full-window Turtle books exceed 600s.
+- Source: `POST /internal/portfolio_backtest_runs/{pbr_id}/execute`
+- Returns: `{ "action": "started"|"completed"|"already_running", "run": RunSummary }`
+- Auth: **required** `lab_geometry_report_only`
+- Report-only: **banner** — lab backtest only; no pack promotion; poll `wut_get_portfolio_backtest_run` for `edge_r`
+
+**wut_list_experiment_cells**
+- Purpose: List PBRs for `results_json.experiment` (and optional `cell_key` / status / portfolio / TS).
+- Inputs: `{ "experiment": string, "cell_key"?: string, "status"?: string, "portfolio_id_or_name"?: string, "trading_strategy_id"?: int, "limit"?: int }`
+- Source: `GET /internal/experiment_cells`
+- Returns: `{ "cells": [RunSummary], "counts_by_status": {...} }`
+- Auth: none (read)
+- Report-only: listing only
+
+### Wave 2 — measuring edge
+
+**wut_get_run_edge_report**
+- Purpose: Stored `edge_components` (`edge_v1`) plus `e_ratio` / path extras when present. WUT recomputes via `EdgeCalculator.from_timeline` only if `edge_n` blank. Supersedes `wut_get_pbr_scorecard`. Do not return a parallel `expectancy_r` dialect. Glance: n&lt;20 hide, 20–99 thin, ≥100 glance. `costs=fill_only`.
+- Inputs: `{ "pbr_id": int, "include_per_market"?: true, "after_costs"?: true }`
+- Source: `GET /internal/portfolio_backtest_runs/{pbr_id}/edge_report`
+- Returns: WUT edge report JSON (`edge_r`, `profit_factor`, `edge_n`, `edge_components`, extras)
+- Auth: none (read)
+- Report-only: **banner** — ranking payload only; no pack promotion
+
+**wut_compare_runs**
+- Purpose: Rank cells by `edge_r` (default). Thin cells (`n` &lt; `min_trades`, default 100) listed with `disqualified_reason`.
+- Inputs: `{ "pbr_ids": [int, ...] }` **or** `{ "experiment": string }` plus optional `primary_metric` (default `edge_r`), `min_trades` (default 100)
+- Source: `POST /internal/compare_runs`
+- Returns: WUT compare JSON (ranked cells + thin/disqualified). Includes `authorization_note`: report only — no pack promotion.
+- Auth: none on MCP (read compare; not a lab stamp)
+- Report-only: **banner** — no pack promotion
+
+**HeatConfig** (create / set_heat): `"turtle"` \| `"legacy"` \| `null` \| L1–L4 object (`mode`, unit/market/direction caps, optional `correlation`). String `turtle` → `TURTLE_DEFAULTS`. `null` / omit / `legacy` → lot caps only.
+
+**RunSummary** (get / list cells / create / execute): `pbr_id`, portfolio + TS ids/names, `status`, fill cadences, `heat`, `risk_percentage` (fraction), window, capital, return/DD/CAGR/Sharpe, **`edge_r`**, `profit_factor`, `edge_n`, trade counts, `experiment`, `cell_key`.
+
 **Data Manager (DM) tools:**
 - `dm_get_cromwell_events` — sync activity log (`sync_started`, `consumer_sync_started`, `symbol_updated`, `sync_complete`). Cromwell posts `event.message` to Telegram during the 3:30 PM MT window. Source: `GET /internal/cromwell_notifications` on DM.
 
@@ -311,6 +411,7 @@ Expensive tools set `_meta.long_running`, `estimated_duration_seconds`, and `pro
 - Only narrow, auditable operations.
 - No tool should ever allow arbitrary code execution, broad file writes, or direct position mutation outside the journal/confirmation flow.
 - All state changes that affect capital or positions still flow through the existing Wv2 models, CashEvents, and the executed journal path (LLM or human can only influence drafts and notes until confirmation).
+- WUT lab eval mutators (`wut_create_portfolio_backtest_run`, fill/heat/risk stamps, `wut_execute_portfolio_backtest_run`) are lab geometry / report-only. They must not promote pack defaults or touch Broker Gateway `order_write`. Mutating lab names stay off Cromwell cron allowlist.
 - The immediate implementation must be reviewable in one sitting (small Python MCP server + the existing Wv2 internal surface).
 
 See plans/winston-mcp-immediate.md for the build slice and verification. The next-steps plan adds confirmation tools and richer report artifacts.

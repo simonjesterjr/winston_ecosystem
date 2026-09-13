@@ -44,3 +44,52 @@ def with_observability(schema: dict[str, Any]) -> dict[str, Any]:
     out = dict(schema)
     out["properties"] = props
     return out
+
+
+# WUT lab eval (Wave 1–2). Mutating tools require this exact string; forward to WUT.
+LAB_AUTHORIZATION_SCHEMA: dict[str, Any] = {
+    "type": "string",
+    "const": "lab_geometry_report_only",
+    "description": (
+        "Required agent guardrail. Must be the exact string lab_geometry_report_only. "
+        "Lab geometry / report-only — no pack-default promotion, no Broker Gateway order_write."
+    ),
+}
+
+# Canonical heat. String turtle → TURTLE_DEFAULTS. null / omit / legacy → lot caps only.
+HEAT_CONFIG_SCHEMA: dict[str, Any] = {
+    "description": (
+        "Canonical heat. String turtle → TURTLE_DEFAULTS. null / omit / legacy → lot caps only. "
+        "Object is an explicit L1–L4 hash. Do not send expectancy-style aliases."
+    ),
+    "oneOf": [
+        {"type": "null"},
+        {"type": "string", "enum": ["turtle", "legacy"]},
+        {
+            "type": "object",
+            "properties": {
+                "mode": {"type": "string", "enum": ["turtle", "legacy", "off"]},
+                "unit_risk_fraction": {"type": "number", "exclusiveMinimum": 0},
+                "max_units_per_market": {"type": "integer", "minimum": 1},
+                "max_units_closely_correlated_same_direction": {
+                    "type": "integer",
+                    "minimum": 1,
+                },
+                "max_units_loosely_correlated_same_direction": {
+                    "type": "integer",
+                    "minimum": 1,
+                },
+                "max_units_single_direction": {"type": "integer", "minimum": 1},
+                "correlation": {
+                    "type": "object",
+                    "properties": {
+                        "source": {"type": "string", "default": "pcs_pairwise"},
+                        "close_threshold": {"type": "number"},
+                        "loose_threshold": {"type": "number"},
+                        "window": {"type": "string", "default": "methodology"},
+                    },
+                },
+            },
+        },
+    ],
+}

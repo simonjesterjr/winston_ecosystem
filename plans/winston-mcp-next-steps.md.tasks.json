@@ -71,7 +71,7 @@
       "id": 11,
       "subject": "Phase 5: Cross-monolith ops — dm:sync_from_consumers solid, WUT vetted-TS listing for smarter transfer",
       "status": "pending",
-      "note": "DM DailyDataOrchestratorJob active in manifest (3:30 PM MT). Verify end-to-end with data_manager_sidekiq running in compose."
+      "note": "DM DailyDataOrchestratorJob active in manifest (3:30 PM MT). Verify end-to-end with data_manager_sidekiq running in compose. WUT listing here is read-only transfer (`wut_list_vetted_runs`). PBR create/execute/edge is NOT this task — see plans/winston-lab-eval-grok-cli.md (task 18)."
     },
     {
       "id": 12,
@@ -111,6 +111,12 @@
       "status": "pending",
       "note": "Ticket docs/tickets/2026-07-04-sidekiq-ecosystem-health-watchdog.md. DM Sidekiq job ~6:05 AM MT; HTTP probes + direct Bot API. Complements Cromwell 6 AM narrative briefing. Child: dm_get_cromwell_events date= for prior-day EODHD market count; backup line when operational-data-backup-dr Phase 2 ships.",
       "blockedBy": [14]
+    },
+    {
+      "id": 18,
+      "subject": "WUT lab eval MCP (experiment control + Edge R) — NOT implemented in this next-steps slice",
+      "status": "pending",
+      "note": "Authoritative plan: plans/winston-lab-eval-grok-cli.md. Create/execute PBR, heat/risk, experiment cells, wut_get_run_edge_report. Do not invent a parallel tool list here. Cromwell cron must not gain these mutating tools."
     }
   ]
 }

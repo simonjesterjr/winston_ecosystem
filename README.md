@@ -40,8 +40,9 @@ All communication: APIs (internal) + Sidekiq (internal) + webhooks (to Cromwell)
 **Session discipline:** End substantive sessions with `/wrap` or `/session-report`. Cross-monolith reports go in `docs/session-reports/`.
 
 See principles/ and plans/ for details. Key recent additions (read these first for the current workstream):
-- plans/winston-mcp-immediate.md (the only slice enabled for the next build turn)
-- plans/winston-mcp-next-steps.md
+- plans/winston-lab-eval-grok-cli.md (WUT lab experiment-control MCP + Grok Bot UAT — **authoritative** on that overlap)
+- plans/winston-mcp-immediate.md (shipped: 6 Wv2 tools + optional `ai` profile)
+- plans/winston-mcp-next-steps.md (Cromwell/Telegram polish; not lab PBR execute)
 - plans/winston-plus-llm.md (long-term native LLM + RAG + orchestration direction)
 
 Always start a session by reading the ecosystem folder. New plans (MCP access layer + LLM roadmap) live alongside the original DM and Wv2 plans.

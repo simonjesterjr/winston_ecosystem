@@ -24,9 +24,12 @@ Do **not** put one-off incident narrative here — that belongs in `docs/issues/
 | Cron tool allowlist | off-duty tool calls, historical DAR |
 | Telegram channel policy | wrong chat, leak of paper noise |
 | [IBKR Client Portal Gateway](ibkr-cpgw.md) | CPGW up/down, paper SSO, keep-alive window, tickle 401s |
+| [Grok Bot Shell lab eval](grok-bot-shell-lab-eval.md) | list/get/create experiment cells from Shell-on-sawtooth; no Serve `/mcp` |
+| [Lab Sweep](grok-bot-lab-sweep.md) | Grok Bot brief: smoke cells; `FULL=1` UAT opt-in |
+| [Edge Scorecard](grok-bot-edge-scorecard.md) | Grok Bot brief: rank completed cells by Edge (R) |
 
 ## Related
 
-- Smoke scripts: `../../bin/` at sawtooth root (`test-mcp-*`, `verify-daily-analysis-parity`, `test-daily-pipeline`)
+- Smoke scripts: `../../bin/` at sawtooth root (`lab-eval`, `test-mcp-*`, `verify-daily-analysis-parity`, `test-daily-pipeline`)
 - Skills: `ship-to-test`, `baseline-replay`, Cromwell skills under `../ai/skills/`
 - Filing guide: `../README.md`

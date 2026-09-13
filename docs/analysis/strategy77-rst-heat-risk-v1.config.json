@@ -1,0 +1,51 @@
+{
+  "experiment": "strategy77_rst_heat_risk_v1",
+  "session_ticket": "winston-lab-eval-grok-cli",
+  "authorization": "lab_geometry_report_only",
+  "banner": "report only — no pack promotion",
+  "trading_strategy_name": "TurtleV1 S2 Breakout55/20",
+  "fill_cadence": "resting_stop_touch",
+  "fill_arm": "resting",
+  "initial_capital": 10000.0,
+  "parent_experiment": "turtle_systems_v1",
+  "parent_cell_key": "B1",
+  "chassis": {
+    "risk_evaluation_strategy": "static",
+    "stop_strategy": "move_to_last_entry",
+    "atr_multiplier": 2.0,
+    "pyramid_atr_multiplier": 0.5,
+    "max_pyramid": 4,
+    "max_positions_per_symbol": 4,
+    "max_positions_per_portfolio": 12,
+    "always_in_market": false,
+    "ignore_first_signal": true,
+    "max_leverage": 3.0,
+    "no_volatility_exit": true,
+    "enable_position_swap": false
+  },
+  "portfolios": [
+    "Portfolio Blue",
+    "Portfolio Mango",
+    "Portfolio Mint",
+    "Portfolio Yellow",
+    "Portfolio Orange",
+    "Portfolio Red",
+    "Portfolio Green",
+    "Portfolio Rust"
+  ],
+  "heat_grid": [
+    { "label": "legacy", "heat_mode": "legacy", "heat": null },
+    { "label": "turtle", "heat_mode": "turtle", "heat": "turtle" }
+  ],
+  "max_risk_grid": [0.01, 0.02],
+  "smoke": {
+    "portfolios": ["Portfolio Mint"],
+    "heat_labels": ["turtle"],
+    "max_risk_grid": [0.01]
+  },
+  "artifact_candidates": [
+    "/ecosystem/docs/analysis",
+    "/workspace/ecosystem/docs/analysis"
+  ],
+  "notes": "UAT panel is 8 books × 2 heat × 2 risk = 32 cells. Setup default is smoke (Mint × turtle × 0.01). FULL=1 expands to the 32. Do not execute the 32 in Phase A."
+}

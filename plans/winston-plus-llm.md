@@ -67,6 +67,8 @@ The opportunity: replace or augment **hard-coded components** (certain analysis 
 
 **Phase 0 (Immediate / Next — foundation)**: MCP tools + nanobot Cromwell bot + ollama container optional. Use the local model inside nanobot for reasoning over tool outputs and phrasing the Telegram reports. Traces collected. Real daily analysis ported. No changes inside WUT/Wv2 services yet.
 
+**WUT lab eval MCP (2026-09-13):** experiment-control tools and Edge (R) reports are **not** this roadmap. They are Ruby + thin MCP ([`winston-lab-eval-grok-cli.md`](winston-lab-eval-grok-cli.md)). Do not route Edge math through Ollama. A later “LLM explain this backtest day” (Phase 1) may *narrate* a stored `edge_v1` snapshot; it must not recompute or replace it.
+
 **Phase 1 — Lightweight Augmentation Inside Monoliths**:
 - Add OllamaClient + prompt templates to Wv2 (and parallel experimental area in WUT).
 - Use for journal note drafting and passed-signal human explanations (stored separately from the rule-based reason codes).
