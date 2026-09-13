@@ -93,7 +93,7 @@ Host-auth initializers for DM and Wv2 are already on `main`; DM image needs **re
 `RAILS_RELATIVE_URL_ROOT=/wut` (plus the stripper in the middleware) means the UI and all asset references are consistently under `/wut/`.
 
 - `http://localhost:3000/wut/` (or tailscale IP + `/wut/`) works directly and produces identical HTML to the MagicDNS `/wut/` path.
-- Bare root (`:3000/`) still loads (or is redirected to `/wut/`) but the emitted links/assets are `/wut/...` for consistency.
+- Bare root (`:3000/`) **must load as 200**, not 302 to `/wut/`. Serve-stripped MagicDNS home is also `GET /`; that redirect is an infinite loop (ADR-016, incident 2026-09-12).
 - Internal compose calls to `/internal/*` (no prefix) continue to work unchanged.
 
 ## Verification smoke (always /wut/)
@@ -113,5 +113,7 @@ curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1:3000/internal/active_m
 
 - Session report: `docs/session-reports/2026-07-04-1511-wut-tailscale-serve-mobile-access.md`
 - Ticket: `docs/tickets/2026-07-04-tailscale-serve-ecosystem-deployment.md`
-- WUT commits: `ee23c3b` (subpath), initializers in same commit
+- WUT commits: `ee23c3b` (subpath, SCRIPT_NAME only); `1a91ef5` (2026-07-06) added the forbidden `/` → `/wut/` redirect
+- Wv2 copy: `740bbae` (2026-07-22) included that redirect
+- ADR-016: never redirect Serve-stripped `/`
 - DM commit: `d9ff97e` (host auth only)

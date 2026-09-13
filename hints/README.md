@@ -36,6 +36,10 @@ DM (like WUT/Wv2) bind-mounts source in root `compose.yml`. If `bin/rails` is "p
 
 Phone pain on Desk Workflow / Pending **desk form** is a **layout** problem (reflow, touch targets). Do not hide live-book fields in closed folds. See `ops-ui-layout-not-information.md`.
 
+### Tailscale Serve home loop
+
+MagicDNS `/wut/` or `/wv2/` returning `302 Location: /wut/` (or `/wv2/`) is Rails redirecting Serve-stripped `/`. Nested pages can still be 200. Never 302 `/` to the Serve prefix. See `tailscale-serve-no-root-redirect.md` and ADR-016.
+
 ### Session discipline
 
 End every substantive session with `/wrap` or `/session-report`. Lessons learned go in session report §13.
