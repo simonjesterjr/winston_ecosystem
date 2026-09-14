@@ -4,7 +4,7 @@
 **Applies to:** Trend Following recipes whose Trading Strategy (TS) is System 2 Donchian — 55-day entry, 20-day exit, Average True Range (ATR) unit stop, `move_to_last_entry`. First Operational Portfolio: **Portfolio Walnut** (TS #266 TurtleV1 S2 Breakout55/20).  
 **Knobs live on the TS** (do not hardcode 0.5N / 2N / 4 lots in code): `atr_multiplier` (stop distance, Walnut **2**), `pyramid_atr_multiplier` (add step, Walnut **0.5**), `max_pyramid` / `max_positions_per_symbol` (Walnut **4**), `stop_strategy` = `move_to_last_entry`.  
 **Glossary:** `CONTEXT.md` — Working Stop, Protective Stop Guardrail, Session Order Slate, Unit Heat, Moment of Truth, Accept-Fill  
-**Related:** ADR-013 §7; `docs/adr/2026-07-25-pyramid-scale-in-price-blocks.md`; ticket `2026-09-09-walnut-paper-session-order-slate.md`  
+**Related:** ADR-013 §7; `docs/adr/2026-07-25-pyramid-scale-in-price-blocks.md`; ticket `2026-09-09-walnut-paper-session-order-slate.md`; WUT RST lab: [`wut-s2-working-stop-lab.md`](wut-s2-working-stop-lab.md)  
 **Origin:** Operator grill 2026-09-09 (IBM walk-through; pyramid step is whatever the TS says)
 
 ## Purpose

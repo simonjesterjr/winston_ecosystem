@@ -26,6 +26,7 @@ Do **not** put one-off incident narrative here — that belongs in `docs/issues/
 | [IBKR Client Portal Gateway](ibkr-cpgw.md) | CPGW up/down, paper SSO, keep-alive window, tickle 401s |
 | [Grok Bot Shell lab eval](grok-bot-shell-lab-eval.md) | list/get/create experiment cells from Shell-on-sawtooth; no Serve `/mcp` |
 | [Lab Sweep](grok-bot-lab-sweep.md) | Grok Bot brief: smoke cells; `FULL=1` UAT opt-in |
+| [RST S2 Working Stop verify](grok-bot-rst-s2-working-stop-verify.md) | Grok Bot UAT: WUT A arm-list + B1–B4 tapes; no 32-cell, no #596 |
 | [Edge Scorecard](grok-bot-edge-scorecard.md) | Grok Bot brief: rank completed cells by Edge (R) |
 
 ## Related
