@@ -53,12 +53,13 @@
 
 ### Commits
 
-- _Pending wrap commit in WUT and ecosystem._
+- `winston_unit_test` `25631e2` — feat(lab): extra-modal LEAP-packaged PBR and nil-safe LeapExitService
+- `ecosystem` `8bf7ba4` — docs: PBR 666/667 LEAP sim audit and WUT faithful-recipe ticket
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` in both repos — dirty at report time
-- Pushed: pending wrap
+- Branch: `main` in both repos — session files pushed; unrelated Edge (R) / factory dirt left unstaged
+- Pushed: yes
 - PR: not opened (commit on `main`)
 
 ---
@@ -147,8 +148,8 @@
 
 ## 11. Handoff & Resume Notes
 
-- **Where I left off:** LeapExitService accepted; specs green; wrap in progress.
-- **Next concrete step:** Reset or recreate Orange RST LEAP $30k cell and `execute` after this commit. Do not reuse #666.
+- **Where I left off:** Wrap complete; follow-ups skipped (already ticketed).
+- **Next concrete step:** Reset or recreate Orange RST LEAP $30k cell and `execute`. Do not reuse #666.
 - **Files to read first:**
   1. `ecosystem/docs/analysis/2026-09-14-pbr667-orange-leap30k-attempt.md`
   2. `winston_unit_test/docs/tickets/2026-09-14-wut-leap-packaged-pbr-faithful-sim.md`
@@ -174,6 +175,8 @@
 ---
 
 ## 14. Follow-up Actions
+
+Wrap promotion: **skip all** (2026-09-14) — no new tickets.
 
 - [ ] Re-execute Orange RST LEAP $30k (#667 or new cell) — owner: operator — due: next lab session — **See:** ticket `2026-09-14-wut-leap-packaged-pbr-faithful-sim.md`
 - [ ] CPGW 1×1 read-only matrix — already ticketed `2026-09-09-extra-modal-leap-unit-evaluation.md`
