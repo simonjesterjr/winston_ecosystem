@@ -29,18 +29,28 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 |---------|------|
 | Winston Ecosystem View (four-plane console) | [`2026-09-07-winston-ecosystem-view.md`](2026-09-07-winston-ecosystem-view.md) |
 | Trend Following six-principles competency | [`2026-09-04-tf-foundations-INDEX.md`](2026-09-04-tf-foundations-INDEX.md) |
+| DM ponytail cleanup (2026-09-13) | [`../../../data_manager/docs/tickets/INDEX.md`](../../../data_manager/docs/tickets/INDEX.md) |
 
 ## Active tickets
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
-| P2 | In progress | [`2026-09-11-measuring-edge-scoreboard.md`](2026-09-11-measuring-edge-scoreboard.md) | Edge (R) scoreboard — WUT PBR + Wv2 live/DAR/MMS/positions |
+| P1 | In progress | [`2026-09-04-tf-p3-live-sizing-and-capital-authority.md`](2026-09-04-tf-p3-live-sizing-and-capital-authority.md) | Spending Capacity + Capital Authority into sizer/slate — [plan](../../plans/spending-capacity-and-leap-fulfillment.md) |
+| P1 | Proposed | [`2026-09-09-extra-modal-leap-unit-evaluation.md`](2026-09-09-extra-modal-leap-unit-evaluation.md) | Extra-modal LEAP vs share unit — read-only 1×1 unblocked |
+| P1 | In progress | [`../../../winston_unit_test/docs/tickets/2026-09-14-wut-leap-packaged-pbr-faithful-sim.md`](../../../winston_unit_test/docs/tickets/2026-09-14-wut-leap-packaged-pbr-faithful-sim.md) | WUT LEAP-packaged PBR sim (lab Black-Scholes; #666 was hybrid shares) |
+| P2 | Proposed | [`../../../data_manager/docs/tickets/2026-09-13-dm-ponytail-delete-dead-skeleton.md`](../../../data_manager/docs/tickets/2026-09-13-dm-ponytail-delete-dead-skeleton.md) | DM ponytail 1/5 — delete dead skeleton surface |
+| P2 | Proposed | [`../../../data_manager/docs/tickets/2026-09-13-dm-ponytail-stop-persisting-bars-json.md`](../../../data_manager/docs/tickets/2026-09-13-dm-ponytail-stop-persisting-bars-json.md) | DM ponytail 4/5 — stop persisting `bars.json` |
+| P3 | Proposed | [`../../../data_manager/docs/tickets/2026-09-13-dm-ponytail-drop-unused-gems.md`](../../../data_manager/docs/tickets/2026-09-13-dm-ponytail-drop-unused-gems.md) | DM ponytail 2/5 — drop unused gems |
+| P3 | Proposed | [`../../../data_manager/docs/tickets/2026-09-13-dm-ponytail-drop-unused-frontend.md`](../../../data_manager/docs/tickets/2026-09-13-dm-ponytail-drop-unused-frontend.md) | DM ponytail 3/5 — drop unused frontend stack |
+| P3 | Proposed | [`../../../data_manager/docs/tickets/2026-09-13-dm-ponytail-shrink-standardizer.md`](../../../data_manager/docs/tickets/2026-09-13-dm-ponytail-shrink-standardizer.md) | DM ponytail 5/5 — shrink standardizer |
+| P2 | In progress | [`2026-09-11-measuring-edge-scoreboard.md`](2026-09-11-measuring-edge-scoreboard.md) | Edge (R) + E-ratio scoreboard — WUT PBR + Wv2 live/DAR/MMS |
 | P2 | Proposed | [`2026-09-11-wev-pulse-ibkr-cpgw-session-truth.md`](2026-09-11-wev-pulse-ibkr-cpgw-session-truth.md) | Pulse `ibkr_cpgw` from brokerage session, not tickle cron |
 | P3 | Proposed | [`2026-09-11-fulfillment-desk-adapters-yield-browser-verify.md`](2026-09-11-fulfillment-desk-adapters-yield-browser-verify.md) | Browser-verify All adapters header + Session Yield |
 | P2 | Proposed | [`2026-09-10-unit-risk-vs-parked-gtc.md`](2026-09-10-unit-risk-vs-parked-gtc.md) | Remaining unit risk vs parked GTC when the row stop differs |
 | P3 | Proposed | [`2026-09-10-signal-inspect-first-paint-eval-card.md`](2026-09-10-signal-inspect-first-paint-eval-card.md) | Browser-verify Signal Inspect first-paint Evaluation card |
 | P3 | Proposed | [`2026-09-10-dar-wq-open-lots-unit-risk.md`](2026-09-10-dar-wq-open-lots-unit-risk.md) | Unit-risk column on DAR and Winston Quiver open-lot tables |
 | P3 | Proposed | [`2026-09-09-wut-dataset-dm-sync-dead-jobs.md`](2026-09-09-wut-dataset-dm-sync-dead-jobs.md) | WUT DataSetDmSyncJob dead-lettered on unacquirable / unmapped symbols |
+| P1 | In progress | [`2026-09-13-cpgw-force-true-empty-open-orders.md`](2026-09-13-cpgw-force-true-empty-open-orders.md) | BG `open_orders` empty while DUT still holds live Day/GTC — [issue](../issues/2026-09-13-cpgw-force-true-empty-open-orders.md) |
 | P1 | In progress | [`2026-09-09-walnut-paper-session-order-slate.md`](2026-09-09-walnut-paper-session-order-slate.md) | Walnut paper Session Order Slate (stop-market) — first STP round parked; fill-driven repark in progress |
 | P1 | Proposed | [`2026-09-10-bg-broker-push-websocket-eval.md`](2026-09-10-bg-broker-push-websocket-eval.md) | Evaluate IBKR/Schwab push/websocket vs 15-minute poll — unattended listener depends on Winston-owned login |
 | P1 | Done | [`2026-09-09-walnut-stp-accept-fill-day-entry.md`](2026-09-09-walnut-stp-accept-fill-day-entry.md) | Prove Accept-Fill at DUT print — DD / DBC / SCHZ 2026-09-10 (archive after wrap) |
