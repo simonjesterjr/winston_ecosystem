@@ -35,8 +35,11 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P1 | Proposed | [`2026-09-15-wv2-leap-packaging-fields.md`](2026-09-15-wv2-leap-packaging-fields.md) | Wv2 Model B — stamp OCC packaging on handoff/slate — [plan](../../plans/wv2-bg-ibkr-leap-fulfillment.md) · [ADR-017](../adr/ADR-017-leap-packaging-precalc-occ.md) |
+| P1 | Proposed | [`2026-09-15-bg-ibkr-opt-order-intent-prove.md`](2026-09-15-bg-ibkr-opt-order-intent-prove.md) | BG OPT Order Intent + IBKR paper 1×1 prove — [plan](../../plans/wv2-bg-ibkr-leap-fulfillment.md) · [ADR-017](../adr/ADR-017-leap-packaging-precalc-occ.md) |
+| P1 | Proposed | [`2026-09-14-wev-cuboid-pulse-highlight-active-work.md`](2026-09-14-wev-cuboid-pulse-highlight-active-work.md) | WEV — pulse/highlight cuboid while Pulse Work is active — [ops](https://sawtooth-ai.tail944ffb.ts.net/wv2/operations/ecosystem) |
 | P1 | In progress | [`2026-09-04-tf-p3-live-sizing-and-capital-authority.md`](2026-09-04-tf-p3-live-sizing-and-capital-authority.md) | Spending Capacity + Capital Authority into sizer/slate — [plan](../../plans/spending-capacity-and-leap-fulfillment.md) |
-| P1 | Proposed | [`2026-09-09-extra-modal-leap-unit-evaluation.md`](2026-09-09-extra-modal-leap-unit-evaluation.md) | Extra-modal LEAP vs share unit — read-only 1×1 unblocked |
+| P1 | Proposed | [`2026-09-09-extra-modal-leap-unit-evaluation.md`](2026-09-09-extra-modal-leap-unit-evaluation.md) | Extra-modal LEAP vs share unit — read-only 1×1 unblocked — [plan](../../plans/wv2-bg-ibkr-leap-fulfillment.md) · [ADR-017](../adr/ADR-017-leap-packaging-precalc-occ.md) · [law](../business-context/leap-extra-modal-proxy.md) |
 | P1 | In progress | [`../../../winston_unit_test/docs/tickets/2026-09-14-wut-leap-packaged-pbr-faithful-sim.md`](../../../winston_unit_test/docs/tickets/2026-09-14-wut-leap-packaged-pbr-faithful-sim.md) | WUT LEAP-packaged PBR sim (lab Black-Scholes; #666 was hybrid shares) |
 | P2 | Proposed | [`../../../data_manager/docs/tickets/2026-09-13-dm-ponytail-delete-dead-skeleton.md`](../../../data_manager/docs/tickets/2026-09-13-dm-ponytail-delete-dead-skeleton.md) | DM ponytail 1/5 — delete dead skeleton surface |
 | P2 | Proposed | [`../../../data_manager/docs/tickets/2026-09-13-dm-ponytail-stop-persisting-bars-json.md`](../../../data_manager/docs/tickets/2026-09-13-dm-ponytail-stop-persisting-bars-json.md) | DM ponytail 4/5 — stop persisting `bars.json` |
@@ -55,7 +58,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P1 | Proposed | [`2026-09-10-bg-broker-push-websocket-eval.md`](2026-09-10-bg-broker-push-websocket-eval.md) | Evaluate IBKR/Schwab push/websocket vs 15-minute poll — unattended listener depends on Winston-owned login |
 | P1 | Done | [`2026-09-09-walnut-stp-accept-fill-day-entry.md`](2026-09-09-walnut-stp-accept-fill-day-entry.md) | Prove Accept-Fill at DUT print — DD / DBC / SCHZ 2026-09-10 (archive after wrap) |
 | P1 | In progress | [`2026-09-09-walnut-day-stp-close-reconcile.md`](2026-09-09-walnut-day-stp-close-reconcile.md) | After cash close — DUT-first overnight rebuild expires DAY already gone |
-| P1 | Proposed — blocked | [`2026-09-09-extra-modal-leap-unit-evaluation.md`](2026-09-09-extra-modal-leap-unit-evaluation.md) | Extra-modal LEAP vs share unit — blocked until Walnut grain is automated |
+| P1 | Proposed — see unblocked row | [`2026-09-09-extra-modal-leap-unit-evaluation.md`](2026-09-09-extra-modal-leap-unit-evaluation.md) | Extra-modal LEAP (historical blocked row) — prefer unblocked row + [plan](../../plans/wv2-bg-ibkr-leap-fulfillment.md) · [ADR-017](../adr/ADR-017-leap-packaging-precalc-occ.md) · [law](../business-context/leap-extra-modal-proxy.md) |
 | P2 | Proposed | [`2026-09-10-dm-restandardize-macd-corpus.md`](2026-09-10-dm-restandardize-macd-corpus.md) | Re-bake remaining DM parquet for MACD 12/26/9 |
 | P2 | Proposed | [`2026-09-10-dm-market-issuer-exchange-metadata.md`](2026-09-10-dm-market-issuer-exchange-metadata.md) | Record issuer name and exchange on DM Market / registry |
 | P3 | Proposed | [`2026-09-10-signal-inspect-focus-chart-browser-verify.md`](2026-09-10-signal-inspect-focus-chart-browser-verify.md) | Browser-verify Signal Inspect Focus chart |

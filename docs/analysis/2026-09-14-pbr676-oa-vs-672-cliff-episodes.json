@@ -1,0 +1,585 @@
+{
+  "generated_at": "2026-09-15T00:01:52Z",
+  "pbr_id": 676,
+  "twin_of": 672,
+  "cell_key": "red_rst_turtle_r01_leap30k_oa",
+  "metrics": {
+    "level_correlation_classic_vs_oa": 0.425812,
+    "classic_cliffs_ge_15k": 33,
+    "oa_cliffs_ge_15k": 0,
+    "oa_cliffs_ge_5k": 2,
+    "artifact_cliffs_ge_15k_oa_lt_half": 33,
+    "sum_classic_drop_on_artifacts": 1340613.03,
+    "sum_oa_drop_on_artifacts": 19467.85,
+    "classic_end": 70038.77,
+    "oa_end": 65186.67,
+    "classic_max_dd_pct": 81.7613,
+    "oa_max_dd_pct": 35.24
+  },
+  "artifact_rule": "classic_day_drop >= 15000 AND oa_day_drop < 0.5 * classic_day_drop",
+  "artifact_episodes": [
+    {
+      "date": "2023-05-17",
+      "prev_date": "2023-05-16",
+      "classic_prev": 107682.6,
+      "classic": 27006.18,
+      "classic_drop": 80676.41,
+      "oa_prev": 29941.92,
+      "oa": 27006.18,
+      "oa_drop": 2935.74,
+      "cash_prev": 16487.6,
+      "cash": 27006.18,
+      "closes": 4,
+      "realized_pnl": -1695.21,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2022-03-29",
+      "prev_date": "2022-03-28",
+      "classic_prev": 114186.57,
+      "classic": 34566.65,
+      "classic_drop": 79619.92,
+      "oa_prev": 33968.3,
+      "oa": 32982.53,
+      "oa_drop": 985.77,
+      "cash_prev": 21444.15,
+      "cash": 32343.75,
+      "closes": 4,
+      "realized_pnl": -955.14,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2023-02-09",
+      "prev_date": "2023-02-08",
+      "classic_prev": 119715.73,
+      "classic": 40834.97,
+      "classic_drop": 78880.76,
+      "oa_prev": 30082.55,
+      "oa": 29677.64,
+      "oa_drop": 404.91,
+      "cash_prev": 13046.15,
+      "cash": 25153.69,
+      "closes": 4,
+      "realized_pnl": -86.49,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2021-11-22",
+      "prev_date": "2021-11-19",
+      "classic_prev": 127072.21,
+      "classic": 48389.07,
+      "classic_drop": 78683.14,
+      "oa_prev": 37181.44,
+      "oa": 34932.99,
+      "oa_drop": 2248.44,
+      "cash_prev": 16235.93,
+      "cash": 29075.88,
+      "closes": 4,
+      "realized_pnl": -1210.29,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2021-06-03",
+      "prev_date": "2021-06-02",
+      "classic_prev": 119786.52,
+      "classic": 50394.78,
+      "classic_drop": 69391.73,
+      "oa_prev": 37221.81,
+      "oa": 35575.29,
+      "oa_drop": 1646.51,
+      "cash_prev": 15407.72,
+      "cash": 28110.3,
+      "closes": 4,
+      "realized_pnl": -547.65,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2024-11-11",
+      "prev_date": "2024-11-08",
+      "classic_prev": 98917.23,
+      "classic": 33983.12,
+      "classic_drop": 64934.11,
+      "oa_prev": 35248.29,
+      "oa": 33983.12,
+      "oa_drop": 1265.18,
+      "cash_prev": 25576.55,
+      "cash": 33983.12,
+      "closes": 4,
+      "realized_pnl": -917.09,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2024-05-02",
+      "prev_date": "2024-05-01",
+      "classic_prev": 103836.26,
+      "classic": 42694.05,
+      "classic_drop": 61142.21,
+      "oa_prev": 35713.65,
+      "oa": 35534.68,
+      "oa_drop": 178.97,
+      "cash_prev": 19106.54,
+      "cash": 29297.17,
+      "closes": 4,
+      "realized_pnl": 2587.35,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2026-03-18",
+      "prev_date": "2026-03-17",
+      "classic_prev": 129750.49,
+      "classic": 69542.48,
+      "classic_drop": 60208.01,
+      "oa_prev": 69694.86,
+      "oa": 67579.72,
+      "oa_drop": 2115.15,
+      "cash_prev": 39087.69,
+      "cash": 66074.48,
+      "closes": 4,
+      "realized_pnl": 18159.56,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2024-09-26",
+      "prev_date": "2024-09-25",
+      "classic_prev": 125485.54,
+      "classic": 73066.83,
+      "classic_drop": 52418.71,
+      "oa_prev": 36201.17,
+      "oa": 36376.88,
+      "oa_drop": -175.71,
+      "cash_prev": 20574.09,
+      "cash": 27257.75,
+      "closes": 4,
+      "realized_pnl": 1129.3,
+      "markets": [
+        "XLV"
+      ]
+    },
+    {
+      "date": "2023-11-01",
+      "prev_date": "2023-10-31",
+      "classic_prev": 99175.71,
+      "classic": 48192.55,
+      "classic_drop": 50983.16,
+      "oa_prev": 27290.67,
+      "oa": 27153.8,
+      "oa_drop": 136.87,
+      "cash_prev": 12594.33,
+      "cash": 19743.55,
+      "closes": 3,
+      "realized_pnl": -97.39,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2025-05-14",
+      "prev_date": "2025-05-13",
+      "classic_prev": 98051.8,
+      "classic": 49245.66,
+      "classic_drop": 48806.14,
+      "oa_prev": 40473.96,
+      "oa": 39511.83,
+      "oa_drop": 962.13,
+      "cash_prev": 22585.82,
+      "cash": 34275.97,
+      "closes": 4,
+      "realized_pnl": 5559.71,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2024-04-02",
+      "prev_date": "2024-04-01",
+      "classic_prev": 144869.81,
+      "classic": 97856.01,
+      "classic_drop": 47013.8,
+      "oa_prev": 33869.04,
+      "oa": 33841.51,
+      "oa_drop": 27.54,
+      "cash_prev": 13204.22,
+      "cash": 21576.06,
+      "closes": 4,
+      "realized_pnl": 2646.67,
+      "markets": [
+        "XLV"
+      ]
+    },
+    {
+      "date": "2024-09-19",
+      "prev_date": "2024-09-18",
+      "classic_prev": 137149.07,
+      "classic": 93541.59,
+      "classic_drop": 43607.48,
+      "oa_prev": 36612.97,
+      "oa": 36586.36,
+      "oa_drop": 26.61,
+      "cash_prev": 19739.67,
+      "cash": 26365.91,
+      "closes": 2,
+      "realized_pnl": 132.45,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2021-09-13",
+      "prev_date": "2021-09-10",
+      "classic_prev": 92215.18,
+      "classic": 50807.84,
+      "classic_drop": 41407.35,
+      "oa_prev": 36518.91,
+      "oa": 36708.25,
+      "oa_drop": -189.34,
+      "cash_prev": 23605.32,
+      "cash": 30718.31,
+      "closes": 4,
+      "realized_pnl": 1098.16,
+      "markets": [
+        "XLV"
+      ]
+    },
+    {
+      "date": "2021-06-01",
+      "prev_date": "2021-05-28",
+      "classic_prev": 140022.66,
+      "classic": 100794.82,
+      "classic_drop": 39227.84,
+      "oa_prev": 37373.34,
+      "oa": 37074.49,
+      "oa_drop": 298.85,
+      "cash_prev": 12977.66,
+      "cash": 18927.18,
+      "closes": 4,
+      "realized_pnl": -164.99,
+      "markets": [
+        "XLV"
+      ]
+    },
+    {
+      "date": "2024-09-03",
+      "prev_date": "2024-08-30",
+      "classic_prev": 124844.14,
+      "classic": 89953.21,
+      "classic_drop": 34890.92,
+      "oa_prev": 37490.75,
+      "oa": 37101.6,
+      "oa_drop": 389.15,
+      "cash_prev": 25051.06,
+      "cash": 29300.89,
+      "closes": 1,
+      "realized_pnl": -392.15,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2024-08-21",
+      "prev_date": "2024-08-20",
+      "classic_prev": 124075.47,
+      "classic": 89487.21,
+      "classic_drop": 34588.26,
+      "oa_prev": 36997.35,
+      "oa": 36926.49,
+      "oa_drop": 70.86,
+      "cash_prev": 25293.83,
+      "cash": 29693.05,
+      "closes": 1,
+      "realized_pnl": -199.7,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2023-08-01",
+      "prev_date": "2023-07-31",
+      "classic_prev": 59619.45,
+      "classic": 25538.37,
+      "classic_drop": 34081.08,
+      "oa_prev": 25670.92,
+      "oa": 25538.37,
+      "oa_drop": 132.55,
+      "cash_prev": 21346.26,
+      "cash": 25538.37,
+      "closes": 3,
+      "realized_pnl": -396.98,
+      "markets": [
+        "XLV"
+      ]
+    },
+    {
+      "date": "2022-02-15",
+      "prev_date": "2022-02-14",
+      "classic_prev": 66152.31,
+      "classic": 34127.83,
+      "classic_drop": 32024.48,
+      "oa_prev": 34370.52,
+      "oa": 34127.83,
+      "oa_drop": 242.69,
+      "cash_prev": 29709.31,
+      "cash": 34127.83,
+      "closes": 1,
+      "realized_pnl": -257.33,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2022-12-27",
+      "prev_date": "2022-12-23",
+      "classic_prev": 60902.57,
+      "classic": 29917.61,
+      "classic_drop": 30984.96,
+      "oa_prev": 30392.91,
+      "oa": 29917.61,
+      "oa_drop": 475.3,
+      "cash_prev": 25312.57,
+      "cash": 29917.61,
+      "closes": 1,
+      "realized_pnl": -459.82,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2024-09-06",
+      "prev_date": "2024-09-05",
+      "classic_prev": 114954.44,
+      "classic": 88629.4,
+      "classic_drop": 26325.04,
+      "oa_prev": 36356.47,
+      "oa": 36002.76,
+      "oa_drop": 353.72,
+      "cash_prev": 25795.6,
+      "cash": 29117.44,
+      "closes": 1,
+      "realized_pnl": -183.46,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2024-07-02",
+      "prev_date": "2024-07-01",
+      "classic_prev": 68854.59,
+      "classic": 43979.48,
+      "classic_drop": 24875.11,
+      "oa_prev": 35819.41,
+      "oa": 36275.36,
+      "oa_drop": -455.94,
+      "cash_prev": 25739.11,
+      "cash": 28233.12,
+      "closes": 2,
+      "realized_pnl": -397.71,
+      "markets": [
+        "XLV"
+      ]
+    },
+    {
+      "date": "2022-12-12",
+      "prev_date": "2022-12-09",
+      "classic_prev": 54871.44,
+      "classic": 30377.43,
+      "classic_drop": 24494.0,
+      "oa_prev": 30618.95,
+      "oa": 30377.43,
+      "oa_drop": 241.51,
+      "cash_prev": 26911.44,
+      "cash": 30377.43,
+      "closes": 1,
+      "realized_pnl": -206.19,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2024-02-13",
+      "prev_date": "2024-02-12",
+      "classic_prev": 106106.28,
+      "classic": 82145.69,
+      "classic_drop": 23960.59,
+      "oa_prev": 32405.02,
+      "oa": 30923.99,
+      "oa_drop": 1481.02,
+      "cash_prev": 10559.12,
+      "cash": 20470.25,
+      "closes": 4,
+      "realized_pnl": 4219.59,
+      "markets": [
+        "URA"
+      ]
+    },
+    {
+      "date": "2020-12-09",
+      "prev_date": "2020-12-08",
+      "classic_prev": 63930.34,
+      "classic": 40811.21,
+      "classic_drop": 23119.12,
+      "oa_prev": 31285.54,
+      "oa": 30501.67,
+      "oa_drop": 783.86,
+      "cash_prev": 19968.74,
+      "cash": 27331.21,
+      "closes": 4,
+      "realized_pnl": 725.24,
+      "markets": [
+        "URA"
+      ]
+    },
+    {
+      "date": "2022-01-18",
+      "prev_date": "2022-01-14",
+      "classic_prev": 56927.23,
+      "classic": 34385.16,
+      "classic_drop": 22542.07,
+      "oa_prev": 34626.21,
+      "oa": 34385.16,
+      "oa_drop": 241.06,
+      "cash_prev": 32015.39,
+      "cash": 34385.16,
+      "closes": 2,
+      "realized_pnl": -438.82,
+      "markets": [
+        "XLV"
+      ]
+    },
+    {
+      "date": "2023-11-30",
+      "prev_date": "2023-11-29",
+      "classic_prev": 78654.02,
+      "classic": 56531.86,
+      "classic_drop": 22122.17,
+      "oa_prev": 27755.0,
+      "oa": 28509.92,
+      "oa_drop": -754.92,
+      "cash_prev": 13910.66,
+      "cash": 16054.12,
+      "closes": 1,
+      "realized_pnl": -197.34,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2021-02-22",
+      "prev_date": "2021-02-19",
+      "classic_prev": 78426.52,
+      "classic": 57076.63,
+      "classic_drop": 21349.88,
+      "oa_prev": 36033.93,
+      "oa": 35616.29,
+      "oa_drop": 417.64,
+      "cash_prev": 15836.03,
+      "cash": 23020.84,
+      "closes": 5,
+      "realized_pnl": -540.26,
+      "markets": [
+        "PHYMF",
+        "XLV"
+      ]
+    },
+    {
+      "date": "2022-11-21",
+      "prev_date": "2022-11-18",
+      "classic_prev": 52193.28,
+      "classic": 30942.58,
+      "classic_drop": 21250.7,
+      "oa_prev": 31148.56,
+      "oa": 30942.58,
+      "oa_drop": 205.98,
+      "cash_prev": 28148.28,
+      "cash": 30942.58,
+      "closes": 1,
+      "realized_pnl": -260.2,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2021-01-27",
+      "prev_date": "2021-01-26",
+      "classic_prev": 94968.69,
+      "classic": 76702.82,
+      "classic_drop": 18265.87,
+      "oa_prev": 34358.77,
+      "oa": 32120.79,
+      "oa_drop": 2237.99,
+      "cash_prev": 13863.25,
+      "cash": 18427.9,
+      "closes": 4,
+      "realized_pnl": -17.44,
+      "markets": [
+        "URA"
+      ]
+    },
+    {
+      "date": "2023-07-06",
+      "prev_date": "2023-07-05",
+      "classic_prev": 43558.01,
+      "classic": 26119.32,
+      "classic_drop": 17438.69,
+      "oa_prev": 26377.54,
+      "oa": 26119.32,
+      "oa_drop": 258.22,
+      "cash_prev": 21097.25,
+      "cash": 26119.32,
+      "closes": 4,
+      "realized_pnl": -886.87,
+      "markets": [
+        "URA"
+      ]
+    },
+    {
+      "date": "2024-07-22",
+      "prev_date": "2024-07-19",
+      "classic_prev": 114034.9,
+      "classic": 97832.18,
+      "classic_drop": 16202.72,
+      "oa_prev": 37542.22,
+      "oa": 37738.55,
+      "oa_drop": -196.33,
+      "cash_prev": 20084.74,
+      "cash": 22302.14,
+      "closes": 1,
+      "realized_pnl": -376.62,
+      "markets": [
+        "PHYMF"
+      ]
+    },
+    {
+      "date": "2021-06-18",
+      "prev_date": "2021-06-17",
+      "classic_prev": 48963.27,
+      "classic": 33866.67,
+      "classic_drop": 15096.6,
+      "oa_prev": 34342.54,
+      "oa": 33866.67,
+      "oa_drop": 475.87,
+      "cash_prev": 27791.55,
+      "cash": 33866.67,
+      "closes": 4,
+      "realized_pnl": 1645.57,
+      "markets": [
+        "URA"
+      ]
+    }
+  ],
+  "note": "Classic equity marks open LEAPs as underlying*units*100; OA uses BS. Cliffs on classic with tiny OA/cash moves are mark artifacts."
+}

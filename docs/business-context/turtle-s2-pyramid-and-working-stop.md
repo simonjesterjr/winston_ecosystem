@@ -4,7 +4,7 @@
 **Applies to:** Trend Following recipes whose Trading Strategy (TS) is System 2 Donchian — 55-day entry, 20-day exit, Average True Range (ATR) unit stop, `move_to_last_entry`. First Operational Portfolio: **Portfolio Walnut** (TS #266 TurtleV1 S2 Breakout55/20).  
 **Knobs live on the TS** (do not hardcode 0.5N / 2N / 4 lots in code): `atr_multiplier` (stop distance, Walnut **2**), `pyramid_atr_multiplier` (add step, Walnut **0.5**), `max_pyramid` / `max_positions_per_symbol` (Walnut **4**), `stop_strategy` = `move_to_last_entry`.  
 **Glossary:** `CONTEXT.md` — Working Stop, Protective Stop Guardrail, Session Order Slate, Unit Heat, Moment of Truth, Accept-Fill  
-**Related:** ADR-013 §7; `docs/adr/2026-07-25-pyramid-scale-in-price-blocks.md`; ticket `2026-09-09-walnut-paper-session-order-slate.md`; WUT RST lab: [`wut-s2-working-stop-lab.md`](wut-s2-working-stop-lab.md)  
+**Related:** [`leap-extra-modal-proxy.md`](leap-extra-modal-proxy.md); ADR-013 §7; `docs/adr/2026-07-25-pyramid-scale-in-price-blocks.md`; ticket `2026-09-09-walnut-paper-session-order-slate.md`; WUT RST lab: [`wut-s2-working-stop-lab.md`](wut-s2-working-stop-lab.md)  
 **Origin:** Operator grill 2026-09-09 (IBM walk-through; pyramid step is whatever the TS says)
 
 ## Purpose
@@ -18,6 +18,8 @@ State when the **2N protective stop** is in force, when the **20-day Donchian ex
 Until that name holds **max lots**, the 20-day breakout is **not evaluated and not in play**. Only 2N and the next add exist.
 
 Once that name is **maxed**, 20-day **is** watched each session. The working stop stays at last-entry 2N until the 20-day trigger has **passed** that 2N level in the trade’s favor. Then the working stop **is** the 20-day, which may ratchet (and may go through the last lot’s purchase — all units profitable — that is good). A pierce of the then-current Working Stop is a stop-out flatten-all (`move_to_last_entry`).
+
+**Desk lock (2026-09-14):** **sticky 20D_BO** is correct (not doctrine A better-of). Lab checklist still calls this phase B3 (B1 under-max silent → B2 max-fill bar → B3/sticky 20D_BO when 20d has passed last-entry 2N → B4 pierce). Last-entry ±2N is **not** re-ATRd daily under `move_to_last_entry`.
 
 ## Long walk-through (operator IBM)
 
@@ -78,4 +80,4 @@ Unfilled DAY entries/pyramids die at the close and are rebuilt. Protective GTC i
 
 ## Protective Stop Guardrail
 
-Any open Turtle lot has a Working Stop, so it **must** have a GTC stop-market at the broker (2N or 20-day per the phases above). Evaluate Interactive Brokers open lots vs resting protective stops continuously. A naked lot is a fail, not a gap to notice later. Extra-modal fills of the same signal: stop is still on the underlying; selling the LEAP/related is **HITL**. See `human-gated-desk-and-fulfillment.md`.
+Any open Turtle lot has a Working Stop, so it **must** have a GTC stop-market at the broker (2N or 20-day per the phases above). Evaluate Interactive Brokers open lots vs resting protective stops continuously. A naked lot is a fail, not a gap to notice later. Extra-modal fills of the same signal: stop is still on the underlying; selling the LEAP/related is **HITL**. See `human-gated-desk-and-fulfillment.md` and [`leap-extra-modal-proxy.md`](leap-extra-modal-proxy.md).

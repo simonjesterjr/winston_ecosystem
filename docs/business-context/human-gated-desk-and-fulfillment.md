@@ -97,7 +97,7 @@ Human may ignore links; ignore past the action window = **process miss**, not st
 
 Example: signal sized 206 shares ABC; human confirms 2× Jan 2028 LEAP calls → **booked** cash uses contracts × premium × multiplier; **signal** spine keeps the 206 @ next-open story. Do not rewrite booked history to synthetic stock.
 
-**Extra-Modal Fulfillment** is normal: equity signals may fill via LEAPs/options; commodity / futures-theme signals may fill via futures, options, or CLETF-class ETFs — asynchronously, with different size/timing. **Link** signal ↔ fulfillment; **DA continues** on the signal **Market** on the Book for signal generation and methodology risk; **cash/returns** follow packaging on the Booked Capital Spine. Do not re-point Books or DA to the fill symbol.
+**Extra-Modal Fulfillment** is normal: equity signals may fill via LEAPs/options; commodity / futures-theme signals may fill via futures, options, or CLETF-class ETFs — asynchronously, with different size/timing. **Link** signal ↔ fulfillment; **DA continues** on the signal **Market** on the Book for signal generation and methodology risk; **cash/returns** follow packaging on the Booked Capital Spine. Do not re-point Books or DA to the fill symbol. Full proxy law (cash, stops, Exit Capital Reconcile, lab knobs): **`leap-extra-modal-proxy.md`**.
 
 ## Stops
 
@@ -106,6 +106,14 @@ Example: signal sized 206 shares ABC; human confirms 2× Jan 2028 LEAP calls →
 | Signal / default stop | ATR × methodology at open (or strategy update) |
 | **Working Stop** | Current stop on the open **Position** (desk-updatable); **Daily Analysis** evaluates it each session |
 | Broker stop | Fulfillment print — slate / live SoT; not a substitute for DA evaluating the Working Stop |
+
+Turtle S2 (Walnut and like recipes): while a name is under max lots, 20-day is **not in play**; all lots share last-entry 2N and a DAY pyramid at the TS step. After max lots, 20-day is evaluated and may **replace** 2N when it has passed that stop in the trade’s favor. Full rule: **`turtle-s2-pyramid-and-working-stop.md`**.
+
+### Protective Stop Guardrail
+
+For **any** open Position that has a Working Stop, a protective order must be live at the broker when that market/adapter can carry one. On Interactive Brokers paper/live stock and ETF lots this is a continuous check: open lots vs resting GTC stop-market. Naked lot → attention (replace, never cancel-all).
+
+**Extra-modal** (LEAP, option, related instrument): Winston still evaluates the stop on the **underlying signal Market**. A trigger does **not** auto-fire a stop on the option unless packaging says so — it is a **HITL** desk task to sell the related fill. Recipes with no stop (some Winston Quiver lots) are out of this guardrail.
 
 ### Stop-Out Reconciliation
 
@@ -148,6 +156,7 @@ Same seed + fingerprint = one series (no parallel second OP). Different fingerpr
 
 ## Related
 
+- [`leap-extra-modal-proxy.md`](leap-extra-modal-proxy.md) — LEAP/option packaging vs underlying signal (Wv2 handoff)  
 - ADR-009 — this boundary  
 - ADR-006 — lineage, engagement, Active, Capital Activation  
 - `interfaces/winston-mcp-tools.md`  

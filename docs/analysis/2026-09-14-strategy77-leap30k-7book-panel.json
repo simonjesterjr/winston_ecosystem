@@ -1,0 +1,695 @@
+{
+  "banner": "report_only_no_pack_promotion",
+  "date": "2026-09-14",
+  "experiment": "strategy77_rst_parity_v1",
+  "panel": "leap30k_7books",
+  "doctrine": {
+    "edge_not_share_r_comparable": true,
+    "rank_within_leap_panel_only": true,
+    "orange_667_is_reference_not_rank_peer": true
+  },
+  "knobs_echo": {
+    "trading_strategy": "TS#77 TurtleV1 S2",
+    "initial_capital": 30000,
+    "heat": "turtle",
+    "risk": 0.01,
+    "fill_cadence": "resting_stop_touch",
+    "leap_fulfillment": "all",
+    "leap_atr_offset": 0,
+    "leap_expiration_days": 730,
+    "experiment": "strategy77_rst_parity_v1"
+  },
+  "reference": {
+    "pbr_id": 667,
+    "book": "orange",
+    "cell_key": "orange_rst_turtle_r01_leap30k",
+    "status": "completed",
+    "reference": true,
+    "replaced_pbr_id": null,
+    "experiment": "strategy77_rst_parity_v1",
+    "knobs": {
+      "trading_strategy_id": 77,
+      "trading_strategy_name": "TurtleV1 S2 Breakout55/20",
+      "fill_cadence": "resting_stop_touch",
+      "heat_mode": "turtle",
+      "heat": {
+        "unit_risk_fraction": 0.01,
+        "max_units_per_market": 4,
+        "max_units_closely_correlated_same_direction": 6,
+        "max_units_loosely_correlated_same_direction": 10,
+        "max_units_single_direction": 12,
+        "correlation": {
+          "source": "pcs_pairwise",
+          "close_threshold": 0.7,
+          "loose_threshold": 0.4,
+          "window": "methodology"
+        }
+      },
+      "risk_percentage": 0.01,
+      "initial_capital": 30000.0,
+      "leap_fulfillment": "all",
+      "leap_atr_offset": 0.0,
+      "leap_expiration_days": 730
+    },
+    "window": {
+      "start_date": "2021-05-10",
+      "end_date": "2026-09-11",
+      "processed_days": 1349,
+      "total_days": 1349
+    },
+    "metrics": {
+      "edge_r": 117.3547,
+      "edge_n": 283,
+      "profit_factor": 4.2223,
+      "total_return_pct": 363.62980150533167,
+      "max_drawdown_pct": 89.04054708003584,
+      "total_trades": 284
+    },
+    "leap_fidelity": {
+      "closes": 283,
+      "is_option": 283,
+      "option_premium_gt0": 283,
+      "extra_modal": 283,
+      "exit_mix": {
+        "stop_hit": 278,
+        "leap_expired": 5,
+        "breakout_20d": 0,
+        "other": 0
+      },
+      "fidelity_pass": true
+    },
+    "notes": null
+  },
+  "rows": [
+    {
+      "pbr_id": 667,
+      "book": "orange",
+      "cell_key": "orange_rst_turtle_r01_leap30k",
+      "status": "completed",
+      "reference": true,
+      "replaced_pbr_id": null,
+      "experiment": "strategy77_rst_parity_v1",
+      "knobs": {
+        "trading_strategy_id": 77,
+        "trading_strategy_name": "TurtleV1 S2 Breakout55/20",
+        "fill_cadence": "resting_stop_touch",
+        "heat_mode": "turtle",
+        "heat": {
+          "unit_risk_fraction": 0.01,
+          "max_units_per_market": 4,
+          "max_units_closely_correlated_same_direction": 6,
+          "max_units_loosely_correlated_same_direction": 10,
+          "max_units_single_direction": 12,
+          "correlation": {
+            "source": "pcs_pairwise",
+            "close_threshold": 0.7,
+            "loose_threshold": 0.4,
+            "window": "methodology"
+          }
+        },
+        "risk_percentage": 0.01,
+        "initial_capital": 30000.0,
+        "leap_fulfillment": "all",
+        "leap_atr_offset": 0.0,
+        "leap_expiration_days": 730
+      },
+      "window": {
+        "start_date": "2021-05-10",
+        "end_date": "2026-09-11",
+        "processed_days": 1349,
+        "total_days": 1349
+      },
+      "metrics": {
+        "edge_r": 117.3547,
+        "edge_n": 283,
+        "profit_factor": 4.2223,
+        "total_return_pct": 363.62980150533167,
+        "max_drawdown_pct": 89.04054708003584,
+        "total_trades": 284
+      },
+      "leap_fidelity": {
+        "closes": 283,
+        "is_option": 283,
+        "option_premium_gt0": 283,
+        "extra_modal": 283,
+        "exit_mix": {
+          "stop_hit": 278,
+          "leap_expired": 5,
+          "breakout_20d": 0,
+          "other": 0
+        },
+        "fidelity_pass": true
+      },
+      "notes": null
+    },
+    {
+      "pbr_id": 668,
+      "book": "blue",
+      "cell_key": "blue_rst_turtle_r01_leap30k",
+      "status": "completed",
+      "reference": false,
+      "replaced_pbr_id": null,
+      "experiment": "strategy77_rst_parity_v1",
+      "knobs": {
+        "trading_strategy_id": 77,
+        "trading_strategy_name": "TurtleV1 S2 Breakout55/20",
+        "fill_cadence": "resting_stop_touch",
+        "heat_mode": "turtle",
+        "heat": {
+          "unit_risk_fraction": 0.01,
+          "max_units_per_market": 4,
+          "max_units_closely_correlated_same_direction": 6,
+          "max_units_loosely_correlated_same_direction": 10,
+          "max_units_single_direction": 12,
+          "correlation": {
+            "source": "pcs_pairwise",
+            "close_threshold": 0.7,
+            "loose_threshold": 0.4,
+            "window": "methodology"
+          }
+        },
+        "risk_percentage": 0.01,
+        "initial_capital": 30000.0,
+        "leap_fulfillment": "all",
+        "leap_atr_offset": 0.0,
+        "leap_expiration_days": 730
+      },
+      "window": {
+        "start_date": "2020-08-05",
+        "end_date": "2026-09-11",
+        "processed_days": 1533,
+        "total_days": 1533
+      },
+      "metrics": {
+        "edge_r": 137.5841,
+        "edge_n": 207,
+        "profit_factor": 4.1548,
+        "total_return_pct": 318.3620438632444,
+        "max_drawdown_pct": 81.92239370297081,
+        "total_trades": 211
+      },
+      "leap_fidelity": {
+        "closes": 207,
+        "is_option": 207,
+        "option_premium_gt0": 207,
+        "extra_modal": 207,
+        "exit_mix": {
+          "stop_hit": 206,
+          "leap_expired": 1,
+          "breakout_20d": 0,
+          "other": 0
+        },
+        "fidelity_pass": true
+      },
+      "notes": null,
+      "rank_edge_r": 1,
+      "rank_return": 2
+    },
+    {
+      "pbr_id": 669,
+      "book": "mango",
+      "cell_key": "mango_rst_turtle_r01_leap30k",
+      "status": "completed",
+      "reference": false,
+      "replaced_pbr_id": null,
+      "experiment": "strategy77_rst_parity_v1",
+      "knobs": {
+        "trading_strategy_id": 77,
+        "trading_strategy_name": "TurtleV1 S2 Breakout55/20",
+        "fill_cadence": "resting_stop_touch",
+        "heat_mode": "turtle",
+        "heat": {
+          "unit_risk_fraction": 0.01,
+          "max_units_per_market": 4,
+          "max_units_closely_correlated_same_direction": 6,
+          "max_units_loosely_correlated_same_direction": 10,
+          "max_units_single_direction": 12,
+          "correlation": {
+            "source": "pcs_pairwise",
+            "close_threshold": 0.7,
+            "loose_threshold": 0.4,
+            "window": "methodology"
+          }
+        },
+        "risk_percentage": 0.01,
+        "initial_capital": 30000.0,
+        "leap_fulfillment": "all",
+        "leap_atr_offset": 0.0,
+        "leap_expiration_days": 730
+      },
+      "window": {
+        "start_date": "2020-08-05",
+        "end_date": "2026-09-11",
+        "processed_days": 1533,
+        "total_days": 1533
+      },
+      "metrics": {
+        "edge_r": -33.5809,
+        "edge_n": 132,
+        "profit_factor": 0.4407,
+        "total_return_pct": -101.14793351100279,
+        "max_drawdown_pct": 167.66681094314492,
+        "total_trades": 132
+      },
+      "leap_fidelity": {
+        "closes": 132,
+        "is_option": 132,
+        "option_premium_gt0": 132,
+        "extra_modal": 132,
+        "exit_mix": {
+          "stop_hit": 132,
+          "leap_expired": 0,
+          "breakout_20d": 0,
+          "other": 0
+        },
+        "fidelity_pass": true
+      },
+      "notes": null,
+      "rank_edge_r": 4,
+      "rank_return": 4
+    },
+    {
+      "pbr_id": 670,
+      "book": "mint",
+      "cell_key": "mint_rst_turtle_r01_leap30k",
+      "status": "completed",
+      "reference": false,
+      "replaced_pbr_id": null,
+      "experiment": "strategy77_rst_parity_v1",
+      "knobs": {
+        "trading_strategy_id": 77,
+        "trading_strategy_name": "TurtleV1 S2 Breakout55/20",
+        "fill_cadence": "resting_stop_touch",
+        "heat_mode": "turtle",
+        "heat": {
+          "unit_risk_fraction": 0.01,
+          "max_units_per_market": 4,
+          "max_units_closely_correlated_same_direction": 6,
+          "max_units_loosely_correlated_same_direction": 10,
+          "max_units_single_direction": 12,
+          "correlation": {
+            "source": "pcs_pairwise",
+            "close_threshold": 0.7,
+            "loose_threshold": 0.4,
+            "window": "methodology"
+          }
+        },
+        "risk_percentage": 0.01,
+        "initial_capital": 30000.0,
+        "leap_fulfillment": "all",
+        "leap_atr_offset": 0.0,
+        "leap_expiration_days": 730
+      },
+      "window": {
+        "start_date": "2019-11-01",
+        "end_date": "2026-09-11",
+        "processed_days": 1723,
+        "total_days": 1723
+      },
+      "metrics": {
+        "edge_r": -118.8179,
+        "edge_n": 93,
+        "profit_factor": 0.3288,
+        "total_return_pct": -112.00700837659406,
+        "max_drawdown_pct": 152.05276558768145,
+        "total_trades": 93
+      },
+      "leap_fidelity": {
+        "closes": 93,
+        "is_option": 93,
+        "option_premium_gt0": 93,
+        "extra_modal": 93,
+        "exit_mix": {
+          "stop_hit": 89,
+          "leap_expired": 4,
+          "breakout_20d": 0,
+          "other": 0
+        },
+        "fidelity_pass": true
+      },
+      "notes": null,
+      "rank_edge_r": 7,
+      "rank_return": 6
+    },
+    {
+      "pbr_id": 680,
+      "book": "yellow",
+      "cell_key": "yellow_rst_turtle_r01_leap30k",
+      "status": "completed",
+      "reference": false,
+      "replaced_pbr_id": 671,
+      "experiment": "strategy77_rst_parity_v1",
+      "knobs": {
+        "trading_strategy_id": 77,
+        "trading_strategy_name": "TurtleV1 S2 Breakout55/20",
+        "fill_cadence": "resting_stop_touch",
+        "heat_mode": "turtle",
+        "heat": {
+          "unit_risk_fraction": 0.01,
+          "max_units_per_market": 4,
+          "max_units_closely_correlated_same_direction": 6,
+          "max_units_loosely_correlated_same_direction": 10,
+          "max_units_single_direction": 12,
+          "correlation": {
+            "source": "pcs_pairwise",
+            "close_threshold": 0.7,
+            "loose_threshold": 0.4,
+            "window": "methodology"
+          }
+        },
+        "risk_percentage": 0.01,
+        "initial_capital": 30000.0,
+        "leap_fulfillment": "all",
+        "leap_atr_offset": 0.0,
+        "leap_expiration_days": 730
+      },
+      "window": {
+        "start_date": "2019-07-16",
+        "end_date": "2026-09-14",
+        "processed_days": 1801,
+        "total_days": 1801
+      },
+      "metrics": {
+        "edge_r": -43.0273,
+        "edge_n": 110,
+        "profit_factor": 0.2213,
+        "total_return_pct": -103.94490155936928,
+        "max_drawdown_pct": 150.67839604514074,
+        "total_trades": 110
+      },
+      "leap_fidelity": {
+        "closes": 110,
+        "is_option": 110,
+        "option_premium_gt0": 110,
+        "extra_modal": 110,
+        "exit_mix": {
+          "stop_hit": 110,
+          "leap_expired": 0,
+          "breakout_20d": 0,
+          "other": 0
+        },
+        "fidelity_pass": true
+      },
+      "notes": "Original PBR #671 deleted mid-run (stop-all running); #677 also deleted mid-run; #680 sync-executed via PortfolioBacktestRunner",
+      "rank_edge_r": 5,
+      "rank_return": 5
+    },
+    {
+      "pbr_id": 672,
+      "book": "red",
+      "cell_key": "red_rst_turtle_r01_leap30k",
+      "status": "completed",
+      "reference": false,
+      "replaced_pbr_id": null,
+      "experiment": "strategy77_rst_parity_v1",
+      "knobs": {
+        "trading_strategy_id": 77,
+        "trading_strategy_name": "TurtleV1 S2 Breakout55/20",
+        "fill_cadence": "resting_stop_touch",
+        "heat_mode": "turtle",
+        "heat": {
+          "unit_risk_fraction": 0.01,
+          "max_units_per_market": 4,
+          "max_units_closely_correlated_same_direction": 6,
+          "max_units_loosely_correlated_same_direction": 10,
+          "max_units_single_direction": 12,
+          "correlation": {
+            "source": "pcs_pairwise",
+            "close_threshold": 0.7,
+            "loose_threshold": 0.4,
+            "window": "methodology"
+          }
+        },
+        "risk_percentage": 0.01,
+        "initial_capital": 30000.0,
+        "leap_fulfillment": "all",
+        "leap_atr_offset": 0.0,
+        "leap_expiration_days": 730
+      },
+      "window": {
+        "start_date": "2020-10-13",
+        "end_date": "2026-09-11",
+        "processed_days": 1485,
+        "total_days": 1485
+      },
+      "metrics": {
+        "edge_r": 59.4307,
+        "edge_n": 215,
+        "profit_factor": 2.3294,
+        "total_return_pct": 133.6869504240548,
+        "max_drawdown_pct": 81.76125787001429,
+        "total_trades": 220
+      },
+      "leap_fidelity": {
+        "closes": 215,
+        "is_option": 215,
+        "option_premium_gt0": 215,
+        "extra_modal": 215,
+        "exit_mix": {
+          "stop_hit": 215,
+          "leap_expired": 0,
+          "breakout_20d": 0,
+          "other": 0
+        },
+        "fidelity_pass": true
+      },
+      "notes": null,
+      "rank_edge_r": 3,
+      "rank_return": 3
+    },
+    {
+      "pbr_id": 673,
+      "book": "green",
+      "cell_key": "green_rst_turtle_r01_leap30k",
+      "status": "completed",
+      "reference": false,
+      "replaced_pbr_id": null,
+      "experiment": "strategy77_rst_parity_v1",
+      "knobs": {
+        "trading_strategy_id": 77,
+        "trading_strategy_name": "TurtleV1 S2 Breakout55/20",
+        "fill_cadence": "resting_stop_touch",
+        "heat_mode": "turtle",
+        "heat": {
+          "unit_risk_fraction": 0.01,
+          "max_units_per_market": 4,
+          "max_units_closely_correlated_same_direction": 6,
+          "max_units_loosely_correlated_same_direction": 10,
+          "max_units_single_direction": 12,
+          "correlation": {
+            "source": "pcs_pairwise",
+            "close_threshold": 0.7,
+            "loose_threshold": 0.4,
+            "window": "methodology"
+          }
+        },
+        "risk_percentage": 0.01,
+        "initial_capital": 30000.0,
+        "leap_fulfillment": "all",
+        "leap_atr_offset": 0.0,
+        "leap_expiration_days": 730
+      },
+      "window": {
+        "start_date": "2022-02-10",
+        "end_date": "2026-09-14",
+        "processed_days": 1151,
+        "total_days": 1151
+      },
+      "metrics": {
+        "edge_r": -70.074,
+        "edge_n": 58,
+        "profit_factor": 0.0376,
+        "total_return_pct": -116.65919668581735,
+        "max_drawdown_pct": 157.01613774919042,
+        "total_trades": 58
+      },
+      "leap_fidelity": {
+        "closes": 58,
+        "is_option": 58,
+        "option_premium_gt0": 58,
+        "extra_modal": 58,
+        "exit_mix": {
+          "stop_hit": 58,
+          "leap_expired": 0,
+          "breakout_20d": 0,
+          "other": 0
+        },
+        "fidelity_pass": true
+      },
+      "notes": null,
+      "rank_edge_r": 6,
+      "rank_return": 7
+    },
+    {
+      "pbr_id": 674,
+      "book": "rust",
+      "cell_key": "rust_rst_turtle_r01_leap30k",
+      "status": "completed",
+      "reference": false,
+      "replaced_pbr_id": null,
+      "experiment": "strategy77_rst_parity_v1",
+      "knobs": {
+        "trading_strategy_id": 77,
+        "trading_strategy_name": "TurtleV1 S2 Breakout55/20",
+        "fill_cadence": "resting_stop_touch",
+        "heat_mode": "turtle",
+        "heat": {
+          "unit_risk_fraction": 0.01,
+          "max_units_per_market": 4,
+          "max_units_closely_correlated_same_direction": 6,
+          "max_units_loosely_correlated_same_direction": 10,
+          "max_units_single_direction": 12,
+          "correlation": {
+            "source": "pcs_pairwise",
+            "close_threshold": 0.7,
+            "loose_threshold": 0.4,
+            "window": "methodology"
+          }
+        },
+        "risk_percentage": 0.01,
+        "initial_capital": 30000.0,
+        "leap_fulfillment": "all",
+        "leap_atr_offset": 0.0,
+        "leap_expiration_days": 730
+      },
+      "window": {
+        "start_date": "2022-02-10",
+        "end_date": "2026-09-14",
+        "processed_days": 1151,
+        "total_days": 1151
+      },
+      "metrics": {
+        "edge_r": 80.0383,
+        "edge_n": 351,
+        "profit_factor": 1.4867,
+        "total_return_pct": 425.87560211819317,
+        "max_drawdown_pct": 147.72129345132237,
+        "total_trades": 358
+      },
+      "leap_fidelity": {
+        "closes": 351,
+        "is_option": 351,
+        "option_premium_gt0": 351,
+        "extra_modal": 351,
+        "exit_mix": {
+          "stop_hit": 349,
+          "leap_expired": 2,
+          "breakout_20d": 0,
+          "other": 0
+        },
+        "fidelity_pass": true
+      },
+      "notes": null,
+      "rank_edge_r": 2,
+      "rank_return": 1
+    }
+  ],
+  "ranking_by_edge_r": [
+    {
+      "rank": 1,
+      "pbr_id": 668,
+      "book": "blue",
+      "edge_r": 137.5841,
+      "max_dd": 81.92239370297081
+    },
+    {
+      "rank": 2,
+      "pbr_id": 674,
+      "book": "rust",
+      "edge_r": 80.0383,
+      "max_dd": 147.72129345132237
+    },
+    {
+      "rank": 3,
+      "pbr_id": 672,
+      "book": "red",
+      "edge_r": 59.4307,
+      "max_dd": 81.76125787001429
+    },
+    {
+      "rank": 4,
+      "pbr_id": 669,
+      "book": "mango",
+      "edge_r": -33.5809,
+      "max_dd": 167.66681094314492
+    },
+    {
+      "rank": 5,
+      "pbr_id": 680,
+      "book": "yellow",
+      "edge_r": -43.0273,
+      "max_dd": 150.67839604514074
+    },
+    {
+      "rank": 6,
+      "pbr_id": 673,
+      "book": "green",
+      "edge_r": -70.074,
+      "max_dd": 157.01613774919042
+    },
+    {
+      "rank": 7,
+      "pbr_id": 670,
+      "book": "mint",
+      "edge_r": -118.8179,
+      "max_dd": 152.05276558768145
+    }
+  ],
+  "ranking_by_return": [
+    {
+      "rank": 1,
+      "pbr_id": 674,
+      "book": "rust",
+      "total_return_pct": 425.87560211819317,
+      "max_dd": 147.72129345132237
+    },
+    {
+      "rank": 2,
+      "pbr_id": 668,
+      "book": "blue",
+      "total_return_pct": 318.3620438632444,
+      "max_dd": 81.92239370297081
+    },
+    {
+      "rank": 3,
+      "pbr_id": 672,
+      "book": "red",
+      "total_return_pct": 133.6869504240548,
+      "max_dd": 81.76125787001429
+    },
+    {
+      "rank": 4,
+      "pbr_id": 669,
+      "book": "mango",
+      "total_return_pct": -101.14793351100279,
+      "max_dd": 167.66681094314492
+    },
+    {
+      "rank": 5,
+      "pbr_id": 680,
+      "book": "yellow",
+      "total_return_pct": -103.94490155936928,
+      "max_dd": 150.67839604514074
+    },
+    {
+      "rank": 6,
+      "pbr_id": 670,
+      "book": "mint",
+      "total_return_pct": -112.00700837659406,
+      "max_dd": 152.05276558768145
+    },
+    {
+      "rank": 7,
+      "pbr_id": 673,
+      "book": "green",
+      "total_return_pct": -116.65919668581735,
+      "max_dd": 157.01613774919042
+    }
+  ],
+  "ops_incidents": [
+    "PBR #671 (yellow) deleted while running (~53%) — likely Home#stop_all_running destroy",
+    "PBR #677 (yellow restamp) deleted while running (~42%) — same stop-all hazard",
+    "PBR #680 (yellow) completed via sync PortfolioBacktestRunner after Sidekiq starvation (DmRegistrySyncJob + OA runs 678/679)",
+    "winston_unit_test_sidekiq container restart orphaned 671/673/674 mid-first-pass; 673/674 re-executed successfully"
+  ]
+}

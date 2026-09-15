@@ -33,7 +33,7 @@ Call sites: `PortfolioBacktestRunner#process_portfolio_day_same_bar`, `#process_
 
 1. **B1** — lots &lt; max: do not run channel `evaluate_exit`. Only 2N + the next pyramid exist.
 2. **B2** — on the max-fill bar, Working Stop stays last ± 2N. Watch 20-day from the **next** session (prior-bar window). Never a second protective stop.
-3. **B3** — when that 20-day has **passed** 2N (long: 20-day low &gt; 2N; short: 20-day high &lt; 2N), Working Stop **becomes** the 20-day and **replaces** nightly with the current channel. No revert to 2N. Lookback excludes the session bar (same rule as entry).
+3. **B3** — when that 20-day has **passed** 2N (long: 20-day low > 2N; short: 20-day high < 2N), Working Stop **becomes** the 20-day and **replaces** nightly with the current channel. No revert to 2N. Lookback excludes the session bar (same rule as entry). **Desk lock 2026-09-14:** sticky 20D_BO (not doctrine A).
 4. **B4** — pierce of the then-current Working Stop flattens every lot (touch / gap-open). No parallel Donchian close.
 
 `skip_s2_channel_exit?` is true for the whole RST+S2 recipe: 20-day is never a close-priced channel exit.
