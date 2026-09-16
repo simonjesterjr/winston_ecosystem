@@ -9,7 +9,7 @@
 **Detailed inventory:** [`docs/analysis/2026-09-15-wv2-bg-ibkr-leap-fulfillment-plan.md`](../docs/analysis/2026-09-15-wv2-bg-ibkr-leap-fulfillment-plan.md) (phases, code pointers, grill questions — do not re-derive)  
 **Parent plan:** [`spending-capacity-and-leap-fulfillment.md`](spending-capacity-and-leap-fulfillment.md) (SC before LEAP send; prefer LEAP cash outlay)  
 **Decision record:** [`docs/adr/ADR-017-leap-packaging-precalc-occ.md`](../docs/adr/ADR-017-leap-packaging-precalc-occ.md) (Proposed — Model B)  
-**Related tickets:** [`2026-09-09-extra-modal-leap-unit-evaluation.md`](../docs/tickets/2026-09-09-extra-modal-leap-unit-evaluation.md) (P1 read-only 1×1); [`2026-09-15-wv2-leap-packaging-fields.md`](../docs/tickets/2026-09-15-wv2-leap-packaging-fields.md); [`2026-09-15-bg-ibkr-opt-order-intent-prove.md`](../docs/tickets/2026-09-15-bg-ibkr-opt-order-intent-prove.md)
+**Related tickets:** [`2026-09-09-extra-modal-leap-unit-evaluation.md`](../docs/tickets/2026-09-09-extra-modal-leap-unit-evaluation.md) (P1 read-only 1×1); [`2026-09-15-wv2-leap-packaging-fields.md`](../docs/tickets/2026-09-15-wv2-leap-packaging-fields.md); [`2026-09-15-bg-ibkr-opt-order-intent-prove.md`](../docs/tickets/2026-09-15-bg-ibkr-opt-order-intent-prove.md); **Mode C** [`2026-09-16-wv2-paper-leap-eval-blue-from-685.md`](../docs/tickets/2026-09-16-wv2-paper-leap-eval-blue-from-685.md) (IBKR-eval / Wv2 paper fill)
 
 ---
 
@@ -51,6 +51,7 @@ Paper DUT can **Desk Send one LEAP** as the fulfillment command for an underlyin
 | ADR-009 / ADR-013 | Human-gated desk; paper DUT write; extra-modal Guardrail = HITL |
 | ADR-017 (Proposed) | **Model B** sunny-day — precalc OCC at Signal/slate; Send verifies conid; no silent re-ATM. **Plan F** (not desirable): signal already live / short window → resolve ATM now, stamp, MKT. Goal is still a LEAP position as proxy. |
 | Analysis `2026-09-15-…` | Detailed inventory, code pointers, Model A vs B table, open grill ≤6 |
+| **Mode C** (this plan § below) | **Paper-eval variant** — IBKR real-chain for ATM packaging only; fills/journals/cash in Wv2 paper; **not** IBKR Desk-Send. Does **not** replace ADR-017 Model B for Walnut / IBKR-bound fulfillment. |
 | **This plan** | Authoritative phased implementation + party coordination |
 
 ---
@@ -98,8 +99,48 @@ Contractor slices S0–S5 and field tables: see analysis §§3–7.
 
 ---
 
+
+---
+
+## Mode C — Wv2 paper Blue (IBKR-eval, paper fulfill)
+
+**Status:** Grill complete 2026-09-16 · **build enablement** (CoS cloud agents)  
+**Ticket:** [`docs/tickets/2026-09-16-wv2-paper-leap-eval-blue-from-685.md`](../docs/tickets/2026-09-16-wv2-paper-leap-eval-blue-from-685.md)  
+**ADR:** none — Mode C is a **paper-eval variant** alongside ADR-017 Model B. Open an ADR only if Mode C packaging law **conflicts** with ADR-017 (it should not: ADR-017 governs IBKR-bound / Desk-Send LEAP; Mode C never IBKR-binds fulfill).
+
+### Contrast
+
+| Path | Eval | Fulfill |
+|------|------|---------|
+| **Mode C paper Blue** | IBKR real chain (quotes / conid / ATM LEAP package) | **Wv2 paper** journals + cash — **no IBKR bind**, no OPT Desk-Send |
+| **Walnut** | (unchanged) | **IBKR-bound** fulfillment |
+
+### Locks (John via CoS, 2026-09-16)
+
+1. **IBKR eval only** — packaging/pricing from IBKR; fills, journals, cash stay in Wv2 paper.
+2. **No Black-Scholes** — use the **IBKR real chain** for the ATM LEAP package.
+3. **Staleness OK** — EOD TS75 signal → resolve ATM LEAP; HITL paper Desk-Approve may lag many hours. Essential is a **correct ATM notional package**, not freshness-at-Approve. (Interim auto-re-ATM-at-fill note **discarded**.)
+4. **Stop-out:** underlying Working Stop pierce → **auto journal sell-to-close** the LEAP on paper (**no HITL on exit**). **Entry stays HITL.**  
+   *Differs from ADR-017 / Phase 5 IBKR-bound path (HITL sell LEAP on stop).* Universal desk law still applies: exit strategy + protective stops ([`exit-and-protective-stop-desk-law.md`](../docs/business-context/exit-and-protective-stop-desk-law.md)).
+5. **Spending:** `premium × 100 × contracts` vs paper cash.
+6. **Fingerprint locked:** WUT PBR **#685** / **TS75** — `$30k`, risk **2%**, `leap_fulfillment=all`, Turtle **S1** Breakout20/10, RST, turtle heat (`blue_rst_turtle_r02_leap30k_ts75`).
+
+### Cutover (after enablement)
+
+1. Build Mode C enablement on the new Blue chassis.  
+2. **Deactivate** Wv2 ops portfolio **381** (current Blue).  
+3. Stand up **new Blue** $30k from the #685 fingerprint (LEAP-only, paper-only, no IBKR fulfill bind).
+
+### Non-goals for Mode C
+
+- IBKR OPT `place_order` / Desk-Send for this Blue  
+- Replacing Walnut IBKR fulfillment  
+- Treating WUT BS as packaging truth  
+- Pack promotion / Capital Activation
+
 ## Next concrete steps
 
-1. Operator: `/grill-with-docs` on ADR-017 + this plan (or accept Proposed → Accepted).  
-2. Parallel: paper read-only 1×1 (`2026-09-09-extra-modal…`) **or** start Phase 1 ticket `2026-09-15-wv2-leap-packaging-fields`.  
-3. Do not Desk-Send OPT until SC + matrix + grill locked.
+1. **Mode C (active):** build enablement per § Mode C + ticket `2026-09-16-wv2-paper-leap-eval-blue-from-685` (In Progress); cutover deactivate 381 → new Blue after enablement.  
+2. Operator: `/grill-with-docs` on ADR-017 + this plan for **IBKR-bound** LEAP path (or accept Proposed → Accepted) — parallel to Mode C, not blocked by it.  
+3. Parallel: paper read-only 1×1 (`2026-09-09-extra-modal…`) **or** Phase 1 ticket `2026-09-15-wv2-leap-packaging-fields` for Walnut/IBKR-bound.  
+4. Do not Desk-Send OPT on IBKR until SC + matrix + ADR-017 grill locked (Mode C paper Blue never IBKR Desk-Sends).

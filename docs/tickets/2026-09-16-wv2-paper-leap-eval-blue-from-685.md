@@ -1,6 +1,6 @@
 # Ticket: Wv2 paper Blue — IBKR-eval LEAP, paper-only fulfill (from WUT #685)
 
-**Status:** Proposed  
+**Status:** In progress  
 **Priority:** P1  
 **Date:** 2026-09-16  
 **Mode:** contractor / CoS enablement  
@@ -43,24 +43,29 @@ Wv2 paper portfolios need to **evaluate** LEAP substitution using IBKR connectiv
 
 
 
-## Mode C packaging locks (John via CoS, 2026-09-16) — supersedes earlier auto-re-ATM note
 
-**Discarded:** auto re-ATM / re-resolve at paper-fill for stale stamped strike (that was an interim grill note; not desk lock).
+## Mode C packaging locks (John via CoS, 2026-09-16) — grill complete · build enablement
 
-**Locked now:**
+**Discarded:** auto re-ATM / re-resolve at paper-fill for stale stamped strike (interim grill note; not desk lock).
+
+**Locked:**
 
 1. **No Black-Scholes** for packaging. Use the **IBKR real chain** for the ATM LEAP package (IBKR-eval only — still **no IBKR fulfill** for this Blue).
 2. **Staleness OK:** EOD TS75 signal → resolve ATM LEAP; HITL paper Desk-Approve may lag many hours. Essential is a **correct ATM notional package**, not freshness-at-Approve.
 3. **Stop-out:** when underlying Working Stop pierces → **auto journal sell-to-close** the LEAP on paper (**no HITL on exit**). **Entry stays HITL.**
 4. **Spending:** `premium × 100 × contracts` vs paper cash.
-5. **Still grilling:** fingerprint (#685 vs alt).
+5. **Fingerprint locked:** WUT **#685** / **TS75** — `$30k`, **2%**, leap all, S1 (`blue_rst_turtle_r02_leap30k_ts75`).
 
-No ADR unless packaging law changes.
+**Cutover (after enablement):** deactivate ops **381** → stand up new Blue from that fingerprint.
 
-## Open questions (CoS)
+**Plan:** Mode C section in [`../../plans/wv2-bg-ibkr-leap-fulfillment.md`](../../plans/wv2-bg-ibkr-leap-fulfillment.md). **ADR:** none unless Mode C conflicts with ADR-017 (paper-eval variant; Walnut/IBKR-bound path stays Model B).
 
-- Exact enablement knobs (fulfillment_label, packaging_policy, broker account bind, Session Order Slate off, etc.)
-- Whether paper LEAP fills use dummy_sim / internal journal only, and how protective stops park without IBKR GTC
+CoS launching cloud agents for code.
+
+## Open questions (implementation)
+
+- Exact enablement knobs (fulfillment_label, packaging_policy, broker account bind, Session Order Slate off, etc.) — CoS/cloud agents
+- Paper LEAP fill path (dummy_sim / internal journal) and how protective WS maps to auto STC without IBKR GTC
 
 ## Notes
 
