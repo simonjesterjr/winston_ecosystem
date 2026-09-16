@@ -30,8 +30,9 @@ Do **not** fork a second LEAP design in session drafts. Promote here; link analy
 - **`/grill-with-docs` before any option Desk Send** — lock cash flip, Model B, stop HITL, stale-strike refuse (not silent re-ATM).
 - **Paper DUT only** — no live IBKR / Schwab `order_write`.
 - **No pack promotion** / mv2 Capital Activation / paper→real in-place (ADR-006).
-- **Agent never Desk-Sends** options (ADR-009 / ADR-013).
-- **SC Check + tradable 1×1** before first paper LEAP send (parent plan Part 1 + ticket 2026-09-09).
+- **Agent never Desk-Sends options** (ADR-009 / ADR-013). Paper **stock** flatten on DUT is Phase 0 only (operator 2026-09-15): CPGW market exits, operator validates the book is flat.
+- **SC Check + tradable 1×1** before first paper LEAP send (parent plan Part 1 + ticket 2026-09-09). Walnut stock-grain automation is **relaxed** until option park types are known.
+- **Spending Capacity for packaged adds** starts as `premium × 100 × contracts`. Breadth is the point — **iterate** this gate if it still refuses honest LEAP units; never fall back to share notional.
 
 ---
 
@@ -48,7 +49,7 @@ Paper DUT can **Desk Send one LEAP** as the fulfillment command for an underlyin
 | `leap-extra-modal-proxy.md` | **Domain law** — signal Market vs packaging; dual spines; HITL sell LEAP on stop |
 | `turtle-s2-pyramid-and-working-stop.md` | Sticky 20D_BO Working Stop (not doctrine A) |
 | ADR-009 / ADR-013 | Human-gated desk; paper DUT write; extra-modal Guardrail = HITL |
-| ADR-017 (Proposed) | **Model B** — precalc OCC at Signal/slate; Send verifies conid; no silent re-ATM |
+| ADR-017 (Proposed) | **Model B** sunny-day — precalc OCC at Signal/slate; Send verifies conid; no silent re-ATM. **Plan F** (not desirable): signal already live / short window → resolve ATM now, stamp, MKT. Goal is still a LEAP position as proxy. |
 | Analysis `2026-09-15-…` | Detailed inventory, code pointers, Model A vs B table, open grill ≤6 |
 | **This plan** | Authoritative phased implementation + party coordination |
 
@@ -60,7 +61,7 @@ Gates between phases: paper DUT only; kill switch / `cap_order_write`; no live w
 
 | Phase | Owner | Goal |
 |-------|-------|------|
-| **0 — Prerequisites** | Operator / existing tickets | SC Check on Walnut (premium cash); read-only CPGW 1×1 tradable; grill § answers; Exit Capital Reconcile path before capital-honest LEAP lot |
+| **0 — Prerequisites** | Operator + Grok CLI | Paper DUT **flatten via CPGW** (MKT exits of leftover stock; operator validates flat); SC Check with **premium × 100 × contracts** for leap (iterate if breadth still blocked); read-only CPGW 1×1 tradable |
 | **1 — Wv2 packaging fields** | Wv2 (Grok CLI) | Model B: stamp OCC / optional conid on handoff/slate; journal Market stays underlying; SC on premium × 100 × contracts — ticket `2026-09-15-wv2-leap-packaging-fields` |
 | **2 — BG OPT Order Intent** | BG (+ Wv2 client) | Require `conid` when `asset_class=option`; never stock-biased resolve for OPT — ticket `2026-09-15-bg-ibkr-opt-order-intent-prove` |
 | **3 — IBKR adapter OPT path** | BG `IbkrAdapter` | One paper LEAP MKT/LMT Submit → working → print (operator Desk Send) |
@@ -76,8 +77,8 @@ Contractor slices S0–S5 and field tables: see analysis §§3–7.
 | Choice | Lock |
 |--------|------|
 | Fulfillment geometry | **B** — Desk-Sent command is the LEAP |
-| Contract timing | **Model B** — precalc OCC at Signal/slate; Send verifies; no silent re-ATM |
-| Entry order | MKT default or LMT if quote width demands; no option STP protective |
+| Contract timing | **Model B** sunny-day. **Plan F** (residual, not default): ATM resolve + MKT in a short window when the signal is already live and there is no stamped contract. Still explicit OPT conid; stamp details immediately. |
+| Entry order | Discovery matrix (DAY MKT / DAY LMT / probe STP/GTC). Do not hard-code MKT-only until the matrix says so. |
 | Stop-out | Underlying Working Stop + sticky 20D_BO; **HITL** sell LEAP |
 | IBKR LEAP MKT | Supported on CPGW with explicit OPT conid |
 
