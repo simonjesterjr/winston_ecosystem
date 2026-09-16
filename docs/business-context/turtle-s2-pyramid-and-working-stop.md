@@ -4,7 +4,7 @@
 **Applies to:** Trend Following recipes whose Trading Strategy (TS) is System 2 Donchian — 55-day entry, 20-day exit, Average True Range (ATR) unit stop, `move_to_last_entry`. First Operational Portfolio: **Portfolio Walnut** (TS #266 TurtleV1 S2 Breakout55/20).  
 **Knobs live on the TS** (do not hardcode 0.5N / 2N / 4 lots in code): `atr_multiplier` (stop distance, Walnut **2**), `pyramid_atr_multiplier` (add step, Walnut **0.5**), `max_pyramid` / `max_positions_per_symbol` (Walnut **4**), `stop_strategy` = `move_to_last_entry`.  
 **Glossary:** `CONTEXT.md` — Working Stop, Protective Stop Guardrail, Session Order Slate, Unit Heat, Moment of Truth, Accept-Fill  
-**Related:** [`leap-extra-modal-proxy.md`](leap-extra-modal-proxy.md); ADR-013 §7; `docs/adr/2026-07-25-pyramid-scale-in-price-blocks.md`; ticket `2026-09-09-walnut-paper-session-order-slate.md`; WUT RST lab: [`wut-s2-working-stop-lab.md`](wut-s2-working-stop-lab.md)  
+**Related:** Universal desk law [`exit-and-protective-stop-desk-law.md`](exit-and-protective-stop-desk-law.md); [`leap-extra-modal-proxy.md`](leap-extra-modal-proxy.md); ADR-013 §7; `docs/adr/2026-07-25-pyramid-scale-in-price-blocks.md`; ticket `2026-09-09-walnut-paper-session-order-slate.md`; WUT RST lab: [`wut-s2-working-stop-lab.md`](wut-s2-working-stop-lab.md)  
 **Origin:** Operator grill 2026-09-09 (IBM walk-through; pyramid step is whatever the TS says)
 
 ## Purpose
@@ -19,7 +19,9 @@ Until that name holds **max lots**, the 20-day breakout is **not evaluated and n
 
 Once that name is **maxed**, 20-day **is** watched each session. The working stop stays at last-entry 2N until the 20-day trigger has **passed** that 2N level in the trade’s favor. Then the working stop **is** the 20-day, which may ratchet (and may go through the last lot’s purchase — all units profitable — that is good). A pierce of the then-current Working Stop is a stop-out flatten-all (`move_to_last_entry`).
 
-**Desk lock (2026-09-14):** **sticky 20D_BO** is correct (not doctrine A better-of). Lab checklist still calls this phase B3 (B1 under-max silent → B2 max-fill bar → B3/sticky 20D_BO when 20d has passed last-entry 2N → B4 pierce). Last-entry ±2N is **not** re-ATRd daily under `move_to_last_entry`.
+**Desk lock (2026-09-14):** **sticky 20D_BO** is correct **for Turtle S2 only** (not doctrine A better-of). Lab checklist still calls this phase B3 (B1 under-max silent → B2 max-fill bar → B3/sticky 20D_BO when 20d has passed last-entry 2N → B4 pierce). Last-entry ±2N is **not** re-ATRd daily under `move_to_last_entry`.
+
+**Scope lock (John, 2026-09-16):** Sticky 20D_BO is **S2 Working Stop methodology**, not universal desk law. Universal law is exit strategy + protective stops — see [`exit-and-protective-stop-desk-law.md`](exit-and-protective-stop-desk-law.md). S1 (e.g. TS75 Breakout20/10) obeys via its own exit + `move_to_last_entry` 2N; it does **not** inherit sticky 20D_BO.
 
 ## Long walk-through (operator IBM)
 

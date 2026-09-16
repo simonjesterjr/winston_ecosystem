@@ -13,7 +13,7 @@
 
 **Stated goal:** Fix broken LEAP stored Edge (R); make PBR scoreboard honest for LEAP cells; show TS/setup at a glance on the index.
 
-**Outcome:** Delivered for Edge + OA primary metrics + Setup column. Follow-up UX (accordion / Edge column restore) in flight.
+**Outcome:** Delivered for Edge + OA primary metrics + Setup column. Follow-up UX landed as WUT PRs **#42–#44** (accordion + Edge(R) column + hotfixes).
 
 **One-line summary:** Signal-path 1R Edge is on WUT `main` and S1 `#682`–`#697` were refreshed; OA/cash returns persist and lead the scoreboard; Setup column shows `TS# · fulfillment · risk% · heat` with details disclosure.
 
@@ -44,7 +44,7 @@
 
 ### Setup column (PR #41)
 - Merged (`5d12197`): compact Setup cell + `<details>` for chassis / Working Stop / LEAP knobs / stamp.
-- Pulled to sawtooth. Follow-up requested: accordion (one open), risk/scale into panel, remove Risk/Scale column, restore **Edge (R)** column — cloud agent in flight.
+- Pulled to sawtooth. Follow-up landed: accordion (one open), risk/scale into panel, Risk/Scale column → **Edge (R)** — WUT PRs #42–#44 on `main` (`7fac0e6` / `4ef87e9` / `010bb2e`).
 
 ### Desk bots
 - **PBR Ops** — stamp / queue / babysit / scoreboard.
@@ -68,7 +68,9 @@
 | #37 | `8ea7635` | LEAP Edge signal-path 1R |
 | #39 | `f8d8dca` | OA/cash metrics + scoreboard primary |
 | #41 | `5d12197` | Setup column on PBR index |
-| (follow-up) | in flight | Accordion + Edge(R) column restore |
+| #42 | `7fac0e6` | Accordion Setup + Edge(R) column (Risk/Scale into details) |
+| #43 | `4ef87e9` | Hotfix: Edge(R) reads DB `edge_r` / `edge_components` first |
+| #44 | `010bb2e` | Hotfix: resolve TS from multiple sources; fix `chassis` NoMethodError |
 
 Also: `.dockerignore` on sawtooth tree (large `log/` was blocking image builds).
 
@@ -85,7 +87,7 @@ Also: `.dockerignore` on sawtooth tree (large `log/` was blocking image builds).
 
 ## 5. Open / Next
 
-1. Land Setup follow-up PR (accordion, risk/scale in panel, Edge(R) column).
+1. ~~Land Setup follow-up PR~~ — done #42–#44; pull WUT `main` on sawtooth if local helper still dirty.
 2. Fix remaining EdgeCalculator scratch-`n` spec (expected 3 got 4).
 3. Before promote: restamp sticky-20D_BO LEAP cells if comparing to desk law (do not promote `#692` as sticky).
 4. Optional: refresh S2 LEAP refs Edge the same way.
@@ -98,4 +100,21 @@ Also: `.dockerignore` on sawtooth tree (large `log/` was blocking image builds).
 - Analysis: [`docs/analysis/2026-09-15-ts75-leap-edge-accounting-audit.md`](../analysis/2026-09-15-ts75-leap-edge-accounting-audit.md)
 - Edge ticket (archive): `docs/tickets/archive/2026-09-15-wut-leap-edge-signal-path-1r.md`
 - Interface: `interfaces/winston-edge-v1.md`
-- WUT PRs: #37, #39, #41
+- WUT PRs: #37, #39, #41, #42, #43, #44
+- WUT wrap for #42–#44: `winston_unit_test/docs/session-reports/2026-09-16-2009-pbr-index-setup-accordion-edge-column.md`
+
+---
+
+## 7. Addendum — PRs #42–#44 landed (2026-09-16 ~15:40 MDT, Scribe)
+
+WUT `main` now includes:
+
+| PR | SHA | Notes |
+|----|-----|-------|
+| #42 | `7fac0e6` | Accordion Setup; Edge(R) column replaces Risk/Scale |
+| #43 | `4ef87e9` | Edge(R) from DB columns (fixes all-`—` after #42) |
+| #44 | `010bb2e` | TS resolution for stamped LEAP rows; drop bogus `ts.chassis` |
+
+Canonical WUT session report (with hotfix sections): `winston_unit_test/docs/session-reports/2026-09-16-2009-pbr-index-setup-accordion-edge-column.md`.
+Ticket note: ecosystem `2026-09-11-measuring-edge-scoreboard.md` Phase 1 index Edge column advanced by #42/#43 (still In progress for E-ratio / browser QA).
+No new issue tickets for #43/#44 — hotfixes trail in the session report only.

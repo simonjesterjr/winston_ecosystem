@@ -2,7 +2,7 @@
 
 **Type:** Domain / lab application  
 **Monolith:** winston_unit_test (WUT) only  
-**Law:** [`turtle-s2-pyramid-and-working-stop.md`](turtle-s2-pyramid-and-working-stop.md)  
+**Law:** [`turtle-s2-pyramid-and-working-stop.md`](turtle-s2-pyramid-and-working-stop.md) · universal [`exit-and-protective-stop-desk-law.md`](exit-and-protective-stop-desk-law.md) (sticky 20D_BO is S2-only)  
 **Plan:** `ecosystem/plans/winston-rst-slate-exit-parity-grok-cli.md` workstream B  
 **Fill for this pass:** `resting_stop_touch` (RST)
 

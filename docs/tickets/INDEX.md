@@ -35,6 +35,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P1 | Proposed | [`2026-09-16-wv2-paper-leap-eval-blue-from-685.md`](2026-09-16-wv2-paper-leap-eval-blue-from-685.md) | Wv2 paper Blue from WUT #685 — IBKR-eval LEAP, paper-only fulfill (deactivate ops 381) — [analysis](../analysis/2026-09-16-pbr685-blue-leap-s1-2pct.md) |
 | P1 | Proposed | [`2026-09-15-wv2-leap-packaging-fields.md`](2026-09-15-wv2-leap-packaging-fields.md) | Wv2 Model B — stamp OCC packaging on handoff/slate — [plan](../../plans/wv2-bg-ibkr-leap-fulfillment.md) · [ADR-017](../adr/ADR-017-leap-packaging-precalc-occ.md) |
 | P1 | Proposed | [`2026-09-15-bg-ibkr-opt-order-intent-prove.md`](2026-09-15-bg-ibkr-opt-order-intent-prove.md) | BG OPT Order Intent + IBKR paper 1×1 prove — [plan](../../plans/wv2-bg-ibkr-leap-fulfillment.md) · [ADR-017](../adr/ADR-017-leap-packaging-precalc-occ.md) |
 | P1 | Proposed | [`2026-09-14-wev-cuboid-pulse-highlight-active-work.md`](2026-09-14-wev-cuboid-pulse-highlight-active-work.md) | WEV — pulse/highlight cuboid while Pulse Work is active — [ops](https://sawtooth-ai.tail944ffb.ts.net/wv2/operations/ecosystem) |
@@ -56,7 +57,6 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P1 | In progress | [`2026-09-13-cpgw-force-true-empty-open-orders.md`](2026-09-13-cpgw-force-true-empty-open-orders.md) | BG `open_orders` empty while DUT still holds live Day/GTC — [issue](../issues/2026-09-13-cpgw-force-true-empty-open-orders.md) |
 | P1 | In progress | [`2026-09-09-walnut-paper-session-order-slate.md`](2026-09-09-walnut-paper-session-order-slate.md) | Walnut paper Session Order Slate (stop-market) — first STP round parked; fill-driven repark in progress |
 | P1 | Proposed | [`2026-09-10-bg-broker-push-websocket-eval.md`](2026-09-10-bg-broker-push-websocket-eval.md) | Evaluate IBKR/Schwab push/websocket vs 15-minute poll — unattended listener depends on Winston-owned login |
-| P1 | Done | [`2026-09-09-walnut-stp-accept-fill-day-entry.md`](2026-09-09-walnut-stp-accept-fill-day-entry.md) | Prove Accept-Fill at DUT print — DD / DBC / SCHZ 2026-09-10 (archive after wrap) |
 | P1 | In progress | [`2026-09-09-walnut-day-stp-close-reconcile.md`](2026-09-09-walnut-day-stp-close-reconcile.md) | After cash close — DUT-first overnight rebuild expires DAY already gone |
 | P1 | Proposed — see unblocked row | [`2026-09-09-extra-modal-leap-unit-evaluation.md`](2026-09-09-extra-modal-leap-unit-evaluation.md) | Extra-modal LEAP (historical blocked row) — prefer unblocked row + [plan](../../plans/wv2-bg-ibkr-leap-fulfillment.md) · [ADR-017](../adr/ADR-017-leap-packaging-precalc-occ.md) · [law](../business-context/leap-extra-modal-proxy.md) |
 | P2 | Proposed | [`2026-09-10-dm-restandardize-macd-corpus.md`](2026-09-10-dm-restandardize-macd-corpus.md) | Re-bake remaining DM parquet for MACD 12/26/9 |
