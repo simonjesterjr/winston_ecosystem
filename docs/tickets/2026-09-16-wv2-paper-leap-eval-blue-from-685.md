@@ -42,11 +42,20 @@ Wv2 paper portfolios need to **evaluate** LEAP substitution using IBKR connectiv
 
 
 
-## Grill progress (Mode C — CoS / John, 2026-09-16)
 
-- **Locked:** auto re-ATM / re-resolve at **paper-fill** when the stamped strike looks stale — **IBKR-eval only** (quotes/conid/packaging path). Does **not** authorize IBKR fulfill for this Blue.
-- **Still grilling:** stop-out next.
-- No ADR yet unless packaging law changes.
+## Mode C packaging locks (John via CoS, 2026-09-16) — supersedes earlier auto-re-ATM note
+
+**Discarded:** auto re-ATM / re-resolve at paper-fill for stale stamped strike (that was an interim grill note; not desk lock).
+
+**Locked now:**
+
+1. **No Black-Scholes** for packaging. Use the **IBKR real chain** for the ATM LEAP package (IBKR-eval only — still **no IBKR fulfill** for this Blue).
+2. **Staleness OK:** EOD TS75 signal → resolve ATM LEAP; HITL paper Desk-Approve may lag many hours. Essential is a **correct ATM notional package**, not freshness-at-Approve.
+3. **Stop-out:** when underlying Working Stop pierces → **auto journal sell-to-close** the LEAP on paper (**no HITL on exit**). **Entry stays HITL.**
+4. **Spending:** `premium × 100 × contracts` vs paper cash.
+5. **Still grilling:** fingerprint (#685 vs alt).
+
+No ADR unless packaging law changes.
 
 ## Open questions (CoS)
 
