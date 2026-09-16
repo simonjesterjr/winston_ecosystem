@@ -1,6 +1,6 @@
 # Ticket: WUT LEAP Edge (R) — signal-path 1R fix
 
-**Status:** In Progress  
+**Status:** Done  
 **Priority:** P1  
 **Date:** 2026-09-15  
 **Mode:** contractor  
@@ -56,3 +56,8 @@ one_r = |order_price − original_stop| × contracts × 100
 ```
 
 Do not mix option premium with underlying 2N stop. Do not use ATR×contracts without ×100 multiplier for options.
+
+
+## Completion (2026-09-16)
+
+DoD met: PR #37 merged; `#682`–`#697` `edge_r` recalculated to ~1–10R order; absurd 100s–1000s R gone. See session report `docs/session-reports/2026-09-16-1400-wut-leap-edge-oa-scoreboard-setup.md`.
