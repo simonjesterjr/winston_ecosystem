@@ -228,7 +228,17 @@ Nanobot must listen on `0.0.0.0` (`gateway.host` in `ai/data/cromwell-bot/config
 
 ### CPU-only LLM notes (sawtooth-ai)
 
-This host has **no discrete GPU** (Raphael iGPU only). Ollama runs 100% CPU. Preferred Cromwell model: `cromwell-qwen2.5:3b` (`ai/ollama/Modelfile.cromwell-cpu`, `num_ctx` 8192). Keep-alive is `OLLAMA_KEEP_ALIVE=24h` in compose. See `ecosystem/docs/tickets/2026-07-09-cromwell-cpu-only-llm-tuning.md` and ops note in `ecosystem/ai/schedule/README.md` (avoid backtests at top-of-hour MT).
+### GPU (sawtooth-ai, 2026-09-16)
+
+Host now has an **NVIDIA GeForce RTX 3090** (driver `595.91.07`). Ollama runs CUDA via the `ai` profile.
+
+**Working path (rootless Podman 5.8):** classic `/dev/nvidia*` device nodes + bind-mount host driver libs (`libcuda`, `libnvidia-ml`, `libnvidia-ptxjitcompiler`, `nvidia-smi`). Verified: Ollama discovers `CUDA0` / 24 GiB VRAM and offloads model layers to GPU.
+
+**Not yet working:** CDI (`nvidia.com/gpu=all`) — `nvidia-ctk cdi generate` writes `/etc/cdi/nvidia.yaml` and `nvidia-ctk cdi list` shows devices, but rootless Podman reports `unresolvable CDI devices`. Tracked in `docs/tickets/2026-09-16-podman-nvidia-cdi-cleanup.md`.
+
+**Compose SOT mirror:** live runtime file is still host `sawtooth/compose.yml` (outside monolith git). Versioned copy: `deployment/workspace-compose.yml`. After any host compose edit, copy back into that file (see ticket `2026-07-17-version-workspace-compose-yml.md`).
+
+Preferred Cromwell model can stay on the CPU Modelfile tags for now; GPU makes larger tags viable. Keep-alive remains `OLLAMA_KEEP_ALIVE=24h`. See `ai/README.md` and `ecosystem/ai/schedule/README.md`.
 
 ### Files that implement the layer (all outside the deprecated openclawd-stack)
 - `ecosystem/ai/mcp/` — MCP layer (Containerfile + pyproject + package `mcp_winston/`)

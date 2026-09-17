@@ -33,3 +33,8 @@ Related gap: host `ai/mcp_winston` (see git-home ticket).
 - MCP git-home: `docs/tickets/2026-07-13-mcp-winston-source-git-home.md`  
 - Public URL note: `deployment/wv2-public-url.md`  
 - Session: [`docs/session-reports/2026-07-16-2210-public-url-cash-dar-error-guidance.md`](../session-reports/2026-07-16-2210-public-url-cash-dar-error-guidance.md)
+
+
+## Progress (2026-09-16)
+
+Interim SOT mirror added: [`deployment/workspace-compose.yml`](../../deployment/workspace-compose.yml) (full copy of host `sawtooth/compose.yml`, including RTX 3090 ollama wiring). Runtime file remains host-root until ownership decision lands. After host edits: `cp ~/Documents/com/sawtooth/compose.yml ecosystem/deployment/workspace-compose.yml`.

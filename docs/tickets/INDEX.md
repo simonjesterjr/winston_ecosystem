@@ -35,6 +35,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P3 | Proposed | [`2026-09-16-podman-nvidia-cdi-cleanup.md`](2026-09-16-podman-nvidia-cdi-cleanup.md) | Rootless Podman NVIDIA CDI cleanup (ollama still on classic `/dev/nvidia*` + lib binds) |
 | P1 | In progress | [`2026-09-16-wv2-paper-leap-eval-blue-from-685.md`](2026-09-16-wv2-paper-leap-eval-blue-from-685.md) | Wv2 paper Blue from WUT #685 — IBKR-eval LEAP, paper-only fulfill (deactivate ops 381) — [analysis](../analysis/2026-09-16-pbr685-blue-leap-s1-2pct.md) |
 | P1 | Proposed | [`2026-09-15-wv2-leap-packaging-fields.md`](2026-09-15-wv2-leap-packaging-fields.md) | Wv2 Model B — stamp OCC packaging on handoff/slate — [plan](../../plans/wv2-bg-ibkr-leap-fulfillment.md) · [ADR-017](../adr/ADR-017-leap-packaging-precalc-occ.md) |
 | P1 | Proposed | [`2026-09-15-bg-ibkr-opt-order-intent-prove.md`](2026-09-15-bg-ibkr-opt-order-intent-prove.md) | BG OPT Order Intent + IBKR paper 1×1 prove — [plan](../../plans/wv2-bg-ibkr-leap-fulfillment.md) · [ADR-017](../adr/ADR-017-leap-packaging-precalc-occ.md) |

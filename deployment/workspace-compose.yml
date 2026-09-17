@@ -1,0 +1,779 @@
+version: '3.8'
+
+# Sawtooth Ecosystem — Root Podman / Compose
+#
+# Primary local orchestration for the majestic monoliths (DM + WUT today; Cromwell + Wv2 later).
+#
+# Container names are set explicitly (via container_name:) so `podman ps` / `./bin/compose ps`
+# shows clean names: redis, postgres, wut_postgres, wv2_postgres, bg_postgres, data_manager,
+# winston_unit_test, winston_v2, broker_gateway (no "sawtooth_" project prefix).
+#
+# Services:
+#   - redis (shared Sidekiq)
+#   - postgres (for data_manager)
+#   - wut_postgres (for winston_unit_test)
+#   - wv2_postgres (for winston_v2)
+#   - bg_postgres (for broker_gateway)
+#   - data_manager (DM) on host :3001 (internal :3000)
+#   - winston_unit_test (WUT) on host :3000 (internal :3000)
+#   - winston_v2 (Wv2) on host :3002 (internal :3000)
+#   - broker_gateway (BG) on host :3003 (internal :3000)
+#
+# Recommended usage (no more "Executing external compose provider" spam):
+#
+#   ./bin/compose up -d
+#   ./bin/compose build data_manager winston_unit_test
+#   ./bin/compose ps
+#   ./bin/compose exec -T winston_unit_test bin/rails db:migrate ...
+#   ./bin/compose logs -f data_manager
+#   ./bin/compose restart data_manager
+#
+# OPTIONAL AI / MCP / Cromwell-bot layer (Telegram access to Wv2):
+#   ./bin/compose --profile ai up -d
+#   # (then populate ai/data/cromwell-bot/config.json from the example
+#   #  and pull a model: podman compose --profile ai exec ollama ollama pull ...)
+#
+# The AI services (ollama, winston_mcp, nanobot_cromwell, optional open-webui)
+# are defined later in this file under `profiles: ["ai"]`. Core monoliths are
+# completely unaffected when the profile is not used. See the big "OPTIONAL AI"
+# block near the bottom of the file and ai/README.md.
+#
+# The `bin/compose` wrapper (created for this project) prefers the real `podman-compose`
+# binary that is installed on this machine. It falls back gracefully if needed and
+# filters the hated message.
+#
+# You can also call `podman-compose` directly:
+#   podman-compose up -d
+#   podman-compose exec -T winston_unit_test ...
+#
+# EODHD key (for DM):
+#   cp ecosystem/deployment/eodhd-key-template.txt ecosystem/deployment/eodhd.env
+#   # edit to set EODHD_API_KEY=...
+#   Then restart DM:
+#     ./bin/compose restart data_manager
+#
+# One-time DB setup for WUT (after first `up -d`):
+#   ./bin/compose exec -T winston_unit_test \
+#     bin/rails db:create db:migrate db:seed RAILS_ENV=development
+#
+# Same pattern for data_manager and for winston_v2:
+#   ./bin/compose exec -T winston_v2 \
+#     bin/rails db:create db:migrate db:seed RAILS_ENV=development
+#
+# After adding new migrations (e.g. the one to relax FKs on TradingStrategy
+# so you can delete a PortfolioBacktestRun after promoting its config to a
+# first-class TradingStrategy), just re-run the migrate step:
+#   ./bin/compose exec -T winston_unit_test \
+#     bin/rails db:migrate RAILS_ENV=development
+#
+# `compose build` (or the Containerfile) only bakes the *migration files*
+# into the image. The actual schema changes are applied against the live
+# database at runtime via the explicit migrate command above. This is
+# intentional for dev (bind-mounted source + separate postgres container).
+# You will see PendingMigrationError in development until you run the
+# command for any newly added migration files.
+#
+# Portfolio configuration flow (WUT -> JSON -> Wv2):
+#   # From WUT (after a backtest run exists): export a configured run
+#   ./bin/compose exec -T winston_unit_test \
+#     bin/rails wut:portfolios:export_config[123, /portfolio_configs/my-live-portfolio.json]
+#   # Edit the JSON (raw CLI editor is supported and expected):
+#   nano portfolio_configs/my-live-portfolio.json
+#   # (or inside container: bin/rails wv2:portfolios:edit_config[my-live-portfolio.json])
+#   # Import into Wv2 (creates Portfolio + Books for markets + initial CashEvent)
+#   ./bin/compose exec -T winston_v2 \
+#     bin/rails wv2:portfolios:import[my-live-portfolio.json]
+#   # Then manage + evaluate (no heavy UI; rake or /internal/* API):
+#   ./bin/compose exec -T winston_v2 bin/rails wv2:portfolios:list
+#   ./bin/compose exec -T winston_v2 bin/rails wv2:portfolios:activate[My-Live-Portfolio]
+#   ./bin/compose exec -T winston_v2 bin/rails wv2:portfolios:evaluate   # runs daily for actives, emits Cromwell stub notif
+#   # See the resulting notification (includes the portfolio):
+#   cat winston_v2/storage/cromwell_notifications/wv2_$(date +%Y%m%d).json
+#
+# The ./portfolio_configs volume is bind-mounted into both WUT and Wv2 for easy host/container edit + flow.
+#
+# (Same pattern for data_manager migrations.)
+#
+# Volumes:
+#   - sawtooth_dm_data: mounted into DM at /app/data (the parquet Winston standard tree).
+#     WUT can also mount it (read-only) for direct high-perf parquet access during development.
+#   - Separate PG volumes per monolith (metadata DBs are independent).
+#
+# Networking:
+#   Containers reach each other by service name (e.g. WUT discovers markets by calling
+#   http://data_manager:3000/api/internal/... or DM notifies Cromwell at http://cromwell:....).
+#
+# Credentials / EODHD key:
+#   See ecosystem/deployment/ for templates and placement instructions.
+#   The key will be supplied by the user once the folder exists and will be loaded via
+#   env_file or podman secrets into the data_manager service.
+#
+# DNS note for real EODHD fetches (required for data acquisition):
+#   The data_manager service has explicit public DNS servers configured (see the service
+#   definition below). This is necessary in podman (especially rootless) and many container
+#   networking setups where the host's resolver (e.g. systemd-resolved on 127.0.0.53) is not
+#   reachable from inside the container. Without it you will see "getaddrinfo: Temporary failure
+#   in name resolution" when DM tries to reach eodhd.com.
+#
+# Relation to older per-app compose files:
+#   winston_unit_test/docker-compose.yml and any winston/ compose notes are being unified here.
+#   They can be kept for standalone single-app use but the root compose is preferred for the ecosystem.
+
+services:
+  redis:
+    container_name: redis
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  postgres:
+    container_name: postgres
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: data_manager_development
+    volumes:
+      - dm_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d data_manager_development"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Dedicated Postgres for winston_unit_test (WUT).
+  # Separate from DM's postgres so each majestic monolith owns its metadata DB.
+  # Credentials match the defaults in winston_unit_test/config/database.yml (and the ERB overrides above).
+  wut_postgres:
+    container_name: wut_postgres
+    image: postgres:16
+    ports:
+      - "5433:5432"   # Host port 5433 to avoid clashing with DM's postgres on 5432
+    environment:
+      POSTGRES_USER: sawtooth
+      POSTGRES_PASSWORD: sawtooth
+      POSTGRES_DB: winston_unit_test_dev
+    volumes:
+      - wut_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sawtooth -d winston_unit_test_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Dedicated Postgres for winston_v2 (Wv2).
+  # Separate from DM and WUT so each majestic monolith owns its metadata DB.
+  # Port 5434 on host to avoid clashes. Credentials chosen to match Wv2 database.yml expectations.
+  wv2_postgres:
+    container_name: wv2_postgres
+    image: postgres:16
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: sawtooth
+      POSTGRES_PASSWORD: sawtooth
+      POSTGRES_DB: winston_v2_dev
+    volumes:
+      - wv2_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sawtooth -d winston_v2_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Dedicated Postgres for broker_gateway (BG).
+  # Separate from DM/WUT/Wv2 — BG owns registry/cursors only; evidence is JSONL on disk.
+  # Port 5435 on host to avoid clashes.
+  bg_postgres:
+    container_name: bg_postgres
+    image: postgres:16
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_USER: sawtooth
+      POSTGRES_PASSWORD: sawtooth
+      POSTGRES_DB: broker_gateway_dev
+    volumes:
+      - bg_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sawtooth -d broker_gateway_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  data_manager:
+    container_name: data_manager
+    build:
+      context: ./data_manager
+      dockerfile: Containerfile   # or Dockerfile — create a minimal one in data_manager/
+    ports:
+      - "3001:3000"   # DM on 3001 to avoid clashing with WUT on 3000 during dev
+    environment:
+      - RAILS_ENV=development
+      - TAILSCALE_HOSTNAME=sawtooth-ai
+      - REDIS_URL=redis://redis:6379/0
+      # Redis DB /0 = DM Sidekiq (WUT /1, Wv2 /2 — isolated queues)
+      # WUT_INTERNAL_URL for direct "data ready" notifications (DM -> WUT metadata ingest).
+      # Matches the pattern used in DM rakes for discovery.
+      - WUT_INTERNAL_URL=http://winston_unit_test:3000
+      - WV2_INTERNAL_URL=http://winston_v2:3000
+      # DM database.yml (ff8d273) reads DB_* — defaults are localhost/sawtooth, which
+      # is not this compose postgres (user postgres, db data_manager_development).
+      - DB_HOST=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_NAME=data_manager_development
+      # EODHD_API_KEY is loaded from the env_file below.
+      # Create the file if it doesn't exist:
+      #   cp ecosystem/deployment/eodhd-key-template.txt ecosystem/deployment/eodhd.env
+      #   Then edit and set EODHD_API_KEY=your_real_key_from_eodhd.com
+      # IMPORTANT: After creating/editing the file, RESTART the service so env is loaded:
+      #   ./bin/compose restart data_manager   (or: podman-compose restart data_manager)
+    dns:
+      # Explicit public DNS for the data_manager container so it can resolve eodhd.com
+      # (and any other external hosts) for real data acquisition. This is often required
+      # in podman rootless setups or when the default resolver (e.g. 127.0.0.53) isn't
+      # reachable from the container network namespace.
+      - 8.8.8.8
+      - 1.1.1.1
+    env_file:
+      - ecosystem/deployment/eodhd.env   # relative to this compose.yml; must contain EODHD_API_KEY=...
+    volumes:
+      # Dev policy (2026-07-08): bind-mount source like WUT/Wv2 so app/lib/config/rake
+      # changes are live without rebuild. Named volume still owns /app/data (parquet).
+      #
+      # Root cause of the old "permission denied on bin/rails" under rootless Podman was
+      # host/git bin/* mode 0644 (git 100644). Image build runs `chmod +x bin/*`, but a
+      # full bind mount masks those with the host files. Fix: keep data_manager/bin/*
+      # executable (git 100755). If you ever see permission denied again:
+      #   chmod +x data_manager/bin/*
+      #   git -C data_manager update-index --chmod=+x bin/rails bin/rake bin/setup
+      # Fallback (Gemfile/Containerfile/native deps only):
+      #   ./bin/rebuild-dm
+      #   # or: ./bin/compose build data_manager && ./bin/compose up -d data_manager data_manager_sidekiq
+      - ./data_manager:/app
+      - sawtooth_dm_data:/app/data   # the parquet tree (Winston EOD Standard + derived columns)
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    # Clear stale server.pid left after abrupt container stop (bind-mount or image).
+    command: ["sh", "-c", "rm -f tmp/pids/server.pid && exec bin/rails server -b 0.0.0.0"]
+    restart: unless-stopped
+    # Migrations are pending on first run (the image bakes the migration files).
+    # Run migrations with the podman-native provider to avoid docker-compose link issues:
+    # ./bin/compose run --rm data_manager bin/rails db:migrate RAILS_ENV=development
+# (or use exec on the running service)
+    # (Or install podman-compose and use: podman-compose run --rm data_manager ...)
+    # (Migration 20240601000000_create_initial_dm_tables.rb creates the DM tables.)
+
+  data_manager_sidekiq:
+    container_name: data_manager_sidekiq
+    build:
+      context: ./data_manager
+      dockerfile: Containerfile
+    command: ["bundle", "exec", "sidekiq"]
+    environment:
+      - RAILS_ENV=development
+      - REDIS_URL=redis://redis:6379/0
+      - WUT_INTERNAL_URL=http://winston_unit_test:3000
+      - WV2_INTERNAL_URL=http://winston_v2:3000
+      - DB_HOST=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_NAME=data_manager_development
+      # Ecosystem health watchdog probes (optional AI profile + monoliths).
+      - OLLAMA_INTERNAL_URL=http://ollama:11434
+      - WINSTON_MCP_URL=http://winston_mcp:8088
+      - NANOBOT_HEALTH_URL=http://nanobot_cromwell:18790/health
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    env_file:
+      - ecosystem/deployment/eodhd.env
+      # Telegram alerts for EcosystemHealthCheckJob (gitignored *.env).
+      # Create from watchdog-env-template.txt if missing (file must exist for podman-compose).
+      - ecosystem/deployment/watchdog.env
+    volumes:
+      # Same bind-mount policy as data_manager (live Sidekiq code + jobs/rakes).
+      - ./data_manager:/app
+      - sawtooth_dm_data:/app/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  winston_unit_test:
+    container_name: winston_unit_test
+    build:
+      context: ./winston_unit_test
+      dockerfile: Containerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - RAILS_ENV=development
+      - TAILSCALE_HOSTNAME=sawtooth-ai
+      # Tailscale Serve mounts WUT at https://<host>/wut — prefix generated URLs and routes.
+      - RAILS_RELATIVE_URL_ROOT=/wut
+      - TAILSCALE_SERVE_PATH=/wut
+      - REDIS_URL=redis://redis:6379/1
+      - ACTIVE_JOB_QUEUE_ADAPTER=sidekiq
+      # DM discovery + data handoff
+      - DATA_MANAGER_URL=http://data_manager:3000
+      # Database connection (resolved via compose network; see wut_postgres service + database.yml ERB)
+      - DB_HOST=wut_postgres
+      - DB_NAME=winston_unit_test_dev
+      - DB_USER=sawtooth
+      - DB_PASSWORD=sawtooth
+      # WUT_INTERNAL_API_TOKEN etc. as needed
+    volumes:
+      # Mount DM's data volume read-only so WUT can consume Parquet (Winston EOD Standard) directly via DuckDB.
+      - sawtooth_dm_data:/dm_data:ro
+      # Live source mount for development (changes reflected without full rebuild).
+      - ./winston_unit_test:/app
+      # Shared directory for portfolio configuration JSON files (export from WUT, edit with nano/CLI, import into Wv2).
+      # Both WUT and Wv2 mount it so configs flow between backtest configs and live operational portfolios.
+      - ./portfolio_configs:/portfolio_configs
+      # Lab eval scorecard writes (Phase A): WUT rails runners → ecosystem/docs/analysis
+      - ./ecosystem/docs/analysis:/ecosystem/docs/analysis
+    depends_on:
+      redis:
+        condition: service_healthy
+      wut_postgres:
+        condition: service_healthy
+    # Bind-mounted dev: clear stale server.pid left on host after abrupt container stop.
+    command: ["sh", "-c", "rm -f tmp/pids/server.pid && exec bin/rails server -b 0.0.0.0"]
+    # WUT now has its own dedicated postgres (wut_postgres) for clean separation of metadata DBs.
+    # See database.yml (now env-aware) and the wut_postgres service definition below.
+
+  winston_unit_test_sidekiq:
+    container_name: winston_unit_test_sidekiq
+    build:
+      context: ./winston_unit_test
+      dockerfile: Containerfile
+    command: ["bundle", "exec", "sidekiq"]
+    environment:
+      - RAILS_ENV=development
+      - REDIS_URL=redis://redis:6379/1
+      - ACTIVE_JOB_QUEUE_ADAPTER=sidekiq
+      - DATA_MANAGER_URL=http://data_manager:3000
+      - DB_HOST=wut_postgres
+      - DB_NAME=winston_unit_test_dev
+      - DB_USER=sawtooth
+      - DB_PASSWORD=sawtooth
+    volumes:
+      - sawtooth_dm_data:/dm_data:ro
+      - ./winston_unit_test:/app
+      - ./portfolio_configs:/portfolio_configs
+      # Lab eval scorecard writes (Phase A): WUT rails runners → ecosystem/docs/analysis
+      - ./ecosystem/docs/analysis:/ecosystem/docs/analysis
+    depends_on:
+      redis:
+        condition: service_healthy
+      wut_postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  winston_v2:
+    container_name: winston_v2
+    build:
+      context: ./winston_v2
+      dockerfile: Containerfile
+    ports:
+      - "3002:3000"   # Wv2 on host 3002 (distinct from WUT 3000 / DM 3001)
+    # Telegram PDF → Sawtooth Main (TelegramReportDelivery reads ECOSYSTEM_WATCHDOG_TELEGRAM_*)
+    # Use plain path (podman-compose): path/required map form does not load vars reliably.
+    env_file:
+      - ecosystem/deployment/watchdog.env
+    environment:
+      - RAILS_ENV=development
+      - TAILSCALE_HOSTNAME=sawtooth-ai
+      - REDIS_URL=redis://redis:6379/2
+      - ACTIVE_JOB_QUEUE_ADAPTER=sidekiq
+      # DM for parquet data (Winston EOD Standard) + discovery
+      - DATA_MANAGER_URL=http://data_manager:3000
+      # WUT for pulling available testing strategies / composed strategy configs (loose coupling of methodologies)
+      - WUT_INTERNAL_URL=http://winston_unit_test:3000
+      # Broker Gateway (Confirmation Intake) — fail closed if down
+      - BROKER_GATEWAY_URL=http://broker_gateway:3000
+      # Database connection (resolved via compose network)
+      - DB_HOST=wv2_postgres
+      - DB_NAME=winston_v2_dev
+      - DB_USER=sawtooth
+      - DB_PASSWORD=sawtooth
+      # Cromwell webhook (optional — requires --profile ai; file stub always written)
+      - CROMWELL_WEBHOOK_URL=http://winston_mcp:8088/webhook/cromwell
+      # Ecosystem integration audit (ADR-004) — Wv2 partition under shared audit tree.
+      - WV2_INTEGRATION_AUDIT_DIR=/audit/wv2
+      # Daily report PDF always targets Sawtooth Main when token present
+      - WV2_TELEGRAM_CHAT_ID=-1003884714483
+      # Public ops/desk base for DAR PDF handoff links (Tailscale Serve /wv2).
+      # Phone Telegram cannot open localhost:3002 — use serve magicDNS path.
+      - WV2_PUBLIC_BASE_URL=https://sawtooth-ai.tail944ffb.ts.net/wv2
+      # Graphify Graph files (WEV Code tab). Host workspace, read-only.
+      - GRAPHIFY_ROOT=/sawtooth
+      # Tailscale Serve mounts Wv2 at https://<host>/wv2 — prefix generated URLs and routes
+      # so stylesheet/asset links resolve (without this: black text on dark inline styles).
+      - RAILS_RELATIVE_URL_ROOT=/wv2
+      - TAILSCALE_SERVE_PATH=/wv2
+    volumes:
+      # Mount DM's data volume read-only so Wv2 can consume Parquet directly via DuckDB (no time-series in its PG).
+      - sawtooth_dm_data:/dm_data:ro
+      # Live source mount for development (changes reflected without full rebuild).
+      - ./winston_v2:/app
+      # Shared directory for portfolio configuration JSON files (export from WUT, edit with nano/CLI, import into Wv2).
+      # Both WUT and Wv2 mount it so configs flow between backtest configs and live operational portfolios.
+      - ./portfolio_configs:/portfolio_configs
+      - ./ecosystem/logs/audit:/audit:rw,Z
+      - ./graphify-out:/sawtooth/graphify-out:ro
+      - ./ecosystem/graphify-out:/sawtooth/ecosystem/graphify-out:ro
+      - ./data_manager/graphify-out:/sawtooth/data_manager/graphify-out:ro
+      - ./winston_unit_test/graphify-out:/sawtooth/winston_unit_test/graphify-out:ro
+      - ./winston_v2/graphify-out:/sawtooth/winston_v2/graphify-out:ro
+      - ./broker_gateway/graphify-out:/sawtooth/broker_gateway/graphify-out:ro
+      - ./ai/graphify-out:/sawtooth/ai/graphify-out:ro
+    depends_on:
+      redis:
+        condition: service_healthy
+      wv2_postgres:
+        condition: service_healthy
+    # Bind-mounted dev: clear stale server.pid left on host after abrupt container stop.
+    command: ["sh", "-c", "rm -f tmp/pids/server.pid && exec bin/rails server -b 0.0.0.0"]
+    # Wv2 owns its own postgres (wv2_postgres). See database.yml (env-aware).
+    # Daily analysis: winston_v2_sidekiq at 4:30 PM MT; Cromwell cron delivers at 4:35 PM MT.
+
+  winston_v2_sidekiq:
+    container_name: winston_v2_sidekiq
+    build:
+      context: ./winston_v2
+      dockerfile: Containerfile
+    command: ["bundle", "exec", "sidekiq"]
+    env_file:
+      - ecosystem/deployment/watchdog.env
+    environment:
+      - RAILS_ENV=development
+      - REDIS_URL=redis://redis:6379/2
+      - ACTIVE_JOB_QUEUE_ADAPTER=sidekiq
+      - DATA_MANAGER_URL=http://data_manager:3000
+      - WUT_INTERNAL_URL=http://winston_unit_test:3000
+      - BROKER_GATEWAY_URL=http://broker_gateway:3000
+      - DB_HOST=wv2_postgres
+      - DB_NAME=winston_v2_dev
+      - DB_USER=sawtooth
+      - DB_PASSWORD=sawtooth
+      - CROMWELL_WEBHOOK_URL=http://winston_mcp:8088/webhook/cromwell
+      - WV2_INTEGRATION_AUDIT_DIR=/audit/wv2
+      - WV2_TELEGRAM_CHAT_ID=-1003884714483
+      - WV2_PUBLIC_BASE_URL=https://sawtooth-ai.tail944ffb.ts.net/wv2
+    volumes:
+      - sawtooth_dm_data:/dm_data:ro
+      - ./winston_v2:/app
+      - ./portfolio_configs:/portfolio_configs
+      - ./ecosystem/logs/audit:/audit:rw,Z
+    depends_on:
+      redis:
+        condition: service_healthy
+      wv2_postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Broker Gateway (BG) — transport + evidence JSONL + registry/cursors.
+  # Host :3003. Redis DB /3. No shared PG with Wv2. Paper DUT write is ADR-013.
+  broker_gateway:
+    container_name: broker_gateway
+    build:
+      context: ./broker_gateway
+      dockerfile: Containerfile
+    ports:
+      - "3003:3000"   # BG on host 3003 (WUT 3000 / DM 3001 / Wv2 3002)
+    environment:
+      - RAILS_ENV=development
+      - REDIS_URL=redis://redis:6379/3
+      - ACTIVE_JOB_QUEUE_ADAPTER=sidekiq
+      - DB_HOST=bg_postgres
+      - DB_PORT=5432
+      - DB_NAME=broker_gateway_dev
+      - DB_USER=sawtooth
+      - DB_PASSWORD=sawtooth
+      # Optional future: WV2_INTERNAL_URL for "events available" notify
+      - WV2_INTERNAL_URL=http://winston_v2:3000
+      # IBKR Client Portal Gateway on the host (paper SSO). Live read still off
+      # unless BG_IBKR_LIVE_READ=true in ibkr.env.
+      - IBKR_CPGW_BASE=https://host.docker.internal:5000/v1/api
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - ecosystem/deployment/ibkr.env
+    volumes:
+      - ./broker_gateway:/app
+      # Named volume for durable evidence JSONL (Winston Broker Evidence Standard)
+      - sawtooth_bg_evidence:/app/data/evidence
+    depends_on:
+      redis:
+        condition: service_healthy
+      bg_postgres:
+        condition: service_healthy
+    command: ["sh", "-c", "rm -f tmp/pids/server.pid && exec bin/rails server -b 0.0.0.0"]
+    restart: unless-stopped
+    # First-time schema:
+    #   ./bin/compose exec -T broker_gateway bin/rails db:create db:migrate RAILS_ENV=development
+
+  broker_gateway_sidekiq:
+    container_name: broker_gateway_sidekiq
+    build:
+      context: ./broker_gateway
+      dockerfile: Containerfile
+    command: ["bundle", "exec", "sidekiq"]
+    environment:
+      - RAILS_ENV=development
+      - REDIS_URL=redis://redis:6379/3
+      - ACTIVE_JOB_QUEUE_ADAPTER=sidekiq
+      - DB_HOST=bg_postgres
+      - DB_PORT=5432
+      - DB_NAME=broker_gateway_dev
+      - DB_USER=sawtooth
+      - DB_PASSWORD=sawtooth
+      - WV2_INTERNAL_URL=http://winston_v2:3000
+      - IBKR_CPGW_BASE=https://host.docker.internal:5000/v1/api
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - ecosystem/deployment/ibkr.env
+    volumes:
+      - ./broker_gateway:/app
+      - sawtooth_bg_evidence:/app/data/evidence
+    depends_on:
+      redis:
+        condition: service_healthy
+      bg_postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # =============================================================================
+  # OPTIONAL AI / TELEGRAM / MCP LAYER (Cromwell bot)
+  # =============================================================================
+  #
+  # These services are activated only with --profile ai.
+  # They provide the local LLM (ollama) + the MCP server (winston_mcp) + the
+  # Telegram gateway for the Cromwell bot (nanobot_cromwell).
+  #
+  # See ai/README.md and the big comment block near the bottom of this file
+  # for usage, configuration, and security notes.
+  #
+  # Core Winston monoliths run fine without this profile.
+
+  ollama:
+    profiles: ["ai"]
+    container_name: ollama
+    image: docker.io/ollama/ollama:latest
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=256M
+    security_opt:
+      - no-new-privileges
+    cap_drop:
+      - ALL
+    # RTX 3090 via classic device nodes (rootless Podman 5.8 CDI unresolved for nvidia.com/gpu=*).
+    devices:
+      - /dev/nvidia0
+      - /dev/nvidiactl
+      - /dev/nvidia-uvm
+      - /dev/nvidia-uvm-tools
+      - /dev/nvidia-modeset
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    volumes:
+      - ai_ollama_data:/root/.ollama:Z
+      # Host NVIDIA driver libs (rootless Podman CDI unresolved; devices alone leave VRAM=0).
+      - /usr/lib/x86_64-linux-gnu/libcuda.so.595.91.07:/usr/lib/x86_64-linux-gnu/libcuda.so.1:ro
+      - /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.595.91.07:/usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1:ro
+      - /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.595.91.07:/usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.1:ro
+      - /usr/bin/nvidia-smi:/usr/bin/nvidia-smi:ro
+    # No host port — only reachable by other ai-profile services (nanobot, open-webui).
+    restart: unless-stopped
+    environment:
+      # Keep primary Cromwell model resident (GPU path: avoid cold-load spikes on cron).
+      - OLLAMA_KEEP_ALIVE=24h
+      # Single agent; do not raise without measuring contention against Rails/Sidekiq.
+      - OLLAMA_NUM_PARALLEL=1
+      - OLLAMA_FLASH_ATTENTION=1
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional web UI for humans who want to chat directly with the local models.
+  # Not required for the Cromwell bot / MCP flow.
+  open-webui:
+    profiles: ["ai"]
+    container_name: open-webui
+    image: ghcr.io/open-webui/open-webui:main
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=128M
+    security_opt:
+      - no-new-privileges
+    cap_drop:
+      - ALL
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    volumes:
+      - open-webui-data:/app/backend/data:Z
+    environment:
+      OLLAMA_API_BASE: 'http://ollama:11434'
+      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY:-change-me-in-prod}
+    ports:
+      - "127.0.0.1:8080:8080"   # localhost only, like the evaluated reference
+    depends_on:
+      ollama:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # The actual MCP server (the "MCP component").
+  # Exposes the tools defined in ecosystem/interfaces/winston-mcp-tools.md
+  # by calling the existing (and lightly extended) /internal/* endpoints on Wv2/WUT.
+  # Runs in HTTP/SSE mode so nanobot can reach it by service name inside the network.
+  winston_mcp:
+    profiles: ["ai"]
+    container_name: winston_mcp
+    build:
+      # SOT: ecosystem/ai/mcp (layer) / mcp_winston (Winston package). Git: winston_ecosystem.
+      context: ./ecosystem/ai/mcp
+      dockerfile: Containerfile
+    # Internal port only (nanobot reaches http://winston_mcp:8088/sse).
+    # No host port by default — keep the attack surface small.
+    expose:
+      - "8088"
+    environment:
+      - WINSTON_V2_URL=http://winston_v2:3000
+      - WINSTON_UNIT_TEST_URL=http://winston_unit_test:3000
+      - DATA_MANAGER_URL=http://data_manager:3000
+      - ECOSYSTEM_AUDIT_DIR=/audit/mcp
+      - CROMWELL_WEBHOOK_INBOX=/audit/webhook
+    volumes:
+      - ./ecosystem/logs/audit:/audit:rw,Z
+    dns:
+      # Explicit public DNS is required for podman (especially rootless) builds
+      # and containers when the host resolver (127.0.0.53) is not reachable.
+      # Same pattern as data_manager and nanobot_cromwell.
+      - 8.8.8.8
+      - 1.1.1.1
+    depends_on:
+      winston_v2:
+        condition: service_started
+      winston_unit_test:
+        condition: service_started
+      data_manager:
+        condition: service_started
+    restart: unless-stopped
+    # For development you can uncomment a bind mount of the source:
+    # - ./ecosystem/ai/mcp:/app
+
+  # The Telegram gateway for our "cromwell bot".
+  # One instance (clean name). Config is populated by the operator from
+  # the example in ai/configs/ and mounted at /root/.nanobot.
+  nanobot_cromwell:
+    profiles: ["ai"]
+    container_name: nanobot_cromwell
+    build:
+      # SOT: ecosystem/ai/nanobot (git: winston_ecosystem) — Containerfile + Sawtooth patches.
+      context: ./ecosystem/ai/nanobot
+      dockerfile: Containerfile
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64M
+    security_opt:
+      - no-new-privileges
+    cap_drop:
+      - ALL
+    environment:
+      # CPU Ollama is serial (NUM_PARALLEL=1). >1 agent turns (cron+DM) stampede
+      # and hit 2m timeouts — DMs then hang with no Telegram reply.
+      - NANOBOT_MAX_CONCURRENT_REQUESTS=1
+      # Default OpenAI-compat HTTP timeout is 120s — too low for cromwell-qwen3:8b
+      # on CPU with full SOUL+tools context (saw 4 retries × timeout on transfer).
+      - NANOBOT_OPENAI_COMPAT_TIMEOUT_S=600
+      - NANOBOT_LLM_TIMEOUT_S=900
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    volumes:
+      # Use a clean project-owned location (not the user's home dir).
+      # The operator does: mkdir -p ai/data/cromwell-bot ; cp ai/configs/nanobot-cromwell.example.json ai/data/cromwell-bot/config.json
+      - ./ai/data/cromwell-bot:/root/.nanobot:rw,Z
+      # Daily activity PDFs from Wv2 (read-only) — Cromwell attaches via message tool media=[].
+      - ./winston_v2/storage/reports:/root/.nanobot/workspace/wv2_reports:ro,Z
+      # Ecosystem integration audit (ADR-004) — read-only for Cromwell skills.
+      - ./ecosystem/logs/audit:/root/.nanobot/workspace/ecosystem_audit:ro,Z
+      # If you prefer a named volume, replace the line above with:
+      # - ai_nanobot_cromwell_data:/root/.nanobot
+    # Localhost port only if you need to talk to the gateway directly (usually not needed).
+    ports:
+      - "127.0.0.1:18790:18790"
+    depends_on:
+      ollama:
+        condition: service_healthy
+      winston_mcp:
+        condition: service_started
+    command: gateway
+    restart: always
+
+volumes:
+  redis_data:
+  sawtooth_dm_data:
+  sawtooth_bg_evidence:
+  dm_postgres_data:
+  wut_postgres_data:
+  wv2_postgres_data:
+  bg_postgres_data:
+
+  # Optional AI layer volumes (only used when --profile ai is active).
+  # We deliberately use clean paths under ./ai/data (or named volumes) instead of
+  # mounting the operator's ~/.nanobot* home directories. This keeps the layer
+  # self-contained and easy to reset.
+  ai_ollama_data:
+  ai_nanobot_cromwell_data:
+  open-webui-data:
+
+# Notes:
+# - Preferred: ./bin/compose up -d     (or simply: podman-compose up -d)
+# - This gives clean output with no "external compose provider" spam.
+# - DM on host 3001, WUT on 3000.
+# - See the big comment block at the top of this file for the current recommended commands.
+#
+# AI / MCP / Cromwell-bot layer (optional):
+#   The four AI services (ollama, open-webui, winston_mcp, nanobot_cromwell)
+#   live inside the services: block above, each with `profiles: ["ai"]`.
+#
+#   To start them:
+#     ./bin/compose --profile ai up -d
+#     podman compose --profile ai up -d
+#
+#   Full instructions: ai/README.md, ecosystem/deployment/README.md,
+#   and the comment block just above the AI services in this file.
+#
+# See ecosystem/ for principles + plans, and bookmark_20260608.md for prior session state.
