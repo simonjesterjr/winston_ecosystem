@@ -35,6 +35,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P1 | Done | [`2026-09-16-wv2-paper-leap-eval-orange-from-683.md`](2026-09-16-wv2-paper-leap-eval-orange-from-683.md) | Wv2 paper Orange from WUT #683 — $30k Mode C TS75; replaced ops 308 → **#1576** |
 | P1 | Proposed | [`2026-09-16-wv2-paper-leap-eval-red-from-692.md`](2026-09-16-wv2-paper-leap-eval-red-from-692.md) | Wv2 paper Red from WUT #692 — $30k Mode C; replace existing Red OPs (after Blue) |
 | P2 | Proposed | [`2026-09-17-winston-llm-desk-inventory.md`](2026-09-17-winston-llm-desk-inventory.md) | Winston LLM desk inventory post-CUDA (map touchpoints → short GPU eval) — scheduled Thu 2026-09-17 |
 | P3 | Proposed | [`2026-09-16-podman-nvidia-cdi-cleanup.md`](2026-09-16-podman-nvidia-cdi-cleanup.md) | Rootless Podman NVIDIA CDI cleanup (ollama still on classic `/dev/nvidia*` + lib binds) |
