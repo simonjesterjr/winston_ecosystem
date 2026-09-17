@@ -35,14 +35,19 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
-| P1 | Done | [`2026-09-16-wv2-paper-leap-eval-orange-from-683.md`](2026-09-16-wv2-paper-leap-eval-orange-from-683.md) | Wv2 paper Orange from WUT #683 — $30k Mode C TS75; replaced ops 308 → **#1576** |
+| P1 | In progress | [`2026-09-17-mode-c-new-books-pcs-60-90.md`](2026-09-17-mode-c-new-books-pcs-60-90.md) | Mode C new books Indigo/Teal/Copper/Slate — PCS 60–90 compile + TS75 stamp |
+| P2 | In progress | [`2026-09-08-wev-pulse-other-monolith-emits.md`](2026-09-08-wev-pulse-other-monolith-emits.md) | WEV Pulse emit from WUT/Wv2/BG + **remaining nanobot_cromwell DAR** — [parent](2026-09-07-winston-ecosystem-view.md) · correlated PR #4/#5 archived |
+| P1 | In progress | [`2026-09-17-cromwell-daily-state-verifier.md`](2026-09-17-cromwell-daily-state-verifier.md) | Cromwell daily STATE + stop/skip + verifier skill on 8b — [loop L1](2026-07-19-loop-engineering-evolution-mode.md) |
+| P1 | Proposed | [`2026-09-17-eod-pending-15-human-confirm.md`](2026-09-17-eod-pending-15-human-confirm.md) | Human confirm 2026-09-17 pending drafts (EOD verifier skipped) |
+| P2 | Proposed | [`2026-09-17-compose-nanobot-recreate-cascade.md`](2026-09-17-compose-nanobot-recreate-cascade.md) | podman-compose nanobot recreate cascades Redis/Wv2/Ollama |
+| P2 | Proposed | [`2026-09-17-leap-aware-dar-narrative.md`](2026-09-17-leap-aware-dar-narrative.md) | LEAP-aware DAR/EOD narrative from MCP facts |
+| P3 | Proposed | [`2026-09-17-cromwell-cron-dual-route-3b.md`](2026-09-17-cromwell-cron-dual-route-3b.md) | Dual-route Cromwell cron to 3b (sessionKey model routing) |
+| P1 | In progress | [`2026-09-17-promote-screen-yellow-rust-walnut-mint.md`](2026-09-17-promote-screen-yellow-rust-walnut-mint.md) | Promote screen Y/Rust/Walnut/Mint — multi-TS ×1%/2%; else new books |
 | P1 | Proposed | [`2026-09-16-wv2-paper-leap-eval-red-from-692.md`](2026-09-16-wv2-paper-leap-eval-red-from-692.md) | Wv2 paper Red from WUT #692 — $30k Mode C; replace existing Red OPs (after Blue) |
-| P2 | Proposed | [`2026-09-17-winston-llm-desk-inventory.md`](2026-09-17-winston-llm-desk-inventory.md) | Winston LLM desk inventory post-CUDA (map touchpoints → short GPU eval) — scheduled Thu 2026-09-17 |
 | P3 | Proposed | [`2026-09-16-podman-nvidia-cdi-cleanup.md`](2026-09-16-podman-nvidia-cdi-cleanup.md) | Rootless Podman NVIDIA CDI cleanup (ollama still on classic `/dev/nvidia*` + lib binds) |
 | P1 | In progress | [`2026-09-16-wv2-paper-leap-eval-blue-from-685.md`](2026-09-16-wv2-paper-leap-eval-blue-from-685.md) | Wv2 paper Blue from WUT #685 — IBKR-eval LEAP, paper-only fulfill (deactivate ops 381) — [analysis](../analysis/2026-09-16-pbr685-blue-leap-s1-2pct.md) |
 | P1 | Proposed | [`2026-09-15-wv2-leap-packaging-fields.md`](2026-09-15-wv2-leap-packaging-fields.md) | Wv2 Model B — stamp OCC packaging on handoff/slate — [plan](../../plans/wv2-bg-ibkr-leap-fulfillment.md) · [ADR-017](../adr/ADR-017-leap-packaging-precalc-occ.md) |
 | P1 | Proposed | [`2026-09-15-bg-ibkr-opt-order-intent-prove.md`](2026-09-15-bg-ibkr-opt-order-intent-prove.md) | BG OPT Order Intent + IBKR paper 1×1 prove — [plan](../../plans/wv2-bg-ibkr-leap-fulfillment.md) · [ADR-017](../adr/ADR-017-leap-packaging-precalc-occ.md) |
-| P1 | Proposed | [`2026-09-14-wev-cuboid-pulse-highlight-active-work.md`](2026-09-14-wev-cuboid-pulse-highlight-active-work.md) | WEV — pulse/highlight cuboid while Pulse Work is active — [ops](https://sawtooth-ai.tail944ffb.ts.net/wv2/operations/ecosystem) |
 | P1 | In progress | [`2026-09-04-tf-p3-live-sizing-and-capital-authority.md`](2026-09-04-tf-p3-live-sizing-and-capital-authority.md) | Spending Capacity + Capital Authority into sizer/slate — [plan](../../plans/spending-capacity-and-leap-fulfillment.md) |
 | P1 | Proposed | [`2026-09-09-extra-modal-leap-unit-evaluation.md`](2026-09-09-extra-modal-leap-unit-evaluation.md) | Extra-modal LEAP vs share unit — read-only 1×1 unblocked — [plan](../../plans/wv2-bg-ibkr-leap-fulfillment.md) · [ADR-017](../adr/ADR-017-leap-packaging-precalc-occ.md) · [law](../business-context/leap-extra-modal-proxy.md) |
 | P1 | In progress | [`../../../winston_unit_test/docs/tickets/2026-09-14-wut-leap-packaged-pbr-faithful-sim.md`](../../../winston_unit_test/docs/tickets/2026-09-14-wut-leap-packaged-pbr-faithful-sim.md) | WUT LEAP-packaged PBR sim (lab Black-Scholes; #666 was hybrid shares) |
@@ -52,274 +57,9 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P3 | Proposed | [`../../../data_manager/docs/tickets/2026-09-13-dm-ponytail-drop-unused-frontend.md`](../../../data_manager/docs/tickets/2026-09-13-dm-ponytail-drop-unused-frontend.md) | DM ponytail 3/5 — drop unused frontend stack |
 | P3 | Proposed | [`../../../data_manager/docs/tickets/2026-09-13-dm-ponytail-shrink-standardizer.md`](../../../data_manager/docs/tickets/2026-09-13-dm-ponytail-shrink-standardizer.md) | DM ponytail 5/5 — shrink standardizer |
 | P2 | In progress | [`2026-09-11-measuring-edge-scoreboard.md`](2026-09-11-measuring-edge-scoreboard.md) | Edge (R) + E-ratio scoreboard — WUT PBR + Wv2 live/DAR/MMS |
-| P2 | Proposed | [`2026-09-11-wev-pulse-ibkr-cpgw-session-truth.md`](2026-09-11-wev-pulse-ibkr-cpgw-session-truth.md) | Pulse `ibkr_cpgw` from brokerage session, not tickle cron |
 | P3 | Proposed | [`2026-09-11-fulfillment-desk-adapters-yield-browser-verify.md`](2026-09-11-fulfillment-desk-adapters-yield-browser-verify.md) | Browser-verify All adapters header + Session Yield |
 | P2 | Proposed | [`2026-09-10-unit-risk-vs-parked-gtc.md`](2026-09-10-unit-risk-vs-parked-gtc.md) | Remaining unit risk vs parked GTC when the row stop differs |
 | P3 | Proposed | [`2026-09-10-signal-inspect-first-paint-eval-card.md`](2026-09-10-signal-inspect-first-paint-eval-card.md) | Browser-verify Signal Inspect first-paint Evaluation card |
 | P3 | Proposed | [`2026-09-10-dar-wq-open-lots-unit-risk.md`](2026-09-10-dar-wq-open-lots-unit-risk.md) | Unit-risk column on DAR and Winston Quiver open-lot tables |
 | P3 | Proposed | [`2026-09-09-wut-dataset-dm-sync-dead-jobs.md`](2026-09-09-wut-dataset-dm-sync-dead-jobs.md) | WUT DataSetDmSyncJob dead-lettered on unacquirable / unmapped symbols |
 | P1 | In progress | [`2026-09-13-cpgw-force-true-empty-open-orders.md`](2026-09-13-cpgw-force-true-empty-open-orders.md) | BG `open_orders` empty while DUT still holds live Day/GTC — [issue](../issues/2026-09-13-cpgw-force-true-empty-open-orders.md) |
-| P1 | In progress | [`2026-09-09-walnut-paper-session-order-slate.md`](2026-09-09-walnut-paper-session-order-slate.md) | Walnut paper Session Order Slate (stop-market) — first STP round parked; fill-driven repark in progress |
-| P1 | Proposed | [`2026-09-10-bg-broker-push-websocket-eval.md`](2026-09-10-bg-broker-push-websocket-eval.md) | Evaluate IBKR/Schwab push/websocket vs 15-minute poll — unattended listener depends on Winston-owned login |
-| P1 | In progress | [`2026-09-09-walnut-day-stp-close-reconcile.md`](2026-09-09-walnut-day-stp-close-reconcile.md) | After cash close — DUT-first overnight rebuild expires DAY already gone |
-| P1 | Proposed — see unblocked row | [`2026-09-09-extra-modal-leap-unit-evaluation.md`](2026-09-09-extra-modal-leap-unit-evaluation.md) | Extra-modal LEAP (historical blocked row) — prefer unblocked row + [plan](../../plans/wv2-bg-ibkr-leap-fulfillment.md) · [ADR-017](../adr/ADR-017-leap-packaging-precalc-occ.md) · [law](../business-context/leap-extra-modal-proxy.md) |
-| P2 | Proposed | [`2026-09-10-dm-restandardize-macd-corpus.md`](2026-09-10-dm-restandardize-macd-corpus.md) | Re-bake remaining DM parquet for MACD 12/26/9 |
-| P2 | Proposed | [`2026-09-10-dm-market-issuer-exchange-metadata.md`](2026-09-10-dm-market-issuer-exchange-metadata.md) | Record issuer name and exchange on DM Market / registry |
-| P3 | Proposed | [`2026-09-10-signal-inspect-focus-chart-browser-verify.md`](2026-09-10-signal-inspect-focus-chart-browser-verify.md) | Browser-verify Signal Inspect Focus chart |
-| P2 | Proposed — blocked | [`2026-09-10-macd-confirm-one-axis.md`](2026-09-10-macd-confirm-one-axis.md) | One-axis MACD confirm vs EMA-20 (blocked on residual-signal P1) |
-| P2 | Proposed | [`2026-09-09-ibkr-stp-tick-size.md`](2026-09-09-ibkr-stp-tick-size.md) | IBKR STP tick size beyond a hard 0.01 |
-| P2 | Proposed | [`../../../winston_unit_test/docs/tickets/2026-09-09-wut-expected-returns-queue-graveyard.md`](../../../winston_unit_test/docs/tickets/2026-09-09-wut-expected-returns-queue-graveyard.md) | WUT `expected_returns` producer-only graveyard (stop enqueue or add worker) |
-| P2 | Proposed | [`2026-09-09-wev-pulse-work-store-single-component.md`](2026-09-09-wev-pulse-work-store-single-component.md) | WEV PulseWork::Store — one component (import or single deploy) |
-| P2 | Proposed | [`2026-09-09-wev-pulse-container-catalog-sot.md`](2026-09-09-wev-pulse-container-catalog-sot.md) | WEV Pulse container metadata — SoT grill (not YAML-by-default) |
-| P2 | Proposed | [`2026-09-09-wev-code-plane-visual-qa.md`](2026-09-09-wev-code-plane-visual-qa.md) | WEV Code plane — operator visual QA |
-| P3 | Proposed | [`2026-09-09-wev-index-work-owner-heuristic.md`](2026-09-09-wev-index-work-owner-heuristic.md) | WEV work catalog — tighten owner heuristic |
-| P3 | Proposed | [`2026-09-09-wev-index-work-refresh-hook.md`](2026-09-09-wev-index-work-refresh-hook.md) | WEV work catalog — refresh when docs change |
-| P3 | Proposed | [`2026-09-09-wev-index-work-yaml-status.md`](2026-09-09-wev-index-work-yaml-status.md) | WEV work catalog — parse YAML / Status-banner into `status` |
-| P3 | Proposed | [`2026-09-09-wev-index-work-archive-tickets.md`](2026-09-09-wev-index-work-archive-tickets.md) | WEV work catalog — index archive tickets not listed in INDEX |
-| P3 | Proposed | [`2026-09-09-wev-work-json-split-bodies.md`](2026-09-09-wev-work-json-split-bodies.md) | WEV work catalog — split index vs bodies (if Tailscale hurts) |
-| P2 | Proposed | [`2026-09-08-wev-pulse-turbo-frame.md`](2026-09-08-wev-pulse-turbo-frame.md) | WEV Pulse tablets via Turbo Frame (no WebSockets) |
-| P2 | Proposed | [`2026-09-08-wev-pulse-action-cable.md`](2026-09-08-wev-pulse-action-cable.md) | WEV Pulse push via Action Cable (after DM emit) |
-| P2 | In progress | [`2026-09-08-wev-pulse-other-monolith-emits.md`](2026-09-08-wev-pulse-other-monolith-emits.md) | WEV Pulse named work (Redis HASH on owner DBs) |
-| P2 | In progress | [`2026-09-07-winston-ecosystem-view.md`](2026-09-07-winston-ecosystem-view.md) | Winston Ecosystem View (four-plane operator console) |
-| P1 | In progress | [`2026-09-06-wv2-fulfillment-label-and-desk.md`](2026-09-06-wv2-fulfillment-label-and-desk.md) | Fulfillment Label + Fulfillment Desk (Wv2 v1) |
-| P1 | Proposed | [`2026-09-06-fulfillment-desk-compose-clickthrough.md`](2026-09-06-fulfillment-desk-compose-clickthrough.md) | Restart Wv2 and click through Fulfillment Desk v1 |
-| P2 | Proposed | [`2026-09-06-bg-binding-labels-dut-ut.md`](2026-09-06-bg-binding-labels-dut-ut.md) | Set BG binding labels (DUT / UT) |
-| P2 | In progress | [`2026-09-06-ibkr-cpgw-unattended-session.md`](2026-09-06-ibkr-cpgw-unattended-session.md) | IBKR Client Portal unattended session (tickle ≠ login; explicit keep-alive window) |
-| P2 | Proposed | [`2026-09-11-winston-owned-ibkr-login.md`](2026-09-11-winston-owned-ibkr-login.md) | Winston-owned IBKR paper login (1Password/env; desk stays glance) |
-| P3 | Proposed | [`2026-09-06-persist-fulfillment-label-on-op.md`](2026-09-06-persist-fulfillment-label-on-op.md) | Persist Fulfillment Label nickname on the OP |
-| P3 | Proposed | [`2026-09-06-fulfillment-desk-rebind-waits-q8.md`](2026-09-06-fulfillment-desk-rebind-waits-q8.md) | Fulfillment Desk rebind / unbind waits on Q8 |
-| P2 | Proposed | [`2026-09-04-tf-foundations-competency-epic.md`](2026-09-04-tf-foundations-competency-epic.md) | Program: TF six-principles competency (Shannon→Lo) |
-| P1 | Proposed | [`2026-09-04-tf-p1-residual-signal-and-oos.md`](2026-09-04-tf-p1-residual-signal-and-oos.md) | P1 — Residual signal proof and true out-of-sample |
-| P2 | Proposed | [`2026-09-04-tf-p2-tails-ruin-and-uncertainty.md`](2026-09-04-tf-p2-tails-ruin-and-uncertainty.md) | P2 — Tails, ruin functionals, Knightian uncertainty |
-| P1 | Proposed | [`2026-09-04-tf-p3-live-sizing-and-capital-authority.md`](2026-09-04-tf-p3-live-sizing-and-capital-authority.md) | P3 — Live sizing: Capital Authority into the sizer |
-| P2 | Proposed | [`2026-09-04-tf-p4-compounding-and-champion-freeze.md`](2026-09-04-tf-p4-compounding-and-champion-freeze.md) | P4 — Compounding: champion freeze and sit-vs-kill |
-| P1 | Proposed | [`2026-09-04-tf-p5-desk-discipline-completion.md`](2026-09-04-tf-p5-desk-discipline-completion.md) | P5 — Desk discipline completion (do not rewrite doctrine) |
-| P2 | Proposed | [`2026-09-04-tf-p6-map-territory-and-model-death.md`](2026-09-04-tf-p6-map-territory-and-model-death.md) | P6 — Map vs territory and model death |
-| P2 | Proposed | [`2026-09-04-export-yellow-pbr550-inactive-paper.md`](2026-09-04-export-yellow-pbr550-inactive-paper.md) | Export Yellow PBR 550 / TS #101 as inactive paper OP |
-| P3 | Proposed | [`2026-09-04-wut-pbr-show-captured-ts.md`](2026-09-04-wut-pbr-show-captured-ts.md) | WUT PBR show page should link the captured TradingStrategy |
-| P1 | In progress | [`2026-08-30-production-ready-wq.md`](2026-08-30-production-ready-wq.md) | Epic: production-ready Winston Quiver (phases 1–4) |
-| P1 | In progress | [`2026-08-30-wq-phase1-paper-cadence-verify.md`](2026-08-30-wq-phase1-paper-cadence-verify.md) | WQ Phase 1 — paper cadence human-verify + glue |
-| P1 | In progress | [`2026-08-31-bg-ibkr-read-adapter-l1.md`](2026-08-31-bg-ibkr-read-adapter-l1.md) | Broker Gateway — Interactive Brokers L1 read adapter (paper CPGW `DUT070450`) |
-| P1 | In progress | [`2026-08-30-wq-phase2-schwab-read-and-sandbox.md`](2026-08-30-wq-phase2-schwab-read-and-sandbox.md) | WQ Phase 2 — Schwab sandbox spike + L1 read adapter |
-| P1 | In progress | [`2026-09-01-wq-ibkr-paper-evidence-bind.md`](2026-09-01-wq-ibkr-paper-evidence-bind.md) | WQ Phase 3 analog — bind paper WQ to IBKR DUT (evidence, not send) |
-| P1 | Proposed | [`2026-09-06-wq-ghost-journal-1279-spcx.md`](2026-09-06-wq-ghost-journal-1279-spcx.md) | Reverse or leave WQ ghost journal #1279 (SPCX drop) |
-| P1 | Proposed | [`2026-09-06-wq-first-dut-confirm-send-proof.md`](2026-09-06-wq-first-dut-confirm-send-proof.md) | First paper DUT Confirm-Send proof (one exit) |
-| P2 | Proposed | [`2026-09-06-ibkr-day-mkt-closed-cash-queue.md`](2026-09-06-ibkr-day-mkt-closed-cash-queue.md) | Observe DUT DAY MKT queue when cash is closed |
-| P1 | Proposed | [`2026-09-06-fractional-units-toi-confirm.md`](2026-09-06-fractional-units-toi-confirm.md) | Fractional units dropped by `to_i` on confirm / sizer |
-| P3 | Proposed | [`2026-09-06-intake-match-fixture-window.md`](2026-09-06-intake-match-fixture-window.md) | Confirmation Intake match specs — freeze fixture window |
-| P1 | Proposed | [`2026-09-01-wq-cost-basis-corrective-amend-dut.md`](2026-09-01-wq-cost-basis-corrective-amend-dut.md) | WQ cost-basis / Corrective Amend vs DUT fills |
-| P1 | Proposed — blocked | [`2026-09-01-ibkr-paper-reset-bind-mint.md`](2026-09-01-ibkr-paper-reset-bind-mint.md) | After WQ setup — reset IBKR paper DUT and bind paper Mint |
-| P2 | Proposed | [`2026-09-01-adr-009-resting-slate-addendum.md`](2026-09-01-adr-009-resting-slate-addendum.md) | ADR-009 addendum — next-open lab default vs live resting slate |
-| P2 | Proposed — blocked | [`2026-09-01-slate-automation-accept-fill-adr.md`](2026-09-01-slate-automation-accept-fill-adr.md) | Slate Automation + Accept-Fill ADR (leave discovery) |
-| P2 | Proposed | [`2026-09-01-fulfillment-packaging-policy-ops-ui.md`](2026-09-01-fulfillment-packaging-policy-ops-ui.md) | Fulfillment Packaging Policy UI in Winston v2 operations |
-| P2 | Proposed | [`2026-09-01-wv2-unit-heat-slate-contest.md`](2026-09-01-wv2-unit-heat-slate-contest.md) | Port Unit Heat and Slate Contest into Winston v2 Daily Analysis |
-| P3 | Proposed | [`2026-09-01-whole-slate-accept-fill-later-grill.md`](2026-09-01-whole-slate-accept-fill-later-grill.md) | Whole-slate accept-fill waits for a later grill |
-| P1 | Proposed | [`2026-08-30-wq-phase3-wq-schwab-evidence-bind.md`](2026-08-30-wq-phase3-wq-schwab-evidence-bind.md) | WQ Phase 3 — bind WQ to Schwab as evidence (not send) |
-| P1 | Done | [`2026-08-30-wq-phase4-one-at-a-time-send.md`](2026-08-30-wq-phase4-one-at-a-time-send.md) | WQ Phase 4 — IBKR paper DUT Confirm-Send MKT (ADR-013) |
-| P1 | In progress | [`2026-08-28-wq-monday-rebalance-plan.md`](2026-08-28-wq-monday-rebalance-plan.md) | WQ Monday plan → Plan Approve → dummy_sim execute (Phase 1 child) |
-| P1 | In progress | [`2026-08-28-bg-dummy-sim-sandbox-fills.md`](2026-08-28-bg-dummy-sim-sandbox-fills.md) | dummy_sim sandbox fills (not L3 write; Phase 1 child) |
-| P0 | In progress | [`2026-08-22-corporate-action-stop-safeguards.md`](2026-08-22-corporate-action-stop-safeguards.md) | Corporate-action stop safeguards (unadjusted reverse-split jumps × cover-at-open) |
-| P2 | Proposed | [`2026-09-07-classify-remaining-split-jump-parquet.md`](2026-09-07-classify-remaining-split-jump-parquet.md) | Classify remaining 271 split-like parquet jumps (do not universe-APPLY) |
-| P3 | Proposed | [`2026-09-07-mint-s2-rescore-after-ung-weat-amcr.md`](2026-09-07-mint-s2-rescore-after-ung-weat-amcr.md) | Optional Mint S2 re-score after UNG / WEAT / AMCR stitch |
-| P0 | Done — probe + 17:00 stop 2026-09-07 | [`2026-08-18-eodhd-lag-retry-after-close.md`](2026-08-18-eodhd-lag-retry-after-close.md) | EODHD lag retry + scored-session DAR gate (ADR-012; Friday 2026-08-21 miss) |
-| P1 | Done — Fri 08-28 / 09-04 scored; Labor Day not-scored | [`2026-08-22-observe-friday-scored-session-dar.md`](2026-08-22-observe-friday-scored-session-dar.md) | Observe next Friday unattended EOD — scored DAR, not hold |
-| P2 | Proposed | [`2026-09-07-completed-ny-session-us-holiday-calendar.md`](2026-09-07-completed-ny-session-us-holiday-calendar.md) | CompletedNySession US holiday calendar (Labor Day waited for a print that will never come) |
-| P1 | Proposed | [`2026-08-22-work-friday-catchup-desk-tasks.md`](2026-08-22-work-friday-catchup-desk-tasks.md) | Work Friday 2026-08-21 catch-up desk tasks (13 pending) |
-| P3 | Proposed | [`2026-08-22-catchup-telegram-one-liner.md`](2026-08-22-catchup-telegram-one-liner.md) | Optional catch-up Telegram one-liner (desk-only is the default) |
-| P1 | Done | [`archive/2026-08-21-wv2-quiver-tracking-page.md`](archive/2026-08-21-wv2-quiver-tracking-page.md) | Wv2 Quiver Tracking desk page + empty paper OP |
-| P1 | Done | [`archive/2026-08-21-wv2-quiver-pdf-ingest-and-gap-tasks.md`](archive/2026-08-21-wv2-quiver-pdf-ingest-and-gap-tasks.md) | Quiver Tracking PDF ingest + gap tasks |
-| P1 | Done | [`archive/2026-08-21-dm-parquet-for-quiver-tracking-books.md`](archive/2026-08-21-dm-parquet-for-quiver-tracking-books.md) | DM parquet pull for Quiver Tracking names |
-| P1 | Done | [`archive/2026-08-21-wv2-quiver-tracking-population-forms.md`](archive/2026-08-21-wv2-quiver-tracking-population-forms.md) | Quiver Tracking paper population / weighting forms |
-| P3 | Proposed — not v1 | [`2026-08-21-quiver-pdf-bot-scrape.md`](2026-08-21-quiver-pdf-bot-scrape.md) | Automate Quiver Strategies PDF grab / scrape |
-| P3 | Superseded | [`2026-08-21-quiver-tracking-bg-fulfillment.md`](2026-08-21-quiver-tracking-bg-fulfillment.md) | Broker Gateway path for Quiver Tracking → production-ready-WQ phases 3–4 |
-| P2 | Proposed | [`2026-08-21-wv2-quiver-tracking-native-pdf-parser.md`](2026-08-21-wv2-quiver-tracking-native-pdf-parser.md) | Native PDF parser for Quiver Tracking Premium print-PDF |
-| P2 | Proposed | [`2026-08-21-cromwell-telegram-quiver-tracking-ingest.md`](2026-08-21-cromwell-telegram-quiver-tracking-ingest.md) | Cromwell Telegram document → Quiver Tracking ingest |
-| P2 | Proposed | [`2026-08-21-wv2-quiver-tracking-equity-curve.md`](2026-08-21-wv2-quiver-tracking-equity-curve.md) | Real equity curve on Quiver Tracking desk |
-| P2 | Proposed | [`2026-08-21-grill-quiver-tracking-membership-vs-successor.md`](2026-08-21-grill-quiver-tracking-membership-vs-successor.md) | Grill Quiver Tracking in-place membership vs ADR-006 successor |
-| P1 | Scored — no pack default; v2 Mint survived | [`2026-08-20-wut-resting-stop-touch-fill-cadence.md`](2026-08-20-wut-resting-stop-touch-fill-cadence.md) | WUT lab cadence — resting stop-touch entries (Donchian fill at parked level) |
-| P1 | Blocked | [`2026-08-20-resting-session-stop-orders.md`](2026-08-20-resting-session-stop-orders.md) | Resting session stop-market orders (entry / pyramid / protect) — post-BG L3 |
-| P2 | Proposed | [`2026-08-20-mount-quiver-env-live-alt-filing-sync.md`](2026-08-20-mount-quiver-env-live-alt-filing-sync.md) | Mount quiver.env and run live Alt Filing sync |
-| P3 | Proposed | [`2026-08-20-health-watchdog-probe-specific-hints.md`](2026-08-20-health-watchdog-probe-specific-hints.md) | Ecosystem health Telegram hints should match the failed probe |
-| P3 | Proposed | [`2026-08-20-dm-rails-health-up-404.md`](2026-08-20-dm-rails-health-up-404.md) | Diagnose data_manager GET /up 404 |
-| P3 | Proposed | [`2026-08-20-compose-starting-healthcheck-inventory.md`](2026-08-20-compose-starting-healthcheck-inventory.md) | Inventory compose services stuck in (starting) |
-| P1 | Proposed | [`2026-08-19-observe-wednesday-eod-tsm.md`](2026-08-19-observe-wednesday-eod-tsm.md) | Observe Wednesday unattended EOD — DAR must say TSM |
-| P1 | Proposed | [`2026-08-19-googl-rxt-correct-fill-if-open-gaps.md`](2026-08-19-googl-rxt-correct-fill-if-open-gaps.md) | Correct-fill Rust GOOGL / RXT if 2026-08-19 open gaps |
-| P2 | Proposed | [`2026-08-19-tsm-remap-operator-clickthrough.md`](2026-08-19-tsm-remap-operator-clickthrough.md) | Operator click-through — TSMC → TSM storage remap |
-| P3 | Proposed | [`2026-08-19-delete-predecessor-tsmc-parquet.md`](2026-08-19-delete-predecessor-tsmc-parquet.md) | Optional delete of predecessor TSMC parquet folder |
-| P1 | Done | [`archive/2026-08-18-observe-tuesday-unattended-eod-cycle.md`](archive/2026-08-18-observe-tuesday-unattended-eod-cycle.md) | Observe Tuesday unattended EOD cycle (DM 15:30 MT → DAR 16:30 MT) |
-| P1 | Done | [`archive/2026-08-18-rust-11-drafts-937-938-desk.md`](archive/2026-08-18-rust-11-drafts-937-938-desk.md) | Desk decision — Rust #11 drafts 937 (GOOGL) and 938 (RXT) |
-| P3 | Proposed | [`2026-08-18-mcp-list-journals-for-portfolio.md`](2026-08-18-mcp-list-journals-for-portfolio.md) | MCP list-journals for a portfolio |
-| P0 | Done | [`2026-08-18-after-close-eod-session-contract.md`](2026-08-18-after-close-eod-session-contract.md) | After-close EOD session contract (DM to-date + Wv2 exact bar) |
-| P2 | Proposed | [`2026-08-18-verify-ops-shell-pending-grouped-live.md`](2026-08-18-verify-ops-shell-pending-grouped-live.md) | Verify ops-shell Pending grouping on a live multi-OP mint |
-| P1 | Done | [`2026-08-18-work-monday-catchup-desk-tasks.md`](2026-08-18-work-monday-catchup-desk-tasks.md) | Work Monday 2026-08-17 catch-up desk tasks (12 pending) |
-
-| P2 | Proposed | [`2026-08-18-persist-dm-download-runs.md`](2026-08-18-persist-dm-download-runs.md) | Persist DM download_runs / download_tasks for after-close sync |
-| P3 | Done | [`archive/2026-08-18-commit-wv2-signal-inspect-legend-sheet.md`](archive/2026-08-18-commit-wv2-signal-inspect-legend-sheet.md) | Commit leftover Wv2 signal-inspect legend sheet (`2d86e7a`) |
-| P2 | Proposed | [`2026-08-17-exit-at-stop-classic-desk-and-ops-shell.md`](2026-08-17-exit-at-stop-classic-desk-and-ops-shell.md) | Ticket: Exit-at-stop on classic desk and ops shell |
-| P2 | Proposed | [`2026-08-17-preserve-winston-signal-on-dar-stop-confirm.md`](2026-08-17-preserve-winston-signal-on-dar-stop-confirm.md) | Ticket: Preserve winston_signal when confirming a DAR exit at stop |
-| P3 | Proposed | [`2026-08-17-archive-bg-l1-done-tickets.md`](2026-08-17-archive-bg-l1-done-tickets.md) | Ticket: Archive Broker Gateway L1 Done tickets |
-| P3 | Proposed | [`2026-08-17-wut-position-swap-spec-activity-atr.md`](2026-08-17-wut-position-swap-spec-activity-atr.md) | Ticket: WUT PositionSwapEvaluator spec sets Activity.atr as a column |
-| P1 | Done | [`2026-08-17-wv2-equity-wut-parity-flow-dar-shell.md`](2026-08-17-wv2-equity-wut-parity-flow-dar-shell.md) | Ticket: Wv2 equity WUT-parity — short flow + DAR + shell |
-| P1 | In progress | [`2026-08-12-turtle-systems-eval-and-ops-alignment.md`](2026-08-12-turtle-systems-eval-and-ops-alignment.md) | Ticket: Turtle systems eval + heat + capital + ops voice |
-| P1 | Proposed | [`2026-08-12-dar-next-steps-portfolio-name-truncation.md`](2026-08-12-dar-next-steps-portfolio-name-truncation.md) | Ticket: DAR Next Steps — portfolio column truncates to “Portfolio” |
-| P1 | Done | [`2026-08-12-ops-shell-next-steps-by-portfolio.md`](2026-08-12-ops-shell-next-steps-by-portfolio.md) | Ticket: Ops shell — pending/next steps grouped by portfolio |
-| P1 | Done | [`2026-08-13-handoff-mint-s2-yellow-s1-observation.md`](2026-08-13-handoff-mint-s2-yellow-s1-observation.md) | Ticket: Handoff Mint+TS#77 and Yellow+TS#75 observation OPs |
-| P1 | Done | [`2026-08-13-importer-risk-percentage-one-percent.md`](2026-08-13-importer-risk-percentage-one-percent.md) | Ticket: Importer treats risk_percentage 1.0 as 100% |
-| P1 | Done — live DA verified 2026-09-04 | [`archive/2026-08-13-evaluate-turtle-mint-s2-yellow-s1.md`](archive/2026-08-13-evaluate-turtle-mint-s2-yellow-s1.md) | Ticket: First Daily Analysis on Turtle Mint S2 + Yellow S1 |
-| P3 | Proposed | [`2026-08-13-hygiene-close-unused-inactive-ops.md`](2026-08-13-hygiene-close-unused-inactive-ops.md) | Ticket: Hygiene-close unused inactive Mint/Yellow/Blue leftovers |
-| P3 | Proposed | [`2026-08-13-closed-paper-residue-cleanup.md`](2026-08-13-closed-paper-residue-cleanup.md) | Ticket: Human cleanup of open residue on closed paper OPs #6 and #383 |
-| P2 | Proposed | [`2026-08-13-rebuild-winston-mcp-snapshot-timeout.md`](2026-08-13-rebuild-winston-mcp-snapshot-timeout.md) | Ticket: Rebuild winston_mcp after snapshot timeout + tool description |
-| P2 | Proposed | [`2026-08-13-observe-shuffled-hourly-snapshot.md`](2026-08-13-observe-shuffled-hourly-snapshot.md) | Ticket: Observe shuffled hourly snapshot on Telegram |
-| P2 | Proposed | [`2026-08-13-snapshot-universe-active-vs-parquet.md`](2026-08-13-snapshot-universe-active-vs-parquet.md) | Ticket: Snapshot shuffle universe — Active books vs full parquet |
-| P3 | Proposed | [`2026-08-13-reseed-cromwell-snapshot-skill.md`](2026-08-13-reseed-cromwell-snapshot-skill.md) | Ticket: Re-seed Cromwell workspace snapshot skill |
-| P2 | Proposed | [`2026-08-13-walnut-turtle-hybrid-smoke.md`](2026-08-13-walnut-turtle-hybrid-smoke.md) | Ticket: Portfolio Walnut — Turtle hybrid-price smoke (S1/S2) |
-| P2 | Superseded by 2026-08-17 equity parity | [`2026-08-13-investigate-negative-risk-equity-active-ops.md`](2026-08-13-investigate-negative-risk-equity-active-ops.md) | Ticket: Investigate negative risk_equity on Active OPs |
-| P2 | Proposed | [`2026-08-12-desk-fill-stop-js-browser-verify.md`](2026-08-12-desk-fill-stop-js-browser-verify.md) | Ticket: Browser-verify desk fill-stop JavaScript |
-| P2 | Proposed | [`2026-08-12-dar-risk-equity-live-render.md`](2026-08-12-dar-risk-equity-live-render.md) | Ticket: Live DAR render — free cash + risk equity + over-deployed |
-| P1 | Done — Phases 0–4 | [`2026-07-25-ts-portfolio-heat-unit-limits.md`](2026-07-25-ts-portfolio-heat-unit-limits.md) | Ticket: TS creation — multi-level portfolio heat (Turtle unit limits + correlations) |
-| P1 | In progress | [`2026-08-09-l1-confirmation-intake-bg-build.md`](2026-08-09-l1-confirmation-intake-bg-build.md) | Epic: L1 Confirmation Intake + Broker Gateway build |
-| P1 | Done | [`2026-08-09-winston-broker-evidence-standard-interface.md`](2026-08-09-winston-broker-evidence-standard-interface.md) | Ticket: Winston Broker Evidence Standard — interface doc |
-| P1 | Ready (scaffold landed; formal close optional) | [`2026-08-09-broker-gateway-rails-scaffold.md`](2026-08-09-broker-gateway-rails-scaffold.md) | Ticket: Broker Gateway — Rails monolith scaffold |
-| P1 | Done | [`2026-08-09-bg-adapter-registry-and-capability-profile.md`](2026-08-09-bg-adapter-registry-and-capability-profile.md) | Ticket: Broker Gateway — adapter registry + CapabilityProfile |
-| P1 | Done | [`2026-08-09-bg-dummy-sim-adapter.md`](2026-08-09-bg-dummy-sim-adapter.md) | Ticket: Broker Gateway — dummy/sim adapter (paper path + contracts) |
-| P3 | Proposed | [`2026-08-12-bg-evidence-volume-name.md`](2026-08-12-bg-evidence-volume-name.md) | Ticket: BG evidence volume — avoid double project prefix |
-| P3 | Proposed | [`2026-08-12-bg-compose-first-time-up-docs.md`](2026-08-12-bg-compose-first-time-up-docs.md) | Ticket: Document first-time Broker Gateway compose bring-up |
-| P1 | Done | [`2026-08-09-bg-evidence-store-jsonl-and-cursors.md`](2026-08-09-bg-evidence-store-jsonl-and-cursors.md) | Ticket: Broker Gateway — evidence store JSONL + cursors |
-| P1 | Done | [`2026-08-09-bg-internal-api-refresh-events.md`](2026-08-09-bg-internal-api-refresh-events.md) | Ticket: Broker Gateway — internal API refresh + events |
-| P1 | In progress | [`2026-08-09-bg-schwab-read-adapter-l1.md`](2026-08-09-bg-schwab-read-adapter-l1.md) | Ticket: Broker Gateway — Schwab read adapter (L1; WQ Phase 2 child) |
-| P1 | Done | [`2026-08-09-wv2-bg-client-and-event-cursor.md`](2026-08-09-wv2-bg-client-and-event-cursor.md) | Ticket: Wv2 — BG client + event cursor |
-| P1 | Done | [`2026-08-09-wv2-trade-notification-store-and-normalize.md`](2026-08-09-wv2-trade-notification-store-and-normalize.md) | Ticket: Wv2 — TradeNotification store + normalize |
-| P1 | Done | [`2026-08-09-wv2-match-prefill-confirmation-intake.md`](2026-08-09-wv2-match-prefill-confirmation-intake.md) | Ticket: Wv2 — match + prefill Confirmation Intake |
-| P1 | Done | [`2026-08-09-wv2-desk-workflow-hitl-evidence-ui.md`](2026-08-09-wv2-desk-workflow-hitl-evidence-ui.md) | Ticket: Wv2 — desk workflow HITL evidence UI |
-| P1 | Done | [`2026-08-09-wv2-confirmation-intake-integration-specs.md`](2026-08-09-wv2-confirmation-intake-integration-specs.md) | Ticket: Wv2 — Confirmation Intake integration specs |
-| P1 | Done | [`2026-08-09-l1-contract-fixtures-and-test-harness.md`](2026-08-09-l1-contract-fixtures-and-test-harness.md) | Ticket: L1 contract fixtures + test harness |
-| P1 | Proposed | [`2026-08-07-schwab-trader-api-sandbox-spike.md`](2026-08-07-schwab-trader-api-sandbox-spike.md) | Ticket: Schwab Trader API sandbox / integration-test spike (WQ Phase 2 child) |
-| P2 | In progress | [`2026-08-04-stack-arr-mer-risk-scale-chart.md`](2026-08-04-stack-arr-mer-risk-scale-chart.md) | Ticket: Stack ARR + MER on trade timeline; risk-scale path chart |
-| P3 | Proposed | [`2026-08-03-portfolio-color-edit-ui.md`](2026-08-03-portfolio-color-edit-ui.md) | Ticket: Portfolio color edit UI (WUT + Wv2) |
-| P3 | Proposed | [`2026-08-03-align-portfolio-color-fallback.md`](2026-08-03-align-portfolio-color-fallback.md) | Ticket: Align WUT/Wv2 PortfolioColor fallback + from_name |
-| P3 | Proposed | [`2026-08-03-version-portfolio-configs-in-git.md`](2026-08-03-version-portfolio-configs-in-git.md) | Ticket: Version primary portfolio_configs JSON in git |
-| P2 | Proposed | [`2026-07-31-am-m-forced-step-smoke.md`](2026-07-31-am-m-forced-step-smoke.md) | Ticket: AM/M forced-step smoke (risk scale knobs that move) |
-| P2 | Proposed | [`2026-07-31-adr-risk-scale-orthogonality.md`](2026-07-31-adr-risk-scale-orthogonality.md) | Ticket: ADR — risk_scale_policy orthogonal to base geometry |
-| P2 | Proposed | [`2026-07-31-business-analysis-risk-scale-matrix-345-356.md`](2026-07-31-business-analysis-risk-scale-matrix-345-356.md) | Ticket: Business analysis scorecard — matrix PBRs 345–356 |
-| P2 | Proposed | [`2026-07-31-kelly-scale-not-global-default.md`](2026-07-31-kelly-scale-not-global-default.md) | Ticket: Kelly scale — not global default |
-| P2 | Done — OP #1400 inactive paper | [`archive/2026-07-31-yellow-owdc-none-paper-candidate.md`](archive/2026-07-31-yellow-owdc-none-paper-candidate.md) | Ticket: Yellow OWDC + scale=none paper candidate |
-| P2 | In progress — Yellow S/M/K scored | [`2026-07-30-kelly-martingale-sizing-portfolio-management.md`](2026-07-30-kelly-martingale-sizing-portfolio-management.md) | Ticket: Kelly / Martingale sizing in portfolio management (WUT lab → Wv2 daily managers) |
-| P2 | Proposed | [`2026-07-30-parallel-trading-system-swing-options-intraday.md`](2026-07-30-parallel-trading-system-swing-options-intraday.md) | Ticket: Parallel trading system (swing / options / intraday) reusing Winston rails |
-| P1 | In progress | [`2026-07-25-strategy-bakeoff-v1-phase1.md`](2026-07-25-strategy-bakeoff-v1-phase1.md) | Ticket: Strategy bake-off V1 — Phase 1 (cross-portfolio TS selection) |
-| P1 | Transferred paper inactive — activate when ready | [`2026-07-26-s4-recipe-transfer-mint-yellow-blue.md`](2026-07-26-s4-recipe-transfer-mint-yellow-blue.md) | Ticket: Promote S4 FastBO5 pack — transfer Mint / Yellow / Blue |
-| P2 | Proposed | [`2026-07-26-s4-op-max-markets-book-count.md`](2026-07-26-s4-op-max-markets-book-count.md) | Ticket: S4 pack OPs — set max_markets_per_portfolio to book size |
-| P1 | Scored — keep pure next_bar pyramids | [`2026-07-26-hybrid-fill-entry-next-pyramid-same-day.md`](2026-07-26-hybrid-fill-entry-next-pyramid-same-day.md) | Ticket: Hybrid fill — next-bar entry, same-day pyramid (lab + broker priority) |
-| P1 | Scored — reject price-level pyramids | [`2026-07-26-hybrid-fill-price-level-pyramid.md`](2026-07-26-hybrid-fill-price-level-pyramid.md) | Ticket: Pyramid price-level fills (resting stop at last±N×ATR) |
-| P2 | Scored — keep ladder A (B/C null) | [`2026-07-26-s4-phase2-ladder-mildness.md`](2026-07-26-s4-phase2-ladder-mildness.md) | Ticket: Phase 2 step 3b — S4 milder OWD ladder at frozen heat |
-| P2 | Scored — keep $10k ($20k hurts) | [`2026-07-26-s4-capital-20k-survivability.md`](2026-07-26-s4-capital-20k-survivability.md) | Ticket: S4 — does 2× initial capital ($20k) improve survivability? |
-| P3 | Proposed | [`2026-07-26-bakeoff-scorecard-cagr-calmar.md`](2026-07-26-bakeoff-scorecard-cagr-calmar.md) | Ticket: Bake-off scorecards — CAGR and Calmar metrics |
-| P2 | Done — operator dead end 2026-09-04 | [`archive/2026-07-25-owdc-owd-four-cell-matrix.md`](archive/2026-07-25-owdc-owd-four-cell-matrix.md) | Ticket: OWDC / OWD 4-cell lab matrix (trust close-out) |
-| P3 | Proposed | [`2026-07-25-pbr-cash-ledger-return-scorecard.md`](2026-07-25-pbr-cash-ledger-return-scorecard.md) | Ticket: PBR free-cash ledger — total-return scorecard |
-| P3 | Proposed | [`2026-07-25-pbr-status-poll-missing-run-ux.md`](2026-07-25-pbr-status-poll-missing-run-ux.md) | Ticket: PBR status-poll UX when run HTML is missing (404) |
-| P2 | Proposed | [`2026-07-24-dar-telegram-force-republish-runbook.md`](2026-07-24-dar-telegram-force-republish-runbook.md) | Ticket: DAR Telegram force re-publish runbook |
-| P2 | Proposed (follow-on after close-trigger / one_way_dynamic_close) | [`2026-07-24-opposite-entry-signal-on-signal.md`](2026-07-24-opposite-entry-signal-on-signal.md) | Ticket: Opposite-entry “signal-on-signal” (exit vs reverse) — WUT experiment |
-| P2 | Proposed | [`2026-07-24-audit-wv2-multi-exit-truncation.md`](2026-07-24-audit-wv2-multi-exit-truncation.md) | Ticket: Audit Wv2 TradingStrategies for truncated multi-exit |
-| P2 | Proposed | [`2026-07-24-handoff-paths-singular-exit-only.md`](2026-07-24-handoff-paths-singular-exit-only.md) | Ticket: Confirm no handoff path still uses singular exit only |
-| P3 | Proposed | [`2026-07-23-game-theory-analysis-winston-stack.md`](2026-07-23-game-theory-analysis-winston-stack.md) | Ticket: Game-theory analysis of the Winston stack (portfolio → EOD → signal → execution; EOD trend vs intraday swing) |
-| P1 | Proposed | [`2026-07-23-pbr-results-json-must-be-json.md`](2026-07-23-pbr-results-json-must-be-json.md) | Ticket: PBR `results_json` must be valid JSON (not Hash#inspect) |
-| P1 | Proposed | [`2026-07-23-cromwell-telegram-ops-fastpath-empty-response.md`](2026-07-23-cromwell-telegram-ops-fastpath-empty-response.md) | Ticket: Cromwell Telegram ops fast-path (sidestep empty-response hangs) |
-| P1 | Proposed | [`2026-07-23-wv2-add-single-market-to-portfolio.md`](2026-07-23-wv2-add-single-market-to-portfolio.md) | Ticket: Add a single market to a single Operational Portfolio (Wv2) — e.g. SPCX → Yellow |
-| P1 | Proposed | [`2026-07-23-mcp-transfer-activate-flow-smooth.md`](2026-07-23-mcp-transfer-activate-flow-smooth.md) | Ticket: Smooth MCP transfer + activate flow (errors, timeouts, reply contract) — includes run-121 false 500 |
-| P1 | Proposed | [`2026-07-23-wut-puma-large-pbr-results-json.md`](2026-07-23-wut-puma-large-pbr-results-json.md) | Ticket: WUT puma timeouts under large multi-market PBR results_json |
-| P2 | Proposed | [`2026-07-23-reexport-mint-yellow-vet-winners.md`](2026-07-23-reexport-mint-yellow-vet-winners.md) | Ticket: Re-export Mint/Yellow first-pass vet winners (opt #47/#48) |
-| P2 | Done — Mint none; Yellow PBR 550 static | [`archive/2026-07-23-mint-yellow-risk-transfer-matrix.md`](archive/2026-07-23-mint-yellow-risk-transfer-matrix.md) | Ticket: Mint/Yellow risk-transfer matrix (R1 ladder + capacity) |
-| P2 | Done | [`archive/2026-07-23-dm-lookback-exclusive-overlap-specs.md`](archive/2026-07-23-dm-lookback-exclusive-overlap-specs.md) | Ticket: Specs for DM lookback/date-range and exclusive MAX_OVERLAP=0 |
-| P1 | Done — keep membership; OWD+capacity rescued | [`archive/2026-07-07-revisit-portfolio-blue-membership-strategy.md`](archive/2026-07-07-revisit-portfolio-blue-membership-strategy.md) | Ticket: Revisit Portfolio Blue membership and strategy viability |
-| P1 | In progress (mitigations landed 2026-07-09; await natural… | [`2026-07-09-cromwell-cron-llm-timeout.md`](2026-07-09-cromwell-cron-llm-timeout.md) | Ticket: Harden Cromwell cron LLM path (timeouts on scheduled Telegram) |
-| P1 | In progress (ops fixes applied host-side; remaining work … | [`2026-07-15-cromwell-llm-cpu-reliability.md`](2026-07-15-cromwell-llm-cpu-reliability.md) | Ticket: Cromwell LLM CPU reliability (timeouts, think, cron isolation) |
-| P1 | Proposed | [`2026-07-15-cromwell-thin-cron-and-priority.md`](2026-07-15-cromwell-thin-cron-and-priority.md) | Ticket: Thin / LLM-light Cromwell cron + user priority (Tier 2) — elevated 2026-07-23 |
-| P1 | Proposed | [`2026-07-04-operational-data-backup-and-dr.md`](2026-07-04-operational-data-backup-and-dr.md) | Ticket: Operational data backup and disaster recovery |
-| P1 | Proposed (Phase 3 follow-on — after ADR-006 minimum) | [`2026-07-09-capital-activation-mcp-telegram.md`](2026-07-09-capital-activation-mcp-telegram.md) | Ticket: Capital Activation (MCP / Telegram) |
-| P1 | Proposed | [`2026-07-09-confirm-cromwell-hourly-telegram.md`](2026-07-09-confirm-cromwell-hourly-telegram.md) | Ticket: Confirm natural Cromwell hourly Telegram after CPU tuning |
-| P1 | Proposed | [`2026-07-13-cromwell-scrub-placeholder-path-memory.md`](2026-07-13-cromwell-scrub-placeholder-path-memory.md) | Ticket: Scrub Cromwell permanent memory of `path/to/file.txt` hallucination |
-| P1 | Proposed | [`2026-07-13-observe-cromwell-market-snapshot-hourlies.md`](2026-07-13-observe-cromwell-market-snapshot-hourlies.md) | Ticket: Observe Cromwell market-snapshot hourlies for real MCP + clean Telegram |
-| P1 | Proposed | [`2026-07-21-cromwell-hourly-telegram-attention-discipline.md`](2026-07-21-cromwell-hourly-telegram-attention-discipline.md) | Ticket: Cromwell hourly Telegram — attention discipline (quiet = one line) |
-| P1 | Done | [`archive/2026-07-13-stale-parquet-prior-close-active-symbols.md`](archive/2026-07-13-stale-parquet-prior-close-active-symbols.md) | Ticket: Stale DM parquet last-dates for some Active symbols |
-| P1 | Proposed | [`2026-07-15-journal-ledger-stop-on-confirm-and-update.md`](2026-07-15-journal-ledger-stop-on-confirm-and-update.md) | Ticket: Human stop on confirm/book + stop update path |
-| P1 | Proposed | [`2026-07-18-ops-mcp-recreate-after-demo-tools.md`](2026-07-18-ops-mcp-recreate-after-demo-tools.md) | Ticket: Recreate winston_mcp after ops demo tool surface changes |
-| P1 | Proposed | [`2026-07-20-dar-real-process-miss-attention.md`](2026-07-20-dar-real-process-miss-attention.md) | Ticket: DAR attention for Active real process-miss Passed Signals |
-| P2 | Proposed | [`2026-07-22-cromwell-snapshot-open-empty-response-artifact.md`](2026-07-22-cromwell-snapshot-open-empty-response-artifact.md) | Ticket: Cromwell market-snapshot-open — empty run `response` vs Telegram `message` |
-| P2 | Proposed | [`2026-07-21-cromwell-activate-id-or-name.md`](2026-07-21-cromwell-activate-id-or-name.md) | Ticket: Cromwell must always pass `id_or_name` on portfolio activate |
-| P2 | Proposed | [`2026-07-21-portfolio-id-or-name-fingerprint-resolution.md`](2026-07-21-portfolio-id-or-name-fingerprint-resolution.md) | Ticket: Portfolio `id_or_name` fingerprint / short-fp resolution + multi-match error |
-| P2 | Proposed | [`2026-07-02-compose-orchestrator-unification.md`](2026-07-02-compose-orchestrator-unification.md) | Ticket: Unify compose orchestration (podman-compose vs podman compose) |
-| P2 | Proposed | [`2026-07-02-dm-integration-audit-mirror.md`](2026-07-02-dm-integration-audit-mirror.md) | Ticket: DM integration audit mirror to ecosystem hub (fast follow) |
-| P2 | Proposed | [`2026-07-02-wv2-integration-audit-correlation.md`](2026-07-02-wv2-integration-audit-correlation.md) | Ticket: Wv2 integration audit + correlation ID echo (fast follow) |
-| P2 | Proposed | [`2026-07-04-tailscale-serve-ecosystem-deployment.md`](2026-07-04-tailscale-serve-ecosystem-deployment.md) | Ticket: Tailscale Serve deployment docs + Wv2/DM subpath parity |
-| P2 | Proposed | [`2026-07-06-dm-wut-registry-metadata-sync-followups.md`](2026-07-06-dm-wut-registry-metadata-sync-followups.md) | Ticket: DM ↔ WUT registry metadata mirror follow-ups |
-| P2 | Proposed (see main plan) | [`2026-07-07-wut-activities-compatibility-shim-dm-stubs.md`](2026-07-07-wut-activities-compatibility-shim-dm-stubs.md) | Ticket: WUT — Remove belongs_to :activity for DM data; refactor creation + usage sites + result rows to composite (market_id, date) + DM Bar loader |
-| P2 | Proposed (see main ticket) | [`2026-07-07-wut-dm-data-sets-ui-dm-truth-no-load-sync-buttons.md`](2026-07-07-wut-dm-data-sets-ui-dm-truth-no-load-sync-buttons.md) | Ticket: data_sets UI — DM as source of truth; pure registry view using DataCoverage; remove all "Load Full Data", "Sync", hydration actions and language; columns reflect DM metadata |
-| P2 | Proposed | [`2026-07-08-correlation-close-only-parquet-load.md`](2026-07-08-correlation-close-only-parquet-load.md) | Ticket: Close-only parquet load for correlation builder |
-| P2 | Proposed | [`2026-07-08-wut-dm-parquet-controller-cleanup.md`](2026-07-08-wut-dm-parquet-controller-cleanup.md) | Ticket: WUT DM parquet: clean up remaining Activity queries in controllers |
-| P2 | Proposed | [`2026-07-08-wut-dm-parquet-remaining-services.md`](2026-07-08-wut-dm-parquet-remaining-services.md) | Ticket: WUT DM parquet: refactor remaining services for direct DM loader usage |
-| P2 | Proposed | [`2026-07-08-wut-dm-parquet-result-views-repull.md`](2026-07-08-wut-dm-parquet-result-views-repull.md) | Ticket: WUT DM parquet: implement full bar re-pull + rendering in all backtest result views and charts |
-| P2 | Done — keep placeholder gates; no doctrine retune | [`archive/2026-07-09-first-pass-doctrine-gates-review.md`](archive/2026-07-09-first-pass-doctrine-gates-review.md) | Ticket: First-pass trend doctrine and viability gates review |
-| P2 | Proposed | [`2026-07-09-link-validation-pbr-to-optimization.md`](2026-07-09-link-validation-pbr-to-optimization.md) | Ticket: Link validation PortfolioBacktestRun to PortfolioSignalOptimization |
-| P2 | Proposed | [`2026-07-09-telegram-agent-reply-visibility.md`](2026-07-09-telegram-agent-reply-visibility.md) | Ticket: Telegram agent reply visibility (inbound OK, human may not see) |
-| P2 | Proposed | [`2026-07-09-track-ai-runtime-config-in-git.md`](2026-07-09-track-ai-runtime-config-in-git.md) | Ticket: Track AI runtime Containerfile + example config in git |
-| P2 | Proposed | [`2026-07-09-use-saved-trading-strategy-in-backtest-workflow.md`](2026-07-09-use-saved-trading-strategy-in-backtest-workflow.md) | Ticket: Use saved TradingStrategy in backtest workflow (slice B) |
-| P2 | Proposed | [`2026-07-09-validation-pbr-day-by-day-perf.md`](2026-07-09-validation-pbr-day-by-day-perf.md) | Ticket: Speed up full validation PortfolioBacktestRun after vet_trend |
-| P2 | Proposed | [`2026-07-09-wut-active-account-id-sidekiq-failures.md`](2026-07-09-wut-active-account-id-sidekiq-failures.md) | Ticket: WUT Sidekiq jobs failing on missing active_account_id columns |
-| P2 | Proposed | [`2026-07-10-promote-wv2-daily-ops-smoke-scripts.md`](2026-07-10-promote-wv2-daily-ops-smoke-scripts.md) | Ticket: Promote Wv2 daily-ops smoke scripts out of tmp/ |
-| P2 | Proposed | [`2026-07-10-watch-sidekiq-eod-daily-analysis-path.md`](2026-07-10-watch-sidekiq-eod-daily-analysis-path.md) | Ticket: Watch Sidekiq EOD path (DM sync → Wv2 analysis → Cromwell) |
-| P2 | Done — keep observation | [`archive/2026-07-12-re-vet-mango-rust-trade-ready.md`](archive/2026-07-12-re-vet-mango-rust-trade-ready.md) | Ticket: Re-vet Portfolio Mango and Rust for trade-ready gates |
-| P2 | Proposed | [`2026-07-13-cromwell-dream-memory-path-hygiene.md`](2026-07-13-cromwell-dream-memory-path-hygiene.md) | Ticket: Fix Cromwell dream routing for MEMORY.md and skill status paths |
-| P2 | Proposed | [`2026-07-13-extend-cron-llm-timeout-acceptance.md`](2026-07-13-extend-cron-llm-timeout-acceptance.md) | Ticket: Extend Jul 9 cron LLM timeout ticket with post-truncation acceptance |
-| P2 | Proposed | [`2026-07-13-market-radar-core-portfolio-scope.md`](2026-07-13-market-radar-core-portfolio-scope.md) | Ticket: Limit intraday market radar to core Active portfolios |
-| P2 | Proposed | [`2026-07-13-pbr-level2-remaining-experiments.md`](2026-07-13-pbr-level2-remaining-experiments.md) | Ticket: PBR Level 2 remaining experiments (anti-overfit matrix) |
-| P2 | Proposed | [`2026-07-14-refresh-remaining-color-portfolio-json-fingerprints.md`](2026-07-14-refresh-remaining-color-portfolio-json-fingerprints.md) | Ticket: Refresh remaining color portfolio_configs with fingerprints |
-| P2 | Proposed | [`2026-07-14-workspace-compose-portfolio-configs-tracking.md`](2026-07-14-workspace-compose-portfolio-configs-tracking.md) | Ticket: Track host compose.yml + portfolio_configs outside monolith gits |
-| P2 | Proposed | [`2026-07-15-cromwell-parallel-capacity-dual-runtime.md`](2026-07-15-cromwell-parallel-capacity-dual-runtime.md) | Ticket: Cromwell parallel capacity — dual runtime (Tier 1) |
-| P2 | Proposed | [`2026-07-15-journal-ledger-export-csv-pdf.md`](2026-07-15-journal-ledger-export-csv-pdf.md) | Ticket: Operational portfolio journal ledger export (CSV → PDF) |
-| P2 | Proposed | [`2026-07-15-journal-ledger-wut-ops-schema-alignment.md`](2026-07-15-journal-ledger-wut-ops-schema-alignment.md) | Ticket: WUT operations journal schema alignment |
-| P2 | Proposed | [`2026-07-15-journal-ledger-wv2-journals-ui-or-route-cleanup.md`](2026-07-15-journal-ledger-wv2-journals-ui-or-route-cleanup.md) | Ticket: Wv2 journals browse UI or remove dead route |
-| P2 | Proposed / blocked on runtime | [`2026-07-16-bonsai-27b-lab-eval-when-runnable.md`](2026-07-16-bonsai-27b-lab-eval-when-runnable.md) | Ticket: Lab-eval Bonsai 27B (ternary) when runtime is viable |
-| P2 | Proposed | [`2026-07-16-bonsai-8b-cromwell-ab-eval.md`](2026-07-16-bonsai-8b-cromwell-ab-eval.md) | Ticket: Bonsai 8B vs cromwell-qwen3:8b A/B for Cromwell |
-| P2 | Proposed | [`2026-07-16-cromwell-core-model-promotion-policy.md`](2026-07-16-cromwell-core-model-promotion-policy.md) | Ticket: Cromwell core model promotion policy (checklist) |
-| P2 | Proposed | [`2026-07-17-ops-live-telegram-confirm-phrase-smoke.md`](2026-07-17-ops-live-telegram-confirm-phrase-smoke.md) | Ticket: Live Telegram confirm-phrase smoke (when draft exists) |
-| P2 | Proposed | [`2026-07-17-version-workspace-compose-yml.md`](2026-07-17-version-workspace-compose-yml.md) | Ticket: Version workspace root `compose.yml` in git |
-| P2 | Proposed | [`2026-07-18-ops-telegram-demo-tools-smoke.md`](2026-07-18-ops-telegram-demo-tools-smoke.md) | Ticket: Live Telegram smoke — ops demo tools (#5–#7 + bulk/exit_reason) |
-| P2 | Proposed | [`2026-07-20-rails-code-review-wut-baseline.md`](2026-07-20-rails-code-review-wut-baseline.md) | Ticket: First rails-code-review baseline (WUT) |
-| P2 | Proposed | [`2026-07-20-safe-bug-fix-harness-multi-repo.md`](2026-07-20-safe-bug-fix-harness-multi-repo.md) | Ticket: Multi-repo isolation policy + optional full safe-bug-fix harness |
-| P2 | Proposed | [`2026-07-20-wv2-capacity-swap-desk-packages.md`](2026-07-20-wv2-capacity-swap-desk-packages.md) | Ticket: Wv2 capacity swap → ordered Desk Handoff packages |
-| P1 | Proposed (Phase 1 D10) | [`2026-08-05-signal-path-truth-fulfillment-link-exit-reconcile.md`](2026-08-05-signal-path-truth-fulfillment-link-exit-reconcile.md) | Ticket: Signal-path operational truth + fulfillment link + exit capital reconcile |
-| P2 | Superseded by L1 implement tickets (discovery closed via Grill A/B) | [`2026-07-21-broker-confirmation-email-api-intake.md`](2026-07-21-broker-confirmation-email-api-intake.md) | Ticket: Broker confirmation intake (email / API) for desk fulfillment |
-| P2 | Done (Grill A 2026-08-06; parent + L1 tickets closed 2026-08-09) | [`2026-07-22-grill-fulfillment-schwab-extra-modal.md`](2026-07-22-grill-fulfillment-schwab-extra-modal.md) | Ticket: Grill-with-docs — fulfillment ownership, Schwab intake, extra-modal |
-| P3 | Proposed | [`2026-07-22-cromwell-snapshot-watcher-queued-false-positive.md`](2026-07-22-cromwell-snapshot-watcher-queued-false-positive.md) | Ticket: Fix market-snapshot overnight watcher — race on `queued` / empty response |
-| P3 | Proposed | [`2026-07-21-blue-241-successor-cleanup.md`](2026-07-21-blue-241-successor-cleanup.md) | Ticket: Decide fate of Blue successor OP #241 |
-| P3 | Proposed | [`2026-07-21-ops-speech-prefer-portfolio-numeric-id.md`](2026-07-21-ops-speech-prefer-portfolio-numeric-id.md) | Ticket: Prefer numeric portfolio `#id` in ops speech and skill examples |
-| P3 | Proposed (largely delivered; residual compose smoke) | [`2026-07-04-daily-report-pdf-redesign.md`](2026-07-04-daily-report-pdf-redesign.md) | Ticket: Redesign Wv2 daily activity report PDF layout |
-| P3 | Proposed | [`2026-07-06-propagate-ecosystem-log-hygiene.md`](2026-07-06-propagate-ecosystem-log-hygiene.md) | Ticket: Propagate ecosystem log hygiene patterns to top-level and monoliths |
-| P3 | Proposed | [`2026-07-07-update-portfolio-overlap-tasks-red-vet-complete.md`](2026-07-07-update-portfolio-overlap-tasks-red-vet-complete.md) | Ticket: Update portfolio-overlap-rebuild.md.tasks.json after rich TradingStrategy export alignment |
-| P3 | Proposed | [`2026-07-07-update-wut-to-wv2-handoff-richer-trading-strategy-shape.md`](2026-07-07-update-wut-to-wv2-handoff-richer-trading-strategy-shape.md) | Ticket: Update wut-to-wv2-handoff.md to document richer TradingStrategy export shape |
-| P3 | Proposed (Phase B/C deferred; planning done) | [`2026-07-08-schema-cleanup-activity-id-columns.md`](2026-07-08-schema-cleanup-activity-id-columns.md) | Ticket: Eventual schema cleanup for activity_id columns (post DM SoT) |
-| P3 | Proposed | [`2026-07-09-thelio-discrete-gpu-for-ollama.md`](2026-07-09-thelio-discrete-gpu-for-ollama.md) | Ticket: Optional discrete GPU for Cromwell Ollama (Thelio Mira) |
-| P3 | Proposed | [`2026-07-09-trading-strategy-fingerprint-versioning.md`](2026-07-09-trading-strategy-fingerprint-versioning.md) | Ticket: TradingStrategy fingerprint payload versioning |
-| P3 | Proposed | [`2026-07-09-wut-development-log-rotation.md`](2026-07-09-wut-development-log-rotation.md) | Ticket: Rotate / truncate WUT development.log |
-| P3 | Proposed | [`2026-07-09-wut-loader-context-perf-specs.md`](2026-07-09-wut-loader-context-perf-specs.md) | Ticket: Specs for DM loader and optimization context perf fixes |
-| P3 | Proposed | [`2026-07-09-wv2-observation-import-orange-white.md`](2026-07-09-wv2-observation-import-orange-white.md) | Ticket: Optional Wv2 import of Orange/White observation portfolios |
-| P3 | Proposed | [`2026-07-12-pcs-business-context-doc.md`](2026-07-12-pcs-business-context-doc.md) | Ticket: Business-context doc for Portfolio Correlation Score |
-| P3 | Proposed | [`2026-07-13-correlation-deep-dive-yaml-refresh.md`](2026-07-13-correlation-deep-dive-yaml-refresh.md) | Ticket: Refresh process for correlation deep-dive YAML |
-| P3 | Proposed | [`2026-07-13-pcs-deep-dive-mcp-tool.md`](2026-07-13-pcs-deep-dive-mcp-tool.md) | Ticket: Optional MCP tool for portfolio PCS deep dive |
-| P3 | Proposed | [`2026-07-13-wut-expose-business-analysis-link.md`](2026-07-13-wut-expose-business-analysis-link.md) | Ticket: Expose ecosystem business analysis from WUT UI |
-| P3 | Proposed | [`2026-07-15-cromwell-analyst-adapter-future.md`](2026-07-15-cromwell-analyst-adapter-future.md) | Ticket: Second LoRA adapter for Winston analysis (future) |
-| P3 | Proposed | [`2026-07-15-cromwell-qlora-ollama-ab.md`](2026-07-15-cromwell-qlora-ollama-ab.md) | Ticket: Offline QLoRA recipe + Ollama tag A/B for Cromwell |
-| P3 | Proposed | [`2026-07-15-cromwell-trace-harvest-gold-sft.md`](2026-07-15-cromwell-trace-harvest-gold-sft.md) | Ticket: Cromwell trace harvest → gold SFT dataset |
-| P3 | Proposed (reference / anti-scope) | [`2026-07-15-telegram-handoff-non-goals.md`](2026-07-15-telegram-handoff-non-goals.md) | Ticket: Telegram handoff — explicit non-goals (E) |
-| P3 | Proposed | [`2026-07-15-winston-model-specialization-plan.md`](2026-07-15-winston-model-specialization-plan.md) | Ticket: Draft Winston model specialization plan (or ADR) |
-| P3 | Proposed (watch active via scheduler) | [`2026-07-16-bonsai-ollama-availability-watch.md`](2026-07-16-bonsai-ollama-availability-watch.md) | Ticket: Watch for Bonsai 27B (and 8B) Ollama availability |
-| P3 | Proposed | [`2026-07-17-mcp-recreate-hint.md`](2026-07-17-mcp-recreate-hint.md) | Ticket: Document winston_mcp Podman recreate pattern as ecosystem hint |
-| P3 | Proposed | [`2026-07-17-reverse-session-smoke-cash-events.md`](2026-07-17-reverse-session-smoke-cash-events.md) | Ticket: Reverse session smoke cash on Orange / Rust |
-| P3 | Proposed | [`2026-07-19-loop-engineering-evolution-mode.md`](2026-07-19-loop-engineering-evolution-mode.md) | Ticket: Loop engineering + Evolution Mode (return to design) |
-| P3 | Proposed | [`2026-07-20-evaluate-agent-skill-cromwell.md`](2026-07-20-evaluate-agent-skill-cromwell.md) | Ticket: evaluate-agent-skill for Cromwell skill changes |
-| P3 | Deferred | [`2026-07-15-journal-ledger-order-vs-fill-deferred.md`](2026-07-15-journal-ledger-order-vs-fill-deferred.md) | Ticket: Order vs fill semantics (resting stops) — deferred |
-
-## Archive
-
-77 closed tickets in [`archive/`](archive/) — includes 2026-07-24 multi-cohort evaluate smoke (Mint #311 + Yellow #330).
-
-_Updated 2026-08-30 (production-ready-WQ epic + phases 1–4; dual-path and nil-binding issues)._

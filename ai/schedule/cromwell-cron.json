@@ -146,7 +146,7 @@
       },
       "payload": {
         "kind": "agent_turn",
-        "message": "4:35 PM MT EOD delivery for Sawtooth Main. Skills: winston-daily-ops, winston-report-delivery. Call wv2_get_daily_activity_report with fetch_only true. Do NOT call wv2_perform_daily_analysis. Wv2 Sidekiq already ran analysis at 4:30 PM. Todos only from tool payload. FORBIDDEN: Runtime Context, Active Tasks checklist, generic Next Steps menu.",
+        "message": "4:35 PM MT EOD for Sawtooth Main. Skills: winston-report-delivery, winston-daily-loop, winston-decision-verifier. Call wv2_get_daily_activity_report with fetch_only true and NO date (production date). Never wv2_perform_daily_analysis. Never invent a year. If report ok: write state/STATE-<report_date>.md (\u226480 lines) and, if pending, one TAKE|SIZE_DOWN|SKIP|HOLD line each \u2014 do not confirm. If report missing: STATE loop_status=skip and one-line OPS ERROR. FORBIDDEN: menus, fills, write outside state/.",
         "deliver": false,
         "channel": null,
         "to": null,

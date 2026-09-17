@@ -63,6 +63,8 @@ Then restart the bot if only personas/skills changed:
 - `winston-heartbeat` — time windows, channel routing, no menus (`always: true`)
 - `winston-market-snapshot` — periodic EOD symbol status (DM parquet)
 - `winston-daily-ops` — 11-point daily narrative
+- `winston-daily-loop` — EOD STATE file + stop/skip
+- `winston-decision-verifier` — advisory TAKE/SIZE_DOWN/SKIP/HOLD (never confirm)
 - `winston-report-delivery` — PDF report delivery (`always: true`)
 - `winston-portfolio-lifecycle` — create, add market, activate
 - `winston-wut-to-wv2` — promote backtest configs to live

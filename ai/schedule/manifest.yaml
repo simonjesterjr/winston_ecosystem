@@ -148,10 +148,11 @@ tasks:
     cron: "35 16 * * 1-5"
     tz: America/Denver
     channel: "telegram:-1003884714483"
-    skills: [winston-daily-ops, winston-report-delivery]
-    mcp: [wv2_get_daily_activity_report]
+    skills: [winston-report-delivery, winston-daily-loop, winston-decision-verifier]
+    mcp: [wv2_get_daily_activity_report, wv2_list_pending_actions, wv2_get_journal, wv2_list_portfolios]
     mcp_args: { fetch_only: true }
     depends_on: [wv2_daily_analysis]
+    note: "Also writes workspace/state/STATE-YYYY-MM-DD.md; verifier is advisory only"
     status: active
 
   - id: cromwell_ecosystem_status_daily

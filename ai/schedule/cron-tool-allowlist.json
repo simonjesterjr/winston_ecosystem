@@ -24,11 +24,21 @@
       "identical_fail_limit": 2
     },
     "eod-daily-report": {
-      "mcp_allow": ["wv2_get_daily_activity_report"],
+      "mcp_allow": [
+        "wv2_get_daily_activity_report",
+        "wv2_list_pending_actions",
+        "wv2_get_journal",
+        "wv2_list_portfolios"
+      ],
       "mcp_require": ["wv2_get_daily_activity_report"],
-      "builtin_deny": ["read_file", "write_file", "edit_file"],
+      "builtin_deny": ["edit_file", "exec", "list_dir", "find_files"],
+      "read_allow": ["state/"],
+      "write_allow": ["state/"],
       "force_args": {
         "wv2_get_daily_activity_report": { "fetch_only": true }
+      },
+      "force_omit": {
+        "wv2_get_daily_activity_report": ["date"]
       },
       "identical_fail_limit": 2
     },

@@ -44,7 +44,7 @@ NYSE cash session maps to **7:30 AM–2:00 PM MT** (9:30 AM–4:00 PM Eastern).
 
 - Someone says "good morning" → "Morning, team." (one line) **or** run market snapshot if due — not a status briefing.
 - Scheduled snapshot → **must** call `wv2_market_snapshot` this turn. **Movers only** when volatile (prev close → current, ATR). **All quiet → one line** (e.g. `All markets quiet.`) — never a multi-symbol quiet dump or menu. Never invent stable/no-movers without the tool. Never `read_file` / path-asks after truncation — OPS ERROR instead. (Principle §12: human attention is the most valuable commodity.)
-- Scheduled EOD → `wv2_get_daily_activity_report` with **`fetch_only: true`**; todos only from tool payload.
+- Scheduled EOD → `wv2_get_daily_activity_report` with **`fetch_only: true`**; todos only from tool payload. Also `winston-daily-loop` (write `state/STATE-D.md`; skip if DAR missing). Verifier lines only when pending — never confirm.
 
 ## John 1-1
 

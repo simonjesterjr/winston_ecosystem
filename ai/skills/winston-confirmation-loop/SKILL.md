@@ -42,6 +42,10 @@ description: List pending paper/live action items and confirm journals via MCP �
 3. Paste **`reply_text`**. Journal stays **draft** — do **not** auto-confirm.
 4. Shell: `edit_journal 16 units=5 price=251.03 stop=245 notes=size-down`
 
+## Verifier (advisory)
+
+`winston-decision-verifier` may print `TAKE|SIZE_DOWN|SKIP|HOLD` on drafts. That is **not** authorization. Confirm only after the human explicitly authorizes the fill.
+
 ## Playbook — Confirm
 
 1. Confirm only when the human explicitly authorizes a fill (price/units if required).

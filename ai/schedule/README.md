@@ -90,13 +90,13 @@ DM Sidekiq ecosystem health (independent of Cromwell LLM):
   6:05 AM daily   → EcosystemHealthCheckJob daily (always posts green/red)
 ```
 
-### CPU contention: backtests vs Cromwell cron (ops note)
+### GPU + serial agent lock (ops note)
 
-`sawtooth-ai` runs Ollama **CPU-only** (no discrete GPU). Hourly Cromwell market snapshots and interactive Telegram share the same 9900X with WUT/Wv2 Rails and Sidekiq.
+`sawtooth-ai` runs Ollama on an **RTX 3090** (CUDA). Inference is no longer CPU-bound, but **agent turns are still serial** (`NANOBOT_MAX_CONCURRENT_REQUESTS=1`, `OLLAMA_NUM_PARALLEL=1`). Hourly Cromwell snapshots, interactive Telegram, and nanobot `dream` (every 2h) share that one lock.
 
-**Avoid** starting heavy WUT portfolio backtests (multi-portfolio PBR batches, long `rails runner` experiments) at the top of the hour during the MT session window (**8:00–14:00 MT**), and especially at **:00** when `market-snapshot-hourly` fires. Concurrent 100% CPU Ollama + multi-core backtests reliably push LLM turns past Ollama’s ~2 m request budget → Telegram posts `Error calling LLM: timed out after 300s`.
+Heavy Winston Unit Test (WUT) Portfolio Backtest Runs (PBRs) no longer fight the GPU for CPU the same way, but they still contend for RAM/IO. Prefer not to kick large batches exactly at **:00** during **8:00–14:00 MT** when `market-snapshot-hourly` fires. 300s timeouts were a CPU-era failure mode; GPU warm turns are sub-second, but a **queued** turn still looks like Telegram silence.
 
-Prefer: run large backtests overnight, weekends, or mid-hour (e.g. :20–:45). Check load with `uptime` / `podman stats ollama` before kicking off batch PBRs.
+Prefer: run large backtests overnight, weekends, or mid-hour (e.g. :20–:45). Check `podman exec ollama ollama ps` and `nvidia-smi` before kicking off batch PBRs. Live pin: `ecosystem/ai/MODEL_PIN.md`.
 
 ## Files in this directory
 
@@ -114,7 +114,7 @@ Prompt-level `FORBIDDEN` is **not** enough — models still call off-duty tools 
 | Job id | Allowed MCP tools |
 |--------|-------------------|
 | `market-snapshot-open` / `market-snapshot-hourly` | `wv2_market_snapshot` only |
-| `eod-daily-report` | `wv2_get_daily_activity_report` only (`fetch_only` forced true) |
+| `eod-daily-report` | `wv2_get_daily_activity_report` (`fetch_only`) + optional pending/journal/list; `write_allow: state/` |
 | `dm-sync-events` | `dm_get_cromwell_events` only |
 | `ecosystem-status-daily` | list portfolios / pending / fetch_only report / DM events |
 
@@ -124,7 +124,8 @@ Prompt-level `FORBIDDEN` is **not** enough — models still call off-duty tools 
 |-------|----------|
 | `mcp_allow` | Only listed MCP tools callable |
 | `mcp_require` | Final text rewritten to **OPS ERROR** if required MCP never succeeded this turn (blocks invented “stable market”) |
-| `builtin_deny` | Hard-deny named builtins (snapshot/EOD/DM deny `read_file` etc.) |
+| `builtin_deny` | Hard-deny named builtins (snapshot/DM deny `read_file` etc.) |
+| `read_allow` / `write_allow` | If present, FS tools only under those workspace prefixes (EOD writes `state/`) |
 | `identical_fail_limit` (default 2) | Circuit-break identical failed tool calls (name+args) |
 | Placeholder paths | Reject `path/to/file.txt` style textbook paths |
 | Path-asks | Block `message` + final content that asks the human for a file path |

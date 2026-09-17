@@ -56,7 +56,7 @@ See plan § Open decisions — including:
 - [ ] Principal reviewed plan and set next phase (**V1** vs park longer)
 - [ ] Cross-link from `plans/winston-plus-llm.md` (Phase 2–4 alignment) when next LLM roadmap edit happens
 - [ ] When **V1** starts: spawn implementation ticket (auto_paper_confirm flag + post-DAR job); close or re-scope this umbrella ticket
-- [ ] When L1 starts: spawn implementation tickets (verifier skill, STATE template)
+- [x] When L1 starts: spawn implementation ticket — [`2026-09-17-cromwell-daily-state-verifier.md`](2026-09-17-cromwell-daily-state-verifier.md)
 
 ## See also
 

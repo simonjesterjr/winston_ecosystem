@@ -16,7 +16,7 @@ Compose context: `./ecosystem/ai/nanobot`.
 
 | File | Purpose |
 |------|---------|
-| `patches/cron_tool_allowlist.py` | Cron duty guards: MCP allowlist/require, builtin deny, placeholder-path block, identical-fail circuit-break, path-ask suppress (`session_key=cron:<job-id>`) |
+| `patches/cron_tool_allowlist.py` | Cron duty guards: MCP allowlist/require, builtin deny, `read_allow`/`write_allow` prefixes, placeholder-path block, identical-fail circuit-break, path-ask suppress (`session_key=cron:<job-id>`) |
 | `patches/test_cron_tool_allowlist.py` | Unit tests (no nanobot install required) |
 
 Allowlist config SOT: `ecosystem/ai/schedule/cron-tool-allowlist.json` (seeded into the bot workspace).

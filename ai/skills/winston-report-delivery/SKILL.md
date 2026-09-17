@@ -20,7 +20,7 @@ always: true
 ## Date Logic (4:30 PM Mountain Time)
 
 - Reports for date **D** can only be **generated** after **4:30 PM MT on D** (post NY close).
-- **Scheduled EOD cron (4:35 PM MT):** use `fetch_only: true` — Wv2 Sidekiq already ran `DailyAnalysisJob` at 4:30 PM MT.
+- **Scheduled EOD cron (4:35 PM MT):** use `fetch_only: true` — Wv2 Sidekiq already ran `DailyAnalysisJob` at 4:30 PM MT. Same turn: `winston-daily-loop` writes `state/STATE-D.md`.
 - Before that cutoff on day D, a generic "send me the daily" request means **yesterday's** report.
 - Example: 4:29 PM on June 17 → deliver June 16.
 - **Never** offer to trigger analysis for a future date.

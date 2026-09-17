@@ -10,7 +10,8 @@ See `ecosystem/interfaces/winston-mcp-tools.md` for the contract.
 
 | Tool family | Skill |
 |-------------|-------|
-| Daily analysis + report | `winston-daily-ops`, `winston-report-delivery` |
+| Daily analysis + report | `winston-daily-ops`, `winston-report-delivery`, `winston-daily-loop` |
+| Pending draft checker (advisory) | `winston-decision-verifier` |
 | Portfolio setup | `winston-portfolio-lifecycle` |
 | WUT promotion / handoff | `winston-wut-to-wv2` |
 | Ad-hoc paper fill / exit (no DAR draft) | `winston-ad-hoc-fill` |

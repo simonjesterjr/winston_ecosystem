@@ -711,11 +711,13 @@ services:
     cap_drop:
       - ALL
     environment:
-      # CPU Ollama is serial (NUM_PARALLEL=1). >1 agent turns (cron+DM) stampede
-      # and hit 2m timeouts — DMs then hang with no Telegram reply.
+      # GPU path (RTX 3090) is still one Ollama slot (OLLAMA_NUM_PARALLEL=1).
+      # Keep concurrent=1 until a load-tested parallel policy exists; cron+DM+dream
+      # stampede still silences Telegram. See ecosystem/ai/MODEL_PIN.md.
       - NANOBOT_MAX_CONCURRENT_REQUESTS=1
-      # Default OpenAI-compat HTTP timeout is 120s — too low for cromwell-qwen3:8b
-      # on CPU with full SOUL+tools context (saw 4 retries × timeout on transfer).
+      # OpenAI-compat default 120s is too low for cromwell-qwen3:8b + tools
+      # (CPU-era transfer retries). GPU warm turns are sub-second; cold load + MCP
+      # can still exceed 120s. Keep 600/900.
       - NANOBOT_OPENAI_COMPAT_TIMEOUT_S=600
       - NANOBOT_LLM_TIMEOUT_S=900
     dns:

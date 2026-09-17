@@ -226,8 +226,6 @@ cp ecosystem/deployment/watchdog-env-template.txt ecosystem/deployment/watchdog.
 
 Nanobot must listen on `0.0.0.0` (`gateway.host` in `ai/data/cromwell-bot/config.json`) so other containers can reach `/health`. Host publish stays `127.0.0.1:18790`.
 
-### CPU-only LLM notes (sawtooth-ai)
-
 ### GPU (sawtooth-ai, 2026-09-16)
 
 Host now has an **NVIDIA GeForce RTX 3090** (driver `595.91.07`). Ollama runs CUDA via the `ai` profile.
@@ -238,7 +236,7 @@ Host now has an **NVIDIA GeForce RTX 3090** (driver `595.91.07`). Ollama runs CU
 
 **Compose SOT mirror:** live runtime file is still host `sawtooth/compose.yml` (outside monolith git). Versioned copy: `deployment/workspace-compose.yml`. After any host compose edit, copy back into that file (see ticket `2026-07-17-version-workspace-compose-yml.md`).
 
-Preferred Cromwell model can stay on the CPU Modelfile tags for now; GPU makes larger tags viable. Keep-alive remains `OLLAMA_KEEP_ALIVE=24h`. See `ai/README.md` and `ecosystem/ai/schedule/README.md`.
+Live Cromwell pin is `cromwell-qwen3:8b` on GPU (`ecosystem/ai/MODEL_PIN.md`). Keep-alive remains `OLLAMA_KEEP_ALIVE=24h`. Agent turns stay serial (`NANOBOT_MAX_CONCURRENT_REQUESTS=1`). See `ai/README.md` and `ecosystem/ai/schedule/README.md`.
 
 ### Files that implement the layer (all outside the deprecated openclawd-stack)
 - `ecosystem/ai/mcp/` — MCP layer (Containerfile + pyproject + package `mcp_winston/`)

@@ -28,7 +28,8 @@ description: Run the Winston daily trading flow and produce the 11-point narrati
    - **Full desk:** omit `portfolio_id_or_name` (analyzes Active OPs).
    - **One OP:** pass numeric id or full display name only — never bare seed like `"Portfolio Blue"` (can match closed lineage).
 5. **Pending actions** — `wv2_list_pending_actions` if confirmations are relevant.
-6. **Format output** — Focused operator summary (not a research essay): signals, exits, pyramids, pending confirms, capital-relevant deltas, action items. Link/PDF when available.
+6. **Stop / skip** — If analysis or report fails, say so and stop. Do **not** narrate a complete day. EOD persistence + verifier: skill `winston-daily-loop`.
+7. **Format output** — Focused operator summary (not a research essay): signals, exits, pyramids, pending confirms, capital-relevant deltas, action items. Link/PDF when available.
 
 ## Error Handling
 

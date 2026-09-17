@@ -186,6 +186,65 @@ def builtin_deny_set(job_id: str) -> set[str]:
     return {str(x).strip() for x in deny if str(x).strip()}
 
 
+def allow_prefixes(job_id: str, key: str) -> list[str] | None:
+    """Return prefix list if ``key`` is present on the job entry, else None.
+
+    None = do not extra-restrict (builtin_deny still applies).
+    Present (including empty list) = only those prefixes.
+    """
+    entry = _job_entry(job_id)
+    if key not in entry:
+        return None
+    raw = entry.get(key)
+    if not isinstance(raw, list):
+        return []
+    return [str(x).strip() for x in raw if str(x).strip()]
+
+
+def normalize_rel_path(path: str | None) -> str:
+    """Workspace-relative POSIX path; empty string if unsafe (``..``)."""
+    if not path or not str(path).strip():
+        return ""
+    p = str(path).strip().strip("\"'").replace("\\", "/")
+    while p.startswith("./"):
+        p = p[2:]
+    for marker in ("/.nanobot/workspace/", "/workspace/"):
+        if marker in p:
+            p = p.split(marker, 1)[1]
+            break
+    if p.startswith("workspace/"):
+        p = p[len("workspace/") :]
+    p = p.lstrip("/")
+    parts = [x for x in p.split("/") if x not in ("", ".")]
+    if ".." in parts:
+        return ""
+    return "/".join(parts)
+
+
+def path_allowed(path: str | None, prefixes: list[str]) -> bool:
+    rel = normalize_rel_path(path)
+    if not rel or not prefixes:
+        return False
+    for pref in prefixes:
+        pref_n = normalize_rel_path(pref)
+        if not pref_n:
+            continue
+        if rel == pref_n or rel.startswith(pref_n + "/"):
+            return True
+        if pref_n.endswith("/") and rel.startswith(pref_n):
+            return True
+    return False
+
+
+def prefix_deny_message(job_id: str, tool_name: str, path: str, prefixes: list[str]) -> str:
+    allow_s = ", ".join(prefixes) if prefixes else "(none)"
+    return (
+        f"Error: Builtin tool '{tool_name}' path '{path}' is outside allow prefixes "
+        f"for cron job '{job_id}' (allowed: {allow_s}). "
+        "Do not retry another directory. Do NOT ask the human for a path."
+    )
+
+
 def identical_fail_limit(job_id: str | None) -> int:
     if not job_id:
         return _DEFAULT_IDENTICAL_FAIL_LIMIT
@@ -208,6 +267,18 @@ def force_args_for(job_id: str, logical: str) -> dict[str, Any]:
         return {}
     payload = force.get(logical) or {}
     return dict(payload) if isinstance(payload, dict) else {}
+
+
+def force_omit_for(job_id: str, logical: str) -> list[str]:
+    """Keys to strip from an MCP call (e.g. hallucinated ``date`` on EOD)."""
+    entry = _job_entry(job_id)
+    omit = entry.get("force_omit") or {}
+    if not isinstance(omit, dict):
+        return []
+    keys = omit.get(logical) or []
+    if not isinstance(keys, list):
+        return []
+    return [str(x).strip() for x in keys if str(x).strip()]
 
 
 def is_mcp_allowed(job_id: str, tool_name: str) -> bool:
@@ -427,6 +498,34 @@ def install(ToolRegistry: type) -> None:
                     )
                     return None, params, placeholder_path_message(tool_name, path or "")
 
+            # Optional path prefixes (staff-roster write_allow / read_allow)
+            if tool_name in _FS_TOOLS:
+                path = _path_from_params(params)
+                if tool_name in ("read_file", "list_dir", "find_files"):
+                    prefixes = allow_prefixes(job_id, "read_allow")
+                    if prefixes is not None and not path_allowed(path, prefixes):
+                        logger.warning(
+                            "cron_read_allow deny job=%s tool=%s path=%s",
+                            job_id,
+                            tool_name,
+                            path,
+                        )
+                        return None, params, prefix_deny_message(
+                            job_id, tool_name, path or "", prefixes
+                        )
+                if tool_name in ("write_file", "edit_file"):
+                    prefixes = allow_prefixes(job_id, "write_allow")
+                    if prefixes is not None and not path_allowed(path, prefixes):
+                        logger.warning(
+                            "cron_write_allow deny job=%s tool=%s path=%s",
+                            job_id,
+                            tool_name,
+                            path,
+                        )
+                        return None, params, prefix_deny_message(
+                            job_id, tool_name, path or "", prefixes
+                        )
+
             # Message tool: no path-asks; require MCP first when configured
             if tool_name == "message":
                 content = ""
@@ -465,12 +564,14 @@ def install(ToolRegistry: type) -> None:
                     return None, params, deny_message(job_id, tool_name)
 
                 logical = mcp_logical_name(tool_name)
+                if not isinstance(params, dict):
+                    params = {}
+                else:
+                    params = dict(params)
+                for key in force_omit_for(job_id, logical or ""):
+                    params.pop(key, None)
                 forced = force_args_for(job_id, logical or "")
                 if forced:
-                    if not isinstance(params, dict):
-                        params = {}
-                    else:
-                        params = dict(params)
                     params.update(forced)
 
         return original_prepare(self, name, params)

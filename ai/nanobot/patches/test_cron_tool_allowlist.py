@@ -51,8 +51,14 @@ def mod(tmp_path, monkeypatch):
             "eod-daily-report": {
                 "mcp_allow": ["wv2_get_daily_activity_report"],
                 "mcp_require": ["wv2_get_daily_activity_report"],
+                "builtin_deny": ["edit_file", "exec"],
+                "read_allow": ["state/"],
+                "write_allow": ["state/"],
                 "force_args": {
                     "wv2_get_daily_activity_report": {"fetch_only": True}
+                },
+                "force_omit": {
+                    "wv2_get_daily_activity_report": ["date"]
                 },
             },
         },
@@ -93,6 +99,7 @@ def test_builtin_deny_read_file(mod):
 def test_eod_force_fetch_only(mod):
     forced = mod.force_args_for("eod-daily-report", "wv2_get_daily_activity_report")
     assert forced.get("fetch_only") is True
+    assert mod.force_omit_for("eod-daily-report", "wv2_get_daily_activity_report") == ["date"]
 
 
 def test_unknown_cron_denies_mcp(mod):
@@ -359,3 +366,61 @@ async def test_execute_tracks_ok_mcp_and_circuit_break(mod, monkeypatch):
     # first may still be Error from original; second trips; third pre-denied
     assert "CIRCUIT_BREAK" in r2 or "CIRCUIT_BREAK" in r3
     assert "CIRCUIT_BREAK" in r3
+
+
+def test_normalize_and_path_allowed(mod):
+    assert mod.normalize_rel_path("state/STATE-2026-09-17.md") == "state/STATE-2026-09-17.md"
+    assert mod.normalize_rel_path("./state/STATE-2026-09-17.md") == "state/STATE-2026-09-17.md"
+    assert mod.normalize_rel_path("workspace/state/x.md") == "state/x.md"
+    assert mod.normalize_rel_path("state/../cron/jobs.json") == ""
+    assert mod.path_allowed("state/STATE-2026-09-17.md", ["state/"])
+    assert mod.path_allowed("state/STATE-2026-09-17.md", ["state"])
+    assert not mod.path_allowed("memory/MEMORY.md", ["state/"])
+    assert not mod.path_allowed("state/../cron/jobs.json", ["state/"])
+    assert not mod.path_allowed("", ["state/"])
+
+
+def test_allow_prefixes_absent_vs_present(mod):
+    assert mod.allow_prefixes("market-snapshot-hourly", "write_allow") is None
+    assert mod.allow_prefixes("eod-daily-report", "write_allow") == ["state/"]
+    assert mod.allow_prefixes("eod-daily-report", "read_allow") == ["state/"]
+
+
+def test_eod_write_allow_via_prepare(mod, monkeypatch):
+    class ToolRegistry:
+        def prepare_call(self, name, params):
+            return object(), params, None
+
+        def get_definitions(self):
+            return []
+
+        async def execute(self, name, params):
+            return "ok"
+
+        @staticmethod
+        def _schema_name(schema):
+            return ""
+
+    monkeypatch.setattr(mod, "_install_progress_hook_guards", lambda: None)
+    monkeypatch.setattr(mod, "_session_key", lambda: "cron:eod-daily-report")
+    mod.install(ToolRegistry)
+    mod.reset_turn_state()
+    reg = ToolRegistry()
+
+    _t, _p, err = reg.prepare_call("write_file", {"path": "state/STATE-2026-09-17.md"})
+    assert err is None
+
+    _t, _p, err = reg.prepare_call("write_file", {"path": "memory/MEMORY.md"})
+    assert err is not None
+    assert "allow prefixes" in err.lower() or "outside allow" in err.lower()
+
+    _t, _p, err = reg.prepare_call("read_file", {"path": "cron/jobs.json"})
+    assert err is not None
+
+    _t, params, err = reg.prepare_call(
+        "mcp_winston_wv2_get_daily_activity_report",
+        {"date": "2023-10-15", "fetch_only": False},
+    )
+    assert err is None
+    assert "date" not in params
+    assert params.get("fetch_only") is True

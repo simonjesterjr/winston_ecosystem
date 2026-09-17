@@ -60,6 +60,8 @@ Before a workflow, read the matching skill from `skills/`:
 | `/infra`, infrastructure status, service health probes | `winston-ecosystem-status` (**Section 1 only**) |
 | `/infra full`, ecosystem status, morning briefing | `winston-ecosystem-status` (all three sections) |
 | Daily run / 11-point narrative | `winston-daily-ops` |
+| Daily STATE / stop-skip / EOD loop complete? | `winston-daily-loop` |
+| Advisory TAKE/SIZE_DOWN/SKIP/HOLD on drafts | `winston-decision-verifier` |
 | Send or fetch the daily report | `winston-report-delivery` (also always loaded) |
 | Mid-month Scoreboard / monthly paper review | `winston-mms` |
 | Pending actions / confirm fills / mark task done | `winston-confirmation-loop` |
