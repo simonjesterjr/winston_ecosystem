@@ -70,3 +70,11 @@ CoS launching cloud agents for code.
 ## Notes
 
 - #685 autopsy: high cash/OA return at 2% but worse risk-adjusted than Blue 1% #684 / Red 1% #692; investigate journal delta before any promote narrative.
+
+
+## Cutover evidence (2026-09-16 / CoS)
+
+- Closed ops **381** (`closed_at=2026-09-17 02:30:35Z`, active=false)
+- New Blue **#1574** `Portfolio Blue · successor-of-381` — $30k, risk 2%, `leap_fulfillment=all`, `dummy_sim`, `broker_binding_id=nil`, TS **#341** (WUT TS75 copy), 11 markets, paper active
+- Sawtooth: BG `1eee210` (PR #1), Wv2 `7e71666` (PR #3) + `leap_fulfillment` migrated
+- Smoke: LeapCandidateResolver does **not** return `bound_refuse`; needs `LEAP_READ_BINDING_ID` for live chain (compose ENV still unset)

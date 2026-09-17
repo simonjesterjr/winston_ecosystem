@@ -1,6 +1,6 @@
 # Ticket: Wv2 paper Red — IBKR-eval LEAP, paper-only fulfill (from WUT #692)
 
-**Status:** Proposed  
+**Status:** In progress  
 **Priority:** P1  
 **Date:** 2026-09-16  
 **Depends on:** Blue Mode C cutover (`2026-09-16-wv2-paper-leap-eval-blue-from-685`) verified first  
@@ -37,3 +37,8 @@ After Blue Mode C paper-LEAP is live, stand up a new **Red** paper book from WUT
 - Blue: [`2026-09-16-wv2-paper-leap-eval-blue-from-685.md`](2026-09-16-wv2-paper-leap-eval-blue-from-685.md)  
 - Analysis: [`../analysis/2026-09-16-pbr692-sticky-2n-working-stop.md`](../analysis/2026-09-16-pbr692-sticky-2n-working-stop.md)  
 - Plan Mode C: [`../../plans/wv2-bg-ibkr-leap-fulfillment.md`](../../plans/wv2-bg-ibkr-leap-fulfillment.md)
+
+
+## Cutover evidence (2026-09-16 / CoS)
+
+- Closed old Red **#5**; new Red **#1575** `Portfolio Red · successor-of-5` — $30k, risk 1%, `leap_fulfillment=all`, `dummy_sim`, bind nil, TS **#341** (TS75), 9 markets from #692, paper active
