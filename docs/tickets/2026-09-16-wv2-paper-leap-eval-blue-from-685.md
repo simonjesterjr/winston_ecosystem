@@ -78,3 +78,14 @@ CoS launching cloud agents for code.
 - New Blue **#1574** `Portfolio Blue · successor-of-381` — $30k, risk 2%, `leap_fulfillment=all`, `dummy_sim`, `broker_binding_id=nil`, TS **#341** (WUT TS75 copy), 11 markets, paper active
 - Sawtooth: BG `1eee210` (PR #1), Wv2 `7e71666` (PR #3) + `leap_fulfillment` migrated
 - Smoke: LeapCandidateResolver does **not** return `bound_refuse`; needs `LEAP_READ_BINDING_ID` for live chain (compose ENV still unset)
+
+## Build progress (CoS, 2026-09-16 evening)
+
+- BG **PR #1** opened for Mode C `option_candidates` (draft). Pair with Wv2 **PR #3**.
+- **No cutover** until both merged + sawtooth smoke.
+
+## LEAP_READ_BINDING_ID (2026-09-17)
+
+- Wired: `compose.yml` env_file `ecosystem/deployment/leap-read.env` (gitignored) + template `leap-read-env-template.txt`.
+- Value: existing BG IBKR L1 CPGW paper `bnd_3d6a5020d839c315583277d2`.
+- Smoke Blue #1574 / AAPL: past `no_read_binding`; now `auth_failed` — `session_yield: operator holds the broker session (IBKR Desktop / TWS)`. Yield session on Fulfillment Desk for live candidates.

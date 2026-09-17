@@ -1,0 +1,6 @@
+# Mode C LEAP desk read binding (IBKR option_candidates).
+# Copy to leap-read.env (gitignored) and set the binding_id from BG:
+#   curl -s http://127.0.0.1:3003/api/v1/bindings | jq .
+#
+# Use a read-capable IBKR binding. Do NOT set portfolio.broker_binding_id on Mode C paper books.
+# LEAP_READ_BINDING_ID=bnd_...
