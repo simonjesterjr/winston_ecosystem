@@ -35,6 +35,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P1 | Proposed | [`2026-09-16-wv2-paper-leap-eval-red-from-692.md`](2026-09-16-wv2-paper-leap-eval-red-from-692.md) | Wv2 paper Red from WUT #692 — $30k Mode C; replace existing Red OPs (after Blue) |
 | P2 | Proposed | [`2026-09-17-winston-llm-desk-inventory.md`](2026-09-17-winston-llm-desk-inventory.md) | Winston LLM desk inventory post-CUDA (map touchpoints → short GPU eval) — scheduled Thu 2026-09-17 |
 | P3 | Proposed | [`2026-09-16-podman-nvidia-cdi-cleanup.md`](2026-09-16-podman-nvidia-cdi-cleanup.md) | Rootless Podman NVIDIA CDI cleanup (ollama still on classic `/dev/nvidia*` + lib binds) |
 | P1 | In progress | [`2026-09-16-wv2-paper-leap-eval-blue-from-685.md`](2026-09-16-wv2-paper-leap-eval-blue-from-685.md) | Wv2 paper Blue from WUT #685 — IBKR-eval LEAP, paper-only fulfill (deactivate ops 381) — [analysis](../analysis/2026-09-16-pbr685-blue-leap-s1-2pct.md) |
