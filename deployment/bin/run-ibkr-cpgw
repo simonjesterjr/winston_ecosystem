@@ -23,6 +23,7 @@ Usage: run-ibkr-cpgw <command>
   start               start CPGW in the background (does not log in)
   start --fg          start in the foreground (Ctrl+C stops)
   stop                keep-alive off, then stop the Java process
+  restart             stop + start (via systemd --user if enabled, else direct)
   up                  start + print login URL + wait for paper SSO + keep-alive on
   down                keep-alive off + stop (end of window)
   keepalive on|off    Broker Gateway minute tickle window (off = no 401 hammering)
@@ -32,6 +33,9 @@ Non-programmatic: `up`, browser-login paper at https://localhost:5000/, leave it
 
 Java is the vendored Eclipse Temurin 17 JRE under ecosystem/vendor/jdk-17-jre
 (a portable OpenJDK 17 runtime so CPGW does not depend on system Java).
+
+Systemd integration: When ibkr-cpgw.service is enabled under systemd --user,
+start/stop/restart will prefer systemctl --user commands.
 EOF
 }
 
@@ -81,9 +85,26 @@ tws_running() {
   pgrep -af 'brandingId=ntws|/ntws/' 2>/dev/null | grep -v grep | grep -q . || return 1
 }
 
+systemd_available() {
+  systemctl --user is-enabled ibkr-cpgw.service >/dev/null 2>&1
+}
+
+systemd_status() {
+  systemctl --user is-active ibkr-cpgw.service 2>/dev/null || echo "inactive"
+}
+
 cmd_status() {
   local pids auth tickle
   pids="$(gw_pids | tr '\n' ' ' | sed 's/[[:space:]]*$//')"
+  
+  if systemd_available; then
+    local systemd_state
+    systemd_state="$(systemd_status)"
+    echo "systemd:       enabled (status: ${systemd_state})"
+  else
+    echo "systemd:       not enabled"
+  fi
+  
   echo "CPGW process:  $(if running; then echo "up  pid ${pids}"; else echo "down"; fi)"
   echo "listen :${PORT}: $(if port_up; then echo up; else echo down; fi)"
   if running; then
@@ -123,6 +144,22 @@ start_bg() {
     echo "CPGW already running: $(gw_pids)"
     return 0
   fi
+  
+  if systemd_available; then
+    echo "Starting via systemd --user ..."
+    systemctl --user start ibkr-cpgw.service
+    local i
+    for i in 1 2 3 4 5 6 7 8 9 10; do
+      if running && port_up; then
+        echo "CPGW started (systemd). Login: ${BASE}/"
+        return 0
+      fi
+      sleep 0.5
+    done
+    echo "CPGW start issued but :${PORT} is not listening yet. Check: journalctl --user -u ibkr-cpgw" >&2
+    return 1
+  fi
+  
   export JAVA_HOME
   export PATH="$JAVA_HOME/bin:$PATH"
   mkdir -p "$GW/logs"
@@ -150,6 +187,25 @@ stop_gw() {
     echo "CPGW already down. Keep-alive off."
     return 0
   fi
+  
+  if systemd_available && [[ "$(systemd_status)" == "active" ]]; then
+    echo "Stopping via systemd --user ..."
+    curl -sk --max-time 5 -X POST "${API}/logout" >/dev/null 2>&1 || true
+    systemctl --user stop ibkr-cpgw.service
+    local i
+    for i in 1 2 3 4 5 6 7 8 9 10; do
+      running || break
+      sleep 0.3
+    done
+    if running; then
+      echo "WARN: CPGW still running after systemctl stop. Force killing." >&2
+      kill -9 $(gw_pids) 2>/dev/null || true
+    fi
+    rm -f "$PIDFILE"
+    echo "CPGW stopped. Keep-alive off."
+    return 0
+  fi
+  
   curl -sk --max-time 5 -X POST "${API}/logout" >/dev/null 2>&1 || true
   # Parent run.sh + Java GatewayStart
   if [[ -f "$PIDFILE" ]]; then
@@ -166,6 +222,31 @@ stop_gw() {
   fi
   rm -f "$PIDFILE"
   echo "CPGW stopped. Keep-alive off."
+}
+
+cmd_restart() {
+  if systemd_available; then
+    echo "Restarting via systemd --user ..."
+    keepalive_off
+    curl -sk --max-time 5 -X POST "${API}/logout" >/dev/null 2>&1 || true
+    systemctl --user restart ibkr-cpgw.service
+    local i
+    for i in 1 2 3 4 5 6 7 8 9 10; do
+      if running && port_up; then
+        echo "CPGW restarted (systemd). Login: ${BASE}/"
+        echo "After SSO: $0 keepalive on"
+        return 0
+      fi
+      sleep 0.5
+    done
+    echo "CPGW restart issued but :${PORT} is not listening yet. Check: journalctl --user -u ibkr-cpgw" >&2
+    return 1
+  fi
+  
+  echo "Restarting CPGW (no systemd) ..."
+  stop_gw
+  sleep 1
+  start_bg
 }
 
 wait_for_sso() {
@@ -228,6 +309,7 @@ case "$cmd" in
     if [[ "${1:-}" == "--fg" ]]; then start_fg; else start_bg; fi
     ;;
   stop|down) stop_gw ;;
+  restart) cmd_restart ;;
   up)
     timeout=300
     if [[ "${1:-}" == "--timeout" ]]; then timeout="${2:-300}"; fi

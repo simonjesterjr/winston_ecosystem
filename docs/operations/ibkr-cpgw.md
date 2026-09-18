@@ -3,8 +3,9 @@
 Host process (not compose). Paper Single Sign-On (SSO) is a browser step. Broker Gateway never stores the username or password.
 
 **Commands:** `./ecosystem/deployment/bin/run-ibkr-cpgw`  
+**Control Service:** `./ecosystem/deployment/bin/cpgw-control-service` (HTTP helper, 127.0.0.1:5500)  
 **Skill:** `ibkr-cpgw`  
-**Ticket:** `docs/tickets/2026-09-06-ibkr-cpgw-unattended-session.md`
+**Tickets:** `docs/tickets/2026-09-06-ibkr-cpgw-unattended-session.md`, `docs/tickets/2026-09-18-cpgw-host-lifecycle-in-ecosystem.md`
 
 ## Java (Eclipse Temurin 17)
 
@@ -30,7 +31,7 @@ Leaving CPGW logged in **is** a multi-hour keep-alive (the Java process tickles 
 3. Browser: https://localhost:5000/ — accept the self-signed cert — **paper** username. The desk waits (reload) until `auth/status` is HTTP 200, then turns keep-alive on.
 4. Bound Operational Portfolios may use Broker Gateway (polls, Desk Send, 15-minute DAY-order eval).
 5. **Yield session to Desktop** when you need the same paper username in Desktop. **Initiate connection** to take it back.
-6. Host process down (page does not load): `./ecosystem/deployment/bin/run-ibkr-cpgw start` once, then Initiate connection again. End of window: `down` (stops Java) or leave CPGW running.
+6. Host process down (page does not load): `./ecosystem/deployment/bin/run-ibkr-cpgw restart` (or `start`), then Initiate connection again. End of window: `down` (stops Java) or leave CPGW running.
 
 Foreground alternative: `start --fg` in a terminal (Ctrl+C stops). From another terminal after SSO: `keepalive on`.
 
@@ -39,6 +40,7 @@ Foreground alternative: `start --fg` in a terminal (Ctrl+C stops). From another 
 ```bash
 ./ecosystem/deployment/bin/run-ibkr-cpgw status
 ./ecosystem/deployment/bin/run-ibkr-cpgw start          # process only
+./ecosystem/deployment/bin/run-ibkr-cpgw restart        # stop + start (via systemd if enabled)
 ./ecosystem/deployment/bin/run-ibkr-cpgw up             # start + wait SSO + keepalive on
 ./ecosystem/deployment/bin/run-ibkr-cpgw up --timeout 0 # start, do not wait
 ./ecosystem/deployment/bin/run-ibkr-cpgw keepalive on   # requires HTTP 200 unless FORCE=1
@@ -48,6 +50,38 @@ Foreground alternative: `start --fg` in a terminal (Ctrl+C stops). From another 
 
 Keep-alive flag (bind-mounted into Broker Gateway): `broker_gateway/tmp/ibkr_keepalive.on`.  
 `TickleJob` no-ops without it and **deletes it** on 401/error so a dead session is not hammered 24×7.
+
+### Systemd integration (optional)
+
+When installed via systemd --user, `start`/`stop`/`restart` prefer systemctl. See `deployment/SYSTEMD-INSTALL.md`.
+
+### Control Service (HTTP helper)
+
+For remote control from Fulfillment Desk / BG / Wv2 (via `host.docker.internal`):
+
+```bash
+# Start the control service (optional, for desk integration)
+./ecosystem/deployment/bin/cpgw-control-service --port 5500
+
+# Or via systemd (after install)
+systemctl --user start cpgw-control.service
+```
+
+Endpoints (127.0.0.1:5500 only, no auth):
+
+- `GET /v1/cpgw/status` — JSON with running/listening/pid/via/auth_http/keepalive
+- `POST /v1/cpgw/control` — body `{"action": "start"|"stop"|"restart"}` → same status shape
+
+From compose stack:
+
+```bash
+curl http://host.docker.internal:5500/v1/cpgw/status
+curl -X POST http://host.docker.internal:5500/v1/cpgw/control \
+  -H "Content-Type: application/json" \
+  -d '{"action": "restart"}'
+```
+
+The control service **does not store or transmit IBKR passwords**. It only shells through `run-ibkr-cpgw` or systemctl. Fail closed if helper is down (expected HTTP errors).
 
 ## Session Yield (Desktop / Trader Workstation)
 

@@ -1,0 +1,193 @@
+#!/usr/bin/env python3
+"""
+IBKR CPGW Control Service — HTTP helper for Winston Fulfillment Desk.
+
+Provides a simple HTTP API (127.0.0.1 only) for checking CPGW status and
+issuing start/stop/restart commands. No authentication, no passwords.
+BG/Wv2 reach this via host.docker.internal from compose stack.
+
+Usage:
+  ./cpgw-control-service [--port PORT]
+
+Default port: 5500
+"""
+
+import sys
+import json
+import subprocess
+import os
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from pathlib import Path
+
+ECOSYSTEM = Path(__file__).resolve().parent.parent.parent
+CLI = ECOSYSTEM / "deployment" / "bin" / "run-ibkr-cpgw"
+DEFAULT_PORT = 5500
+
+
+class CPGWControlHandler(BaseHTTPRequestHandler):
+    def log_message(self, format, *args):
+        sys.stderr.write(f"{self.log_date_time_string()} {format % args}\n")
+
+    def _send_json(self, status_code, data):
+        self.send_response(status_code)
+        self.send_header("Content-Type", "application/json")
+        self.end_headers()
+        self.wfile.write(json.dumps(data, indent=2).encode() + b"\n")
+
+    def _get_status(self):
+        """Parse run-ibkr-cpgw status output into structured data."""
+        try:
+            result = subprocess.run(
+                [str(CLI), "status"],
+                capture_output=True,
+                text=True,
+                timeout=10,
+            )
+            lines = result.stdout.strip().split("\n")
+            status = {
+                "running": False,
+                "listening": False,
+                "pid": None,
+                "via": "unknown",
+                "auth_http": None,
+                "keepalive": False,
+            }
+
+            for line in lines:
+                if "systemd:" in line:
+                    if "enabled" in line:
+                        status["via"] = "systemd"
+                    else:
+                        status["via"] = "cli"
+                elif "CPGW process:" in line:
+                    if "up" in line and "pid" in line:
+                        status["running"] = True
+                        parts = line.split("pid")
+                        if len(parts) > 1:
+                            pid_str = parts[1].strip()
+                            try:
+                                status["pid"] = int(pid_str.split()[0])
+                            except (ValueError, IndexError):
+                                pass
+                elif "listen" in line:
+                    status["listening"] = "up" in line
+                elif "auth/status:" in line and "HTTP" in line:
+                    parts = line.split("HTTP")
+                    if len(parts) > 1:
+                        code_str = parts[1].strip().split()[0]
+                        try:
+                            status["auth_http"] = int(code_str)
+                        except ValueError:
+                            pass
+                elif "keep-alive:" in line:
+                    status["keepalive"] = "on" in line
+
+            return status, None
+        except subprocess.TimeoutExpired:
+            return None, "status check timed out"
+        except Exception as e:
+            return None, str(e)
+
+    def _execute_action(self, action):
+        """Execute start/stop/restart via run-ibkr-cpgw."""
+        if action not in ("start", "stop", "restart"):
+            return False, f"invalid action: {action}"
+
+        try:
+            result = subprocess.run(
+                [str(CLI), action],
+                capture_output=True,
+                text=True,
+                timeout=30,
+            )
+            if result.returncode != 0:
+                return False, f"{action} failed: {result.stderr or result.stdout}"
+            return True, result.stdout
+        except subprocess.TimeoutExpired:
+            return False, f"{action} timed out"
+        except Exception as e:
+            return False, str(e)
+
+    def do_GET(self):
+        if self.path == "/v1/cpgw/status":
+            status, error = self._get_status()
+            if error:
+                self._send_json(500, {"error": error})
+            else:
+                self._send_json(200, status)
+        elif self.path in ("/health", "/healthz"):
+            self._send_json(200, {"status": "ok"})
+        else:
+            self._send_json(404, {"error": "not found"})
+
+    def do_POST(self):
+        if self.path == "/v1/cpgw/control":
+            content_length = int(self.headers.get("Content-Length", 0))
+            if content_length == 0:
+                self._send_json(400, {"error": "missing request body"})
+                return
+
+            try:
+                body = self.rfile.read(content_length)
+                data = json.loads(body)
+                action = data.get("action")
+                if not action:
+                    self._send_json(400, {"error": "missing 'action' field"})
+                    return
+
+                success, output = self._execute_action(action)
+                if success:
+                    status, error = self._get_status()
+                    if error:
+                        self._send_json(500, {"error": error})
+                    else:
+                        status["action"] = action
+                        status["output"] = output
+                        self._send_json(200, status)
+                else:
+                    self._send_json(500, {"error": output})
+            except json.JSONDecodeError:
+                self._send_json(400, {"error": "invalid JSON"})
+            except Exception as e:
+                self._send_json(500, {"error": str(e)})
+        else:
+            self._send_json(404, {"error": "not found"})
+
+
+def main():
+    port = DEFAULT_PORT
+    if len(sys.argv) > 1:
+        if sys.argv[1] in ("-h", "--help"):
+            print(__doc__)
+            sys.exit(0)
+        if sys.argv[1] == "--port" and len(sys.argv) > 2:
+            try:
+                port = int(sys.argv[2])
+            except ValueError:
+                print(f"error: invalid port: {sys.argv[2]}", file=sys.stderr)
+                sys.exit(1)
+
+    if not CLI.exists():
+        print(f"error: run-ibkr-cpgw not found at {CLI}", file=sys.stderr)
+        sys.exit(1)
+
+    server = HTTPServer(("127.0.0.1", port), CPGWControlHandler)
+    print(f"CPGW Control Service listening on http://127.0.0.1:{port}")
+    print(f"CLI: {CLI}")
+    print()
+    print("Endpoints:")
+    print(f"  GET  http://127.0.0.1:{port}/v1/cpgw/status")
+    print(f"  POST http://127.0.0.1:{port}/v1/cpgw/control")
+    print()
+    print("From compose: http://host.docker.internal:{port}/v1/cpgw/...")
+    print()
+
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print("\nShutting down...")
+        server.shutdown()
+
+
+if __name__ == "__main__":
+    main()
