@@ -51,7 +51,7 @@ So "restart CPGW" and "make startup part of ecosystem" are **host lifecycle**, n
 
 ## Implementation (2026-09-18)
 
-**PR:** [Link to be added when created]
+**PR:** https://github.com/simonjesterjr/winston_ecosystem/pull/4
 
 ### What shipped
 
