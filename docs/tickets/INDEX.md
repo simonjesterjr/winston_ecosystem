@@ -35,6 +35,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P1 | In progress | [`2026-09-18-cpgw-host-lifecycle-in-ecosystem.md`](2026-09-18-cpgw-host-lifecycle-in-ecosystem.md) | CPGW host lifecycle (restart / systemd / HTTP helper) — CLI restart + control service for Desk/BG/Wv2 |
 | P1 | In progress | [`2026-09-17-mode-c-new-books-pcs-60-90.md`](2026-09-17-mode-c-new-books-pcs-60-90.md) | Mode C new books Indigo/Teal/Copper/Slate — PCS 60–90 compile + TS75 stamp |
 | P2 | In progress | [`2026-09-08-wev-pulse-other-monolith-emits.md`](2026-09-08-wev-pulse-other-monolith-emits.md) | WEV Pulse emit from WUT/Wv2/BG + **remaining nanobot_cromwell DAR** — [parent](2026-09-07-winston-ecosystem-view.md) · correlated PR #4/#5 archived |
 | P1 | In progress | [`2026-09-17-cromwell-daily-state-verifier.md`](2026-09-17-cromwell-daily-state-verifier.md) | Cromwell daily STATE + stop/skip + verifier skill on 8b — [loop L1](2026-07-19-loop-engineering-evolution-mode.md) |

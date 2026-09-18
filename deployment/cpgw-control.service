@@ -1,0 +1,15 @@
+[Unit]
+Description=IBKR CPGW Control Service (HTTP helper for Fulfillment Desk)
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=%h/sawtooth/ecosystem/deployment/bin/cpgw-control-service --port 5500
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=cpgw-control
+
+[Install]
+WantedBy=default.target

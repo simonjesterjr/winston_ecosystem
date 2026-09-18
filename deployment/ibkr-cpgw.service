@@ -1,0 +1,17 @@
+[Unit]
+Description=Interactive Brokers Client Portal Gateway
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/sawtooth/ecosystem/vendor/ibkr-clientportal-gw
+Environment="JAVA_HOME=%h/sawtooth/ecosystem/vendor/jdk-17-jre"
+Environment="PATH=%h/sawtooth/ecosystem/vendor/jdk-17-jre/bin:/usr/local/bin:/usr/bin:/bin"
+ExecStart=%h/sawtooth/ecosystem/deployment/bin/run-ibkr-cpgw start --fg
+Restart=no
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=ibkr-cpgw
+
+[Install]
+WantedBy=default.target
