@@ -115,7 +115,7 @@ Contractor slices S0–S5 and field tables: see analysis §§3–7.
 | **Mode C paper Blue** | IBKR real chain (quotes / conid / ATM LEAP package) | **Wv2 paper** journals + cash — **no IBKR bind**, no OPT Desk-Send |
 | **Walnut** | (unchanged) | **IBKR-bound** fulfillment |
 
-### Locks (John via CoS, 2026-09-16)
+### Locks (John via CoS, 2026-09-16; EOD HITL 2026-09-18)
 
 1. **IBKR eval only** — packaging/pricing from IBKR; fills, journals, cash stay in Wv2 paper.
 2. **No Black-Scholes** — use the **IBKR real chain** for the ATM LEAP package.
@@ -124,6 +124,7 @@ Contractor slices S0–S5 and field tables: see analysis §§3–7.
    *Differs from ADR-017 / Phase 5 IBKR-bound path (HITL sell LEAP on stop).* Universal desk law still applies: exit strategy + protective stops ([`exit-and-protective-stop-desk-law.md`](../docs/business-context/exit-and-protective-stop-desk-law.md)).
 5. **Spending:** `premium × 100 × contracts` vs paper cash.
 6. **Fingerprint locked:** WUT PBR **#685** / **TS75** — `$30k`, risk **2%**, `leap_fulfillment=all`, Turtle **S1** Breakout20/10, RST, turtle heat (`blue_rst_turtle_r02_leap30k_ts75`).
+7. **EOD HITL (2026-09-18):** paper Mode C Confirm is **after the cash session**. Intra-day CPGW last/mid is the **simulated automated fill** (the close that would have executed if unattended). Do not prefill next-open **share** price as the LEAP premium.
 
 ### Cutover (after enablement)
 
@@ -140,7 +141,7 @@ Contractor slices S0–S5 and field tables: see analysis §§3–7.
 
 ## Next concrete steps
 
-1. **Mode C (active):** build enablement per § Mode C + ticket `2026-09-16-wv2-paper-leap-eval-blue-from-685` (In Progress); cutover deactivate 381 → new Blue after enablement.  
-2. Operator: `/grill-with-docs` on ADR-017 + this plan for **IBKR-bound** LEAP path (or accept Proposed → Accepted) — parallel to Mode C, not blocked by it.  
-3. Parallel: paper read-only 1×1 (`2026-09-09-extra-modal…`) **or** Phase 1 ticket `2026-09-15-wv2-leap-packaging-fields` for Walnut/IBKR-bound.  
-4. Do not Desk-Send OPT on IBKR until SC + matrix + ADR-017 grill locked (Mode C paper Blue never IBKR Desk-Sends).
+1. **Mode C (active 2026-09-18):** desk LEAP **prefill** — BG quotes ticket `2026-09-18-bg-option-candidates-quotes` + Wv2 `2026-09-15-wv2-leap-packaging-fields`. Cutover of Blue/Red/Orange/Mango/Rust/Indigo/Teal/Copper/Slate **already landed** (do not re-stand books).  
+2. Operator: paper CPGW SSO for live chain smoke (fixture specs do not wait).  
+3. Walnut / ADR-017 OPT Desk Send stays **parked** (`2026-09-15-bg-ibkr-opt-order-intent-prove`).  
+4. Do not Desk-Send OPT on IBKR until SC + matrix + ADR-017 grill locked (Mode C paper never IBKR Desk-Sends).

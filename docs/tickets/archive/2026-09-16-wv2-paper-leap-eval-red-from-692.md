@@ -1,6 +1,6 @@
 # Ticket: Wv2 paper Red — IBKR-eval LEAP, paper-only fulfill (from WUT #692)
 
-**Status:** In progress  
+**Status:** Done — cutover landed 2026-09-16 (#1575); remaining desk prefill is `2026-09-15-wv2-leap-packaging-fields`  
 **Priority:** P1  
 **Date:** 2026-09-16  
 **Depends on:** Blue Mode C cutover (`2026-09-16-wv2-paper-leap-eval-blue-from-685`) verified first  
