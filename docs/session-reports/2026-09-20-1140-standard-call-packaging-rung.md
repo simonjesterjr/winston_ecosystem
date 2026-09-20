@@ -223,12 +223,12 @@ cd broker_gateway && bundle exec rspec spec/services/adapters/ibkr_adapter_spec.
 
 ## 14. Follow-up Actions
 
-- [ ] CPGW/BG option greeks (delta, OI) on `option_candidates` so live `standard_call` can pass the band — owner: BG — due: when first OP opts in
-- [ ] OP UI / console recipe for `fulfillment_packaging_policy` — owner: Wv2 — due: before ops use
-- [ ] Wire flatten/roll DTE actions to desk tasks (helper exists) — owner: Wv2 — due: later
-- [ ] Fix Mode C paper `ExitAtStopService` `exit_at_stop` stamp spec — owner: Wv2 — due: whenever Mode C exits are touched
-- [ ] WUT lab parity for standard_call / Plan B — owner: WUT — due: only if John asks
-- [ ] BG OPT Desk-Send prove — already ticket `2026-09-15-bg-ibkr-opt-order-intent-prove`
+- [ ] **P0** Mode C LEAP stop-out option mark — See: [`docs/tickets/2026-09-20-mode-c-leap-exit-at-stop-option-mark.md`](../tickets/2026-09-20-mode-c-leap-exit-at-stop-option-mark.md)
+- [ ] CPGW/BG option greeks — See: [`docs/tickets/2026-09-20-bg-option-candidates-greeks.md`](../tickets/2026-09-20-bg-option-candidates-greeks.md)
+- [ ] OP UI for packaging policy — See: [`docs/tickets/2026-09-01-fulfillment-packaging-policy-ops-ui.md`](../tickets/2026-09-01-fulfillment-packaging-policy-ops-ui.md)
+- [ ] Flatten/roll desk tasks — See: [`docs/tickets/2026-09-20-standard-call-flatten-roll-desk.md`](../tickets/2026-09-20-standard-call-flatten-roll-desk.md)
+- [ ] WUT lab parity — See: [`docs/tickets/2026-09-20-wut-standard-call-plan-b-parity.md`](../tickets/2026-09-20-wut-standard-call-plan-b-parity.md)
+- [ ] BG OPT Desk-Send prove — already [`docs/tickets/2026-09-15-bg-ibkr-opt-order-intent-prove.md`](../tickets/2026-09-15-bg-ibkr-opt-order-intent-prove.md)
 
 ---
 

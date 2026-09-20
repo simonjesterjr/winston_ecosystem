@@ -38,3 +38,5 @@ Three packaging instruments, same signal:
 - [x] BG OPT Desk-Send **deferred** (Confirm stamps `conid`; prove ticket still parked)
 
 **Not in this slice:** Winston Unit Test (WUT) lab parity; Interactive Brokers (IBKR) OPT Desk-Send / `place_order` (still `2026-09-15-bg-ibkr-opt-order-intent-prove`). Confirm already stamps `conid` when a call resolves; BG now **refuses** `asset_class=option` without `conid` so stock-biased resolve cannot run.
+
+**Follow-ups (2026-09-20):** P0 [`2026-09-20-mode-c-leap-exit-at-stop-option-mark.md`](2026-09-20-mode-c-leap-exit-at-stop-option-mark.md); greeks [`2026-09-20-bg-option-candidates-greeks.md`](2026-09-20-bg-option-candidates-greeks.md); flatten/roll [`2026-09-20-standard-call-flatten-roll-desk.md`](2026-09-20-standard-call-flatten-roll-desk.md); policy UI [`2026-09-01-fulfillment-packaging-policy-ops-ui.md`](2026-09-01-fulfillment-packaging-policy-ops-ui.md); WUT [`2026-09-20-wut-standard-call-plan-b-parity.md`](2026-09-20-wut-standard-call-plan-b-parity.md).

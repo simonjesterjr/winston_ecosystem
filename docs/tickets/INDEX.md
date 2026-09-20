@@ -35,6 +35,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P0 | Proposed | [`2026-09-20-mode-c-leap-exit-at-stop-option-mark.md`](2026-09-20-mode-c-leap-exit-at-stop-option-mark.md) | Mode C LEAP stop-out books option mark, not underlying Working Stop — [wrap](../session-reports/2026-09-20-1140-standard-call-packaging-rung.md) |
 | P1 | In progress | [`2026-09-18-cpgw-host-lifecycle-in-ecosystem.md`](2026-09-18-cpgw-host-lifecycle-in-ecosystem.md) | CPGW host lifecycle (restart / systemd / HTTP helper) — CLI restart + control service for Desk/BG/Wv2 |
 | P1 | Proposed | [`2026-09-18-wut-macd-confirm-and-trend-phase-pyramid.md`](2026-09-18-wut-macd-confirm-and-trend-phase-pyramid.md) | WUT MACD confirmational + trend-phase pyramid geometry (new PBR feature) |
 | P1 | In progress | [`2026-09-17-mode-c-new-books-pcs-60-90.md`](2026-09-17-mode-c-new-books-pcs-60-90.md) | Mode C new books — Copper/Slate live; Indigo/Teal **evolved** (see 2026-09-18 ticket) |
@@ -56,6 +57,10 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P1 | In progress | [`2026-09-18-mode-c-leap-preferred-underlying-fallback.md`](2026-09-18-mode-c-leap-preferred-underlying-fallback.md) | Mode C LEAP→underlying fallback — draft Wv2 [#7](https://github.com/simonjesterjr/winston_v2/pull/7) — [UI](2026-09-18-wv2-workflow-fulfillment-justification.md) |
 | P1 | In progress | [`2026-09-18-wv2-workflow-fulfillment-justification.md`](2026-09-18-wv2-workflow-fulfillment-justification.md) | Desk Justification panel — draft Wv2 [#7](https://github.com/simonjesterjr/winston_v2/pull/7) — [behavior](2026-09-18-mode-c-leap-preferred-underlying-fallback.md) |
 | P1 | In progress | [`2026-09-19-standard-call-fulfillment-packaging-rung.md`](2026-09-19-standard-call-fulfillment-packaging-rung.md) | Standard (non-LEAP) long call as ADR-018 packaging rung — Wv2 selector first; WUT out of scope — [design](../analysis/2026-09-19-standard-call-packaging-rung.md) |
+| P1 | Proposed | [`2026-09-20-bg-option-candidates-greeks.md`](2026-09-20-bg-option-candidates-greeks.md) | BG option_candidates delta/OI for standard_call filter — [quotes](2026-09-18-bg-option-candidates-quotes.md) |
+| P1 | Proposed | [`2026-09-20-standard-call-flatten-roll-desk.md`](2026-09-20-standard-call-flatten-roll-desk.md) | Wire standard_call flatten/roll DTE to desk tasks — helper exists |
+| P2 | Proposed | [`2026-09-01-fulfillment-packaging-policy-ops-ui.md`](2026-09-01-fulfillment-packaging-policy-ops-ui.md) | Fulfillment Packaging Policy ops UI — jsonb store already on OP (2026-09-20) |
+| P3 | Proposed | [`2026-09-20-wut-standard-call-plan-b-parity.md`](2026-09-20-wut-standard-call-plan-b-parity.md) | WUT lab parity for standard_call / Plan B — only if operator asks |
 | P1 | Proposed | [`2026-09-15-bg-ibkr-opt-order-intent-prove.md`](2026-09-15-bg-ibkr-opt-order-intent-prove.md) | BG OPT Order Intent + IBKR paper 1×1 prove — [plan](../../plans/wv2-bg-ibkr-leap-fulfillment.md) · [ADR-017](../adr/ADR-017-leap-packaging-precalc-occ.md) |
 | P1 | In progress | [`2026-09-04-tf-p3-live-sizing-and-capital-authority.md`](2026-09-04-tf-p3-live-sizing-and-capital-authority.md) | Spending Capacity + Capital Authority into sizer/slate — [plan](../../plans/spending-capacity-and-leap-fulfillment.md) |
 | P1 | Proposed | [`2026-09-09-extra-modal-leap-unit-evaluation.md`](2026-09-09-extra-modal-leap-unit-evaluation.md) | Extra-modal LEAP vs share unit — read-only 1×1 unblocked — [plan](../../plans/wv2-bg-ibkr-leap-fulfillment.md) · [ADR-017](../adr/ADR-017-leap-packaging-precalc-occ.md) · [law](../business-context/leap-extra-modal-proxy.md) |

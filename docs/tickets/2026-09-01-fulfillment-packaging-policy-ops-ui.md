@@ -7,7 +7,8 @@
 **Graph nodes:** winston_v2  
 **Human gates:** policy edits are desk actions on the Operational Portfolio, not Broker Gateway  
 **DoD:** Ops can set rule-based packaging on an OP; desk create-time default still works  
-**Origin:** Grill 2026-09-01 Q4–Q5 — [`docs/session-reports/2026-09-01-1601-ibkr-paper-and-slate-grill.md`](../session-reports/2026-09-01-1601-ibkr-paper-and-slate-grill.md)
+**Origin:** Grill 2026-09-01 Q4–Q5 — [`docs/session-reports/2026-09-01-1601-ibkr-paper-and-slate-grill.md`](../session-reports/2026-09-01-1601-ibkr-paper-and-slate-grill.md)  
+**Related (2026-09-20):** jsonb `portfolios.fulfillment_packaging_policy` is on the Operational Portfolio (standard_call ladder). This ticket is the **ops UI**, not a second store. [`2026-09-19-standard-call-fulfillment-packaging-rung.md`](2026-09-19-standard-call-fulfillment-packaging-rung.md).
 
 ## Problem
 
