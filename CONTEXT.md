@@ -415,6 +415,17 @@ _Avoid_: cancel as silent success, unlabeled skip, treating Desk Pass as naked e
 How a signal is realized in the market under **Extra-Modal Fulfillment**: the real instrument and size may differ from the **Signal Spine** / **Signal-Path Operational Lot** share story. Examples: equity signal → stock shares, LEAP/option contracts, or option-chain structure; commodity / futures-theme signal → futures, options on futures, or commodity/levered ETFs (e.g. CLETF-class products). The **Journal** (and OP **Books**) still track the **signal Market** for DA, capacity, and mid-life path; packaging is recorded via **Fulfillment Link** with optional indicated ±$D; **Exit Capital Reconcile** applies cash honesty. Does not waive the **Signaled Entry Rule**; does not invent a second signal for the fill instrument.
 _Avoid_: requiring the fill instrument to equal the signal share count or symbol; rewriting Signal Spine to match broker prints; equating broker symbol match with signal identity; continuous mid-life capital = LEAP premium unless reconciled
 
+**Plan A (fulfillment)**:
+Preferred fulfillment packaging for a signal per the Trading Strategy / OP **Fulfillment Packaging Policy** — not hard-coded to any instrument. First entry in `packaging_preference`. Mode C default today: LEAP under `leap_fulfillment=all` (derived `[leap, stock]`). May be a **standard long call** when the policy says so. ADR-018.
+_Avoid_: treating Plan A refuse as signal failure; equating Plan A with “always LEAPs”
+
+**Plan B (fulfillment)**:
+Suboptimal but valid packaging so the desk can still **enter the market** when Plan A is untradeable (not auth-blocked). Next tradeable rung (standard long call, or underlying/stock at `signal_share_units`) with Justification. ADR-018.
+_Avoid_: units=0 confirm; force+note as the only path; silent Plan B on auth failure; conflating with ADR-017 Desk-Send Model B
+
+**Justification (fulfillment)**:
+Desk workflow five-beat panel: Signal → Risk units → Fulfillment preference → Why Plan A won’t → Why Plan B will. Required when Plan B is active (ADR-018).
+
 **Fulfillment Packaging Policy**:
 Winston v2 rules, stored on the **Operational Portfolio**, for how a desk may realize a signal (shares as-printed, round to a round lot, long-dated calls or puts, ask the human for a per-share price, **Order Intent** type, and so on). Edited in Winston v2 operations. Rule-based now; later an LLM may propose among allowed shapes and compare them (for example a long-dated-call entrance versus a calendar option spread) without a new **TradingStrategy** fingerprint. A desk only supplies the default when the portfolio is created — WQ paper default is regular-hours **market**; paper Walnut / Trend Following default is the **Session Order Slate** (**stop-market** entry, pyramid, and protective stop — not limits). **Broker Gateway** transports the intent and classifies evidence. Packaging may differ by **Desk Action** on the same lot. Split broker executions still sum to one command.
 _Avoid_: putting packaging or order-type choice in the gateway; freezing IBKR to market-only because WQ is simple; buy/sell limits as Turtle breakouts; a second Daily Analysis signal for the fill symbol

@@ -4,7 +4,7 @@
 **Applies to:** Trend Following Operational Portfolios (OPs) and Winston Unit Test (WUT) lab recipes that fulfill equity **signals** with Long-term Equity Anticipation Security (LEAP) / option **packaging** as a proxy for the underlying. First lab chassis: Resting Stop Touch (RST) + Turtle S2 sticky 20D_BO.  
 **Status:** Desk lock for Wv2 planning 2026-09-14/15 (promotes lab law from WUT LEAP-packaged PBR work).  
 **Glossary:** `CONTEXT.md` — Extra-Modal Fulfillment, Fulfillment Packaging Policy, Signal-Path Operational Lot, Risk Modality, Fulfillment Link, Exit Capital Reconcile, Working Stop, Protective Stop Guardrail, Signal Spine, Booked Capital Spine  
-**Related:** [`human-gated-desk-and-fulfillment.md`](human-gated-desk-and-fulfillment.md); [`turtle-s2-pyramid-and-working-stop.md`](turtle-s2-pyramid-and-working-stop.md); [`wut-s2-working-stop-lab.md`](wut-s2-working-stop-lab.md); ADR-009; ADR-017 (Proposed); plans `spending-capacity-and-leap-fulfillment.md`, `wv2-bg-ibkr-leap-fulfillment.md`; tickets `2026-09-09-extra-modal-leap-unit-evaluation.md`, `2026-09-15-wv2-leap-packaging-fields.md`, `2026-09-15-bg-ibkr-opt-order-intent-prove.md`, WUT `2026-09-14-wut-leap-packaged-pbr-faithful-sim.md`
+**Related:** [`human-gated-desk-and-fulfillment.md`](human-gated-desk-and-fulfillment.md); [`turtle-s2-pyramid-and-working-stop.md`](turtle-s2-pyramid-and-working-stop.md); [`wut-s2-working-stop-lab.md`](wut-s2-working-stop-lab.md); ADR-009; ADR-017 (Proposed); plans `spending-capacity-and-leap-fulfillment.md`, `wv2-bg-ibkr-leap-fulfillment.md`; Mode C Plan A/B [`mode-c-leap-plan-a-plan-b.md`](mode-c-leap-plan-a-plan-b.md); tickets `2026-09-09-extra-modal-leap-unit-evaluation.md`, `2026-09-15-wv2-leap-packaging-fields.md`, `2026-09-15-bg-ibkr-opt-order-intent-prove.md`, WUT `2026-09-14-wut-leap-packaged-pbr-faithful-sim.md`
 
 ## Purpose
 
@@ -69,6 +69,10 @@ WUT stamps these on PBR `results_json` / market configs for faithful sims. Wv2 s
 | `leap_atr_offset` | Strike offset in ATR units (0 = ATM; must not be treated as Ruby falsy). |
 | `leap_expiration_days` | Target tenor (lab often 730). |
 | Contract floor | Sizing floors at 1 contract (100 shares controlled); small 1% units on cheap names may skip. |
+
+### Mode C Plan A / Plan B (2026-09-19)
+
+When `leap_fulfillment=all` and LEAP is **untradeable** (not auth), confirm **Plan B underlying** at `signal_share_units` with Justification — see [`mode-c-leap-plan-a-plan-b.md`](mode-c-leap-plan-a-plan-b.md) / **[ADR-018](../adr/ADR-018-mode-c-leap-plan-a-plan-b.md)**. Auth/session failures stay hard stops. A **standard long call** (DTE below `leap_min_dte`) is an optional extra packaging rung on the same policy ladder — same Signal Spine, same Working Stop on the underlying; it is not a second methodology.
 
 **Fingerprint honesty:** changing `leap_fulfillment` (or live packaging policy) is a **new recipe** relative to share bake-offs — do not silently rewrite historical share-path Edge as LEAP Edge.
 
