@@ -44,12 +44,12 @@
 ### Commits
 
 - `winston_v2` `17bbbf3` — fix(desk): Mode C pyramid overlay pins the open listed contract (already on origin/main)
-- `ecosystem` — this report (pending wrap commit)
+- `ecosystem` `ac2b740` — docs: wrap Mode C Pending Plan A/B/C overlay
 
 ### Branch / PR state at sign-off
 
 - Branch: `main` — wv2 clean except untracked `.grok/skills/ponytail-apply/`
-- Pushed: wv2 yes; ecosystem pending this report
+- Pushed: yes
 - PR: not opened
 
 ---
