@@ -81,12 +81,14 @@ Not staged: ecosystem Cromwell/analysis/INDEX leftovers; BG `place_order` / canc
 
 ### Commits
 
-- _Pending wrap push._
+- `winston_v2` `d302fdc` — feat(desk): option Working Stop on underlying; Instrument Label
+- `broker_gateway` `4d5b412` — feat(ibkr): Instrument Label when CPGW symbol is the stock root
+- `ecosystem` `dac281f` — docs: Mode C Working Stop, Instrument Label, ATM-3 trace wrap
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on each monolith — dirty except after wrap commits
-- Pushed: pending wrap
+- Branch: `main` on each monolith — this slice pushed
+- Pushed: yes
 - PR: not opened (direct `main`)
 
 ---

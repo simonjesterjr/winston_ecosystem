@@ -1,7 +1,7 @@
 ---
 id: ISSUE-20260921-option-enter-working-stop-from-premium
 title: Option Plan B confirm books Working Stop from premium − 2N, not 2N under the underlying
-status: in-progress
+status: resolved
 type: bug
 priority: p0
 created: 2026-09-21
@@ -16,7 +16,7 @@ related:
 
 # Option Plan B confirm books Working Stop from premium − 2N
 
-**Status banner:** Under investigation — candidate in winston_v2 working tree; journals 1943 / 1946 Working Stops restored on paper (29.95 / 24.85). Resolve when the code commit lands.
+**Status banner:** Fixed in winston_v2 `d302fdc` (BG `4d5b412`, ecosystem `dac281f`). Journals 1943 / 1946 Working Stops restored on paper (29.95 / 24.85).
 
 ## Summary
 
@@ -129,3 +129,4 @@ ADR-018 Working Stop on underlying. Distinct from [`../tickets/2026-09-20-mode-c
 - 2026-09-21 — Marked `ready`: acceptance, preservation, and persist-path notes (`lot_working_stop_price`) added.
 - 2026-09-21 — Candidate in winston_v2: skip fill-stop rewrite for option-like; StopSuggestion uses underlying bar; confirm `lot_working_stop_price` uses signal close / bar, not premium. Request + unit specs pass. Live 1943 stop 0.78 vs intended 29.95; 1946 stop 2.33 vs intended 24.85. Correction operator-gated.
 - 2026-09-21 — Operator go: journal 1943 / pos 887 `original_stop`/`updated_stop`/`stop_price` 0.78 → **29.95**; journal 1946 / pos 889 2.33 → **24.85**. No cash change, no flatten, no Desk-Send.
+- 2026-09-21 — Fixed in winston_v2 `d302fdc`. Wrap `docs/session-reports/2026-09-21-1724-mode-c-stop-label-wrap.md`.
