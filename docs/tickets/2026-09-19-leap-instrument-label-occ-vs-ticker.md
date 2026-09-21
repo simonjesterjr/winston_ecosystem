@@ -29,6 +29,10 @@ Live Mode C resolve (2026-09-18) returned **real** option conids and quotes, but
 |------------|-------|--------|--------|---------------------|
 | AAPL | 844251614 | 340 | 20281215 | `AAPL` |
 | RXT | 923585415 | 4 | 2029-01-19 | `RXT` |
+| SEF (2026-09-21 Plan B) | 893744520 | 30 | 20270219 | `SEF` |
+| BITQ (2026-09-21 Plan B) | 912464575 | 28 | 20270416 | `BITQ` |
+
+Wrap 2026-09-21 follow-up item 4: still blocked on the design session. See [`../session-reports/2026-09-21-1457-mode-c-furthest-call-desk-uat.md`](../session-reports/2026-09-21-1457-mode-c-furthest-call-desk-uat.md).
 
 `LeapCandidates#build_candidate` prefers `localSymbol || ticker || symbol || desc2`. CPGW `secdef/info` often fills `symbol`/`ticker` with the stock root. Desk then shows “RXT” as the LEAP instrument while strike/expiry live in other fields.
 

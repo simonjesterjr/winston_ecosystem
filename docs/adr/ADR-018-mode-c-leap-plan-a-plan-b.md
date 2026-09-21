@@ -99,10 +99,26 @@ A listed **standard long call** (DTE in `[standard.min_dte, leap_min_dte)`) is a
 
 1. **Plan A** = first entry in OP `packaging_preference` (e.g. `[leap, standard_call, stock]` or pinned `[standard_call]`).
 2. **Plan B** = next **tradeable** entry when Plan A is untradeable (not auth). Justification still mandatory: what Plan A was, why it failed, what Plan B is.
-3. **Mode C default unchanged:** `leap_fulfillment=all` with empty policy **derives** `[leap, stock]` + `allow_equity_fallback: true`. Adding `standard_call` is opt-in on the policy hash.
+3. **Mode C default (superseded 2026-09-20):** empty policy + `leap_fulfillment=all` now derives `[leap, standard_call, stock]` — see addendum below.
 4. **`allow_equity_fallback: false`** ignores a later stock rung: after the last call rung fails → **clean refuse**, no silent stock, no units=0 LEAP cosplay.
 5. Call selection (LEAP + `standard_call`) shares one selector; stock is policy, not a side door inside the call picker. Signal Spine / Working Stop stay on the underlying.
 6. Standard-call lifecycle knobs (`flatten_below_dte`, optional `roll_window_dte`) are packaging time-handling. Default **do not auto-exercise**; HITL if intrinsic near expiry. Language: avoid worthless expiry and unintended exercise — do not say “assignment” for long calls.
 7. Protective stop on the packaged call remains HITL sell-to-close (ADR-013 / leap-proxy law). No silent option STP.
 
 Design note: [`docs/analysis/2026-09-19-standard-call-packaging-rung.md`](../analysis/2026-09-19-standard-call-packaging-rung.md). Ticket: `2026-09-19-standard-call-fulfillment-packaging-rung.md`.
+
+## Addendum — 2026-09-20 (operator lock: Plan A/B/C + Mode C is paper)
+
+1. **LEAP-fulfillment recipe** (`leap_fulfillment=all`, empty policy): Plan A = **LEAP**, Plan B = **standard long call** (no covered puts until the operator says), Plan C = **underlying** at `signal_share_units`. Derived `packaging_preference: [leap, standard_call, stock]`.
+2. **Stock-only recipe** (`leap_fulfillment` not `all`): Plan A **is** the underlying — the same instrument as Plan C on the LEAP tree. No extra-modal ladder.
+3. **Mode C** is a **testing strategy**: paper Operational Portfolios, fake cash, real signals — to validate workflow, integration, technical implementation, and fulfillment. It is **never** real-capital trading except as a gate for the operator to evaluate those issues.
+4. **Winston Unit Test (WUT)** Plan-B / standard-call parity is a fast follow. WUT may keep Black–Scholes as a **lab** mark; Winston v2 never uses Black–Scholes when listed Client Portal Gateway data exists (or is empty — then untradeable, not synthesized).
+5. Lane 2 Interactive Brokers option Desk-Send / Session Order Slate of DAY option orders is **not** this ADR slice. TWS is out of scope; Client Portal Web API only.
+
+## Addendum — 2026-09-21 (operator lock: furthest expiry, cash not haircut)
+
+On this extra-modal thread, listed calls exist to **cut cash outlay** versus buying the share signal, while still participating in the trend. They are not a risk substitute and not a risk augment.
+
+1. **Furthest listed expiry** in the rung window wins. Plan A LEAP: furthest month with DTE ≥ `leap_min_dte` (365). Plan B standard long call: furthest month with DTE in `[min_dte, leap_min_dte)`. Do not walk the nearest month. Do not cap standard-call `max_dte` at 120 — that left a gap (e.g. Feb 2027 at ~151d on SEF).
+2. **Contract count** is `floor(signal_share_units / 100)` on both call rungs (`risk_mult` 1.0). Do not apply a 0.6 standard-call haircut because the listed call is shorter than a LEAP — pick more tenor instead. Cash reduction is premium × 100 × contracts versus share notional, not fewer contracts.
+3. Strike pick inside that furthest month stays ATM / delta-band / quote-quality. Working Stop stays on the underlying.
