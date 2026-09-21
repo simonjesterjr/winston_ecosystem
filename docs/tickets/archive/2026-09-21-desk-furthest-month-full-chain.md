@@ -1,6 +1,6 @@
 # Ticket: Desk Plan B still ATM-3 of one month, not the listed call surface
 
-**Status:** Proposed  
+**Status:** Done  
 **Priority:** P2  
 **Date:** 2026-09-21  
 **Mode:** contractor  
@@ -21,11 +21,19 @@ Consequences:
 - Nearer months are correctly excluded by law; that is not this ticket.  
 - Operator cannot see *why* Plan B picked 30 vs 29 without a rails runner.
 
+## Decision (2026-09-21)
+
+Keep **ATM-3 of the furthest month**. ADR-018 strike pick stays ATM / delta-band / quote-quality; widening the Interactive Brokers (IBKR) walker is more Client Portal Gateway (CPGW) `secdef/info` + snapshot calls for a strike the quality screens may still reject.
+
+Human-in-the-loop (HITL) gap is visibility, not a second month. `CallFulfillmentSelector` already stamps `selection_trace`. Justification now lists those rows (OCC, mode, reject reasons) so the desk can see 30 vs 29 vs 28 without a rails runner.
+
+Widen `ATM_LIMIT` only if HITL shows a furthest-month strike outside ATM-3 that should have won. That is a follow-up, not this ticket.
+
 ## Scope (pick in implementation, not here)
 
 - Widen `pick_strikes` / `ATM_LIMIT` for the furthest month, **or**  
 - Dual-fetch a few extra strikes around spot, **or**  
-- Stamp `selection_trace` onto Justification (rejected reasons already exist on the selector).
+- Stamp `selection_trace` onto Justification (rejected reasons already exist on the selector). ← **chosen**
 
 Do not invent greeks or quotes. Empty snapshot stays untradeable.
 
@@ -37,6 +45,6 @@ Do not invent greeks or quotes. Empty snapshot stays untradeable.
 
 ## Acceptance
 
-- [ ] Decision recorded: ATM-3 of furthest month is enough, **or** walker/selector returns a wider strike set for that month  
+- [x] Decision recorded: ATM-3 of furthest month is enough, **or** walker/selector returns a wider strike set for that month  
 - [ ] If wider: spec that a non-ATM-3 in-band row in the furthest month can win  
-- [ ] If keep ATM-3: Justification shows selection_trace so HITL sees the three rows
+- [x] If keep ATM-3: Justification shows selection_trace so HITL sees the three rows

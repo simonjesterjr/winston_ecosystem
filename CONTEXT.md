@@ -442,6 +442,18 @@ _Avoid_: collapsing extra-modal packaging into a single share count; treating a 
 Realizing a Winston **signal** with one or more market instruments that are **not** the same modality as the signal’s **Market** (or not a 1:1 share print of that market) — asynchronously and often with different size, timing, and Greek/notional risk. Signal↔fulfillment linkage is mandatory for enter/pyramid (**Signaled Entry Rule**); DA continues to evaluate the signal Market on the OP. Matching a **Trade Notification** to a signal must not require `broker.symbol == Book.symbol` — prefer explicit link, underlying-aware soft match, or human pick. Orthogonal to process miss and to broker choice.
 _Avoid_: “substitute trade” without signal link; replacing the Book with the fill symbol for DA; symbol-equality-only match; treating LEAP/OCC as a different methodology signal
 
+**Instrument Label**:
+Human-readable name of the **packaged fill**, not the signal **Market**: `{UNDERLYING} {YYYY-MM-DD} {C|P} {strike}` — e.g. `SEF 2027-02-19 C 30`. Built from strike, expiry, and right Winston already trusts. Desk, Justification, Daily Activity Report, and Telegram speech. Distinct from **Contract Identity** and from **OCC Symbol**.
+_Avoid_: Client Portal Gateway `symbol`/`ticker` as the label (often the stock root); padded OCC OSI as desk speech; IBKR `desc2` as Winston grammar; retargeting the Book to this string; conflating with **Fulfillment Label** (broker chip)
+
+**Contract Identity**:
+The Interactive Brokers **conid** of the packaged option (stock conid when the fill is shares). Send, eval, and snapshot key on this. Never a second invented id.
+_Avoid_: ticker as identity; OCC OSI as Send key; minting a Winston-only option id when conid exists
+
+**OCC Symbol**:
+Audit Options Clearing Corporation OSI / Interactive Brokers `localSymbol` when the gateway actually sent one. Empty is allowed. Winston does **not** invent OSI from strike, expiry, and right. Audit then is those structured keys plus **Contract Identity**.
+_Avoid_: copying CPGW `symbol` (stock root) into this field; constructing padded OSI; blocking packaging because `localSymbol` is blank
+
 **Daily Analysis**:
 Wv2's scheduled or triggered evaluation of **Active** Portfolios — signals, **draft** journals, tasks, **Passed Signals**, Cromwell/**DAR** notification. May create draft enter/exit **Journals** for paper and real as convenience; never opens or closes **Positions** (ADR-009). Capacity and rank rules (**Unit Heat**, **Slate Contest**) should yield **deterministic** recommendations or algorithmic passes — not open-ended “human pick among expected returns” menus from Winston. Live ops do not rank contests by expected return (Winston Unit Test expected-return cycles remain lab/audit). Requires a linked **TradingStrategy**; portfolios without one are skipped (`no_strategy`). Requires DM parquet for all Books; any missing symbol skips the whole Portfolio (`missing_data`). Unknown strategy class names skip with `unsupported_strategy`. Idempotent per (portfolio, date). DM fetch is lazy (triggered when analysis finds missing parquet).
 _Avoid_: daily run (ambiguous with DM download run), evaluation alone, auto-fill (DA does not fill)
@@ -621,6 +633,9 @@ _Avoid_: using Ponytail to skip the graph; deleting trust-boundary or money-path
 > **Dev:** "We import Portfolio Blue with TS fingerprint a, then again with fingerprint b. Two OPs?"
 > **Domain expert:** "Yes — two **Operational Portfolios** (display e.g. `Portfolio Blue · a1b2c3d4` and `… · e5f6g7h8`). Journals for a stay on a; journals for b stay on b. Same fingerprint a again updates that series only if still pre-engagement; after any **Journal** (draft or executed) shape is locked until **Close**/successor. Engagement ignores **Active** and paper/real. Dual **Active** on the same **seed_name** still needs force — both series can exist; both Active is the special case."
 
+> **Dev:** "The BITQ call booked as symbol BITQ. What does the desk show?"
+> **Domain expert:** "The Book stays BITQ. The packaged fill’s **Instrument Label** is `BITQ 2027-04-16 C 28`. That string is speech, not Send identity. **OCC Symbol** stays empty until Interactive Brokers sends `localSymbol`."
+
 > **Dev:** "Signal said long 206 ABC but I bought 2 Jan 2028 LEAP calls. Wrong journal?"
 > **Domain expert:** "No — same signal; **Extra-Modal Fulfillment** / different **Fulfillment Packaging**. Confirm/book with type=leap, strike, expiry, contract units and premium. Journal still anchors ABC and the signal for Daily Analysis; cash and booked returns use option premium × multiplier. **Fulfillment Packaging Policy** in Winston v2 chose (or allowed) that shape; Broker Gateway only reported option prints."
 
@@ -759,6 +774,10 @@ _Avoid_: using Ponytail to skip the graph; deleting trust-boundary or money-path
 - **Engaged** — confirmed **A**: any **Journal** (draft or executed) locks OP shape (Books + TS fingerprint). Unlock only **Close** or successor **Rebalance**. Same seed+fingerprint is one series (no second import of identical fingerprint as a parallel OP). Different fingerprints of the same lab seed are separate OPs and separate journal series. Independent of **Active**, paper, and real.
 - Confirm window — **A**: from signal evening through **Fill Date**; next-open prefill when known; unconfirmed → **Passed Signal**. Real process misses are high-attention, not discretionary strategy.
 - Signal vs fill instrument — **Fulfillment Packaging** may differ (shares vs LEAPs); journal tracks signal/returns spine.
+- Packaged-option **HITL** string — resolved (Grill 2026-09-21 Q1): **Instrument Label** is Winston-built `{UNDERLYING} {YYYY-MM-DD} {C|P} {strike}`. Not OCC OSI, not IBKR `localSymbol`/`desc2`, not CPGW `symbol` (stock root).
+- Packaged-option field roles — resolved (Grill 2026-09-21 Q2): **Contract Identity** = Interactive Brokers conid (Send/eval). Speech = **Instrument Label**. Audit = strike/expiry/right plus **OCC Symbol** when present. Not **Fulfillment Label**.
+- Empty CPGW `localSymbol` — resolved (Grill 2026-09-21 Q3): do **not** construct OSI. **OCC Symbol** stays empty until IBKR sends `localSymbol`. Audit is structured strike/expiry/right + **Contract Identity**.
+- Packaged-option stamp shape — resolved (Grill 2026-09-21 Q4): separate `fulfillment_details` keys: `instrument_label` (speech), `conid` (**Contract Identity**), `occ_symbol` (only when IBKR sent `localSymbol` / OSI), plus `strike` / `expiry` / `option_type`. `desc2` is not a Winston field.
 - Capital contests — **A**: algorithm emits one deterministic package or algorithmic pass; human confirms fills/packaging. Multi-choice ER menus are non-default (force/ad-hoc discretionary).
 - **Desk Workflow** — product requirement: every DAR next step links to a guided Wv2 journal/confirm path; partial today (desk form + Telegram/ops); full workflow not built.
 - Multi-leg **Desk Handoff** — one logical package, N linked journals/tasks, ordered; out-of-order confirm **warns** (A).

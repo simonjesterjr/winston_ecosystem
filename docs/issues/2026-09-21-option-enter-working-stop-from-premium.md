@@ -1,7 +1,7 @@
 ---
 id: ISSUE-20260921-option-enter-working-stop-from-premium
 title: Option Plan B confirm books Working Stop from premium − 2N, not 2N under the underlying
-status: triage
+status: in-progress
 type: bug
 priority: p0
 created: 2026-09-21
@@ -16,7 +16,7 @@ related:
 
 # Option Plan B confirm books Working Stop from premium − 2N
 
-**Status banner:** Open — two Mode C paper lots already booked with through-the-market stops (2026-09-21 wrap).
+**Status banner:** Under investigation — candidate in winston_v2 working tree; journals 1943 / 1946 Working Stops restored on paper (29.95 / 24.85). Resolve when the code commit lands.
 
 ## Summary
 
@@ -66,9 +66,66 @@ Always, as long as fill-stop `sync()` runs after premium prefill.
 ## Evidence
 
 - `winston_v2/app/views/operations/shared/_fill_stop_adjust_script.html.erb`
-- Wrap [`../session-reports/2026-09-21-1457-mode-c-furthest-call-desk-uat.md`](../session-reports/2026-09-21-1457-mode-c-furthest-call-desk-uat.md) §7 / §11
-- Live: Journal 1943 `stop_price=0.78`; Journal 1946 / Position 889 `updated_stop=2.33`
+| Evidence | Source | What it establishes |
+|---|---|---|
+| `_fill_stop_adjust_script.html.erb` `stopFromFill` | winston_v2 | Client rewrites Stop from Price − 2×ATR |
+| `DeskContext.apply_fill_adjusted_stop` | winston_v2 | Server re-anchors Stop onto fill when Price ≠ expected |
+| `JournalConfirmationService#lot_working_stop_price` | winston_v2 | Enter/pyramid Working Stop uses `resolved_price` (option premium) as fill |
+| Wrap §7 / §11 | [`../session-reports/2026-09-21-1457-mode-c-furthest-call-desk-uat.md`](../session-reports/2026-09-21-1457-mode-c-furthest-call-desk-uat.md) | Booked SEF 1943 stop 0.78; BITQ 1946 / pos 889 stop 2.33 |
 
-## Related
+## Impact and priority
 
-Ticket [`../tickets/2026-09-21-option-enter-working-stop-underlying.md`](../tickets/2026-09-21-option-enter-working-stop-underlying.md). Distinct from exit-at-stop fill mark ([`../tickets/2026-09-20-mode-c-leap-exit-at-stop-option-mark.md`](../tickets/2026-09-20-mode-c-leap-exit-at-stop-option-mark.md)): that ticket is **exit fill = option mark**; this issue is **enter Working Stop = underlying**.
+Anything that treats `Position#updated_stop` as an underlying GTC will false-trigger stop-out on the two live Mode C paper lots. P0 because capital-path stop hygiene is already wrong on booked paper.
+
+## Scope and preservation requirements
+
+### In scope
+
+- Skip fill-stop JS rewrite when fulfillment is option-like (`leap` / `standard_call` / `option` / `option_strategy`).
+- Confirm must persist the underlying 2N Working Stop, not `premium − 2N`.
+- Request spec lock for Plan B `standard_call` GET + confirm.
+
+### Must preserve
+
+- Stock enter fill-stop JS still retargets when the operator edits the **share** fill.
+- Working Stop geometry (ATR multiple, pyramid) unchanged.
+- Exit-at-stop fill remains option mark (separate P0 ticket) — Working Stop is not the fill.
+
+### Out of scope
+
+- Silent IBKR STP.
+- Operator-gated correction of journals 1943 / 1946 (ticket DoD; not a silent flatten).
+
+## Acceptance criteria
+
+- [x] Given a Plan B `standard_call` desk GET, when Price is option mid, then Stop is ~2N under the underlying close (not premium − 2N).
+- [x] Given Confirm of that draft, when Price is premium, then `Position#updated_stop` is the underlying Working Stop.
+- [x] Stock enter fill-stop re-anchor spec still passes.
+- [x] Journals 1943 and 1946 corrected or operator-noted.
+
+## Investigation notes
+
+Hypothesis confirmed in code: three stacked writers (JS `sync()`, `apply_fill_stop!`, `lot_working_stop_price`) all treat Price as an underlying fill. `StopSuggestion` already uses `signal_close` as reference for `standard_call` (not in its skip list), so GET HTML can be correct before JS runs.
+
+## Unknowns and clarifying questions
+
+- [x] None blocking. Booked-lot correction waits on operator go.
+
+## Dependencies and risks
+
+ADR-018 Working Stop on underlying. Distinct from [`../tickets/2026-09-20-mode-c-leap-exit-at-stop-option-mark.md`](../tickets/2026-09-20-mode-c-leap-exit-at-stop-option-mark.md).
+
+## Verification plan
+
+- `spec/requests/desk_workflow_plan_c_overlay_spec.rb` Plan B GET + confirm.
+- `spec/services/operations/desk_context_fill_stop_spec.rb` option-like skip.
+- `spec/services/operations/journal_confirmation_service_spec.rb` option enter stop.
+- Existing stock fill-stop request spec.
+- Compose `winston_v2` rspec for those files.
+
+## History
+
+- 2026-09-21 — Created from wrap 2026-09-21 Mode C furthest-call desk UAT.
+- 2026-09-21 — Marked `ready`: acceptance, preservation, and persist-path notes (`lot_working_stop_price`) added.
+- 2026-09-21 — Candidate in winston_v2: skip fill-stop rewrite for option-like; StopSuggestion uses underlying bar; confirm `lot_working_stop_price` uses signal close / bar, not premium. Request + unit specs pass. Live 1943 stop 0.78 vs intended 29.95; 1946 stop 2.33 vs intended 24.85. Correction operator-gated.
+- 2026-09-21 — Operator go: journal 1943 / pos 887 `original_stop`/`updated_stop`/`stop_price` 0.78 → **29.95**; journal 1946 / pos 889 2.33 → **24.85**. No cash change, no flatten, no Desk-Send.

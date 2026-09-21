@@ -33,7 +33,7 @@ This doc is the Wv2 handoff surface for “LEAP as proxy for the underlying.” 
 | Layer | Symbol / Market | Owns |
 |-------|-----------------|------|
 | Book / DA / PCS / heat | **Underlying** (signal Market on the Book) | Entries, pyramids, exits, Working Stop evaluation, unit occupancy |
-| Broker / journal packaging | **OCC / LEAP** (or other related) | Cash outlay, premium marks, what is sold on stop-out HITL |
+| Broker / journal packaging | **Instrument Label** (speech) + **Contract Identity** (conid) + structured strike/expiry/right; **OCC Symbol** only if IBKR sent `localSymbol` | Cash outlay, premium marks, what is sold on stop-out HITL |
 | Link | Fulfillment Link on the Journal | Joins signal ↔ packaged fill; never retargets the Book to the fill symbol |
 
 **Do not** re-point Books, Daily Analysis, or correlation to the LEAP symbol. **Do not** treat the LEAP as a different methodology signal.

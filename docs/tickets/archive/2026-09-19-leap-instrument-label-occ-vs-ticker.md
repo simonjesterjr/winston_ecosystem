@@ -1,9 +1,9 @@
 # Ticket: LEAP instrument label — OCC vs IBKR ticker vs conid
 
-**Status:** Proposed  
+**Status:** Done  
 **Priority:** P2  
 **Date:** 2026-09-19  
-**Mode:** contractor — **blocked on a design session** (do not implement first)  
+**Mode:** contractor — design session locked 2026-09-21 (Q1–Q4)  
 **Graph nodes:** broker_gateway (`LeapCandidates#build_candidate`); winston_v2 (`LeapPackaging` OCC/`instrument_symbol` desk fields)  
 **Human gates:** Mode C paper; no OPT `place_order`; agent never Desk-Sends  
 **DoD:** After the design session, desk HITL sees a human-readable LEAP instrument string that is not merely the underlying ticker, while **conid remains the Send/eval identity**.  
@@ -12,14 +12,18 @@
 
 ## Design session required
 
-**Do not ship a string-format fix from this ticket alone.** Book a `/grill-with-docs` (or dedicated design turn) on what the desk must display vs what BG must persist. Live evidence is enough to know the current label is weak; it is **not** enough to pick OCC vs `localSymbol` vs constructed OSI vs `desc2`.
+Design session **closed 2026-09-21** (grill Q1–Q4). Implement the locked split; still no OPT Desk-Send / `place_order`.
 
 Questions for that session (not pre-answered here):
 
-1. Canonical HITL label: Options Clearing Corporation (OCC) OSI (`AAPL  281215C00340000`), IBKR `localSymbol`, `desc2` (`DEC 15 '28 340 Call`), or a Winston-built `UNDERLYING YYYY-MM-DD C strike`?
-2. Which field is **identity** (must be conid today) vs **audit** vs **speech/Telegram**?
-3. When CPGW returns `symbol=AAPL` and empty `localSymbol`, do we construct OSI from strike/expiry/right we already trust, or show ticker + structured fields only?
-4. Does Wv2 stamp one `instrument_label` or keep `occ_symbol` / `conid` / `desc2` as separate `fulfillment_details` keys?
+1. Canonical HITL label: Options Clearing Corporation (OCC) OSI (`AAPL  281215C00340000`), IBKR `localSymbol`, `desc2` (`DEC 15 '28 340 Call`), or a Winston-built `UNDERLYING YYYY-MM-DD C strike`?  
+   **Locked 2026-09-21:** Winston-built **Instrument Label** `{UNDERLYING} {YYYY-MM-DD} {C|P} {strike}` (e.g. `SEF 2027-02-19 C 30`). Glossary: `CONTEXT.md`.
+2. Which field is **identity** (must be conid today) vs **audit** vs **speech/Telegram**?  
+   **Locked 2026-09-21:** **Contract Identity** = IBKR conid (Send/eval). Speech (desk / Justification / DAR / Telegram) = **Instrument Label**. Audit = strike + expiry + right, plus **OCC Symbol**. Not **Fulfillment Label**.
+3. When CPGW returns `symbol=AAPL` and empty `localSymbol`, do we construct OSI from strike/expiry/right we already trust, or show ticker + structured fields only?  
+   **Locked 2026-09-21:** Do **not** construct OSI. **OCC Symbol** empty until IBKR `localSymbol` (or a real OSI) arrives. Audit = strike + expiry + right + **Contract Identity**. CPGW `symbol` is never copied into **OCC Symbol**.
+4. Does Wv2 stamp one `instrument_label` or keep `occ_symbol` / `conid` / `desc2` as separate `fulfillment_details` keys?  
+   **Locked 2026-09-21:** Separate keys: `instrument_label` (speech), `conid` (identity), `occ_symbol` (only if IBKR sent `localSymbol` / OSI), `strike` / `expiry` / `option_type`. `desc2` is not a Winston field.
 
 ## Problem
 
@@ -47,8 +51,8 @@ conid is usable. HITL/OCC speech is not.
 
 ## Acceptance (after design lock)
 
-- [ ] Design session notes (grill or session report) pick the label grammar  
-- [ ] BG candidate payload has that label without inventing a second conid  
-- [ ] Wv2 desk GET shows it next to contracts/premium  
-- [ ] Specs: fixture where IBKR `symbol` is the root still produces the chosen label  
-- [ ] No `place_order`
+- [x] Design session notes (grill or session report) pick the label grammar  
+- [x] BG candidate payload has that label without inventing a second conid  
+- [x] Wv2 desk GET shows it next to contracts/premium  
+- [x] Specs: fixture where IBKR `symbol` is the root still produces the chosen label  
+- [x] No `place_order`

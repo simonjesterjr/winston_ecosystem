@@ -1,6 +1,6 @@
 # Ticket: Option enter must keep Working Stop on the underlying
 
-**Status:** Proposed  
+**Status:** Done  
 **Priority:** P0  
 **Date:** 2026-09-21  
 **Mode:** contractor  
@@ -35,7 +35,7 @@ Two live Mode C paper option lots already have through-the-market `updated_stop`
 
 ## Acceptance
 
-- [ ] GET Plan B call: Stop field stays ~2N under underlying while Price is option mid  
-- [ ] Confirm does not write premium−ATR onto `Position#updated_stop`  
-- [ ] 1943 and 1946 stops corrected or operator-noted  
-- [ ] Stock enter fill-stop JS still retargets when the operator edits the **share** fill
+- [x] GET Plan B call: Stop field stays ~2N under underlying while Price is option mid  
+- [x] Confirm does not write premium−ATR onto `Position#updated_stop`  
+- [x] 1943 and 1946 stops corrected or operator-noted  
+- [x] Stock enter fill-stop JS still retargets when the operator edits the **share** fill
