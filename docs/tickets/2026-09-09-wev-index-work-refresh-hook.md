@@ -1,7 +1,7 @@
 # Ticket: WEV work catalog — refresh when docs change
 
-**Status:** Proposed
-**Priority:** P3
+**Status:** In progress
+**Priority:** P1
 **Mode:** normal
 **Program:** Winston Ecosystem View
 **Parent:** [`2026-09-07-winston-ecosystem-view.md`](2026-09-07-winston-ecosystem-view.md)
@@ -30,3 +30,14 @@ If nobody re-runs it, new ADRs never appear under the cuboids.
 - Splitting the 1.1 MB JSON — [`2026-09-09-wev-work-json-split-bodies.md`](2026-09-09-wev-work-json-split-bodies.md)
 - YAML / Status-banner into catalog `status` — [`2026-09-09-wev-index-work-yaml-status.md`](2026-09-09-wev-index-work-yaml-status.md)
 - Index archive files missing from INDEX — [`2026-09-09-wev-index-work-archive-tickets.md`](2026-09-09-wev-index-work-archive-tickets.md)
+
+
+## Operator report (2026-09-21)
+
+Monoliths → open tickets / issues on `/wv2/operations/ecosystem` showed a **2026-09-08** catalog: archived Done tickets still **P1 Proposed** (e.g. stale-parquet), and September 21 tickets (probe-before-promote, packaging M-band) missing. Confirmed `winston_v2/public/ecosystem/work.json` `generated_at=2026-09-08T22:50:18Z`. Regenerated 2026-09-22 via `python3 ecosystem/ecosystem_view/bin/index_work` (`generated_at=2026-09-22T04:58:08Z`, items 285→105 INDEX-scoped).
+
+### System One checkpoints
+- [ ] Hard refresh Monoliths backlog: no `2026-07-13-stale-parquet` in **open** tickets
+- [ ] `2026-09-21-probe-before-promote` and packaging M-band visible
+- [ ] `work.json` `generated_at` is today (UTC) after regen
+- [ ] Wrap / ship docs mention `python3 ecosystem/ecosystem_view/bin/index_work` (this ticket DoD item 1)
