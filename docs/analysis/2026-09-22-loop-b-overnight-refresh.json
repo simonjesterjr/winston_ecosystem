@@ -1,0 +1,1064 @@
+{
+  "generated_at_mt": "2026-09-21 22:19:13 MT",
+  "purpose": "Loop B overnight refresh — PCS depth + mid-band + interim fwd labels",
+  "prior_seed": "2026-09-21-loop-b-60d-forward-labels-seed.json",
+  "today": "2026-09-22",
+  "teal_743_anchor": {
+    "id": 743,
+    "status": "completed",
+    "oa": 19991.532596425415,
+    "edge_r": 17.0985,
+    "cell": "teal_rst_legacy_r02_leap30k_ts75_evolved",
+    "heat": "legacy",
+    "leap": "all",
+    "portfolio_id": 412
+  },
+  "depth_summary": [
+    {
+      "book": "Walnut",
+      "pid": 223,
+      "n_snaps": 41,
+      "sources": {
+        "builder": 1,
+        "daily_job": 39,
+        "pbr": 1
+      },
+      "first": "2026-08-12",
+      "latest": "2026-09-21",
+      "latest_src": "daily_job",
+      "pcs": 79.1,
+      "delta_since_first": -12.76,
+      "td_to_today": 29,
+      "td_to_pbr_end": 0,
+      "fwd60_status": "no_equity",
+      "fwd60_have": null,
+      "regime": "high_mid_band",
+      "stub": "watch",
+      "best_edge": null,
+      "best_oa": null,
+      "best_pbr": null
+    },
+    {
+      "book": "Mint",
+      "pid": 110,
+      "n_snaps": 62,
+      "sources": {
+        "pbr": 15,
+        "daily_job": 47
+      },
+      "first": "2026-07-22",
+      "latest": "2026-09-21",
+      "latest_src": "daily_job",
+      "pcs": 44.01,
+      "delta_since_first": -47.2,
+      "td_to_today": 44,
+      "td_to_pbr_end": 38,
+      "fwd60_status": "insufficient_forward",
+      "fwd60_have": 37,
+      "regime": "below_gate",
+      "stub": "reweight_candidate",
+      "best_edge": 3.785,
+      "best_oa": -262.7,
+      "best_pbr": 689
+    },
+    {
+      "book": "Yellow",
+      "pid": 111,
+      "n_snaps": 62,
+      "sources": {
+        "pbr": 15,
+        "daily_job": 47
+      },
+      "first": "2026-07-22",
+      "latest": "2026-09-21",
+      "latest_src": "daily_job",
+      "pcs": 38.71,
+      "delta_since_first": -34.81,
+      "td_to_today": 44,
+      "td_to_pbr_end": 38,
+      "fwd60_status": "insufficient_forward",
+      "fwd60_have": 37,
+      "regime": "low_pcs_cluster",
+      "stub": "reweight_candidate",
+      "best_edge": -0.1876,
+      "best_oa": -285.6,
+      "best_pbr": 690
+    },
+    {
+      "book": "Red",
+      "pid": 6,
+      "n_snaps": 72,
+      "sources": {
+        "pbr": 10,
+        "daily_job": 62
+      },
+      "first": "2026-07-11",
+      "latest": "2026-09-21",
+      "latest_src": "daily_job",
+      "pcs": 71.48,
+      "delta_since_first": -1.53,
+      "td_to_today": 52,
+      "td_to_pbr_end": 46,
+      "fwd60_status": "insufficient_forward",
+      "fwd60_have": 44,
+      "regime": "mid_band_corridor",
+      "stub": "hold",
+      "best_edge": 8.4364,
+      "best_oa": 8108.9,
+      "best_pbr": 693
+    },
+    {
+      "book": "Blue",
+      "pid": 7,
+      "n_snaps": 71,
+      "sources": {
+        "daily_job": 58,
+        "pbr": 13
+      },
+      "first": "2026-07-12",
+      "latest": "2026-09-21",
+      "latest_src": "daily_job",
+      "pcs": 66.41,
+      "delta_since_first": -9.74,
+      "td_to_today": 52,
+      "td_to_pbr_end": 48,
+      "fwd60_status": "insufficient_forward",
+      "fwd60_have": 46,
+      "regime": "mid_band_corridor",
+      "stub": "hold",
+      "best_edge": 7.7981,
+      "best_oa": 11875.4,
+      "best_pbr": 685
+    },
+    {
+      "book": "Mango",
+      "pid": 65,
+      "n_snaps": 70,
+      "sources": {
+        "pbr": 9,
+        "daily_job": 61
+      },
+      "first": "2026-07-12",
+      "latest": "2026-09-21",
+      "latest_src": "daily_job",
+      "pcs": 64.15,
+      "delta_since_first": -7.15,
+      "td_to_today": 52,
+      "td_to_pbr_end": 46,
+      "fwd60_status": "insufficient_forward",
+      "fwd60_have": 44,
+      "regime": "mid_band_corridor",
+      "stub": "hold",
+      "best_edge": 4.1309,
+      "best_oa": 2794.9,
+      "best_pbr": 686
+    },
+    {
+      "book": "Orange",
+      "pid": 35,
+      "n_snaps": 70,
+      "sources": {
+        "daily_job": 59,
+        "pbr": 11
+      },
+      "first": "2026-07-12",
+      "latest": "2026-09-21",
+      "latest_src": "daily_job",
+      "pcs": 24.87,
+      "delta_since_first": -43.47,
+      "td_to_today": 52,
+      "td_to_pbr_end": 48,
+      "fwd60_status": "insufficient_forward",
+      "fwd60_have": 46,
+      "regime": "low_pcs_cluster",
+      "stub": "reweight_candidate",
+      "best_edge": 5.5985,
+      "best_oa": 10373.6,
+      "best_pbr": 683
+    },
+    {
+      "book": "Rust",
+      "pid": 66,
+      "n_snaps": 70,
+      "sources": {
+        "pbr": 8,
+        "daily_job": 62
+      },
+      "first": "2026-07-12",
+      "latest": "2026-09-21",
+      "latest_src": "daily_job",
+      "pcs": 22.99,
+      "delta_since_first": -54.26,
+      "td_to_today": 52,
+      "td_to_pbr_end": 46,
+      "fwd60_status": "insufficient_forward",
+      "fwd60_have": 44,
+      "regime": "low_pcs_cluster",
+      "stub": "reweight_candidate",
+      "best_edge": -3.3847,
+      "best_oa": -311.2,
+      "best_pbr": 697
+    },
+    {
+      "book": "Indigo",
+      "pid": 411,
+      "n_snaps": 3,
+      "sources": {
+        "pbr": 3
+      },
+      "first": "2026-09-17",
+      "latest": "2026-09-19",
+      "latest_src": "pbr",
+      "pcs": 72.29,
+      "delta_since_first": 0.85,
+      "td_to_today": 3,
+      "td_to_pbr_end": 0,
+      "fwd60_status": "insufficient_forward",
+      "fwd60_have": 0,
+      "regime": "high_mid_band",
+      "stub": "hold_diversifier_watch",
+      "best_edge": 10.2581,
+      "best_oa": 8978.6,
+      "best_pbr": 704
+    },
+    {
+      "book": "Teal",
+      "pid": 412,
+      "n_snaps": 4,
+      "sources": {
+        "pbr": 4
+      },
+      "first": "2026-09-17",
+      "latest": "2026-09-21",
+      "latest_src": "pbr",
+      "pcs": 64.88,
+      "delta_since_first": -1.53,
+      "td_to_today": 3,
+      "td_to_pbr_end": 1,
+      "fwd60_status": "insufficient_forward",
+      "fwd60_have": 1,
+      "regime": "mid_band_corridor",
+      "stub": "hold",
+      "best_edge": 17.0985,
+      "best_oa": 19991.5,
+      "best_pbr": 743
+    },
+    {
+      "book": "Copper",
+      "pid": 413,
+      "n_snaps": 3,
+      "sources": {
+        "pbr": 3
+      },
+      "first": "2026-09-17",
+      "latest": "2026-09-19",
+      "latest_src": "pbr",
+      "pcs": 60.9,
+      "delta_since_first": -0.01,
+      "td_to_today": 3,
+      "td_to_pbr_end": 0,
+      "fwd60_status": "insufficient_forward",
+      "fwd60_have": 0,
+      "regime": "mid_band_corridor",
+      "stub": "hold",
+      "best_edge": 15.6668,
+      "best_oa": 15930.9,
+      "best_pbr": 710
+    },
+    {
+      "book": "Slate",
+      "pid": 414,
+      "n_snaps": 3,
+      "sources": {
+        "pbr": 3
+      },
+      "first": "2026-09-17",
+      "latest": "2026-09-19",
+      "latest_src": "pbr",
+      "pcs": 60.83,
+      "delta_since_first": 0.0,
+      "td_to_today": 3,
+      "td_to_pbr_end": 0,
+      "fwd60_status": "insufficient_forward",
+      "fwd60_have": 0,
+      "regime": "mid_band_corridor",
+      "stub": "hold",
+      "best_edge": 14.8382,
+      "best_oa": 15748.8,
+      "best_pbr": 713
+    }
+  ],
+  "rows": [
+    {
+      "book": "Walnut",
+      "portfolio_id": 223,
+      "cohort": "diversifier_contrast",
+      "pcs_latest": 79.1,
+      "pcs_as_of_latest": "2026-09-21",
+      "mean_abs_r_latest": 0.0832,
+      "max_abs_r_latest": 0.393,
+      "high_pair_count_latest": 0,
+      "delta_pcs_20d": -12.76,
+      "delta_max_r_20d": 0.2373,
+      "delta_pcs_since_first": -12.76,
+      "pcs_first": 91.86,
+      "pcs_first_as_of": "2026-08-12",
+      "n_snapshots": 41,
+      "days_outside_60_90": 28,
+      "snapshot_source_latest": "daily_job",
+      "snapshot_sources": {
+        "builder": 1,
+        "daily_job": 39,
+        "pbr": 1
+      },
+      "latest_daily_job_as_of": "2026-09-21",
+      "latest_daily_job_pcs": 79.1,
+      "regime_tag_latest": "high_mid_band",
+      "feature_as_of": "2026-08-12",
+      "fwd_20d": {
+        "status": "no_equity"
+      },
+      "fwd_60d": {
+        "status": "no_equity"
+      },
+      "fwd_available": {
+        "status": "no_equity"
+      },
+      "td_first_snap_to_pbr_end": 0,
+      "td_first_snap_to_today": 29,
+      "td_still_needed_for_60d_from_first": 31,
+      "best_pbr_id": null,
+      "pbr_cell": null,
+      "pbr_full_oa_pct": null,
+      "pbr_full_edge_r": null,
+      "pbr_edge_n": null,
+      "pbr_end_date": null,
+      "highlight_pbrs": [
+
+      ],
+      "mid_band_corridor_member": false,
+      "membership_recommendation_stub": "watch"
+    },
+    {
+      "book": "Mint",
+      "portfolio_id": 110,
+      "cohort": "promote_screen_hold",
+      "pcs_latest": 44.01,
+      "pcs_as_of_latest": "2026-09-21",
+      "mean_abs_r_latest": 0.1694,
+      "max_abs_r_latest": 0.894,
+      "high_pair_count_latest": 1,
+      "delta_pcs_20d": -47.2,
+      "delta_max_r_20d": 0.7267,
+      "delta_pcs_since_first": -47.2,
+      "pcs_first": 91.21,
+      "pcs_first_as_of": "2026-07-22",
+      "n_snapshots": 62,
+      "days_outside_60_90": 62,
+      "snapshot_source_latest": "daily_job",
+      "snapshot_sources": {
+        "pbr": 15,
+        "daily_job": 47
+      },
+      "latest_daily_job_as_of": "2026-09-21",
+      "latest_daily_job_pcs": 44.01,
+      "regime_tag_latest": "below_gate",
+      "feature_as_of": "2026-07-22",
+      "fwd_20d": {
+        "status": "ok",
+        "oa_pct": 0.0,
+        "oa_dd_pct": 0.0,
+        "end": "2026-08-19",
+        "have_td": 20
+      },
+      "fwd_60d": {
+        "status": "insufficient_forward",
+        "have_td": 37,
+        "end": "2026-09-14"
+      },
+      "fwd_available": {
+        "status": "ok",
+        "td": 37,
+        "oa_pct": 0.0,
+        "oa_dd_pct": 0.0,
+        "end": "2026-09-14"
+      },
+      "td_first_snap_to_pbr_end": 38,
+      "td_first_snap_to_today": 44,
+      "td_still_needed_for_60d_from_first": 16,
+      "best_pbr_id": 689,
+      "pbr_cell": "mint_rst_turtle_r02_leap30k_ts75",
+      "pbr_full_oa_pct": -262.6905,
+      "pbr_full_edge_r": 3.785,
+      "pbr_edge_n": 70,
+      "pbr_end_date": "2026-09-14",
+      "highlight_pbrs": [
+
+      ],
+      "mid_band_corridor_member": false,
+      "membership_recommendation_stub": "reweight_candidate"
+    },
+    {
+      "book": "Yellow",
+      "portfolio_id": 111,
+      "cohort": "promote_screen_hold",
+      "pcs_latest": 38.71,
+      "pcs_as_of_latest": "2026-09-21",
+      "mean_abs_r_latest": 0.1762,
+      "max_abs_r_latest": 0.9979,
+      "high_pair_count_latest": 1,
+      "delta_pcs_20d": -34.81,
+      "delta_max_r_20d": 0.5024,
+      "delta_pcs_since_first": -34.81,
+      "pcs_first": 73.52,
+      "pcs_first_as_of": "2026-07-22",
+      "n_snapshots": 62,
+      "days_outside_60_90": 28,
+      "snapshot_source_latest": "daily_job",
+      "snapshot_sources": {
+        "pbr": 15,
+        "daily_job": 47
+      },
+      "latest_daily_job_as_of": "2026-09-21",
+      "latest_daily_job_pcs": 38.71,
+      "regime_tag_latest": "low_pcs_cluster",
+      "feature_as_of": "2026-07-22",
+      "fwd_20d": {
+        "status": "ok",
+        "oa_pct": 0.0,
+        "oa_dd_pct": 0.0,
+        "end": "2026-08-19",
+        "have_td": 20
+      },
+      "fwd_60d": {
+        "status": "insufficient_forward",
+        "have_td": 37,
+        "end": "2026-09-14"
+      },
+      "fwd_available": {
+        "status": "ok",
+        "td": 37,
+        "oa_pct": 0.0,
+        "oa_dd_pct": 0.0,
+        "end": "2026-09-14"
+      },
+      "td_first_snap_to_pbr_end": 38,
+      "td_first_snap_to_today": 44,
+      "td_still_needed_for_60d_from_first": 16,
+      "best_pbr_id": 690,
+      "pbr_cell": "yellow_rst_turtle_r01_leap30k_ts75",
+      "pbr_full_oa_pct": -285.6162,
+      "pbr_full_edge_r": -0.1876,
+      "pbr_edge_n": 232,
+      "pbr_end_date": "2026-09-14",
+      "highlight_pbrs": [
+
+      ],
+      "mid_band_corridor_member": false,
+      "membership_recommendation_stub": "reweight_candidate"
+    },
+    {
+      "book": "Red",
+      "portfolio_id": 6,
+      "cohort": "mode_c_parent_solvent",
+      "pcs_latest": 71.48,
+      "pcs_as_of_latest": "2026-09-21",
+      "mean_abs_r_latest": 0.2506,
+      "max_abs_r_latest": 0.4951,
+      "high_pair_count_latest": 0,
+      "delta_pcs_20d": -1.53,
+      "delta_max_r_20d": 0.0168,
+      "delta_pcs_since_first": -1.53,
+      "pcs_first": 73.01,
+      "pcs_first_as_of": "2026-07-11",
+      "n_snapshots": 72,
+      "days_outside_60_90": 0,
+      "snapshot_source_latest": "daily_job",
+      "snapshot_sources": {
+        "pbr": 10,
+        "daily_job": 62
+      },
+      "latest_daily_job_as_of": "2026-09-21",
+      "latest_daily_job_pcs": 71.48,
+      "regime_tag_latest": "mid_band_corridor",
+      "feature_as_of": "2026-07-11",
+      "fwd_20d": {
+        "status": "ok",
+        "oa_pct": 1.9436,
+        "oa_dd_pct": 0.0351,
+        "end": "2026-08-10",
+        "have_td": 20
+      },
+      "fwd_60d": {
+        "status": "insufficient_forward",
+        "have_td": 44,
+        "end": "2026-09-14"
+      },
+      "fwd_available": {
+        "status": "ok",
+        "td": 44,
+        "oa_pct": 4.5632,
+        "oa_dd_pct": 0.2077,
+        "end": "2026-09-14"
+      },
+      "td_first_snap_to_pbr_end": 46,
+      "td_first_snap_to_today": 52,
+      "td_still_needed_for_60d_from_first": 8,
+      "best_pbr_id": 693,
+      "pbr_cell": "red_rst_turtle_r02_leap30k_ts75",
+      "pbr_full_oa_pct": 8108.8557,
+      "pbr_full_edge_r": 8.4364,
+      "pbr_edge_n": 564,
+      "pbr_end_date": "2026-09-14",
+      "highlight_pbrs": [
+
+      ],
+      "mid_band_corridor_member": true,
+      "membership_recommendation_stub": "hold"
+    },
+    {
+      "book": "Blue",
+      "portfolio_id": 7,
+      "cohort": "mode_c_parent_solvent",
+      "pcs_latest": 66.41,
+      "pcs_as_of_latest": "2026-09-21",
+      "mean_abs_r_latest": 0.1744,
+      "max_abs_r_latest": 0.6194,
+      "high_pair_count_latest": 0,
+      "delta_pcs_20d": -9.74,
+      "delta_max_r_20d": 0.1785,
+      "delta_pcs_since_first": -9.74,
+      "pcs_first": 76.15,
+      "pcs_first_as_of": "2026-07-12",
+      "n_snapshots": 71,
+      "days_outside_60_90": 0,
+      "snapshot_source_latest": "daily_job",
+      "snapshot_sources": {
+        "daily_job": 58,
+        "pbr": 13
+      },
+      "latest_daily_job_as_of": "2026-09-21",
+      "latest_daily_job_pcs": 66.41,
+      "regime_tag_latest": "mid_band_corridor",
+      "feature_as_of": "2026-07-12",
+      "fwd_20d": {
+        "status": "ok",
+        "oa_pct": 1.307,
+        "oa_dd_pct": 0.0348,
+        "end": "2026-08-10",
+        "have_td": 20
+      },
+      "fwd_60d": {
+        "status": "insufficient_forward",
+        "have_td": 46,
+        "end": "2026-09-16"
+      },
+      "fwd_available": {
+        "status": "ok",
+        "td": 46,
+        "oa_pct": 1.6779,
+        "oa_dd_pct": 0.0348,
+        "end": "2026-09-16"
+      },
+      "td_first_snap_to_pbr_end": 48,
+      "td_first_snap_to_today": 52,
+      "td_still_needed_for_60d_from_first": 8,
+      "best_pbr_id": 685,
+      "pbr_cell": "blue_rst_turtle_r02_leap30k_ts75",
+      "pbr_full_oa_pct": 11875.3834,
+      "pbr_full_edge_r": 7.7981,
+      "pbr_edge_n": 731,
+      "pbr_end_date": "2026-09-16",
+      "highlight_pbrs": [
+
+      ],
+      "mid_band_corridor_member": true,
+      "membership_recommendation_stub": "hold"
+    },
+    {
+      "book": "Mango",
+      "portfolio_id": 65,
+      "cohort": "mode_c_parent_solvent",
+      "pcs_latest": 64.15,
+      "pcs_as_of_latest": "2026-09-21",
+      "mean_abs_r_latest": 0.2169,
+      "max_abs_r_latest": 0.652,
+      "high_pair_count_latest": 0,
+      "delta_pcs_20d": -7.15,
+      "delta_max_r_20d": 0.1223,
+      "delta_pcs_since_first": -7.15,
+      "pcs_first": 71.3,
+      "pcs_first_as_of": "2026-07-12",
+      "n_snapshots": 70,
+      "days_outside_60_90": 0,
+      "snapshot_source_latest": "daily_job",
+      "snapshot_sources": {
+        "pbr": 9,
+        "daily_job": 61
+      },
+      "latest_daily_job_as_of": "2026-09-21",
+      "latest_daily_job_pcs": 64.15,
+      "regime_tag_latest": "mid_band_corridor",
+      "feature_as_of": "2026-07-12",
+      "fwd_20d": {
+        "status": "ok",
+        "oa_pct": 2.0367,
+        "oa_dd_pct": 0.2521,
+        "end": "2026-08-10",
+        "have_td": 20
+      },
+      "fwd_60d": {
+        "status": "insufficient_forward",
+        "have_td": 44,
+        "end": "2026-09-14"
+      },
+      "fwd_available": {
+        "status": "ok",
+        "td": 44,
+        "oa_pct": 5.1379,
+        "oa_dd_pct": 1.1751,
+        "end": "2026-09-14"
+      },
+      "td_first_snap_to_pbr_end": 46,
+      "td_first_snap_to_today": 52,
+      "td_still_needed_for_60d_from_first": 8,
+      "best_pbr_id": 686,
+      "pbr_cell": "mango_rst_turtle_r01_leap30k_ts75",
+      "pbr_full_oa_pct": 2794.8525,
+      "pbr_full_edge_r": 4.1309,
+      "pbr_edge_n": 830,
+      "pbr_end_date": "2026-09-14",
+      "highlight_pbrs": [
+
+      ],
+      "mid_band_corridor_member": true,
+      "membership_recommendation_stub": "hold"
+    },
+    {
+      "book": "Orange",
+      "portfolio_id": 35,
+      "cohort": "mode_c_parent_solvent",
+      "pcs_latest": 24.87,
+      "pcs_as_of_latest": "2026-09-21",
+      "mean_abs_r_latest": 0.2347,
+      "max_abs_r_latest": 0.9188,
+      "high_pair_count_latest": 3,
+      "delta_pcs_20d": -43.47,
+      "delta_max_r_20d": 0.3496,
+      "delta_pcs_since_first": -43.47,
+      "pcs_first": 68.34,
+      "pcs_first_as_of": "2026-07-12",
+      "n_snapshots": 70,
+      "days_outside_60_90": 28,
+      "snapshot_source_latest": "daily_job",
+      "snapshot_sources": {
+        "daily_job": 59,
+        "pbr": 11
+      },
+      "latest_daily_job_as_of": "2026-09-21",
+      "latest_daily_job_pcs": 24.87,
+      "regime_tag_latest": "low_pcs_cluster",
+      "feature_as_of": "2026-07-12",
+      "fwd_20d": {
+        "status": "ok",
+        "oa_pct": 0.1897,
+        "oa_dd_pct": 0.0363,
+        "end": "2026-08-10",
+        "have_td": 20
+      },
+      "fwd_60d": {
+        "status": "insufficient_forward",
+        "have_td": 46,
+        "end": "2026-09-16"
+      },
+      "fwd_available": {
+        "status": "ok",
+        "td": 46,
+        "oa_pct": 3.9981,
+        "oa_dd_pct": 0.0784,
+        "end": "2026-09-16"
+      },
+      "td_first_snap_to_pbr_end": 48,
+      "td_first_snap_to_today": 52,
+      "td_still_needed_for_60d_from_first": 8,
+      "best_pbr_id": 683,
+      "pbr_cell": "orange_rst_turtle_r02_leap30k_ts75",
+      "pbr_full_oa_pct": 10373.5936,
+      "pbr_full_edge_r": 5.5985,
+      "pbr_edge_n": 768,
+      "pbr_end_date": "2026-09-16",
+      "highlight_pbrs": [
+
+      ],
+      "mid_band_corridor_member": false,
+      "membership_recommendation_stub": "reweight_candidate"
+    },
+    {
+      "book": "Rust",
+      "portfolio_id": 66,
+      "cohort": "promote_screen_hold",
+      "pcs_latest": 22.99,
+      "pcs_as_of_latest": "2026-09-21",
+      "mean_abs_r_latest": 0.221,
+      "max_abs_r_latest": 0.9739,
+      "high_pair_count_latest": 3,
+      "delta_pcs_20d": -54.26,
+      "delta_max_r_20d": 0.555,
+      "delta_pcs_since_first": -54.26,
+      "pcs_first": 77.25,
+      "pcs_first_as_of": "2026-07-12",
+      "n_snapshots": 70,
+      "days_outside_60_90": 28,
+      "snapshot_source_latest": "daily_job",
+      "snapshot_sources": {
+        "pbr": 8,
+        "daily_job": 62
+      },
+      "latest_daily_job_as_of": "2026-09-21",
+      "latest_daily_job_pcs": 22.99,
+      "regime_tag_latest": "low_pcs_cluster",
+      "feature_as_of": "2026-07-12",
+      "fwd_20d": {
+        "status": "ok",
+        "oa_pct": 0.0,
+        "oa_dd_pct": 0.0,
+        "end": "2026-08-10",
+        "have_td": 20
+      },
+      "fwd_60d": {
+        "status": "insufficient_forward",
+        "have_td": 44,
+        "end": "2026-09-14"
+      },
+      "fwd_available": {
+        "status": "ok",
+        "td": 44,
+        "oa_pct": 0.0,
+        "oa_dd_pct": 0.0,
+        "end": "2026-09-14"
+      },
+      "td_first_snap_to_pbr_end": 46,
+      "td_first_snap_to_today": 52,
+      "td_still_needed_for_60d_from_first": 8,
+      "best_pbr_id": 697,
+      "pbr_cell": "rust_rst_turtle_r02_leap30k_ts75",
+      "pbr_full_oa_pct": -311.2276,
+      "pbr_full_edge_r": -3.3847,
+      "pbr_edge_n": 46,
+      "pbr_end_date": "2026-09-14",
+      "highlight_pbrs": [
+
+      ],
+      "mid_band_corridor_member": false,
+      "membership_recommendation_stub": "reweight_candidate"
+    },
+    {
+      "book": "Indigo",
+      "portfolio_id": 411,
+      "cohort": "mode_c_wv2_promoted",
+      "pcs_latest": 72.29,
+      "pcs_as_of_latest": "2026-09-19",
+      "mean_abs_r_latest": 0.2213,
+      "max_abs_r_latest": 0.4877,
+      "high_pair_count_latest": 0,
+      "delta_pcs_20d": null,
+      "delta_max_r_20d": null,
+      "delta_pcs_since_first": 0.85,
+      "pcs_first": 71.44,
+      "pcs_first_as_of": "2026-09-17",
+      "n_snapshots": 3,
+      "days_outside_60_90": 0,
+      "snapshot_source_latest": "pbr",
+      "snapshot_sources": {
+        "pbr": 3
+      },
+      "latest_daily_job_as_of": null,
+      "latest_daily_job_pcs": null,
+      "regime_tag_latest": "high_mid_band",
+      "feature_as_of": "2026-09-17",
+      "fwd_20d": {
+        "status": "insufficient_forward",
+        "have_td": 0,
+        "end": "2026-09-17"
+      },
+      "fwd_60d": {
+        "status": "insufficient_forward",
+        "have_td": 0,
+        "end": "2026-09-17"
+      },
+      "fwd_available": {
+        "status": "insufficient_forward",
+        "have_td": 0
+      },
+      "td_first_snap_to_pbr_end": 0,
+      "td_first_snap_to_today": 3,
+      "td_still_needed_for_60d_from_first": 57,
+      "best_pbr_id": 704,
+      "pbr_cell": "indigo_rst_turtle_r02_leap30k_ts75",
+      "pbr_full_oa_pct": 8978.6336,
+      "pbr_full_edge_r": 10.2581,
+      "pbr_edge_n": 521,
+      "pbr_end_date": "2026-09-17",
+      "highlight_pbrs": [
+
+      ],
+      "mid_band_corridor_member": false,
+      "membership_recommendation_stub": "hold_diversifier_watch"
+    },
+    {
+      "book": "Teal",
+      "portfolio_id": 412,
+      "cohort": "mode_c_wv2_promoted",
+      "pcs_latest": 64.88,
+      "pcs_as_of_latest": "2026-09-21",
+      "mean_abs_r_latest": 0.1902,
+      "max_abs_r_latest": 0.6271,
+      "high_pair_count_latest": 0,
+      "delta_pcs_20d": null,
+      "delta_max_r_20d": null,
+      "delta_pcs_since_first": -1.53,
+      "pcs_first": 66.41,
+      "pcs_first_as_of": "2026-09-17",
+      "n_snapshots": 4,
+      "days_outside_60_90": 0,
+      "snapshot_source_latest": "pbr",
+      "snapshot_sources": {
+        "pbr": 4
+      },
+      "latest_daily_job_as_of": null,
+      "latest_daily_job_pcs": null,
+      "regime_tag_latest": "mid_band_corridor",
+      "feature_as_of": "2026-09-17",
+      "fwd_20d": {
+        "status": "insufficient_forward",
+        "have_td": 1,
+        "end": "2026-09-18"
+      },
+      "fwd_60d": {
+        "status": "insufficient_forward",
+        "have_td": 1,
+        "end": "2026-09-18"
+      },
+      "fwd_available": {
+        "status": "ok",
+        "td": 1,
+        "oa_pct": 0.0974,
+        "oa_dd_pct": 0.0,
+        "end": "2026-09-18"
+      },
+      "td_first_snap_to_pbr_end": 1,
+      "td_first_snap_to_today": 3,
+      "td_still_needed_for_60d_from_first": 57,
+      "best_pbr_id": 743,
+      "pbr_cell": "teal_rst_legacy_r02_leap30k_ts75_evolved",
+      "pbr_full_oa_pct": 19991.5326,
+      "pbr_full_edge_r": 17.0985,
+      "pbr_edge_n": 728,
+      "pbr_end_date": "2026-09-18",
+      "highlight_pbrs": [
+        {
+          "id": 727,
+          "status": "completed",
+          "oa": 19723.28452921362,
+          "edge": 17.6998,
+          "cell": "teal_rst_turtle_r02_leap30k_ts75_evolved",
+          "heat": "turtle",
+          "leap": "all"
+        },
+        {
+          "id": 743,
+          "status": "completed",
+          "oa": 19991.532596425415,
+          "edge": 17.0985,
+          "cell": "teal_rst_legacy_r02_leap30k_ts75_evolved",
+          "heat": "legacy",
+          "leap": "all"
+        },
+        {
+          "id": 767,
+          "status": "running",
+          "oa": null,
+          "edge": null,
+          "cell": "teal_rst_turtle_r02_leap30k_ts75_heat_on_post55_p727_20260921",
+          "heat": "turtle",
+          "leap": "all"
+        },
+        {
+          "id": 768,
+          "status": "running",
+          "oa": null,
+          "edge": null,
+          "cell": "teal_rst_turtle_r02_leap30k_ts75_heat_on_post55_p743_20260921",
+          "heat": "turtle",
+          "leap": "all"
+        },
+        {
+          "id": 769,
+          "status": "running",
+          "oa": null,
+          "edge": null,
+          "cell": "teal_rst_turtle_r01_leap30k_ts75_heat_on_post55_p727_20260921",
+          "heat": "turtle",
+          "leap": "all"
+        },
+        {
+          "id": 770,
+          "status": "running",
+          "oa": null,
+          "edge": null,
+          "cell": "teal_rst_turtle_r01_leap30k_ts75_heat_on_post55_p743_20260921",
+          "heat": "turtle",
+          "leap": "all"
+        }
+      ],
+      "mid_band_corridor_member": true,
+      "membership_recommendation_stub": "hold"
+    },
+    {
+      "book": "Copper",
+      "portfolio_id": 413,
+      "cohort": "mode_c_wv2_promoted",
+      "pcs_latest": 60.9,
+      "pcs_as_of_latest": "2026-09-19",
+      "mean_abs_r_latest": 0.2873,
+      "max_abs_r_latest": 0.6958,
+      "high_pair_count_latest": 0,
+      "delta_pcs_20d": null,
+      "delta_max_r_20d": null,
+      "delta_pcs_since_first": -0.01,
+      "pcs_first": 60.91,
+      "pcs_first_as_of": "2026-09-17",
+      "n_snapshots": 3,
+      "days_outside_60_90": 0,
+      "snapshot_source_latest": "pbr",
+      "snapshot_sources": {
+        "pbr": 3
+      },
+      "latest_daily_job_as_of": null,
+      "latest_daily_job_pcs": null,
+      "regime_tag_latest": "mid_band_corridor",
+      "feature_as_of": "2026-09-17",
+      "fwd_20d": {
+        "status": "insufficient_forward",
+        "have_td": 0,
+        "end": "2026-09-17"
+      },
+      "fwd_60d": {
+        "status": "insufficient_forward",
+        "have_td": 0,
+        "end": "2026-09-17"
+      },
+      "fwd_available": {
+        "status": "insufficient_forward",
+        "have_td": 0
+      },
+      "td_first_snap_to_pbr_end": 0,
+      "td_first_snap_to_today": 3,
+      "td_still_needed_for_60d_from_first": 57,
+      "best_pbr_id": 710,
+      "pbr_cell": "copper_rst_turtle_r02_leap30k_ts75",
+      "pbr_full_oa_pct": 15930.8582,
+      "pbr_full_edge_r": 15.6668,
+      "pbr_edge_n": 664,
+      "pbr_end_date": "2026-09-17",
+      "highlight_pbrs": [
+
+      ],
+      "mid_band_corridor_member": true,
+      "membership_recommendation_stub": "hold"
+    },
+    {
+      "book": "Slate",
+      "portfolio_id": 414,
+      "cohort": "mode_c_wv2_promoted",
+      "pcs_latest": 60.83,
+      "pcs_as_of_latest": "2026-09-19",
+      "mean_abs_r_latest": 0.2924,
+      "max_abs_r_latest": 0.6958,
+      "high_pair_count_latest": 0,
+      "delta_pcs_20d": null,
+      "delta_max_r_20d": null,
+      "delta_pcs_since_first": 0.0,
+      "pcs_first": 60.83,
+      "pcs_first_as_of": "2026-09-17",
+      "n_snapshots": 3,
+      "days_outside_60_90": 0,
+      "snapshot_source_latest": "pbr",
+      "snapshot_sources": {
+        "pbr": 3
+      },
+      "latest_daily_job_as_of": null,
+      "latest_daily_job_pcs": null,
+      "regime_tag_latest": "mid_band_corridor",
+      "feature_as_of": "2026-09-17",
+      "fwd_20d": {
+        "status": "insufficient_forward",
+        "have_td": 0,
+        "end": "2026-09-17"
+      },
+      "fwd_60d": {
+        "status": "insufficient_forward",
+        "have_td": 0,
+        "end": "2026-09-17"
+      },
+      "fwd_available": {
+        "status": "insufficient_forward",
+        "have_td": 0
+      },
+      "td_first_snap_to_pbr_end": 0,
+      "td_first_snap_to_today": 3,
+      "td_still_needed_for_60d_from_first": 57,
+      "best_pbr_id": 713,
+      "pbr_cell": "slate_rst_turtle_r02_leap30k_ts75",
+      "pbr_full_oa_pct": 15748.7837,
+      "pbr_full_edge_r": 14.8382,
+      "pbr_edge_n": 690,
+      "pbr_end_date": "2026-09-17",
+      "highlight_pbrs": [
+
+      ],
+      "mid_band_corridor_member": true,
+      "membership_recommendation_stub": "hold"
+    }
+  ],
+  "unlock_fwd_60d": false,
+  "max_td_first_to_today": 52,
+  "mode_c_daily_job": [
+    {
+      "book": "Indigo",
+      "sources": {
+        "pbr": 3
+      },
+      "latest": "2026-09-19",
+      "latest_src": "pbr",
+      "n": 3
+    },
+    {
+      "book": "Teal",
+      "sources": {
+        "pbr": 4
+      },
+      "latest": "2026-09-21",
+      "latest_src": "pbr",
+      "n": 4
+    },
+    {
+      "book": "Copper",
+      "sources": {
+        "pbr": 3
+      },
+      "latest": "2026-09-19",
+      "latest_src": "pbr",
+      "n": 3
+    },
+    {
+      "book": "Slate",
+      "sources": {
+        "pbr": 3
+      },
+      "latest": "2026-09-19",
+      "latest_src": "pbr",
+      "n": 3
+    }
+  ]
+}
