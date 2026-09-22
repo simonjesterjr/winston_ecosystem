@@ -28,7 +28,7 @@ Implied stop distance if units = (risk% × risk_equity) / N for Teal ≈ **$0.20
 
 Operator ask (verbatim spirit): rule in the spirit of TF / Turtles to limit consuming trades where risk is egregiously small and position size gets huge — e.g. **minimum ATR (or N) for trade / portfolio inclusion**. **Do not implement until we plan and evaluate.**
 
-Forensics is auditing 2026-09-22 paper trades separately (equity/cash correctness + Interactive Brokers (IBKR) Long-term Equity Anticipation Security (LEAP) / long-call / stock validation). Fold any sizing-formula evidence from that autopsy into this ticket’s Specimens section when it lands.
+Forensics autopsy landed: [`../analysis/2026-09-22-wv2-dar-paper-trade-autopsy.md`](../analysis/2026-09-22-wv2-dar-paper-trade-autopsy.md). Teal J2029: risk$=`28727.88×0.02=574.56`, stop distance 0.20 (2N, N=0.10), `floor(574.56/0.20)=2872`, flow −76538.80, `capital_base` → −47648.8 after Plan C (`no_candidates`). Indigo J2028 same pattern (2809). Cash math PASS; Turtle-spirit smell confirmed — plan/evaluate still, no implement.
 
 ## Problem (desk)
 
