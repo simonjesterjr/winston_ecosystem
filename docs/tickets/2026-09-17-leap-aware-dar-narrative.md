@@ -2,7 +2,7 @@
 
 **Status:** In progress  
 **Date:** 2026-09-17  
-**Updated:** 2026-09-22 (Operator: file packaging-excerpt into tool result; CLI seed)  
+**Updated:** 2026-09-22 (packaging excerpt is in the tool preview; quiet checkpoint still short)  
 **Priority:** P2  
 **Unblocked by:** [`archive/2026-09-22-dar-mcp-emit-option-fields.md`](archive/2026-09-22-dar-mcp-emit-option-fields.md) — [`../analysis/2026-09-22-dar-option-field-emit-harness.md`](../analysis/2026-09-22-dar-option-field-emit-harness.md)  
 **Lane:** B (Cromwell/DAR tool-result packaging excerpt + narrator smoke; short System One harness)  
@@ -106,6 +106,23 @@ Preferred order (pick the smallest desk-owned path that works):
 
 **Pass smoke:** quote BITQ premium **4.75**, expiry **2027-04-16**, **2** contracts, cash outlay **950**, notional **56.38** as underlying mark times contracts; Orange SMH stays share-shaped (no LEAP line). Jev harness checkpoints pass. Then Done/archive.
 
+## Excerpt in the tool preview (2026-09-22)
+
+`DarOptionFields.lead_with_packaging_excerpt` is the first key of the daily-report JSON. `InternalController#cromwell_notifications` adds it on fetch, including the saved 2026-09-21 file. `CromwellNotifier` writes it on the next Daily Analysis. Packaging math is unchanged. The excerpt rounds binary dust (for example 1839.9999999999998 → 1840) so a line stays short. Share rows are one open lot per book and omit option keys.
+
+Nanobot persists the Model Context Protocol (MCP) body and shows the first 1,200 characters. MCP pretty-prints with indent 2. The excerpt is lines, so that preview contains the whole list: Indigo BITQ premium 4.75, expiry 2027-04-16, contracts 2, cash_outlay 950, notional 56.38, and Orange SMH 17 at 580.81 with no option keys.
+
+Prove (no model, no grep of the saved file):
+
+```bash
+curl -sS 'http://127.0.0.1:3002/internal/cromwell_notifications?date=2026-09-21&fetch_only=1' \
+  | python3 -c 'import json,sys; print(json.dumps(json.load(sys.stdin), indent=2)[:1200])'
+```
+
+The first 1,200 characters include `cash_outlay 950`, `BITQ`, `4.75`, `2027-04-16`, `56.38`, `SMH`, and `580.81`. Spec: `winston_v2/spec/services/dar_option_fields_packaging_excerpt_spec.rb`.
+
+Smoke that quoted those figures: `nanobot agent --session cli:leap-dar-excerpt-2`, prompt “the daily”, date 2026-09-21, `fetch_only` true. Narration quoted BITQ premium 4.75, expiry 2027-04-16, 2 contracts, cash outlay 950, notional 56.38 as underlying mark times contracts. Orange SMH was 17 units at 580.81 under shares, with no Long-term Equity Anticipation Security (LEAP) line. No journal confirm. No Daily Analysis. Harness: [`../analysis/2026-09-22-leap-dar-packaging-excerpt-harness.md`](../analysis/2026-09-22-leap-dar-packaging-excerpt-harness.md). `quiet_share_only` is 0.75 on the SMH row alone (gate is 0.85). Not Done.
+
 **Not the gate:** Operator eyeballing SMH; Telegram send; journal confirm; Edge (R); waiting for context to “validate” in logs; committing `graphify-out/`.
 
 ## Work items
@@ -117,11 +134,11 @@ Preferred order (pick the smallest desk-owned path that works):
 - [x] System One harness — fail on `fields_only` and `quiet_share_only`
 - [x] Wrap + push `ecosystem` main. INDEX stays In progress. Not archived — definition of done not met
 - [x] `index_work` ran, then reverted. `work.json` is one line and would have absorbed other uncommitted docs
-- [ ] **Packaging excerpt in tool result** (Wv2 top-level early key and/or nanobot persist Preview enrich) so BITQ keys appear without grep
-- [ ] Deterministic check: Preview / tool text for a known DAR contains `cash_outlay` / BITQ packaging before any LLM turn
-- [ ] Smoke: one fresh `fetch_only` “the daily” — quote BITQ packaging; SMH share-only
-- [ ] System One on (excerpt + narrator text); Done/archive + INDEX when pass
-- [ ] In-band wrap; push `ecosystem` (+ `winston_v2` if serializer path) main. Never commit `graphify-out/`
+- [x] **Packaging excerpt in tool result** — `packaging_excerpt` is the first key; the 1,200-character preview contains BITQ and SMH
+- [x] Deterministic check: pretty preview of `fetch_only` 2026-09-21 contains `cash_outlay 950` and BITQ before any LLM turn (curl above)
+- [x] Smoke `cli:leap-dar-excerpt-2` quoted 4.75 / 2027-04-16 / 2 / 950 / 56.38; SMH stayed a share line
+- [ ] System One `quiet_share_only` 0.75 on the SMH row (need ≥ 0.85). Do not Done/archive
+- [x] In-band wrap; push `ecosystem` and `winston_v2` main. Never commit `graphify-out/`
 
 ## CLI seed
 
