@@ -1,0 +1,86 @@
+{
+  "stopped_at": "2026-09-22T23:50:54Z",
+  "deleted_retries": [
+    {
+      "set": "retry",
+      "jid": "b4091a7c1960304fd154259b",
+      "pbr_id": 767,
+      "error_class": "ActiveModel::RangeError",
+      "error_message": "11484179049794764800 is out of range for ActiveModel::Type::Integer with limit 4 bytes",
+      "retry_count": 12,
+      "failed_at": 1790038192.9524748,
+      "retried_at": 1790118225.7644005
+    },
+    {
+      "set": "retry",
+      "jid": "494aec5dd123d0678234586b",
+      "pbr_id": 768,
+      "error_class": "ActiveModel::RangeError",
+      "error_message": "11484179049794764800 is out of range for ActiveModel::Type::Integer with limit 4 bytes",
+      "retry_count": 12,
+      "failed_at": 1790038197.7058656,
+      "retried_at": 1790116724.645244
+    }
+  ],
+  "runs": {
+    "767": {
+      "before": "failed",
+      "after": "failed",
+      "portfolio_id": 412,
+      "initial_capital": 30000.0,
+      "risk_percentage": 0.02,
+      "error": "11484179049794764800 is out of range for ActiveModel::Type::Integer with limit 4 bytes",
+      "cell_key": "teal_rst_turtle_r02_leap30k_ts75_heat_on_post55_p727_20260921",
+      "experiment": "mode_c_teal_heat_on_post55",
+      "replaces_pbr_id": 763,
+      "parent_pbr_id": 727
+    },
+    "768": {
+      "before": "failed",
+      "after": "failed",
+      "portfolio_id": 412,
+      "initial_capital": 30000.0,
+      "risk_percentage": 0.02,
+      "error": "11484179049794764800 is out of range for ActiveModel::Type::Integer with limit 4 bytes",
+      "cell_key": "teal_rst_turtle_r02_leap30k_ts75_heat_on_post55_p743_20260921",
+      "experiment": "mode_c_teal_heat_on_post55",
+      "replaces_pbr_id": 764,
+      "parent_pbr_id": 743
+    },
+    "769": {
+      "before": "failed",
+      "after": "failed",
+      "portfolio_id": 412,
+      "initial_capital": 30000.0,
+      "risk_percentage": 0.01,
+      "error": "5742089524897382400 is out of range for ActiveModel::Type::Integer with limit 4 bytes",
+      "cell_key": "teal_rst_turtle_r01_leap30k_ts75_heat_on_post55_p727_20260921",
+      "experiment": "mode_c_teal_heat_on_post55",
+      "replaces_pbr_id": 765,
+      "parent_pbr_id": 727
+    },
+    "770": {
+      "before": "failed",
+      "after": "failed",
+      "portfolio_id": 412,
+      "initial_capital": 30000.0,
+      "risk_percentage": 0.01,
+      "error": "5742089524897382400 is out of range for ActiveModel::Type::Integer with limit 4 bytes",
+      "cell_key": "teal_rst_turtle_r01_leap30k_ts75_heat_on_post55_p743_20260921",
+      "experiment": "mode_c_teal_heat_on_post55",
+      "replaces_pbr_id": 766,
+      "parent_pbr_id": 743
+    }
+  },
+  "busy_before": [
+
+  ],
+  "remaining_portfolio_backtest_retries": [
+
+  ],
+  "pbr_771": {
+    "id": 771,
+    "status": "running",
+    "portfolio_id": 35
+  }
+}

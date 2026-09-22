@@ -35,6 +35,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P1 | Proposed | [`2026-09-22-wut-teal-heat-on-rangeerror-4byte-int.md`](2026-09-22-wut-teal-heat-on-rangeerror-4byte-int.md) | WUT Teal heat-ON PBR ActiveModel::RangeError (4-byte int) — #767–#770 stopped — [evidence](../analysis/2026-09-22-teal-pbr-767-770-rangeerror-stop.json) |
 | P0 | In progress | [`2026-09-21-wut-heat-on-rst-portfolio-limit-bypass.md`](2026-09-21-wut-heat-on-rst-portfolio-limit-bypass.md) | WUT heat-ON RST bypasses combined portfolio_limit — draft WUT [#55](https://github.com/simonjesterjr/winston_unit_test/pull/55) — [autopsy](../analysis/2026-09-21-teal-heat-on-dd-autopsy-763-764.md) |
 | P1 | In progress | [`2026-09-18-cpgw-host-lifecycle-in-ecosystem.md`](2026-09-18-cpgw-host-lifecycle-in-ecosystem.md) | CPGW host lifecycle (restart / systemd / HTTP helper) — CLI restart + control service for Desk/BG/Wv2 |
 | P1 | Proposed | [`2026-09-18-wut-macd-confirm-and-trend-phase-pyramid.md`](2026-09-18-wut-macd-confirm-and-trend-phase-pyramid.md) | WUT MACD confirmational + trend-phase pyramid geometry (new PBR feature) |
