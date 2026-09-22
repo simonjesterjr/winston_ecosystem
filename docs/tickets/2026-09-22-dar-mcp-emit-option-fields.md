@@ -1,10 +1,11 @@
 # Ticket: DAR / pending MCP must emit option packaging fields
 
-**Status:** Proposed  
+**Status:** In progress  
 **Date:** 2026-09-22  
+**Updated:** 2026-09-22 (CLI dry-run Step 1 — In progress + seed)  
 **Priority:** P2  
 **Lane:** B (serializer projection; short System One harness)  
-**Implementer:** Winston Dev or Grok CLI  
+**Implementer:** Grok CLI (shared watchable session; Winston Dev only if Operator reassigns)  
 **Origin:** Lane B stop on [`2026-09-17-leap-aware-dar-narrative.md`](2026-09-17-leap-aware-dar-narrative.md). Inventory: [`../analysis/2026-09-22-dar-mode-c-option-field-inventory.md`](../analysis/2026-09-22-dar-mode-c-option-field-inventory.md).  
 **DoD:** A Mode C Daily Analysis Report (DAR) row for an option-like fill or open lot carries the packaging fields already stored on the journal or position. Share-only rows omit them. Edge (R) is not recomputed. Packaging math, confirm, and journal edits do not change.
 
@@ -89,17 +90,26 @@ Open-position `notional` today is `mark * units`. For option rows, keep that num
 ## CLI seed
 
 ```
-cwd: /home/johnkoisch/Documents/com/sawtooth
-Lane B. Ticket: ecosystem/docs/tickets/2026-09-22-dar-mcp-emit-option-fields.md
+cwd: /home/johnkoisch/Documents/com/sawtooth  (workspace root OK for ticket/analysis reads)
+Code changes live under winston_v2/ — cd there for specs/compose as needed.
 
-Goal: Project stored option fields onto wv2_get_daily_activity_report and wv2_list_pending_actions. Copy journal/position values. Do not change packaging math, confirm, Edge, or Cromwell skills.
+Lane B. Ticket: ecosystem/docs/tickets/2026-09-22-dar-mcp-emit-option-fields.md
+Parent (blocked until this ships): ecosystem/docs/tickets/2026-09-17-leap-aware-dar-narrative.md
+Inventory: ecosystem/docs/analysis/2026-09-22-dar-mode-c-option-field-inventory.md
+
+Goal: Project stored option packaging fields onto wv2_get_daily_activity_report (DailyReportPayloadBuilder) and wv2_list_pending_actions (InternalController#serialize_pending_task). Copy from journal fulfillment_details / position option columns. Do not change packaging math, confirm, Edge (R), or Cromwell narrator skills.
+
+Specimens: journal 1946 Indigo BITQ (2 calls, premium 4.75, expiry 2027-04-16, strike 28, cash_outlay 950); share control Orange SMH journal 1941 (17 @ 580.81). DAR fixture: winston_v2/storage/cromwell_notifications/wv2_20260921.json
 
 Steps:
-1. Read this ticket and ecosystem/docs/analysis/2026-09-22-dar-mode-c-option-field-inventory.md.
-2. Failing spec on DailyReportPayloadBuilder / pending serializer using journal 1946 shape vs a share journal.
-3. Minimal projection. Option rows gain the field table. Share rows omit those keys. Do not replace notional silently.
-4. Run the spec in compose (winston_v2). Jev ask on before/after excerpt. Attach under the ticket.
-5. In-band wrap. Push the monolith that changed. Set parent 2026-09-17-leap-aware-dar-narrative back to In progress when a real or fixture DAR shows the fields.
+1. Read this ticket (System One harness + field table) and the inventory analysis.
+2. Locate DailyReportPayloadBuilder and serialize_pending_task; confirm where units/mark/notional are built and where option keys are dropped.
+3. Failing spec first: option-shaped journal/position projects premium, expiry, contracts (or labeled units), cash_outlay, fulfillment_type, strike, option_type as applicable; share row omits those keys; do not silently replace notional.
+4. Minimal projection patch — copy stored values only. cash_outlay from details or contracts×premium×multiplier only when those three are already stored. Keep existing notional behavior unless a separate label key is added for underlying mark × contracts.
+5. Run specs via ./bin/compose exec -T winston_v2 bundle exec rspec <paths>. Optionally regenerate or fixture-compare a Mode C DAR slice (no live Telegram required).
+6. System One: jev ask on before/after JSON excerpt per ticket harness; attach results on ticket or docs/analysis/.
+7. In-band wrap session report under ecosystem. Push winston_v2 main (and ecosystem docs if you updated tickets). No PR.
+8. When a real or fixture Mode C DAR row shows premium + expiry + contracts + labeled cash_outlay: set parent 2026-09-17-leap-aware-dar-narrative back to In progress (do not implement narrator in this ticket).
 
-DoD: option row shows premium, expiry, contracts, and labeled cash from stored fields; share row stays quiet; no Edge recompute.
+DoD: option row emits stored packaging fields; share row stays quiet; no Edge recompute; harness checkpoints pass; parent unblocked for resume (status only).
 ```
