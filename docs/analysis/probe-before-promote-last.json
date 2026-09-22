@@ -1,0 +1,449 @@
+{
+  "at": "2026-09-21 22:29:34 MT",
+  "tool": "probe_before_promote",
+  "versions": [
+    "v1",
+    "v2"
+  ],
+  "ticket": "2026-09-21-probe-before-promote.md",
+  "pbr_ids": [
+    727,
+    743,
+    763,
+    764
+  ],
+  "rows": [
+    {
+      "pbr_id": 727,
+      "found": true,
+      "overall_pass": false,
+      "checks": [
+        {
+          "id": "identity",
+          "version": "v1",
+          "pass": true,
+          "detail": {
+            "portfolio_id": 412,
+            "portfolio_name": "Teal_WUT_evolved",
+            "status": "completed",
+            "trading_strategy_id": 75,
+            "trading_strategy_name": "TurtleV1 S1 Breakout20/10",
+            "risk_percentage": 0.02,
+            "fill_cadence": "resting_stop_touch",
+            "leap_fulfillment": "all",
+            "cell_key": "teal_rst_turtle_r02_leap30k_ts75_evolved",
+            "experiment": "mode_c_evolve_indigo_teal"
+          }
+        },
+        {
+          "id": "heat_intent_vs_reality",
+          "version": "v1",
+          "pass": false,
+          "detail": {
+            "heat_mode": "turtle",
+            "heat_present": false,
+            "heat_enabled": false,
+            "cell_key": "teal_rst_turtle_r02_leap30k_ts75_evolved",
+            "expected": "turtle ⇒ heat hash present and heat_enabled"
+          }
+        },
+        {
+          "id": "position_caps",
+          "version": "v1",
+          "pass": true,
+          "detail": {
+            "available": true,
+            "peak": 11,
+            "breaches": 0,
+            "cap": 12,
+            "max_positions_per_symbol": 4
+          }
+        },
+        {
+          "id": "packaging_contracts",
+          "version": "v1",
+          "pass": true,
+          "detail": {
+            "leap_fulfillment": "all",
+            "prefers_option": true,
+            "share_units": null,
+            "contracts_floor": null,
+            "m_band_allow_one": false,
+            "available": true,
+            "entries": 0,
+            "option_entries": 0,
+            "stock_entries": 0,
+            "zero_contracts_smell": false,
+            "stock_only_despite_leap_pref": false
+          }
+        },
+        {
+          "id": "edge_r_present",
+          "version": "v2",
+          "pass": true,
+          "detail": {
+            "edge_r": 17.6998,
+            "n": null
+          }
+        },
+        {
+          "id": "oa_dd_sanity",
+          "version": "v2",
+          "pass": true,
+          "detail": {
+            "skipped": true,
+            "reason": "oa_dd not stamped on results_json"
+          }
+        },
+        {
+          "id": "runner_sha",
+          "version": "v2",
+          "pass": true,
+          "detail": {
+            "container_or_cwd_sha": "0902707",
+            "note": "informational — compare to expected WUT merge when heat-ON"
+          }
+        }
+      ],
+      "jev_state": {
+        "pbr_id": 727,
+        "heat_mode": "turtle",
+        "heat_present": false,
+        "heat_enabled": false,
+        "peak_open": 11,
+        "max_positions_per_portfolio": 12,
+        "open_gt_cap_events": 0,
+        "leap_fulfillment": "all",
+        "prefers_option_packaging": true,
+        "share_units": null,
+        "contracts_floor": null,
+        "zero_contracts_smell": false,
+        "stock_only_despite_leap_pref": false
+      }
+    },
+    {
+      "pbr_id": 743,
+      "found": true,
+      "overall_pass": true,
+      "checks": [
+        {
+          "id": "identity",
+          "version": "v1",
+          "pass": true,
+          "detail": {
+            "portfolio_id": 412,
+            "portfolio_name": "Teal_WUT_evolved",
+            "status": "completed",
+            "trading_strategy_id": 75,
+            "trading_strategy_name": "TurtleV1 S1 Breakout20/10",
+            "risk_percentage": 0.02,
+            "fill_cadence": "resting_stop_touch",
+            "leap_fulfillment": "all",
+            "cell_key": "teal_rst_legacy_r02_leap30k_ts75_evolved",
+            "experiment": "mode_c_evolve_indigo_teal_matrix"
+          }
+        },
+        {
+          "id": "heat_intent_vs_reality",
+          "version": "v1",
+          "pass": true,
+          "detail": {
+            "heat_mode": "legacy",
+            "heat_present": false,
+            "heat_enabled": false,
+            "expected": "legacy/off ⇒ heat_enabled false"
+          }
+        },
+        {
+          "id": "position_caps",
+          "version": "v1",
+          "pass": true,
+          "detail": {
+            "available": true,
+            "peak": 11,
+            "breaches": 0,
+            "cap": 12,
+            "max_positions_per_symbol": 4
+          }
+        },
+        {
+          "id": "packaging_contracts",
+          "version": "v1",
+          "pass": true,
+          "detail": {
+            "leap_fulfillment": "all",
+            "prefers_option": true,
+            "share_units": null,
+            "contracts_floor": null,
+            "m_band_allow_one": false,
+            "available": true,
+            "entries": 0,
+            "option_entries": 0,
+            "stock_entries": 0,
+            "zero_contracts_smell": false,
+            "stock_only_despite_leap_pref": false
+          }
+        },
+        {
+          "id": "edge_r_present",
+          "version": "v2",
+          "pass": true,
+          "detail": {
+            "edge_r": 17.0985,
+            "n": null
+          }
+        },
+        {
+          "id": "oa_dd_sanity",
+          "version": "v2",
+          "pass": true,
+          "detail": {
+            "skipped": true,
+            "reason": "oa_dd not stamped on results_json"
+          }
+        },
+        {
+          "id": "runner_sha",
+          "version": "v2",
+          "pass": true,
+          "detail": {
+            "container_or_cwd_sha": "0902707",
+            "note": "informational — compare to expected WUT merge when heat-ON"
+          }
+        }
+      ],
+      "jev_state": {
+        "pbr_id": 743,
+        "heat_mode": "legacy",
+        "heat_present": false,
+        "heat_enabled": false,
+        "peak_open": 11,
+        "max_positions_per_portfolio": 12,
+        "open_gt_cap_events": 0,
+        "leap_fulfillment": "all",
+        "prefers_option_packaging": true,
+        "share_units": null,
+        "contracts_floor": null,
+        "zero_contracts_smell": false,
+        "stock_only_despite_leap_pref": false
+      }
+    },
+    {
+      "pbr_id": 763,
+      "found": true,
+      "overall_pass": false,
+      "checks": [
+        {
+          "id": "identity",
+          "version": "v1",
+          "pass": true,
+          "detail": {
+            "portfolio_id": 412,
+            "portfolio_name": "Teal_WUT_evolved",
+            "status": "completed",
+            "trading_strategy_id": 75,
+            "trading_strategy_name": "TurtleV1 S1 Breakout20/10",
+            "risk_percentage": 0.02,
+            "fill_cadence": "resting_stop_touch",
+            "leap_fulfillment": "all",
+            "cell_key": "teal_rst_turtle_r02_leap30k_ts75_heat_on_restamp727_20260921",
+            "experiment": "mode_c_evolve_indigo_teal_heat_on_restamp"
+          }
+        },
+        {
+          "id": "heat_intent_vs_reality",
+          "version": "v1",
+          "pass": true,
+          "detail": {
+            "heat_mode": "turtle",
+            "heat_present": true,
+            "heat_enabled": true,
+            "cell_key": "teal_rst_turtle_r02_leap30k_ts75_heat_on_restamp727_20260921",
+            "expected": "turtle ⇒ heat hash present and heat_enabled"
+          }
+        },
+        {
+          "id": "position_caps",
+          "version": "v1",
+          "pass": false,
+          "detail": {
+            "available": true,
+            "peak": 16,
+            "breaches": 32,
+            "cap": 12,
+            "max_positions_per_symbol": 4
+          }
+        },
+        {
+          "id": "packaging_contracts",
+          "version": "v1",
+          "pass": true,
+          "detail": {
+            "leap_fulfillment": "all",
+            "prefers_option": true,
+            "share_units": null,
+            "contracts_floor": null,
+            "m_band_allow_one": false,
+            "available": true,
+            "entries": 0,
+            "option_entries": 0,
+            "stock_entries": 0,
+            "zero_contracts_smell": false,
+            "stock_only_despite_leap_pref": false
+          }
+        },
+        {
+          "id": "edge_r_present",
+          "version": "v2",
+          "pass": true,
+          "detail": {
+            "edge_r": 7.7087,
+            "n": null
+          }
+        },
+        {
+          "id": "oa_dd_sanity",
+          "version": "v2",
+          "pass": true,
+          "detail": {
+            "skipped": true,
+            "reason": "oa_dd not stamped on results_json"
+          }
+        },
+        {
+          "id": "runner_sha",
+          "version": "v2",
+          "pass": true,
+          "detail": {
+            "container_or_cwd_sha": "0902707",
+            "note": "informational — compare to expected WUT merge when heat-ON"
+          }
+        }
+      ],
+      "jev_state": {
+        "pbr_id": 763,
+        "heat_mode": "turtle",
+        "heat_present": true,
+        "heat_enabled": true,
+        "peak_open": 16,
+        "max_positions_per_portfolio": 12,
+        "open_gt_cap_events": 32,
+        "leap_fulfillment": "all",
+        "prefers_option_packaging": true,
+        "share_units": null,
+        "contracts_floor": null,
+        "zero_contracts_smell": false,
+        "stock_only_despite_leap_pref": false
+      }
+    },
+    {
+      "pbr_id": 764,
+      "found": true,
+      "overall_pass": false,
+      "checks": [
+        {
+          "id": "identity",
+          "version": "v1",
+          "pass": true,
+          "detail": {
+            "portfolio_id": 412,
+            "portfolio_name": "Teal_WUT_evolved",
+            "status": "completed",
+            "trading_strategy_id": 75,
+            "trading_strategy_name": "TurtleV1 S1 Breakout20/10",
+            "risk_percentage": 0.02,
+            "fill_cadence": "resting_stop_touch",
+            "leap_fulfillment": "all",
+            "cell_key": "teal_rst_turtle_r02_leap30k_ts75_heat_on_restamp743_20260921",
+            "experiment": "mode_c_evolve_indigo_teal_heat_on_restamp"
+          }
+        },
+        {
+          "id": "heat_intent_vs_reality",
+          "version": "v1",
+          "pass": true,
+          "detail": {
+            "heat_mode": "turtle",
+            "heat_present": true,
+            "heat_enabled": true,
+            "cell_key": "teal_rst_turtle_r02_leap30k_ts75_heat_on_restamp743_20260921",
+            "expected": "turtle ⇒ heat hash present and heat_enabled"
+          }
+        },
+        {
+          "id": "position_caps",
+          "version": "v1",
+          "pass": false,
+          "detail": {
+            "available": true,
+            "peak": 16,
+            "breaches": 32,
+            "cap": 12,
+            "max_positions_per_symbol": 4
+          }
+        },
+        {
+          "id": "packaging_contracts",
+          "version": "v1",
+          "pass": true,
+          "detail": {
+            "leap_fulfillment": "all",
+            "prefers_option": true,
+            "share_units": null,
+            "contracts_floor": null,
+            "m_band_allow_one": false,
+            "available": true,
+            "entries": 0,
+            "option_entries": 0,
+            "stock_entries": 0,
+            "zero_contracts_smell": false,
+            "stock_only_despite_leap_pref": false
+          }
+        },
+        {
+          "id": "edge_r_present",
+          "version": "v2",
+          "pass": true,
+          "detail": {
+            "edge_r": 7.7087,
+            "n": null
+          }
+        },
+        {
+          "id": "oa_dd_sanity",
+          "version": "v2",
+          "pass": true,
+          "detail": {
+            "skipped": true,
+            "reason": "oa_dd not stamped on results_json"
+          }
+        },
+        {
+          "id": "runner_sha",
+          "version": "v2",
+          "pass": true,
+          "detail": {
+            "container_or_cwd_sha": "0902707",
+            "note": "informational — compare to expected WUT merge when heat-ON"
+          }
+        }
+      ],
+      "jev_state": {
+        "pbr_id": 764,
+        "heat_mode": "turtle",
+        "heat_present": true,
+        "heat_enabled": true,
+        "peak_open": 16,
+        "max_positions_per_portfolio": 12,
+        "open_gt_cap_events": 32,
+        "leap_fulfillment": "all",
+        "prefers_option_packaging": true,
+        "share_units": null,
+        "contracts_floor": null,
+        "zero_contracts_smell": false,
+        "stock_only_despite_leap_pref": false
+      }
+    }
+  ],
+  "overall_pass": false
+}
