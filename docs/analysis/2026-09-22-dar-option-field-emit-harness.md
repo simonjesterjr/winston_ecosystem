@@ -43,7 +43,7 @@ Same shape on the other Mode C open lots in the patched file (Mango SEF cash 550
 
 Task 1838 is completed now. Its pending row on that file carries the journal’s current stored packaging (premium 4.75, cash outlay 950). The old shell phrase still says `price=5.35`.
 
-Some RXT journals already store float dust in `cash_outlay` (8 × 2.3 × 100 stored as 1839.9999999999998). This projection copies that number. It does not repair the journal.
+Some RXT journals already store float dust in `cash_outlay` (8 × 2.3 × 100 stored as 1839.9999999999998). This projection copies that number. It does not repair the journal. Follow-up: [`../tickets/2026-09-22-rxt-cash-outlay-float-dust.md`](../tickets/2026-09-22-rxt-cash-outlay-float-dust.md).
 
 ## System One (Jev 1.13.0)
 

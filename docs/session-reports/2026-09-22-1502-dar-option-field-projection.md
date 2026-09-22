@@ -52,12 +52,14 @@ The notification JSON is gitignored and is not in the commit.
 
 ### Commits
 
-- Recorded at push time in the chat summary (this report is written before the commit).
+- `1401177` — feat(dar): project stored option fields onto DAR and pending payloads (`winston_v2` main)
+- `730f2e6` — docs: unblock LEAP DAR narrative after option-field emit (`ecosystem` main)
+- Also pushed with those: `9f491db` (Wv2 work.json catalog) and `6a15672` (emit-ticket prep), which were already on local main
 
 ### Branch / PR state at sign-off
 
-- Branch: `main` on both repos
-- Pushed: intended this session
+- Branch: `main` — clean for this session’s files; ecosystem has unrelated dirty files that were not staged
+- Pushed: yes (`origin/main` on both repos)
 - PR: not opened
 
 ---
@@ -82,7 +84,7 @@ The notification JSON is gitignored and is not in the commit.
 - **Choice:** Merge current stored fields into `wv2_20260921.json`.
 - **Why:** Model Context Protocol (MCP) reads that file. A full Daily Analysis job can expire tasks and send Telegram.
 - **Alternatives considered:** Leave the file share-shaped until the next End of Day (EOD).
-- **Reversibility:** a pre-patch copy was taken at `/tmp/wv2_20260921.before.json` during the session (scratch, not in git).
+- **Reversibility:** a pre-patch copy was compared during the session, then deleted with the other scratch files. The patched notification file is only on this machine.
 - **Promote to ADR?** no
 
 ---
@@ -102,8 +104,8 @@ The notification JSON is gitignored and is not in the commit.
 - `docs/tickets/archive/2026-09-22-dar-mcp-emit-option-fields.md` — Done
 
 ### Deferred
-- Parent narrator skills (`winston-report-delivery` / `winston-daily-loop`) — already the In progress ticket `2026-09-17-leap-aware-dar-narrative.md`. Not started here.
-- RXT cash-outlay float dust — stored on the journals; not repaired.
+- Parent narrator skills (`winston-report-delivery` / `winston-daily-loop`) — already filed: [`../tickets/2026-09-17-leap-aware-dar-narrative.md`](../tickets/2026-09-17-leap-aware-dar-narrative.md) (In progress). Not duplicated.
+- RXT cash-outlay float dust — [`../tickets/2026-09-22-rxt-cash-outlay-float-dust.md`](../tickets/2026-09-22-rxt-cash-outlay-float-dust.md) (Proposed, P3). Journal `flow` is already the clean decimal. Journal 1977 disagrees by more than dust (units 9, flow -2070, cash_outlay still the 8-lot figure) and must not be auto-rounded.
 
 ---
 
@@ -175,7 +177,7 @@ Jev (model jev-1.13.0): emit_premium 0.93, emit_expiry_contracts 0.97, cash_labe
 ## 13. Tools & Workflow Notes
 
 - **Skills used:** operator-prose, typesafe-ai (Jev harness already on the ticket), session-report, wrap (graph step).
-- **Graphify Graph:** `graphify update ./ecosystem` (AST, no LLM) → 15199 nodes, 17464 edges, 1292 communities. Doc/semantic extraction was not re-run. `winston_v2/graphify-out/graph.json` is missing; not full-rebuilt. Workspace merge of ecosystem, data_manager, winston_unit_test, broker_gateway, and ai (Wv2 omitted) → 21198 nodes, 26070 edges. Not staged.
+- **Graphify Graph:** `graphify update ./ecosystem` (AST, no LLM) twice this session. Latest: 15232 nodes, 17500 edges, 1309 communities. Doc/semantic extraction was not re-run (the updater said code only). `winston_v2/graphify-out/graph.json` is missing; not full-rebuilt. Workspace merge of the five existing graphs (Wv2 omitted) → 21231 nodes, 26106 edges. Not staged.
 - **Ponytail flags:** `DarOptionFields` is new. `InternalJournalPresenter` already returns the whole `fulfillment_details` hash for `wv2_get_journal`. Different shape; not collapsed this session.
 - **What worked well:** Failing spec first showed notional 56.38 and mtm 46.88 before any patch.
 - **Friction points:** `RelatedInstrumentFulfillment` constant lookup inside `class << self` needs a leading `::Operations::`.
@@ -185,8 +187,8 @@ Jev (model jev-1.13.0): emit_premium 0.93, emit_expiry_contracts 0.97, cash_labe
 
 ## 14. Follow-up Actions
 
-- [ ] Narrator skill patch — owner: next session on `2026-09-17-leap-aware-dar-narrative` — already filed, In progress
-- [ ] Optional: round or repair stored RXT `cash_outlay` float dust in the journals — not this ticket
+- [ ] Narrator skill patch — See: [`../tickets/2026-09-17-leap-aware-dar-narrative.md`](../tickets/2026-09-17-leap-aware-dar-narrative.md) (already In progress; no second ticket)
+- [ ] Repair stored RXT `cash_outlay` float dust — See: [`../tickets/2026-09-22-rxt-cash-outlay-float-dust.md`](../tickets/2026-09-22-rxt-cash-outlay-float-dust.md)
 
 ---
 

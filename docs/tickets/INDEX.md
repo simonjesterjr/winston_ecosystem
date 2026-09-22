@@ -52,6 +52,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | P1 | Proposed | [`2026-09-17-eod-pending-15-human-confirm.md`](2026-09-17-eod-pending-15-human-confirm.md) | Human confirm 2026-09-17 pending drafts (EOD verifier skipped) |
 | P2 | Proposed | [`2026-09-17-compose-nanobot-recreate-cascade.md`](2026-09-17-compose-nanobot-recreate-cascade.md) | podman-compose nanobot recreate cascades Redis/Wv2/Ollama |
 | P2 | In progress | [`2026-09-17-leap-aware-dar-narrative.md`](2026-09-17-leap-aware-dar-narrative.md) | LEAP-aware DAR/EOD narrative — payload now emits option fields; narrator skills not patched — [harness](../analysis/2026-09-22-dar-option-field-emit-harness.md) |
+| P3 | Proposed | [`2026-09-22-rxt-cash-outlay-float-dust.md`](2026-09-22-rxt-cash-outlay-float-dust.md) | Stored option cash_outlay float dust (RXT 2.3 × N × 100) — [wrap](../session-reports/2026-09-22-1502-dar-option-field-projection.md) |
 | P3 | Proposed | [`2026-09-17-cromwell-cron-dual-route-3b.md`](2026-09-17-cromwell-cron-dual-route-3b.md) | Dual-route Cromwell cron to 3b (sessionKey model routing) |
 | P1 | In progress | [`2026-09-17-promote-screen-yellow-rust-walnut-mint.md`](2026-09-17-promote-screen-yellow-rust-walnut-mint.md) | Promote screen Y/Rust/Walnut/Mint — multi-TS ×1%/2%; else new books |
 | P1 | In progress | [`2026-09-18-bg-option-candidates-quotes.md`](2026-09-18-bg-option-candidates-quotes.md) | BG option_candidates — real OPT conid + CPGW snapshot quotes — [Mode C prefill](../../plans/wv2-bg-ibkr-leap-fulfillment.md) |
