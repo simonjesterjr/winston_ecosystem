@@ -1,9 +1,10 @@
 # Ticket: LEAP-aware DAR / EOD narrative (MCP-grounded)
 
-**Status:** In progress  
+**Status:** Blocked  
 **Date:** 2026-09-17  
-**Updated:** 2026-09-22 (CLI dry-run Step 1 — harness + seed)  
+**Updated:** 2026-09-22 (inventory stop — DAR is share-shaped; narration not patched)  
 **Priority:** P2  
+**Blocked by:** [`2026-09-22-dar-mcp-emit-option-fields.md`](2026-09-22-dar-mcp-emit-option-fields.md) — [`../analysis/2026-09-22-dar-mode-c-option-field-inventory.md`](../analysis/2026-09-22-dar-mode-c-option-field-inventory.md)  
 **Lane:** B (skill / narrator polish; short System One harness)  
 **Implementer:** Grok CLI (shared watchable session on sawtooth)  
 **Origin:** Wrap follow-up; CUDA priority analysis item 3. Session `docs/session-reports/2026-09-17-1700-cromwell-llm-desk-and-daily-state.md`  
@@ -36,6 +37,18 @@ Loop-engineering put **narrator polish after** STATE + verifier. L1 skills are s
 - L1: [`2026-09-17-cromwell-daily-state-verifier.md`](2026-09-17-cromwell-daily-state-verifier.md)
 - ADR-017, `docs/business-context/leap-extra-modal-proxy.md`
 - Jev law: [`../business-context/jev-desk-guardrails.md`](../business-context/jev-desk-guardrails.md)
+- Inventory: [`../analysis/2026-09-22-dar-mode-c-option-field-inventory.md`](../analysis/2026-09-22-dar-mode-c-option-field-inventory.md)
+- Unblock: [`2026-09-22-dar-mcp-emit-option-fields.md`](2026-09-22-dar-mcp-emit-option-fields.md)
+
+## Inventory stop (2026-09-22)
+
+Specimen: `winston_v2/storage/cromwell_notifications/wv2_20260921.json` (the `wv2_get_daily_activity_report` file). Structured option keys are absent. `fulfillment_label` is null. Open-lot `notional` is underlying mark × `units`.
+
+Indigo BITQ (position 889 / journal 1946) is 2 contracts, premium 4.75, expiry 2027-04-16, strike 28, cash outlay 950. The DAR row is units 2, entry 4.75, mark 28.19, notional 56.38. Same pattern on Mango SEF, Mango/Blue RXT calls, and Teal XLU put. `wv2_get_journal` already has `fulfillment_details`. Pending MCP (`serialize_pending_task`) does not.
+
+`winston-report-delivery` and `winston-daily-loop` were not edited. No Cromwell reseed. No Telegram smoke. Jev was not called: the harness compares narrator text to the payload, and there is no narrator text. The stop is the key walk in the analysis.
+
+Resume this ticket when a Mode C DAR or pending payload contains premium, expiry, contracts, and labeled cash. Then patch the existing narrator skills only.
 
 ## System One harness
 
@@ -57,12 +70,12 @@ Loop-engineering put **narrator polish after** STATE + verifier. L1 skills are s
 
 ## Work items
 
-- [ ] Inventory option-like fields on a real Mode C DAR/MCP payload
-- [ ] Patch `ecosystem/ai/skills/winston-report-delivery/SKILL.md` (+ `winston-daily-loop` only if needed)
+- [x] Inventory option-like fields on a real Mode C DAR/MCP payload — **share-only** (2026-09-22)
+- [ ] Patch `ecosystem/ai/skills/winston-report-delivery/SKILL.md` (+ `winston-daily-loop` only if needed) — stopped until the emit ticket lands
 - [ ] Seed Cromwell workspace / restart nanobot_cromwell if that is how skills ship
 - [ ] Smoke: interactive or EOD “the daily” on one Mode C LEAP draft
-- [ ] Run System One harness on smoke transcript vs payload
-- [ ] Wrap + push `ecosystem` main; update INDEX → Done when DoD met
+- [ ] Run System One harness on smoke transcript vs payload — not run; no narrator text
+- [ ] Wrap + push `ecosystem` main; update INDEX → Done when DoD met — wrap of the stop only; status stays Blocked
 - [ ] Optional: `python3 ecosystem/ecosystem_view/bin/index_work` so WEV Monoliths sees status
 
 ## CLI seed
