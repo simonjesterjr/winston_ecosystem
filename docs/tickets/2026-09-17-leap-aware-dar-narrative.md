@@ -2,7 +2,7 @@
 
 **Status:** In progress  
 **Date:** 2026-09-17  
-**Updated:** 2026-09-22 (CLI dry-run Step 1 — narrator seed refreshed after emit unblock)  
+**Updated:** 2026-09-22 (skill patched; smoke does not quote packaging — Ollama prompt window)  
 **Priority:** P2  
 **Unblocked by:** [`archive/2026-09-22-dar-mcp-emit-option-fields.md`](archive/2026-09-22-dar-mcp-emit-option-fields.md) — [`../analysis/2026-09-22-dar-option-field-emit-harness.md`](../analysis/2026-09-22-dar-option-field-emit-harness.md)  
 **Lane:** B (skill / narrator polish; short System One harness)  
@@ -54,7 +54,7 @@ Resume condition met 2026-09-22. See Emit landed below. Patch the existing narra
 
 The Daily Analysis Report (DAR) serializer now copies stored option packaging. Indigo BITQ (journal 1946) on the patched `wv2_20260921.json` and on a read-only builder slice: premium 4.75, expiry 2027-04-16, contracts 2, cash_outlay 950. Notional is still 56.38 and labeled `underlying_mark_x_contracts`. Orange SMH 17 @ 580.81 has no option keys. Edge (R) was not added. Jev checkpoints on that excerpt passed.
 
-`winston-report-delivery` and `winston-daily-loop` are still unedited. No Cromwell reseed. No new Telegram send. Next work on this ticket is the skill patch only, quoting fields that are on the payload.
+Skills were patched and seeded on 2026-09-22. Interactive smoke did not quote packaging. See Smoke stop below. Do not mark Done.
 
 ## System One harness
 
@@ -74,15 +74,27 @@ The Daily Analysis Report (DAR) serializer now copies stored option packaging. I
 `jev ask` on the state blob (or `./ecosystem/scripts/jev-desk-helpers.sh` patterns).  
 **On fail:** do not mark Done; fix skill. Emit sibling is Done — do not re-file unless a regression drops the fields.
 
+## Smoke stop (2026-09-22)
+
+`winston-report-delivery` now says: if the report tool returns `Full output saved to:`, grep that file for `cash_outlay`, `notional_basis`, `premium`, and `expiry` before any other tool or reply. Quote those keys only when present. Keep `notional` on `notional_basis`. Share rows get no Long-term Equity Anticipation Security (LEAP) line. Never invent, never recompute Edge (R), never confirm. `winston-daily-loop` points at that section for STATE. Seeded with `bin/seed-cromwell-workspace`. No gateway restart. Skills are read from the workspace on each turn.
+
+Three interactive “the daily” turns for 2026-09-21, `fetch_only` true (no Daily Analysis, no journal confirm, no `message` tool). The saved report is about 400k characters, so nanobot persists it and shows a 1,200-character preview. That preview is the portfolio index (Walnut, Mint, Blue, …). Indigo BITQ premium 4.75 / expiry 2027-04-16 / contracts 2 / cash_outlay 950 / notional 56.38 is later in the file. The narrator never grepped. Latest reply listed those preview names and “12 others,” and did not mention BITQ, premium, expiry, contracts, cash outlay, or SMH.
+
+Ollama log: `truncating input prompt limit=4108 prompt=14218 keep=24` and again `prompt=23169`. Slot context is 8192. The model keeps 24 tokens from the start and the tail. The skill body is not in that tail once tool schemas and the tool result are present. Same pattern as Ollama issue 17427 (usable prompt about half of `num_ctx`). Raising `max_tokens` in the gitignored Cromwell config did not change the limit. No `num_ctx` change in this session.
+
+Harness: [`../analysis/2026-09-22-leap-dar-narrator-harness.md`](../analysis/2026-09-22-leap-dar-narrator-harness.md). `fields_only` 0.38 and `quiet_share_only` 0.43 fail. No confirm and no Edge (R) recompute. DoD is not met.
+
+Resume when a Cromwell turn can see this skill (prompt no longer cut to ~4108) and a fresh “the daily” quotes BITQ premium, expiry, contracts, and cash outlay versus notional, and stays quiet on Orange SMH.
+
 ## Work items
 
 - [x] Inventory option-like fields — initially share-only; **emit landed** (premium/expiry/contracts/cash_outlay on BITQ 1946)
-- [ ] Patch `ecosystem/ai/skills/winston-report-delivery/SKILL.md` (+ `winston-daily-loop` only if needed) — unblocked 2026-09-22; not started in the emit session
-- [ ] Seed Cromwell workspace / restart nanobot_cromwell if that is how skills ship
-- [ ] Smoke: interactive or EOD “the daily” on one Mode C LEAP draft
-- [ ] Run System One harness on smoke transcript vs payload — not run; no narrator text
-- [ ] Wrap + push `ecosystem` main; update INDEX → Done when DoD met — emit session set this ticket back to In progress; narrator DoD still open
-- [ ] Optional: `python3 ecosystem/ecosystem_view/bin/index_work` so WEV Monoliths sees status
+- [x] Patch `ecosystem/ai/skills/winston-report-delivery/SKILL.md` (+ one pointer in `winston-daily-loop`) — instructions only; the 8b did not follow them
+- [x] Seed Cromwell workspace. No `nanobot_cromwell` restart (skills load from disk; restart does not widen the prompt)
+- [x] Smoke: interactive “the daily” — did not quote packaging
+- [x] System One harness — fail on `fields_only` and `quiet_share_only`
+- [x] Wrap + push `ecosystem` main. INDEX stays In progress. Not archived — definition of done not met
+- [x] `index_work` ran, then reverted. `work.json` is one line and would have absorbed other uncommitted docs
 
 ## CLI seed
 

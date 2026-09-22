@@ -15,7 +15,8 @@ Cadence owner is existing `eod-daily-report` (16:35 MT M–F). This skill does *
 ## MCP
 
 - Required on EOD: `wv2_get_daily_activity_report` with `fetch_only: true` and **omit `date`** (server picks production date). Never pass 2023 or any guessed year.
-- Optional: `wv2_list_pending_actions`, `wv2_list_portfolios`, `wv2_get_journal`
+- Also call `wv2_list_pending_actions` with **no** `portfolio_id_or_name` and **no** `as_of`. The DAR payload is often truncated to a portfolio preview — pending lives in that second tool (or in the persisted tool-result file).
+- Optional: `wv2_list_portfolios`, `wv2_get_journal`
 - Never: `wv2_perform_daily_analysis`, `wv2_confirm_journal`
 
 ## Stop / skip (checkable)
@@ -32,9 +33,11 @@ The loop **must not** claim `complete` if DAR is missing.
 
 ## STATE file
 
-Write **only** `state/STATE-YYYY-MM-DD.md` (date = report date D). Shape: `memory/templates/STATE.template.md`. Hard cap **80 lines**. Facts from this turn's MCP only — no invented fills, Edge, or Sharpe.
+Write **only** `state/STATE-YYYY-MM-DD.md` (date = report date D). Shape: `memory/templates/STATE.template.md`. Hard cap **80 lines**. Facts from this turn's MCP only — no invented fills, Edge, Sharpe, or journal ids. Option lines in STATE and the EOD summary follow `winston-report-delivery`: quote `premium`, `expiry`, `contracts`, and `cash_outlay` when the row has them; keep `notional` on `notional_basis`; omit packaging when those keys are absent.
 
-On cron, `write_file` is allowed **only** under `state/`. Do not write `memory/`, `cron/`, or `skills/`.
+If the report tool output is **persisted** to `.nanobot/tool-results/`, `read_file` that path (allowed) **before** `write_file`. Do **not** call `write_file` in the same tool batch as the first MCP/read — wait for the payload. Inventing `J#12345` is a failed turn.
+
+On cron, `write_file` is allowed **only** under `state/`. `read_file` is allowed under `state/` and `.nanobot/tool-results/`. Do not write `memory/`, `cron/`, or `skills/`.
 
 If yesterday's `state/STATE-*.md` exists, you may `read_file` it for deltas (pending cleared / still open). Optional.
 
