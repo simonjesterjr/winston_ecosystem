@@ -79,6 +79,21 @@ Affected workflows, severity evidence, workaround. Priority: `critical` | `high`
 
 - …
 
+
+## System One harness (when semantic judgment remains)
+
+Optional for pure mechanical bugs. Required when “ready” work still needs a soft judgment (smell, promote language, claim vs evidence).
+
+**State:** confirmed evidence only (paths / quoted facts). Do not put hypotheses here as facts.
+
+**Checkpoints:**
+
+| id | type | instructions | pass rule |
+|----|------|--------------|-----------|
+| | Noul | | |
+
+See `docs/business-context/jev-desk-guardrails.md`. Deterministic reproduction first.
+
 ## Acceptance criteria
 
 - [ ] Given …, when …, then …

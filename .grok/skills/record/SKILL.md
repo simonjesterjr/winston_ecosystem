@@ -43,6 +43,8 @@ Capture what we just worked out as a docs artifact. Read `ecosystem/docs/README.
 - **Tickets:**
   - `**Status:**` `Proposed` | `In progress` | `Done` | `Blocked`
   - `**Priority:**` `P0` | `P1` | `P2` | `P3` | `unset`
+  - Include a **System One harness** section (Lane A / non-trivial Lane B) per `docs/tickets/_template.md` and `docs/business-context/jev-desk-guardrails.md`
+- **Plans:** use `plans/_template.md` — System One harness required
 - When a ticket is **Done**, move it to `docs/tickets/archive/` and refresh `docs/tickets/INDEX.md` if practical.
 
 ## Rules

@@ -268,3 +268,8 @@ When running inside a harness run, also create `issue-ticket-result.md` containi
 - After `safe-bug-fix` finishes, consume its terminal completion report to update status, verification evidence, and `History`; do not alter the completed candidate while recording this durable result.
 - Pass a `triage` ticket to further investigation or a later explicit invocation of this skill.
 - Pass an intentional requirements change to `change-behavior-intentionally` rather than disguising it as a defect.
+
+## System One harness (Winston desk)
+
+When the issue is more than a mechanical bug — promote smells, claim-vs-evidence, packaging judgment — include a **System One harness** block using the shape in `docs/issues/_template.md` and `docs/business-context/jev-desk-guardrails.md`. Put only confirmed evidence in State. Run deterministic reproduction first; use `jev ask` for residual semantic checkpoints. Do not invent Jev results.
+

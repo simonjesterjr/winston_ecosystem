@@ -87,7 +87,7 @@ Jev **can be wrong** while still well-typed. Confidence gates belong in **code**
 1. Keep instrumenting existing chokepoints (screen inbound, verify autopsy, probe smells, overnight compact of research claims).
 2. Template System One harness into Lane A plans + non-trivial Lane B tickets.
 3. Teach Forensics/PBR Ops to emit state+questions, not only prose.
-4. Only then consider in-monolith SDK (e.g. Wv2 routing) — separate Lane A.
+4. In-monolith SDK (Python/JS) — **Operator deferred 2026-09-22**; not worth effort until a critical in-process caller appears. Stay on `jevctl`.
 
 ## Commands (sawtooth)
 

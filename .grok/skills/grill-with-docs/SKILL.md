@@ -73,12 +73,17 @@ Write to `ecosystem/docs/adr/ADR-NNN-slug.md` for cross-monolith decisions, or `
 
 If the session clarifies a **domain rule** (not an architecture choice), offer to write or update `ecosystem/docs/business-context/`.
 
+## System One harness (plans)
+
+Before closing a grill on an implementation plan, ensure the plan (or linked ticket) has a **System One harness**: state + atomic Noul/Choice/Score checkpoints + pass rules + runner. See `docs/business-context/jev-desk-guardrails.md` and `plans/_template.md`. Deterministic checks stay in code; Jev judges residual semantic smells.
+
 ## After the session
 
 Summarize:
 - Terms added/changed in CONTEXT.md
 - ADRs created or proposed
 - Business-context updates
+- System One harness present on the plan/ticket (or explicitly deferred with Operator OK)
 - Open questions → suggest `/record ticket` for each
 
 ## Usage
