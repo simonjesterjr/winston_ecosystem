@@ -88,7 +88,7 @@
 - `ecosystem/docs/tickets/archive/2026-09-20-mode-c-leap-exit-at-stop-option-mark.md` — Done
 
 ### Deferred
-- Quote-by-conid. `option_candidates` returns the furthest listed month, three strikes nearest the money. An open contract outside that set keeps the stamped premium. Marked `# ponytail:` on `OptionMark.cpgw_quote`.
+- Quote-by-conid. Filed [`docs/tickets/2026-09-22-bg-option-snapshot-by-conid.md`](../tickets/2026-09-22-bg-option-snapshot-by-conid.md). Until then, an open contract outside the furthest-month at-the-money three keeps the stamped premium.
 
 ---
 
@@ -138,7 +138,7 @@ The reported run used `-e Exit`, which still executed the whole Mode C file (par
 ## 11. Handoff & Resume Notes
 
 - **Where I left off:** Specs green. Ticket archived. Winston v2 `2551984` is on `origin/main`. This report lands with the ecosystem commit.
-- **Next concrete step:** If drifted contracts must mark live, add a Broker Gateway conid snapshot and point `OptionMark.cpgw_quote` at it.
+- **Next concrete step:** Implement [`docs/tickets/2026-09-22-bg-option-snapshot-by-conid.md`](../tickets/2026-09-22-bg-option-snapshot-by-conid.md) when a drifted open contract should mark live.
 - **Files to read first:** `winston_v2/app/services/operations/option_mark.rb`, `exit_at_stop_service.rb`, `spec/integration/mode_c_paper_leap_spec.rb`
 
 ---
@@ -162,7 +162,7 @@ The reported run used `-e Exit`, which still executed the whole Mode C file (par
 
 ## 14. Follow-up Actions
 
-- [ ] Broker Gateway quote-by-conid so a drifted open contract can fill at last/mid — owner: later ticket if the operator wants it — due: when a live stop-out shows stamped premium and a fresh print exists
+- [x] Broker Gateway quote-by-conid — filed [`docs/tickets/2026-09-22-bg-option-snapshot-by-conid.md`](../tickets/2026-09-22-bg-option-snapshot-by-conid.md) (P2 Proposed)
 
 ---
 

@@ -11,7 +11,7 @@
 **DoD:** Stop-out of an option-packaged lot journals sell-to-close at **option mark** (Client Portal Gateway last/mid, else last stamped premium). `fulfillment_details["exit_at_stop"]=true`. Cash = contracts × mark × 100. Working Stop stays on the **underlying** (signal) and is **not** the fill price. Spec `mode_c_paper_leap_spec` Exit STC green.  
 **Origin:** Wrap [`../../session-reports/2026-09-20-1140-standard-call-packaging-rung.md`](../../session-reports/2026-09-20-1140-standard-call-packaging-rung.md) §14; failing spec `winston_v2/spec/integration/mode_c_paper_leap_spec.rb` Exit STC  
 **Related:** [`../2026-09-15-wv2-leap-packaging-fields.md`](../2026-09-15-wv2-leap-packaging-fields.md) (DoD item 6 was wrong on the ad-hoc path; closed here); ADR-013 extra-modal HITL; [`../../business-context/leap-extra-modal-proxy.md`](../../business-context/leap-extra-modal-proxy.md)  
-**Closed:** 2026-09-22. `OptionMark.for_position(live: true)` — Client Portal Gateway mid (`cpgw_mid`), else last (`cpgw_last`), else stamped premium (`stamped`). Ceiling: `option_candidates` is furthest-month at-the-money three strikes, not a quote by Contract Identity.
+**Closed:** 2026-09-22. `OptionMark.for_position(live: true)` — Client Portal Gateway mid (`cpgw_mid`), else last (`cpgw_last`), else stamped premium (`stamped`). Ceiling: `option_candidates` is furthest-month at-the-money three strikes, not a quote by Contract Identity. Follow-up: [`../2026-09-22-bg-option-snapshot-by-conid.md`](../2026-09-22-bg-option-snapshot-by-conid.md).
 
 ## Why P0
 
