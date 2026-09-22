@@ -2,7 +2,7 @@
 
 **Status:** In progress  
 **Date:** 2026-09-17  
-**Updated:** 2026-09-22 (unblocked — DAR emits stored option fields; narrator skills not patched)  
+**Updated:** 2026-09-22 (CLI dry-run Step 1 — narrator seed refreshed after emit unblock)  
 **Priority:** P2  
 **Unblocked by:** [`archive/2026-09-22-dar-mcp-emit-option-fields.md`](archive/2026-09-22-dar-mcp-emit-option-fields.md) — [`../analysis/2026-09-22-dar-option-field-emit-harness.md`](../analysis/2026-09-22-dar-option-field-emit-harness.md)  
 **Lane:** B (skill / narrator polish; short System One harness)  
@@ -72,11 +72,11 @@ The Daily Analysis Report (DAR) serializer now copies stored option packaging. I
 
 **Runner:** deterministic skill review first; then  
 `jev ask` on the state blob (or `./ecosystem/scripts/jev-desk-helpers.sh` patterns).  
-**On fail:** do not mark Done; fix skill or file sibling “DAR MCP must emit option fields” if payload is share-only.
+**On fail:** do not mark Done; fix skill. Emit sibling is Done — do not re-file unless a regression drops the fields.
 
 ## Work items
 
-- [x] Inventory option-like fields on a real Mode C DAR/MCP payload — **share-only** (2026-09-22)
+- [x] Inventory option-like fields — initially share-only; **emit landed** (premium/expiry/contracts/cash_outlay on BITQ 1946)
 - [ ] Patch `ecosystem/ai/skills/winston-report-delivery/SKILL.md` (+ `winston-daily-loop` only if needed) — unblocked 2026-09-22; not started in the emit session
 - [ ] Seed Cromwell workspace / restart nanobot_cromwell if that is how skills ship
 - [ ] Smoke: interactive or EOD “the daily” on one Mode C LEAP draft
@@ -87,21 +87,26 @@ The Daily Analysis Report (DAR) serializer now copies stored option packaging. I
 ## CLI seed
 
 ```
-cwd: /home/johnkoisch/Documents/com/sawtooth/ecosystem
-Lane B. Ticket: docs/tickets/2026-09-17-leap-aware-dar-narrative.md
+cwd: /home/johnkoisch/Documents/com/sawtooth
+Lane B. Fresh session (do not resume the share-only stop chat).
+Ticket: ecosystem/docs/tickets/2026-09-17-leap-aware-dar-narrative.md
 
-Goal: Extend winston-report-delivery (and winston-daily-loop only if required) so Cromwell EOD/DAR narration is LEAP-aware from MCP/DAR fields only. Do not add a third narrator skill. Do not change packaging math, confirm, or Edge.
+Goal: Patch Cromwell narrator skills so EOD/DAR commentary quotes LEAP/option packaging from the DAR/MCP payload. Skills only: ecosystem/ai/skills/winston-report-delivery (and winston-daily-loop only if required). Do not add a third narrator. Do not change packaging math, confirm, Edge (R), or Wv2 serializers (emit already Done: Wv2 1401177).
+
+Unblocked facts (use as smoke state):
+- Fixture/MCP file: winston_v2/storage/cromwell_notifications/wv2_20260921.json (patched on sawtooth; other hosts need a new daily write)
+- Indigo BITQ journal 1946 / open lot: premium 4.75, expiry 2027-04-16, contracts 2, cash_outlay 950, notional 56.38 with notional_basis underlying_mark_x_contracts, fulfillment_type standard_call
+- Share control: Orange SMH 17 @ 580.81 — no option keys
 
 Steps:
-1. Read the ticket (System One harness + scope/non-goals) and leap-extra-modal-proxy / ADR-017 for vocabulary only.
-2. Read ai/skills/winston-report-delivery/SKILL.md and winston-daily-loop/SKILL.md.
-3. Fetch or locate one Mode C DAR payload (wv2_get_daily_activity_report or fixture). Inventory which option fields exist (contracts, premium, expiry, cash vs share notional).
-4. If payload is share-only: stop coding narration; file sibling ticket that DAR/MCP must emit option fields; document in this ticket; wrap that finding.
-5. If fields exist: patch skill instructions — LEAP-aware lines when option-like pending/fills present; quiet otherwise; honest “payload has no option fields” when appropriate; never invent; never recompute Edge; never confirm/edit journals.
-6. Deploy skill the desk way (seed-cromwell-workspace / nanobot_cromwell restart if applicable).
-7. Smoke one Mode C book with a LEAP draft (“the daily” or scheduled EOD path). Capture Telegram/narrator output.
-8. Run System One harness (jev ask) on payload excerpt + narrator text; attach results under docs/analysis/ or on this ticket.
-9. In-band wrap session report; push ecosystem main (no PR). Update ticket status/INDEX when DoD met.
+1. Read this ticket (Emit landed + System One harness) and ecosystem/docs/business-context/leap-extra-modal-proxy.md for vocabulary only.
+2. Read ecosystem/ai/skills/winston-report-delivery/SKILL.md and winston-daily-loop/SKILL.md.
+3. Confirm option fields on the BITQ row in wv2_20260921.json (or wv2_get_daily_activity_report). If missing on this host, regenerate DAR or stop and say so — do not invent.
+4. Patch skill instructions: when option-like pending/fills/open lots have premium/expiry/contracts/cash_outlay, narrate those (and distinguish cash_outlay from underlying mark×contracts notional). Quiet on packaging when no option-like rows. Never invent fields; never recompute Edge; never confirm or edit journals.
+5. Deploy skills the desk way (bin/seed-cromwell-workspace and/or nanobot_cromwell restart if that is how Cromwell loads skills).
+6. Smoke: interactive “the daily” (or equivalent) on a Mode C book with an option lot — prefer Indigo/BITQ. Capture narrator/Telegram text.
+7. System One: jev ask on (payload excerpt + narrator text) per ticket harness; write ecosystem/docs/analysis/… or attach on ticket.
+8. In-band wrap; push ecosystem main (no PR). Mark ticket Done / archive + INDEX when DoD met. Optional: python3 ecosystem/ecosystem_view/bin/index_work.
 
-DoD: smoke shows packaging fields from payload OR honest gap line; harness checkpoints pass; no Edge recompute / invent / confirm.
+DoD: smoke quotes packaging fields from payload (premium, expiry, contracts, cash outlay vs notional as labeled); share-only books stay quiet on LEAP lines; harness checkpoints pass; no invent / Edge recompute / confirm.
 ```
