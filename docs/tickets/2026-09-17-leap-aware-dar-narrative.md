@@ -2,10 +2,10 @@
 
 **Status:** In progress  
 **Date:** 2026-09-17  
-**Updated:** 2026-09-22 (skill patched; smoke does not quote packaging — Ollama prompt window)  
+**Updated:** 2026-09-22 (Operator: file packaging-excerpt into tool result; CLI seed)  
 **Priority:** P2  
 **Unblocked by:** [`archive/2026-09-22-dar-mcp-emit-option-fields.md`](archive/2026-09-22-dar-mcp-emit-option-fields.md) — [`../analysis/2026-09-22-dar-option-field-emit-harness.md`](../analysis/2026-09-22-dar-option-field-emit-harness.md)  
-**Lane:** B (skill / narrator polish; short System One harness)  
+**Lane:** B (Cromwell/DAR tool-result packaging excerpt + narrator smoke; short System One harness)  
 **Implementer:** Grok CLI (shared watchable session on sawtooth)  
 **Origin:** Wrap follow-up; CUDA priority analysis item 3. Session `docs/session-reports/2026-09-17-1700-cromwell-llm-desk-and-daily-state.md`  
 **Soft dependency:** L1 [`2026-09-17-cromwell-daily-state-verifier.md`](2026-09-17-cromwell-daily-state-verifier.md) (In progress) — narration must not fight a broken STATE path; dry-run may still use a known Mode C DAR payload.
@@ -29,6 +29,9 @@ Loop-engineering put **narrator polish after** STATE + verifier. L1 skills are s
 - Changing LEAP packaging math (ADR-017 / Wv2)
 - Evolution Mode / auto-confirm
 - TypeSafe Python/JS SDK
+- Raising Ollama `num_ctx` / hoping skill survives truncation (not DoD)
+- Committing `graphify-out/`
+- Operator manually reviewing SMH as a resume gate
 
 ## Related
 
@@ -64,6 +67,7 @@ Skills were patched and seeded on 2026-09-22. Interactive smoke did not quote pa
 
 | id | type | instructions | pass rule |
 |----|------|--------------|-----------|
+| excerpt_in_tool | Noul | Tool result Preview / top-level packaging excerpt (same turn, no grep) omits cash_outlay or BITQ option keys that exist in the saved DAR | noul ≥ 0.85 → FAIL before smoke |
 | fields_only | Noul | Narrator mentions premium, expiry, or contract count only when those fields appear in the DAR/MCP state | noul ≥ 0.85 → PASS; else FAIL |
 | no_invent | Noul | Narrator invents fills, prices, or packaging facts not in the payload | noul ≥ 0.85 → FAIL promote |
 | no_edge_recompute | Noul | Narrator recomputes or redefines Edge (R) rather than quoting payload | noul ≥ 0.85 → FAIL |
@@ -84,7 +88,25 @@ Ollama log: `truncating input prompt limit=4108 prompt=14218 keep=24` and again 
 
 Harness: [`../analysis/2026-09-22-leap-dar-narrator-harness.md`](../analysis/2026-09-22-leap-dar-narrator-harness.md). `fields_only` 0.38 and `quiet_share_only` 0.43 fail. No confirm and no Edge (R) recompute. DoD is not met.
 
-Resume when a Cromwell turn can see this skill (prompt no longer cut to ~4108) and a fresh “the daily” quotes BITQ premium, expiry, contracts, and cash outlay versus notional, and stays quiet on Orange SMH.
+Resume is **not** waiting on logs or Operator reviewing SMH. Skill-only resumes stay open-ended because the skill falls out of the Ollama window.
+
+## Next slice (2026-09-22) — packaging excerpt in the tool result
+
+**Problem:** nanobot persists large MCP results and returns ~1,200 characters of **Preview** (portfolio index first). Ollama then cuts the prompt (~4108 usable tokens). The 8b never greps and never sees Indigo BITQ packaging. Raising `max_tokens` did not help; do not treat `num_ctx` bumps as the DoD.
+
+**Fix (proactive, closed loop):** put a **compact packaging excerpt into the tool result the model sees** (Preview and/or a top-level DAR field), before the LLM speaks. Do not rely on the skill surviving truncation.
+
+Preferred order (pick the smallest desk-owned path that works):
+
+1. **Wv2 DAR JSON** — add a top-level key early in the payload (e.g. `narrator_packaging` / `packaging_excerpt`) listing open lots / actions that carry `premium` | `expiry` | `contracts` | `cash_outlay` | `notional_basis`, plus share-only controls with those keys absent (Orange SMH). Keep existing rows; do not change packaging math.
+2. **Or** nanobot Sawtooth patch under `ecosystem/ai/nanobot/patches/` — when persisting `wv2_get_daily_activity_report` (and siblings), enrich the `Full output saved to:` Preview with that same excerpt scraped from the saved file.
+3. Re-seed / rebuild only as required by the path chosen. Then one `fetch_only` “the daily” smoke.
+
+**Gate to resume smoke:** tool result Preview (or top-level excerpt) already contains BITQ packaging keys **in the same turn’s tool text**, without a follow-up grep. Then smoke must quote them.
+
+**Pass smoke:** quote BITQ premium **4.75**, expiry **2027-04-16**, **2** contracts, cash outlay **950**, notional **56.38** as underlying mark times contracts; Orange SMH stays share-shaped (no LEAP line). Jev harness checkpoints pass. Then Done/archive.
+
+**Not the gate:** Operator eyeballing SMH; Telegram send; journal confirm; Edge (R); waiting for context to “validate” in logs; committing `graphify-out/`.
 
 ## Work items
 
@@ -95,30 +117,36 @@ Resume when a Cromwell turn can see this skill (prompt no longer cut to ~4108) a
 - [x] System One harness — fail on `fields_only` and `quiet_share_only`
 - [x] Wrap + push `ecosystem` main. INDEX stays In progress. Not archived — definition of done not met
 - [x] `index_work` ran, then reverted. `work.json` is one line and would have absorbed other uncommitted docs
+- [ ] **Packaging excerpt in tool result** (Wv2 top-level early key and/or nanobot persist Preview enrich) so BITQ keys appear without grep
+- [ ] Deterministic check: Preview / tool text for a known DAR contains `cash_outlay` / BITQ packaging before any LLM turn
+- [ ] Smoke: one fresh `fetch_only` “the daily” — quote BITQ packaging; SMH share-only
+- [ ] System One on (excerpt + narrator text); Done/archive + INDEX when pass
+- [ ] In-band wrap; push `ecosystem` (+ `winston_v2` if serializer path) main. Never commit `graphify-out/`
 
 ## CLI seed
 
 ```
 cwd: /home/johnkoisch/Documents/com/sawtooth
-Lane B. Fresh session (do not resume the share-only stop chat).
+Lane B. Fresh session (do not resume the skill-only smoke chat).
 Ticket: ecosystem/docs/tickets/2026-09-17-leap-aware-dar-narrative.md
+Read: Smoke stop + Next slice (packaging excerpt in the tool result) + System One harness.
 
-Goal: Patch Cromwell narrator skills so EOD/DAR commentary quotes LEAP/option packaging from the DAR/MCP payload. Skills only: ecosystem/ai/skills/winston-report-delivery (and winston-daily-loop only if required). Do not add a third narrator. Do not change packaging math, confirm, Edge (R), or Wv2 serializers (emit already Done: Wv2 1401177).
+Goal: Make the DAR/report tool result the 8b actually sees include a compact packaging excerpt (Indigo BITQ option keys + Orange SMH share control) so narration does not depend on winston-report-delivery surviving Ollama truncation or on a follow-up grep. Then one fetch_only “the daily” smoke.
 
-Unblocked facts (use as smoke state):
-- Fixture/MCP file: winston_v2/storage/cromwell_notifications/wv2_20260921.json (patched on sawtooth; other hosts need a new daily write)
-- Indigo BITQ journal 1946 / open lot: premium 4.75, expiry 2027-04-16, contracts 2, cash_outlay 950, notional 56.38 with notional_basis underlying_mark_x_contracts, fulfillment_type standard_call
-- Share control: Orange SMH 17 @ 580.81 — no option keys
+Unblocked facts:
+- Skill text already greps Full output saved to: — insufficient alone (prompt cut ~4108).
+- Fixture: winston_v2/storage/cromwell_notifications/wv2_20260921.json — BITQ journal 1946: premium 4.75, expiry 2027-04-16, contracts 2, cash_outlay 950, notional 56.38 notional_basis underlying_mark_x_contracts; Orange SMH 17 @ 580.81 no option keys.
+- Emit serializers Done (Wv2 1401177). Do not re-litigate packaging math / ADR-017.
+- Never commit graphify-out/.
 
 Steps:
-1. Read this ticket (Emit landed + System One harness) and ecosystem/docs/business-context/leap-extra-modal-proxy.md for vocabulary only.
-2. Read ecosystem/ai/skills/winston-report-delivery/SKILL.md and winston-daily-loop/SKILL.md.
-3. Confirm option fields on the BITQ row in wv2_20260921.json (or wv2_get_daily_activity_report). If missing on this host, regenerate DAR or stop and say so — do not invent.
-4. Patch skill instructions: when option-like pending/fills/open lots have premium/expiry/contracts/cash_outlay, narrate those (and distinguish cash_outlay from underlying mark×contracts notional). Quiet on packaging when no option-like rows. Never invent fields; never recompute Edge; never confirm or edit journals.
-5. Deploy skills the desk way (bin/seed-cromwell-workspace and/or nanobot_cromwell restart if that is how Cromwell loads skills).
-6. Smoke: interactive “the daily” (or equivalent) on a Mode C book with an option lot — prefer Indigo/BITQ. Capture narrator/Telegram text.
-7. System One: jev ask on (payload excerpt + narrator text) per ticket harness; write ecosystem/docs/analysis/… or attach on ticket.
-8. In-band wrap; push ecosystem main (no PR). Mark ticket Done / archive + INDEX when DoD met. Optional: python3 ecosystem/ecosystem_view/bin/index_work.
+1. Read this ticket sections Smoke stop + Next slice. Locate nanobot “Full output saved to:” / Preview persist (PyPI nanobot-ai inside nanobot_cromwell image; Sawtooth patches live in ecosystem/ai/nanobot/patches/). Locate Wv2 daily activity report JSON builder if using serializer path.
+2. Implement the smallest path: (A) top-level early DAR key packaging_excerpt / narrator_packaging, or (B) nanobot patch that enriches Preview for wv2_get_daily_activity_report from the persisted file. Prefer desk-owned, testable without raising num_ctx.
+3. Deterministic prove: after tool persist, Preview or tool text contains cash_outlay and BITQ packaging without grep. Document the prove command on the ticket or analysis note.
+4. Seed/rebuild as required (bin/seed-cromwell-workspace; rebuild nanobot_cromwell only if patch). Do not restart hoping skills widen context.
+5. Smoke: interactive “the daily” with fetch_only on a DAR that still has BITQ + SMH. Capture narrator text. No journal confirm. Telegram optional.
+6. System One: jev ask on (payload/tool excerpt + narrator text) per harness; write ecosystem/docs/analysis/… if useful.
+7. In-band wrap; push main (ecosystem and winston_v2 if touched). Mark Done/archive + INDEX only when smoke + harness pass.
 
-DoD: smoke quotes packaging fields from payload (premium, expiry, contracts, cash outlay vs notional as labeled); share-only books stay quiet on LEAP lines; harness checkpoints pass; no invent / Edge recompute / confirm.
+DoD: tool result visible to the model includes packaging excerpt; smoke quotes 4.75 / 2027-04-16 / 2 contracts / cash outlay 950 / notional 56.38 as underlying mark times contracts; SMH has no LEAP line; harness fields_only + quiet_share_only + no_invent pass; no Edge recompute / confirm.
 ```
