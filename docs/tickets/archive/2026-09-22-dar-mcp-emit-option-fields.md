@@ -1,12 +1,12 @@
 # Ticket: DAR / pending MCP must emit option packaging fields
 
-**Status:** In progress  
+**Status:** Done  
 **Date:** 2026-09-22  
-**Updated:** 2026-09-22 (CLI dry-run Step 1 — In progress + seed)  
+**Updated:** 2026-09-22 (shipped — option rows emit stored packaging; share rows quiet; Jev pass)  
 **Priority:** P2  
 **Lane:** B (serializer projection; short System One harness)  
 **Implementer:** Grok CLI (shared watchable session; Winston Dev only if Operator reassigns)  
-**Origin:** Lane B stop on [`2026-09-17-leap-aware-dar-narrative.md`](2026-09-17-leap-aware-dar-narrative.md). Inventory: [`../analysis/2026-09-22-dar-mode-c-option-field-inventory.md`](../analysis/2026-09-22-dar-mode-c-option-field-inventory.md).  
+**Origin:** Lane B stop on [`../2026-09-17-leap-aware-dar-narrative.md`](../2026-09-17-leap-aware-dar-narrative.md). Inventory: [`../../analysis/2026-09-22-dar-mode-c-option-field-inventory.md`](../../analysis/2026-09-22-dar-mode-c-option-field-inventory.md). Harness: [`../../analysis/2026-09-22-dar-option-field-emit-harness.md`](../../analysis/2026-09-22-dar-option-field-emit-harness.md).  
 **DoD:** A Mode C Daily Analysis Report (DAR) row for an option-like fill or open lot carries the packaging fields already stored on the journal or position. Share-only rows omit them. Edge (R) is not recomputed. Packaging math, confirm, and journal edits do not change.
 
 ## Problem
@@ -81,11 +81,15 @@ Open-position `notional` today is `mark * units`. For option rows, keep that num
 
 ## Work items
 
-- [ ] Spec: option journal/position projects the table; stock row does not
-- [ ] Patch `DailyReportPayloadBuilder` and `serialize_pending_task`
-- [ ] Regenerate or fixture-compare one Mode C DAR slice (do not require a live Telegram send)
-- [ ] Jev on the excerpt
-- [ ] Hand parent [`2026-09-17-leap-aware-dar-narrative.md`](2026-09-17-leap-aware-dar-narrative.md) back to In progress
+- [x] Spec: option journal/position projects the table; stock row does not
+- [x] Patch `DailyReportPayloadBuilder` and `serialize_pending_task`
+- [x] Regenerate or fixture-compare one Mode C DAR slice (do not require a live Telegram send) — `wv2_20260921.json` patched in place; no Telegram
+- [x] Jev on the excerpt — pass; see harness analysis
+- [x] Hand parent [`../2026-09-17-leap-aware-dar-narrative.md`](../2026-09-17-leap-aware-dar-narrative.md) back to In progress
+
+## Result
+
+Indigo BITQ open row (journal 1946): premium 4.75, expiry 2027-04-16, contracts 2, cash_outlay 950, notional still 56.38 with `notional_basis` `underlying_mark_x_contracts`. Orange SMH 17 @ 580.81 omits option keys. Edge (R) not added. Narrator skills not edited.
 
 ## CLI seed
 

@@ -1,10 +1,10 @@
 # Ticket: LEAP-aware DAR / EOD narrative (MCP-grounded)
 
-**Status:** Blocked  
+**Status:** In progress  
 **Date:** 2026-09-17  
-**Updated:** 2026-09-22 (inventory stop — DAR is share-shaped; narration not patched)  
+**Updated:** 2026-09-22 (unblocked — DAR emits stored option fields; narrator skills not patched)  
 **Priority:** P2  
-**Blocked by:** [`2026-09-22-dar-mcp-emit-option-fields.md`](2026-09-22-dar-mcp-emit-option-fields.md) — [`../analysis/2026-09-22-dar-mode-c-option-field-inventory.md`](../analysis/2026-09-22-dar-mode-c-option-field-inventory.md)  
+**Unblocked by:** [`archive/2026-09-22-dar-mcp-emit-option-fields.md`](archive/2026-09-22-dar-mcp-emit-option-fields.md) — [`../analysis/2026-09-22-dar-option-field-emit-harness.md`](../analysis/2026-09-22-dar-option-field-emit-harness.md)  
 **Lane:** B (skill / narrator polish; short System One harness)  
 **Implementer:** Grok CLI (shared watchable session on sawtooth)  
 **Origin:** Wrap follow-up; CUDA priority analysis item 3. Session `docs/session-reports/2026-09-17-1700-cromwell-llm-desk-and-daily-state.md`  
@@ -38,7 +38,7 @@ Loop-engineering put **narrator polish after** STATE + verifier. L1 skills are s
 - ADR-017, `docs/business-context/leap-extra-modal-proxy.md`
 - Jev law: [`../business-context/jev-desk-guardrails.md`](../business-context/jev-desk-guardrails.md)
 - Inventory: [`../analysis/2026-09-22-dar-mode-c-option-field-inventory.md`](../analysis/2026-09-22-dar-mode-c-option-field-inventory.md)
-- Unblock: [`2026-09-22-dar-mcp-emit-option-fields.md`](2026-09-22-dar-mcp-emit-option-fields.md)
+- Unblock (Done): [`archive/2026-09-22-dar-mcp-emit-option-fields.md`](archive/2026-09-22-dar-mcp-emit-option-fields.md)
 
 ## Inventory stop (2026-09-22)
 
@@ -48,7 +48,13 @@ Indigo BITQ (position 889 / journal 1946) is 2 contracts, premium 4.75, expiry 2
 
 `winston-report-delivery` and `winston-daily-loop` were not edited. No Cromwell reseed. No Telegram smoke. Jev was not called: the harness compares narrator text to the payload, and there is no narrator text. The stop is the key walk in the analysis.
 
-Resume this ticket when a Mode C DAR or pending payload contains premium, expiry, contracts, and labeled cash. Then patch the existing narrator skills only.
+Resume condition met 2026-09-22. See Emit landed below. Patch the existing narrator skills only.
+
+## Emit landed (2026-09-22)
+
+The Daily Analysis Report (DAR) serializer now copies stored option packaging. Indigo BITQ (journal 1946) on the patched `wv2_20260921.json` and on a read-only builder slice: premium 4.75, expiry 2027-04-16, contracts 2, cash_outlay 950. Notional is still 56.38 and labeled `underlying_mark_x_contracts`. Orange SMH 17 @ 580.81 has no option keys. Edge (R) was not added. Jev checkpoints on that excerpt passed.
+
+`winston-report-delivery` and `winston-daily-loop` are still unedited. No Cromwell reseed. No new Telegram send. Next work on this ticket is the skill patch only, quoting fields that are on the payload.
 
 ## System One harness
 
@@ -71,11 +77,11 @@ Resume this ticket when a Mode C DAR or pending payload contains premium, expiry
 ## Work items
 
 - [x] Inventory option-like fields on a real Mode C DAR/MCP payload — **share-only** (2026-09-22)
-- [ ] Patch `ecosystem/ai/skills/winston-report-delivery/SKILL.md` (+ `winston-daily-loop` only if needed) — stopped until the emit ticket lands
+- [ ] Patch `ecosystem/ai/skills/winston-report-delivery/SKILL.md` (+ `winston-daily-loop` only if needed) — unblocked 2026-09-22; not started in the emit session
 - [ ] Seed Cromwell workspace / restart nanobot_cromwell if that is how skills ship
 - [ ] Smoke: interactive or EOD “the daily” on one Mode C LEAP draft
 - [ ] Run System One harness on smoke transcript vs payload — not run; no narrator text
-- [ ] Wrap + push `ecosystem` main; update INDEX → Done when DoD met — wrap of the stop only; status stays Blocked
+- [ ] Wrap + push `ecosystem` main; update INDEX → Done when DoD met — emit session set this ticket back to In progress; narrator DoD still open
 - [ ] Optional: `python3 ecosystem/ecosystem_view/bin/index_work` so WEV Monoliths sees status
 
 ## CLI seed

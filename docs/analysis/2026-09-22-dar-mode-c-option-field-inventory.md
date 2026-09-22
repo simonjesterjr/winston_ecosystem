@@ -1,11 +1,12 @@
 # Mode C DAR option-field inventory (2026-09-22)
 
-**Status:** Finding — share-shaped payload  
+**Status:** Historical finding — share-shaped payload before the emit  
 **Parent:** [`../tickets/2026-09-17-leap-aware-dar-narrative.md`](../tickets/2026-09-17-leap-aware-dar-narrative.md)  
-**Sibling (emit):** [`../tickets/2026-09-22-dar-mcp-emit-option-fields.md`](../tickets/2026-09-22-dar-mcp-emit-option-fields.md)  
-**Specimen:** `winston_v2/storage/cromwell_notifications/wv2_20260921.json` (`schema_version` 1.4, `date` 2026-09-21, `type` daily_complete). This file is what `wv2_get_daily_activity_report` returns.
+**Sibling (emit, Done):** [`../tickets/archive/2026-09-22-dar-mcp-emit-option-fields.md`](../tickets/archive/2026-09-22-dar-mcp-emit-option-fields.md)  
+**After:** [`2026-09-22-dar-option-field-emit-harness.md`](2026-09-22-dar-option-field-emit-harness.md)  
+**Specimen:** `winston_v2/storage/cromwell_notifications/wv2_20260921.json` (`schema_version` 1.4, `date` 2026-09-21, `type` daily_complete). This file is what `wv2_get_daily_activity_report` returns. The file was later patched in place; the key walk below is the before state.
 
-Narration was **not** patched. The Daily Analysis Report (DAR) has no structured option fields for the narrator to quote.
+Narration was **not** patched. At inventory time the Daily Analysis Report (DAR) had no structured option fields for the narrator to quote.
 
 ## Structured keys
 
