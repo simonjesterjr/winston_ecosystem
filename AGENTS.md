@@ -42,7 +42,7 @@ BG owns transport + Winston Broker Evidence Standard; **plans, interfaces, ADRs,
 
 ## Session workflow
 
-Desk process law: [`docs/business-context/winston-bot-cli-ai-dlc-contract.md`](docs/business-context/winston-bot-cli-ai-dlc-contract.md) (bots act / CLI codes / AI-DLC remembers / Jev judges; Lane A plan+Jev checkpoints; Lane B hotfixes; push/pull; shared Grok CLI session preferred).
+Desk process law: [`docs/business-context/winston-bot-cli-ai-dlc-contract.md`](docs/business-context/winston-bot-cli-ai-dlc-contract.md) (bots act / CLI codes / AI-DLC remembers / Jev judges). Jev usage: [`docs/business-context/jev-desk-guardrails.md`](docs/business-context/jev-desk-guardrails.md) (API vs jevctl; System One harness; when not to call Jev).
 
 End every substantive session with `/wrap` or `/session-report`. Skills in `.grok/skills/`:
 

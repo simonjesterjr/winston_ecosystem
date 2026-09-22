@@ -24,14 +24,14 @@ Always:
 
 1. **Ticket** first (INDEX row) before a second bot or any coding session.
 2. **Plan** in `ecosystem/plans/` (or ticket-linked plan section) — grill-with-docs against CONTEXT / ADRs / business-context.
-3. **Jev System One evaluative tests** written into the plan as explicit checkpoints (yes/no or noul questions on observable state), e.g. heat intent vs hash, peak open vs portfolio cap, packaging floor contracts, Edge_R present.
+3. **Jev System One harness** written into the plan (state + atomic checkpoints + pass rules) — see jev-desk-guardrails (yes/no or noul questions on observable state), e.g. heat intent vs hash, peak open vs portfolio cap, packaging floor contracts, Edge_R present.
 4. **Implementer = Grok CLI only.** Winston Dev is **not** used on Lane A.
 5. Checkpoints run at plan gates (before code, after implement, before host promote / pull DoD). Fail closed → stop and update ticket.
 
 ### Lane B — Unplanned small (hotfix / `docs/issues/` / sufficiently small)
 
 1. Still open or update a **ticket** (or promote a ready issue → ticket) before a second actor.
-2. Ticket must list **System One checks / checkpoints** (even if short): what Jev or probe must answer before “done.”
+2. Ticket must list a short **System One harness** (state + checks): what Jev or probe must answer before “done.” Skip only for trivial doc renames.
 3. **Winston Dev may implement** Lane B. Grok CLI may also implement Lane B. Never both on the same ticket unless Operator splits scope in writing.
 4. No full plan required; still wrap in-band with the coding commit stream.
 
@@ -86,6 +86,8 @@ Overnight Loop evaluates ripe INDEX tickets (and linked issues):
 Morning Loop surfaces those proposals in one short block.
 
 ## Jev chokepoints (standing)
+
+Full guardrails: [`jev-desk-guardrails.md`](jev-desk-guardrails.md) (API vs `jevctl`, harness shape, anti-oversell).
 
 1. **Screen** — new/updated ticket text; overnight research claims.
 2. **Verify** — autopsy conclusions; promote language.
