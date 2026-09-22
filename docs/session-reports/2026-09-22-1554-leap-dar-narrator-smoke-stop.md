@@ -47,12 +47,13 @@
 
 ### Commits
 
-- Pending wrap commit on `ecosystem` `main`.
+- `a543a4e` — Narrator skill quotes option packaging; smoke still blocked
+- Follow-up wrap commit — graph merge note in this report. Follow-ups skipped.
 
 ### Branch / PR state at sign-off
 
 - Branch: `ecosystem` `main` — other unrelated dirty files left unstaged
-- Pushed: after this commit, `main` only
+- Pushed: yes, `main`
 - PR: not opened
 
 ---
@@ -146,7 +147,7 @@
 ## 13. Tools & Workflow Notes
 
 - **Skills used:** operator-prose, session-report, wrap (in-band; no archive)
-- **Graphify Graph:** updated locally at `ecosystem/graphify-out` (not committed). Community labels are stale (`graphify label` not run).
+- **Graphify Graph:** `graphify update ./ecosystem` (local, not committed). Workspace merge of ecosystem, data_manager, winston_unit_test, broker_gateway, and ai → `graphify-out/graph.json` (21264 nodes). Winston v2 graph missing, omitted. Shrink-guard did not refuse. `graphify label` not run.
 - **Ponytail flags:** none. No new helper. The packaging rules live only in `winston-report-delivery`; daily-loop points at them.
 - **What worked well:** The saved JSON on this host already has the option fields. `fetch_only` avoided Daily Analysis.
 - **Friction points:** The 8b answers from the 1,200-character preview. The skill never enters the kept prompt.
