@@ -1,6 +1,6 @@
 # Ticket: Mode C LEAP stop-out must book option mark, not underlying Working Stop
 
-**Status:** In progress  
+**Status:** Done  
 **Priority:** P0  
 **Date:** 2026-09-20  
 **Mode:** contractor  
@@ -9,8 +9,9 @@
 **Lane:** B (sharp DoD; System One harness below)  
 **Human gates:** Mode C paper Operational Portfolios (OPs) already hold Long-term Equity Anticipation Security (LEAP) lots; do not Desk-Send options  
 **DoD:** Stop-out of an option-packaged lot journals sell-to-close at **option mark** (Client Portal Gateway last/mid, else last stamped premium). `fulfillment_details["exit_at_stop"]=true`. Cash = contracts × mark × 100. Working Stop stays on the **underlying** (signal) and is **not** the fill price. Spec `mode_c_paper_leap_spec` Exit STC green.  
-**Origin:** Wrap [`../session-reports/2026-09-20-1140-standard-call-packaging-rung.md`](../session-reports/2026-09-20-1140-standard-call-packaging-rung.md) §14; failing spec `winston_v2/spec/integration/mode_c_paper_leap_spec.rb` Exit STC  
-**Related:** [`2026-09-15-wv2-leap-packaging-fields.md`](2026-09-15-wv2-leap-packaging-fields.md) (DoD item 6 marked done — **not true on `main` ad-hoc path**); ADR-013 extra-modal HITL; [`leap-extra-modal-proxy.md`](../business-context/leap-extra-modal-proxy.md)
+**Origin:** Wrap [`../../session-reports/2026-09-20-1140-standard-call-packaging-rung.md`](../../session-reports/2026-09-20-1140-standard-call-packaging-rung.md) §14; failing spec `winston_v2/spec/integration/mode_c_paper_leap_spec.rb` Exit STC  
+**Related:** [`../2026-09-15-wv2-leap-packaging-fields.md`](../2026-09-15-wv2-leap-packaging-fields.md) (DoD item 6 was wrong on the ad-hoc path; closed here); ADR-013 extra-modal HITL; [`../../business-context/leap-extra-modal-proxy.md`](../../business-context/leap-extra-modal-proxy.md)  
+**Closed:** 2026-09-22. `OptionMark.for_position(live: true)` — Client Portal Gateway mid (`cpgw_mid`), else last (`cpgw_last`), else stamped premium (`stamped`). Ceiling: `option_candidates` is furthest-month at-the-money three strikes, not a quote by Contract Identity.
 
 ## Why P0
 
@@ -33,14 +34,14 @@ Draft-confirm path does stamp `exit_at_stop` but still passes `execution_price: 
 
 ## Acceptance
 
-- [ ] Ad-hoc LEAP stop-out: `exit_at_stop=true`, fill = option mark, flow = contracts × mark × 100  
-- [ ] Underlying Working Stop recorded beside, not as premium  
-- [ ] `mode_c_paper_leap_spec` Exit example green  
-- [ ] Stock exit-at-stop regression still green
+- [x] Ad-hoc LEAP stop-out: `exit_at_stop=true`, fill = option mark, flow = contracts × mark × 100  
+- [x] Underlying Working Stop recorded beside, not as premium  
+- [x] `mode_c_paper_leap_spec` Exit example green  
+- [x] Stock exit-at-stop regression still green
 
 ## System One harness
 
-**State:** Ticket DoD; failing/near-fail path in `winston_v2/spec/integration/mode_c_paper_leap_spec.rb` Exit STC; `ExitAtStopService#exit_one` → `AdHocExitService` with `price: stop_price` today; law in `leap-extra-modal-proxy.md` (Working Stop signals; fill = option mark).
+**State:** Done 2026-09-22. Pre-fix, `ExitAtStopService#exit_one` called `AdHocExitService` with `price: stop_price` and did not stamp `exit_at_stop`. Law in `leap-extra-modal-proxy.md`: Working Stop signals; fill is the option mark. Specs now green (stamped, Client Portal Gateway mid, Client Portal Gateway last, draft confirm, stock regression).
 
 **Checkpoints:**
 

@@ -36,7 +36,6 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
 | P0 | In progress | [`2026-09-21-wut-heat-on-rst-portfolio-limit-bypass.md`](2026-09-21-wut-heat-on-rst-portfolio-limit-bypass.md) | WUT heat-ON RST bypasses combined portfolio_limit — draft WUT [#55](https://github.com/simonjesterjr/winston_unit_test/pull/55) — [autopsy](../analysis/2026-09-21-teal-heat-on-dd-autopsy-763-764.md) |
-| P0 | In progress | [`2026-09-20-mode-c-leap-exit-at-stop-option-mark.md`](2026-09-20-mode-c-leap-exit-at-stop-option-mark.md) | Mode C LEAP stop-out books option mark, not underlying Working Stop — [wrap](../session-reports/2026-09-20-1140-standard-call-packaging-rung.md) |
 | P1 | In progress | [`2026-09-18-cpgw-host-lifecycle-in-ecosystem.md`](2026-09-18-cpgw-host-lifecycle-in-ecosystem.md) | CPGW host lifecycle (restart / systemd / HTTP helper) — CLI restart + control service for Desk/BG/Wv2 |
 | P1 | Proposed | [`2026-09-18-wut-macd-confirm-and-trend-phase-pyramid.md`](2026-09-18-wut-macd-confirm-and-trend-phase-pyramid.md) | WUT MACD confirmational + trend-phase pyramid geometry (new PBR feature) |
 | P1 | In progress | [`2026-09-17-mode-c-new-books-pcs-60-90.md`](2026-09-17-mode-c-new-books-pcs-60-90.md) | Mode C new books — Copper/Slate live; Indigo/Teal **evolved** (see 2026-09-18 ticket) |
