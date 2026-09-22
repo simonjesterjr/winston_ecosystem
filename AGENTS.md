@@ -42,6 +42,8 @@ BG owns transport + Winston Broker Evidence Standard; **plans, interfaces, ADRs,
 
 ## Session workflow
 
+Desk process law: [`docs/business-context/winston-bot-cli-ai-dlc-contract.md`](docs/business-context/winston-bot-cli-ai-dlc-contract.md) (bots act / CLI codes / AI-DLC remembers / Jev judges; Lane A plan+Jev checkpoints; Lane B hotfixes; push/pull; shared Grok CLI session preferred).
+
 End every substantive session with `/wrap` or `/session-report`. Skills in `.grok/skills/`:
 
 | Skill | Use |
@@ -58,6 +60,7 @@ End every substantive session with `/wrap` or `/session-report`. Skills in `.gro
 | `/grill-with-docs` | Stress-test a plan against CONTEXT.md and ADRs |
 | `graphify-ponytail` | Query Graphify Graph, then Ponytail to collapse duplicates (ADR-014) |
 | `/ponytail` | Parsimonious code (YAGNI, stdlib first). Grok plugin: `/ponytail`, `/ponytail-review`, `/ponytail-audit` |
+| `/ponytail-apply` | File last audit as tickets (title contains `ponytail`), then apply |
 | `/ibkr-cpgw` | Client Portal Gateway up / paper SSO / keep-alive window / down |
 | `/lab-sweep` | Lab eval cells via Shell/MCP; default smoke; `FULL=1` UAT opt-in |
 | `/edge-scorecard` | Rank completed lab cells by Edge (R) |
