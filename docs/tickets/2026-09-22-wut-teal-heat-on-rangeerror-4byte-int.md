@@ -1,6 +1,6 @@
 # Ticket: WUT Teal/Orange heat-ON PBRs hit ActiveModel::RangeError (4-byte integer)
 
-**Status:** Proposed  
+**Status:** Fixed in code — operator restamp pending (do not requeue 767–771)  
 **Priority:** P1  
 **Date:** 2026-09-22 (scope expanded 2026-09-23)  
 **Mode:** contractor  
@@ -46,11 +46,22 @@ Teal four: `$30k`, TurtleV1 S1 / TS75, `leap_fulfillment=all`, `heat_mode=turtle
 
 ## Work items
 
-- [ ] Identify which ActiveRecord attribute receives ~5.7e18 / ~1.1e19 (probe hypothesis above; get app frames)
-- [ ] Fix: fail-closed before save and/or widen where safe; job must not retry forever
-- [ ] Spec reproducing RangeError on heat-ON Teal-class **and** Orange-class persist
-- [ ] Do not auto-requeue #767–#770 or #771; Operator decides after fix
-- [ ] In-band wrap + push WUT main
+- [x] Identify which ActiveRecord attribute receives ~5.7e18 / ~1.1e19 (probe hypothesis above; get app frames)
+- [x] Fix: fail-closed before save and/or widen where safe; job must not retry forever
+- [x] Spec reproducing RangeError on heat-ON Teal-class **and** Orange-class persist
+- [x] Do not auto-requeue #767–#770 or #771; Operator decides after fix
+- [x] In-band wrap + push WUT main
+
+## Result (2026-09-23, Grok CLI)
+
+**Column:** `passed_signals.would_have_units` (postgres `integer`, 4 bytes). The specimen is the uncapped share count `floor(risk_dollars / (atr × atr_multiplier))`, written by `PortfolioBacktestRunner#record_passed_signal` on arm-refuse / cash-skip before a LEAP save. LEAP `positions.units` stores contracts (`shares / 100`); `floor(5742089524897382400 / 100)` is a different integer, so the stored error text is not that column. `paper_orders.quantity` was not in play (`paper_run_id` null). The 2% value exceeds signed bigint, so the column was not widened.
+
+**Fix:** refuse the entry (`units: 0`, reason `units_out_of_range`) in `EntryRequirementCalculator`, `PositionManager` (shares and contracts), and the passed-signal / paper-order writes. `PortfolioBacktestJob` `discard_on ActiveModel::RangeError` so a residual overflow is marked failed and is not re-raised into the Sidekiq retry set.
+
+**System One (jevctl `jev ask`, model jev-1.13.0):**
+- `overflow_column` choice=`identified_bigint_or_units_candidate` confidence=1.0 (pass ≥ 0.7)
+- `no_retry_storm` noul=0.92 (pass ≥ 0.85)
+- `teal_or_orange_cell_completes_or_clean_fail` noul=0.33 after the insert spec (fail < 0.8). Specimens were not restamped. Operator decides after this fix is on main.
 
 ## System One harness
 
