@@ -1,8 +1,8 @@
 # Session Report — WUT RangeError 4-byte units
 
 **Date:** 2026-09-23
-**Time:** ~08:20–09:05 MDT
-**Duration:** ~45m
+**Time:** ~08:20–10:00 MDT
+**Duration:** ~1h 40m
 **Project:** winston_unit_test (ticket in ecosystem)
 **Working directory:** /home/johnkoisch/Documents/com/sawtooth/winston_unit_test
 **Branch:** main (started from `a4565e2`)
@@ -29,6 +29,7 @@
 - Specs for the calculator, pass reason, position manager, job, and the specimen insert.
 - System One via `jev ask`: column and retry checkpoints pass; live-cell checkpoint does not.
 - Updated the ecosystem ticket. Did not requeue 767–771.
+- Restarted `winston_unit_test` and `winston_unit_test_sidekiq` at 09:14 MDT so the running processes loaded the fix. PBR 771’s show page still renders the stored 2026-09-22 failure.
 
 ---
 
@@ -99,7 +100,7 @@
 
 ### Deferred
 - Operator restamp of Teal heat-ON and Orange #771. Jev `teal_or_orange_cell_completes_or_clean_fail` noul was 0.33. Do not requeue until the operator says so.
-- `db/schema.rb` on main is still version `2026_08_21_180000` while migration `20260916120000_add_option_aware_metrics_to_portfolio_backtest_runs` is pending. Applying it to the test database rewrote `schema.rb`; that hunk was reverted and is not in this commit.
+- `db/schema.rb` on main is still version `2026_08_21_180000` while migration `20260916120000_add_option_aware_metrics_to_portfolio_backtest_runs` is pending. Applying it to the test database rewrote `schema.rb`; that hunk was reverted and is not in this commit. Filed: [`../../../winston_unit_test/docs/tickets/2026-09-23-wut-schema-rb-option-aware-metrics.md`](../../../winston_unit_test/docs/tickets/2026-09-23-wut-schema-rb-option-aware-metrics.md).
 
 ---
 
@@ -113,6 +114,7 @@
 | Retry | `PortfolioBacktestJob.perform_now` forced RangeError | ✅ no raise, run `failed` |
 | Neighbors | LEAP journal, LEAP fulfillment, RST arm, next-open, fill-relative stop | ✅ 49 examples, 0 failures (`RUBYOPT=-rostruct`) |
 | Live cell | Restamp of 767–771 | ❌ not run |
+| Compose | Restart web + Sidekiq; `GET /wut/portfolio_backtest_runs/771` | ✅ 200. Page still shows stored `5742089524897382400` RangeError |
 | Jev | `jev ask` jev-1.13.0 | column confidence 1.0; retry noul 0.92; cell noul 0.33 |
 
 **Test command(s):** `podman exec -e RAILS_ENV=test -e TEST_DB_HOST=wut_postgres -w /app winston_unit_test bundle exec rspec` on the files above. Host `bundle exec rspec` cannot reach Postgres on port 5432 (WUT is on host port 5433 / container hostname `wut_postgres`).
@@ -122,7 +124,7 @@
 ## 8. Environment, Dependencies, Data
 
 - **Dependencies:** none
-- **Services:** existing compose (`winston_unit_test`, `wut_postgres`). Test database migrated `20260916120000` so specs could boot. `db/schema.rb` was not committed.
+- **Services:** existing compose (`winston_unit_test`, `wut_postgres`). Test database migrated `20260916120000` so specs could boot. `db/schema.rb` was not committed. Web and Sidekiq restarted 09:14 MDT; both running. Sidekiq boot enqueued the usual `DmRegistrySyncJob`. No `PortfolioBacktestJob` was in the retry set.
 - **Migrations:** none added
 
 ---
@@ -143,23 +145,23 @@
 
 ## 11. Handoff & Resume Notes
 
-- **Where I left off:** Fix is ready to commit and push on WUT main. Ticket updated. Cells not requeued.
-- **Next concrete step:** Operator restamps one Teal or Orange cell and confirms it finishes or fails once without `ActiveModel::RangeError`.
+- **Where I left off:** Fix is on `winston_unit_test` `a30e228` and ecosystem `f6b0ceb`. Containers restarted. PBR 771 still displays the stored failure. Cells not requeued.
+- **Next concrete step:** Operator restamps one Teal or Orange cell and confirms it finishes or fails once without `ActiveModel::RangeError`. Restart already happened, so a restamp will run the new code.
 - **Files to read first:** `app/services/portfolio_backtest/persistable_integer.rb`, `app/services/portfolio_backtest_runner.rb` (`record_passed_signal`), the ecosystem ticket.
 
 ---
 
 ## 12. Stakeholder Communications
 
-- Operator: fix is on main after the wrap push. PBRs 767–771 were not requeued. A live cell was not replayed (Jev noul 0.33 on that checkpoint).
+- Operator: fix is on main. Web and Sidekiq were restarted. [PBR 771](https://sawtooth-ai.tail944ffb.ts.net/wut/portfolio_backtest_runs/771) still shows the stored RangeError until that run is restamped. PBRs 767–771 were not requeued.
 
 ---
 
 ## 13. Tools & Workflow Notes
 
 - **Skills used:** lightweight-bug-fix, graphify query (then file read), wrap / session-report, jevctl `jev ask` (no TypeSafe Python SDK).
-- **Graphify Graph:** updated `winston_unit_test/graphify-out` (4528 nodes). Workspace merge wrote `sawtooth/graphify-out/graph.json` (21304 nodes, 5 graphs; winston_v2 graph absent). Not committed.
-- **Ponytail flags:** `PersistableInteger` is new. The updated graph shows it only beside `.overflow?` / `.storable` under `PortfolioBacktest`. No existing units-range helper to collapse into.
+- **Graphify Graph:** WUT code graph left at the earlier refresh this session (4528 nodes; no code change since `a30e228`). Ecosystem `graphify update` rebuilt 12576 nodes / 928 communities. Workspace merge wrote `sawtooth/graphify-out/graph.json` (18583 nodes, 22917 edges; 5 graphs, winston_v2 graph absent). Not committed.
+- **Ponytail flags:** `PersistableInteger` is new. The WUT graph shows it only beside `.overflow?` / `.storable` under `PortfolioBacktest`. No existing units-range helper to collapse into. No new helper in the restart slice.
 - **What worked well:** The 2× risk relationship plus LEAP `shares/100` distinguished `would_have_units` from `positions.units` without an app frame.
 - **Friction points:** Host rspec hits port 5432; tests need the compose test database. `schema.rb` was one version behind a committed migration.
 - **Subagent usage:** none
@@ -168,8 +170,8 @@
 
 ## 14. Follow-up Actions
 
-- [ ] Operator restamp of Teal heat-ON or Orange #771 after this push — owner: Operator — due: when they choose
-- [ ] Optional: commit the pending option-aware columns into `db/schema.rb` so test boot does not see a pending migration — owner: next WUT session — due: whenever schema drift is cleaned up
+- [ ] Operator restamp of Teal heat-ON or Orange #771 after this push — owner: Operator — due: when they choose. Already the human gate on [`../tickets/2026-09-22-wut-teal-heat-on-rangeerror-4byte-int.md`](../tickets/2026-09-22-wut-teal-heat-on-rangeerror-4byte-int.md). No second ticket.
+- [ ] Commit the pending option-aware columns into `db/schema.rb` — owner: next WUT session. See [`../../../winston_unit_test/docs/tickets/2026-09-23-wut-schema-rb-option-aware-metrics.md`](../../../winston_unit_test/docs/tickets/2026-09-23-wut-schema-rb-option-aware-metrics.md).
 
 ---
 
