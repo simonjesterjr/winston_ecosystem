@@ -19,6 +19,21 @@
 - **Code surface (BG OPT intent / fixture / read resolve):** largely landed in prior sessions (see session report + standard-call ticket note that BG refuses option intent without `conid`). Re-verify acceptance boxes below before marking Done; do **not** invent accepted live order ids.
 - **Still open for Done:** live human-gated Day LMT print on paper DUT + Accept-Fill at option print + Book on underlying + grill/SC/1×1 checked. STP/GTC probes remain **logged probes** (may refuse) — do not block Done if Day LMT accept is recorded.
 
+## Evidence — Day LMT probe rejected (2026-09-23 12:19 MT)
+
+- **Binding:** `bnd_3d6a5020d839c315583277d2`
+- **Instrument:** IBM SEP17'27 240 Call, conid `911969657`, limit `35.55`
+- **Client order key:** `opt-prove-ibm-911969657-20260923121940`
+- **Result:** BG returned `rejected` with HTTP status `200`.
+- **Accept-Fill:** not reached; no accepted order id or print evidence exists.
+- **Ticket:** remains **In progress**. No order was placed by this documentation update.
+
+Full BG error JSON:
+
+```json
+{"binding_id":"bnd_3d6a5020d839c315583277d2","status":"rejected","error":"You are submitting an order without market data. We strongly recommend against this as it may result in erroneous and unexpected trades.\nAre you sure you want to submit this order? | \"BUY 1 IBM SEP 17 '27 240 Call @ 35.55\"\nYou are not able to submit this order because you do not have trading permissions for this options strategy.","order":{"ok":false,"mode":"live","order_type":"LMT","client_order_key":"opt-prove-ibm-911969657-20260923121940","conid":"911969657","asset_class":"option","symbol":"IBM","side":"BUY","quantity":"1","status":"rejected","error":"...same...","http_status":200}}
+```
+
 ## Problem
 
 `PlaceOrderService` pass-through + IBKR adapter `resolve_conid` prefers NYSE/NASDAQ **stock** unless `intent["conid"]` is present. OPT Desk Send cannot be honest until OPT intents **require** conid, evidence records `asset_class`/conid, and paper prove shows one OPT print.
