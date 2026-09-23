@@ -1,0 +1,41 @@
+{
+  "glanced_at": "2026-09-23T08:10:00-06:00",
+  "source": "Lane B Grok CLI seed prep \u2014 read-only PortfolioBacktestRun#771 + results_json via compose exec winston_unit_test",
+  "pbr_771": {
+    "id": 771,
+    "status": "failed",
+    "portfolio_id": 35,
+    "risk_pct": 0.01,
+    "updated_at": "2026-09-22T23:53:41.993542Z",
+    "cell_key": "orange_rst_turtle_r01_leap30k_20260922",
+    "experiment": "strategy77_rst_parity_v1",
+    "current_date": "2025-05-23",
+    "operator_stop": null,
+    "error_class": "ActiveModel::RangeError",
+    "error_message": "5742089524897382400 is out of range for ActiveModel::Type::Integer with limit 4 bytes",
+    "backtrace_note": "results_json error string includes truncated ActiveRecord INSERT/_create_record frames (ensure_in_range \u2192 serialize) before app frames; Sidekiq DeadSet/RetrySet had no RangeError rows at glance"
+  },
+  "overflow_values": {
+    "teal_767_768_r02": "11484179049794764800",
+    "teal_769_770_and_orange_771_r01": "5742089524897382400",
+    "r02_equals_exact_2x_r01": true,
+    "fits_signed_int32": false,
+    "fits_signed_int64_r01": true,
+    "fits_signed_int64_r02": false
+  },
+  "column_hypothesis": {
+    "best": [
+      "positions.units",
+      "paper_orders.quantity",
+      "passed_signals.would_have_units"
+    ],
+    "rationale": "exact 2\u00d7 with risk 2% vs 1%; INSERT on create during day advance; absurd as share counts \u2192 risk_dollars / near-zero stop_distance smell"
+  },
+  "do_not_requeue": [
+    767,
+    768,
+    769,
+    770,
+    771
+  ]
+}

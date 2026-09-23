@@ -1,0 +1,23 @@
+
+cwd: /home/johnkoisch/Documents/com/sawtooth/winston_unit_test
+Lane B hotfix. Ticket: /home/johnkoisch/Documents/com/sawtooth/ecosystem/docs/tickets/2026-09-22-wut-teal-heat-on-rangeerror-4byte-int.md
+Implementer = Grok CLI only (not Winston Dev).
+
+Problem: ActiveModel::RangeError on Integer limit 4 bytes during PortfolioBacktestRunner persist/create.
+Specimens (do NOT requeue):
+  Teal #767/#768 → 11484179049794764800 (r02 / 2%)
+  Teal #769/#770 + Orange #771 → 5742089524897382400 (r01 / 1%)
+Exact 2× relationship ⇒ risk-scaled units/quantity smell.
+Orange #771 results_json has truncated INSERT backtrace (ensure_in_range → _create_record); column not yet named.
+
+Do:
+1. Read this ticket (hypothesis + System One harness) and evidence JSONs under ecosystem/docs/analysis/.
+2. Identify overflowing attribute (start: positions.units, paper_orders.quantity, passed_signals.would_have_units; PositionManager sizing ÷ stop_distance).
+3. Prefer fail-closed guard before save (Teal 2% value exceeds signed bigint). Widen only if still correct semantically.
+4. Failing spec first; then minimal fix; stop Sidekiq retry storms.
+5. Use jevctl for System One checks (no TypeSafe Python SDK). jev ask only for residual harness smell.
+6. In-band wrap + push winston_unit_test main. Update ecosystem ticket status if you touch docs. Never commit graphify-out/.
+7. Do not requeue 767–771; Operator decides after fix lands.
+
+DoD: column identified; RangeError cannot infinite-retry; specs green; push main.
+
