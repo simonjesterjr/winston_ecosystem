@@ -69,3 +69,8 @@ Push winston_unit_test main. Never commit graphify-out/.
 - Re-running #767–#770 before the overflow is fixed
 - Changing turtle heat doctrine or Mode C Teal book weights
 - Touching Orange #771 faithful-sim
+
+## Overnight observation (2026-09-22 ~22:15 MT) — propose only
+
+Read-only WUT glance during Loop B: **Orange PBR #771** (`orange_rst_turtle_r01_leap30k_20260922`, portfolio 35) is now **`failed`** with the same `ActiveModel::RangeError` value class as Teal 1% cells (`5742089524897382400…`), updated ~2026-09-22 17:53 MT. No `operator_stop` on #771. **I did not requeue** Teal or Orange. Morning: Operator may widen this ticket’s specimens to include #771 or file a sibling — still fail-closed until bigint/guard ships.
+
