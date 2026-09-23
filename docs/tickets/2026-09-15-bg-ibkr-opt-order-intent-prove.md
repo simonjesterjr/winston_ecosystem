@@ -223,3 +223,18 @@ You are submitting an order without market data. We strongly recommend against t
 Are you sure you want to submit this order? | "BUY 1 IBM JUN 17 '27 240 Call @ 30.55"
 You are not able to submit this order because you do not have trading permissions for this options strategy.
 ```
+
+
+## Evidence — third probe: Day MKT rejected (~2026-09-23 12:50 MT)
+
+- **Operator-run order:** Day MKT on paper DUT; the agent did not Send.
+- **Instrument:** IBM JUN17'27 240 Call, conid `846858414`
+- **Order:** `order_type=MKT`, `tif=DAY`, `qty=1`, `side=BUY`
+- **Client order key:** `ibm-opt-prove-jun27-240c-mkt-1`
+- **Binding:** `bnd_3d6a5020d839c315583277d2`
+- **Result:** rejected with the same dual error: market-data warning plus no trading permissions for this options strategy.
+- **Classification:** LMT vs MKT does not matter; the hard blocker is options-strategy permission on paper DUT.
+- **Accept-Fill:** not reached; no accepted `oid` exists.
+- **Ticket:** remains **In progress**.
+
+Broker error text remained the same: an order-without-market-data warning followed by `You are not able to submit this order because you do not have trading permissions for this options strategy.`
