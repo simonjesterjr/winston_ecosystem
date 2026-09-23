@@ -207,3 +207,19 @@ Operator-only. Agents never Desk-Send options. Maps **1:1** to Acceptance boxes 
 | | BG fail-closed on post-accept system-cancel (separate slice) |
 
 **Do not mark Done** until a real accepted order id + print/Accept-Fill evidence exists. Permission Done alone is not ticket Done.
+
+## Evidence — second Day LMT probe rejected (~2026-09-23 12:28 MT)
+
+- **Instrument:** IBM JUN17'27 240 Call, conid `846858414`, limit `30.55`
+- **Client order key:** `ibm-opt-prove-jun27-240c-1`
+- **Result:** BG rejected the probe with the same dual error: no market-data confirmation and no trading permission for this options strategy.
+- **Accept-Fill:** not reached; no accepted order id or print evidence exists.
+- **Ticket:** remains **In progress**. No order was placed by this documentation update.
+
+Broker error text:
+
+```text
+You are submitting an order without market data. We strongly recommend against this as it may result in erroneous and unexpected trades.
+Are you sure you want to submit this order? | "BUY 1 IBM JUN 17 '27 240 Call @ 30.55"
+You are not able to submit this order because you do not have trading permissions for this options strategy.
+```
