@@ -1,6 +1,6 @@
 # Ticket: Shares-only TS75 modified-heat bakeoff (caps 3/10)
 
-**Status:** In progress  
+**Status:** Done — readout 2026-09-24 (no clear heat-knob win)  
 **Priority:** P1  
 **Date:** 2026-09-24  
 **Lane:** B (matrix design + stamp script; Ops stamps — CoS does not enqueue)  
@@ -173,3 +173,43 @@ System One: checkpoints 1–4 and 6–7 above before walking away overnight
 - Heat bypass P0 / WUT #55: [`2026-09-21-wut-heat-on-rst-portfolio-limit-bypass.md`](2026-09-21-wut-heat-on-rst-portfolio-limit-bypass.md)
 - RangeError P1: [`2026-09-22-wut-teal-heat-on-rangeerror-4byte-int.md`](2026-09-22-wut-teal-heat-on-rangeerror-4byte-int.md)
 - Desk stop law: [`../business-context/exit-and-protective-stop-desk-law.md`](../business-context/exit-and-protective-stop-desk-law.md)
+
+
+## Results (2026-09-24 CoS watch — PBRs 788–795)
+
+All 8 cells `completed`. Experiment `shares_ts75_mod_heat_bakeoff_20260924`. No RangeError / operator_stop.
+
+### Jev System One harness
+
+| # | Checkpoint | Result |
+|---|------------|--------|
+| 1 | Heat hash non-empty | **pass** (`heat_enabled?` true; knobs present) |
+| 2 | Knobs 3/6/10/10 + unit_risk_fraction = risk | **pass** |
+| 3 | `leap_fulfillment` omitted | **pass** |
+| 4 | Caps 3/10 | **pass** |
+| 5 | All 8 completed | **pass** |
+| 6 | No RangeError / operator_stop | **pass** |
+| 7 | Peak open ≤ 10 | **pass** (max observed 9) |
+
+### Scoreboard
+
+| PBR | Book | Risk | TR% | DD% | Ret/DD | Edge_R | PF | Trades | peak_open | Heat | vs control |
+|-----|------|------|-----|-----|--------|--------|----|--------|-----------|------|------------|
+| 788 | Blue | 1% | 51.73 | 22.95 | 2.254 | **0.0879** | 1.22 | 468 | 9 | 3/6/10/10 turtle | = #772 |
+| 789 | Blue | 2% | 96.99 | 26.97 | 3.596 | **0.0981** | 1.29 | 394 | 8 | 3/6/10/10 turtle | = #773 |
+| 790 | Indigo | 1% | 45.91 | 23.97 | 1.916 | **0.0919** | 1.35 | 316 | 9 | 3/6/10/10 turtle | = #776 |
+| 791 | Indigo | 2% | 82.82 | 24.86 | 3.331 | **0.1138** | 1.53 | 256 | 8 | 3/6/10/10 turtle | = #777 |
+| 792 | Teal | 1% | −53.08 | 56.44 | −0.941 | **−0.1676** | 0.65 | 406 | 9 | 3/6/10/10 turtle | = #780 |
+| 793 | Teal | 2% | −3.33 | 42.06 | −0.079 | **0.0769** | 0.97 | 336 | 7 | 3/6/10/10 turtle | = #781 |
+| 794 | Copper | 1% | 168.55 | 16.32 | 10.327 | **0.311** | 1.73 | 550 | 9 | 3/6/10/10 turtle | = #784 |
+| 795 | Copper | 2% | 215.98 | 22.70 | 9.514 | **0.2697** | 1.69 | 435 | 9 | 3/6/10/10 turtle | = #785 |
+
+DNA verified in `results_json`: `heat_mode=turtle`, full heat hash, `instrument_mode=shares`, leap key omitted, caps 3/10.
+
+### Verdict
+
+- **Best Edge_R under modified heat:** Copper **#794** (r01) Edge_R **0.311** / TR 168.5% / DD 16.3% — same as heat-absent Copper #784.
+- **Heat-knob effect:** Edge_R, TR%, and DD% are **byte-identical** to the heat-absent TS75 twins (#772/#773/#776/#777/#780/#781/#784/#785) on every book/risk. Modified heat did not move the scoreboard vs caps-only control.
+- **Clear heat-knob win?** **No** (criterion ≥3/4 books improved or at least not worse with a real delta — here delta = 0 everywhere).
+- **Promote:** **No** — shares-only paper candidate language stays with the prior heat-absent TS75 panel; this panel adds no new Edge_R evidence. No Wv2 promote.
+
