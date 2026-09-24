@@ -1,0 +1,114 @@
+{
+  "pbrs": [
+    {
+      "id": 727,
+      "status": "completed",
+      "pid": 412,
+      "edge": 17.6998,
+      "oa": 19723.28452921362,
+      "updated": "2026-09-18 14:40 MT",
+      "op_stop": false,
+      "err": "",
+      "cell": "teal_rst_turtle_r02_leap30k_ts75_evolved",
+      "heat": "turtle",
+      "leap": "all",
+      "current_date": "2026-07-21"
+    },
+    {
+      "id": 743,
+      "status": "completed",
+      "pid": 412,
+      "edge": 17.0985,
+      "oa": 19991.532596425415,
+      "updated": "2026-09-18 19:07 MT",
+      "op_stop": false,
+      "err": "",
+      "cell": "teal_rst_legacy_r02_leap30k_ts75_evolved",
+      "heat": "legacy",
+      "leap": "all",
+      "current_date": "2026-09-18"
+    },
+    {
+      "id": 767,
+      "status": "failed",
+      "pid": 412,
+      "edge": null,
+      "oa": null,
+      "updated": "2026-09-22 17:50 MT",
+      "op_stop": true,
+      "err": "11484179049794764800 is out of range for ActiveModel::Type::Integer with limit 4 bytes",
+      "cell": "teal_rst_turtle_r02_leap30k_ts75_heat_on_post55_p727_20260921",
+      "heat": "turtle",
+      "leap": "all",
+      "current_date": "2025-05-21"
+    },
+    {
+      "id": 768,
+      "status": "failed",
+      "pid": 412,
+      "edge": null,
+      "oa": null,
+      "updated": "2026-09-22 17:50 MT",
+      "op_stop": true,
+      "err": "11484179049794764800 is out of range for ActiveModel::Type::Integer with limit 4 bytes",
+      "cell": "teal_rst_turtle_r02_leap30k_ts75_heat_on_post55_p743_20260921",
+      "heat": "turtle",
+      "leap": "all",
+      "current_date": "2025-05-21"
+    },
+    {
+      "id": 769,
+      "status": "failed",
+      "pid": 412,
+      "edge": null,
+      "oa": null,
+      "updated": "2026-09-22 17:50 MT",
+      "op_stop": true,
+      "err": "5742089524897382400 is out of range for ActiveModel::Type::Integer with limit 4 bytes",
+      "cell": "teal_rst_turtle_r01_leap30k_ts75_heat_on_post55_p727_20260921",
+      "heat": "turtle",
+      "leap": "all",
+      "current_date": "2024-08-08"
+    },
+    {
+      "id": 770,
+      "status": "failed",
+      "pid": 412,
+      "edge": null,
+      "oa": null,
+      "updated": "2026-09-22 17:50 MT",
+      "op_stop": true,
+      "err": "5742089524897382400 is out of range for ActiveModel::Type::Integer with limit 4 bytes",
+      "cell": "teal_rst_turtle_r01_leap30k_ts75_heat_on_post55_p743_20260921",
+      "heat": "turtle",
+      "leap": "all",
+      "current_date": "2024-06-04"
+    },
+    {
+      "id": 771,
+      "status": "completed",
+      "pid": 35,
+      "edge": -0.1458,
+      "oa": 598.6644939527946,
+      "updated": "2026-09-23 10:29 MT",
+      "op_stop": false,
+      "err": "",
+      "cell": "orange_rst_turtle_r01_leap30k_20260922",
+      "heat": null,
+      "leap": null,
+      "current_date": "2026-09-22"
+    }
+  ],
+  "queues": [
+    [
+      "default",
+      0
+    ],
+    [
+      "expected_returns",
+      79427
+    ]
+  ],
+  "retry_set": 27,
+  "pbr_in_retry": 0
+}

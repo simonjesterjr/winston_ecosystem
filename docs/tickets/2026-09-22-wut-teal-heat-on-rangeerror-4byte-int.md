@@ -129,3 +129,7 @@ Fallback (paste-only): `cd` same cwd → `grok` → paste the ``` CLI seed ``` b
 ## Overnight observation (2026-09-22 ~22:15 MT) — incorporated
 
 Read-only WUT glance during Loop B: **Orange PBR #771** (`orange_rst_turtle_r01_leap30k_20260922`, portfolio 35) is **`failed`** with the same `ActiveModel::RangeError` value class as Teal 1% cells (`5742089524897382400…`), updated ~2026-09-22 17:53 MT. No `operator_stop` on #771. **Did not requeue** Teal or Orange. **2026-09-23 Lane B seed:** scope expanded to include #771 in this ticket (no sibling).
+
+## Overnight observation (2026-09-23 ~21:56 MT) — Loop B glance
+
+Read-only WUT glance during Loop B: Teal **#767–#770** remain **`failed`** with `operator_stop` and the same 4-byte RangeError strings (unchanged since 2026-09-22 17:50 MT). Orange **#771** is now **`completed`** (updated **2026-09-23 10:29 MT**), cell `orange_rst_turtle_r01_leap30k_20260922`, Edge_R **−0.1458**, OA ≈598 — reconcile with "operator restamp pending" wording / INDEX Status in the morning. **Did not requeue** Teal heat-ON. Sidekiq: `pbr_in_retry=0`. Evidence: [`../analysis/2026-09-24-loop-b-overnight-pbr-sidekiq-glance.json`](../analysis/2026-09-24-loop-b-overnight-pbr-sidekiq-glance.json).

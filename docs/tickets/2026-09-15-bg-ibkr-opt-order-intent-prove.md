@@ -238,3 +238,7 @@ You are not able to submit this order because you do not have trading permission
 - **Ticket:** remains **In progress**.
 
 Broker error text remained the same: an order-without-market-data warning followed by `You are not able to submit this order because you do not have trading permissions for this options strategy.`
+
+## Overnight triage note (2026-09-23 ~22:00 MT) — Loop B slot
+
+I did **not** Desk-Send or invent order ids. Ticket remains **In progress** per filed evidence: Day LMT/MKT long-call probes rejected (market-data warning + options-strategy permission). Prioritize morning: Account Management Level 2 / options MD on paper DUT for long-call Done path; covered-call Level 1 path is desk-episode context (BUY stock then SELL call) and does **not** close this ticket’s long-call Accept-Fill DoD.
