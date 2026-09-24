@@ -1,6 +1,6 @@
 # Ticket: Shares-only TS75 vs TS77 bakeoff (IBKR Level 2 path)
 
-**Status:** Proposed  
+**Status:** Done — panel settled 2026-09-24 ~01:13 AM MT  
 **Priority:** P1  
 **Date:** 2026-09-23  
 **Lane:** B (matrix design + stamp script; Ops stamps — CoS does not enqueue)  
@@ -156,3 +156,51 @@ System One: checkpoints 1–3 above before walking away overnight
 - Heat bypass P0: [`2026-09-21-wut-heat-on-rst-portfolio-limit-bypass.md`](2026-09-21-wut-heat-on-rst-portfolio-limit-bypass.md)
 - RangeError P1: [`2026-09-22-wut-teal-heat-on-rangeerror-4byte-int.md`](2026-09-22-wut-teal-heat-on-rangeerror-4byte-int.md)
 - TS77 shares RST panel: [`../analysis/2026-09-13-strategy77-rst-heat-risk-matrix.md`](../analysis/2026-09-13-strategy77-rst-heat-risk-matrix.md)
+
+## Results (settled 2026-09-24 ~01:13 AM MT) — PBR Ops
+
+All **16** Portfolio Backtest Runs (PBRs) `772–787` **completed** (failed 0). Sidekiq busy 0 after settle. Stored `edge_r` treated as canonical (post WUT PR #37 / `8ea7635`). Return/DD = `total_return / |max_drawdown|` (computed; not a stored column).
+
+| PBR | Book | Chassis | Risk | TR% | Max DD% | Edge_R | Trades | Return/DD |
+|-----|------|---------|------|-----|---------|--------|--------|-----------|
+| 772 | blue | TS75 | r01 | 51.73 | 22.95 | 0.0879 | 468 | 2.254 |
+| 773 | blue | TS75 | r02 | 96.99 | 26.97 | 0.0981 | 394 | 3.596 |
+| 774 | blue | TS77 | r01 | 102.72 | 50.56 | -0.5869 | 59 | 2.032 |
+| 775 | blue | TS77 | r02 | 50.43 | 47.11 | -0.4011 | 67 | 1.071 |
+| 776 | indigo | TS75 | r01 | 45.91 | 23.97 | 0.0919 | 316 | 1.916 |
+| 777 | indigo | TS75 | r02 | 82.82 | 24.86 | 0.1138 | 256 | 3.331 |
+| 778 | indigo | TS77 | r01 | 17.03 | 44.27 | -0.8654 | 62 | 0.385 |
+| 779 | indigo | TS77 | r02 | 28.53 | 43.34 | -0.9337 | 44 | 0.658 |
+| 780 | teal | TS75 | r01 | -53.08 | 56.44 | -0.1676 | 406 | -0.941 |
+| 781 | teal | TS75 | r02 | -3.33 | 42.06 | 0.0769 | 336 | -0.079 |
+| 782 | teal | TS77 | r01 | 77.04 | 65.38 | -0.6294 | 150 | 1.178 |
+| 783 | teal | TS77 | r02 | 641454.10 | 79.33 | -0.6557 | 45 | 8086.085 ⚠️ TR anomalous |
+| 784 | copper | TS75 | r01 | 168.55 | 16.32 | 0.3110 | 550 | 10.327 |
+| 785 | copper | TS75 | r02 | 215.98 | 22.70 | 0.2697 | 435 | 9.514 |
+| 786 | copper | TS77 | r01 | 299.73 | 59.38 | -0.8969 | 25 | 5.047 |
+| 787 | copper | TS77 | r02 | 494.97 | 65.18 | -1.0529 | 20 | 7.594 |
+
+**Anomaly:** PBR **783** (teal TS77 r02) stored TR ≈ **641454%** vs peer TRs — do not trust its Return/DD for promote. Edge_R −0.6557 and 45 trades are stored as-is.
+
+### Per-book winners (Return/DD + Edge_R at each risk)
+
+| Book | Risk | Return/DD winner | Edge_R winner | Agree? |
+|------|------|------------------|---------------|--------|
+| blue | r01 | TS75 (#772, 2.254) | TS75 (#772, 0.0879) | yes |
+| blue | r02 | TS75 (#773, 3.596) | TS75 (#773, 0.0981) | yes |
+| indigo | r01 | TS75 (#776, 1.916) | TS75 (#776, 0.0919) | yes |
+| indigo | r02 | TS75 (#777, 3.331) | TS75 (#777, 0.1138) | yes |
+| teal | r01 | TS77 (#782, 1.178) | TS75 (#780, −0.1676) | **no** |
+| teal | r02 | TS77 (#783, ~8084, **TR suspect**) | TS75 (#781, 0.0769) | **no** |
+| copper | r01 | TS75 (#784, 10.326) | TS75 (#784, 0.3110) | yes |
+| copper | r02 | TS75 (#785, 9.513) | TS75 (#785, 0.2697) | yes |
+
+**Book-level call (ops, not promote):** blue / indigo / copper → **TS75** on both metrics at both risks. Teal → **split** (Return/DD favors TS77; Edge_R favors TS75); r02 further contaminated by #783 TR anomaly.
+
+**Clear-winner rule (ticket harness):** TS75 takes Return/DD on 3/4 books at both risks if #783 is discounted; Edge_R favors TS75 on all four books at both risks. Teal metric disagreement + #783 anomaly ⇒ **no clear promote-grade winner** without Operator review. Escalate to Chief of Staff / John — PBR Ops does not promote.
+
+### Wrap trail
+
+- Watch routine deleted after settle.
+- Ticket results table + winners appended by PBR Ops (this section).
+- No Wv2 mutation; no strategy design.
