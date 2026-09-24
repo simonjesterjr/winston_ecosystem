@@ -1,7 +1,7 @@
 # Ticket: Click the desk Capital fit line
 
 **Status:** Proposed
-**Priority:** P3
+**Priority:** P0
 **Date:** 2026-09-24
 **Lane:** B (verification only)
 **Implementer:** next desk session
