@@ -1,0 +1,99 @@
+{
+  "applied_at": "2026-09-24T20:07:48Z",
+  "binding": "bnd_3d6a5020d839c315583277d2",
+  "nickname": "DUT070450",
+  "before": {
+    "walnut_1428": {
+      "id": 1428,
+      "name": "Portfolio Walnut · 85730621",
+      "active": true,
+      "execution_mode": "paper",
+      "fulfillment_adapter_key": "interactive_broker_trader_api",
+      "broker_binding_id": "bnd_3d6a5020d839c315583277d2",
+      "fulfillment_mode": "stock",
+      "leap_fulfillment": "none",
+      "fingerprint": "8573062122198dd374e9f924a27aeb01999f3a641af2e66d17ba466148fab0d9",
+      "trading_strategy_id": 266,
+      "updated_at": "2026-09-08T22:04:32.449091Z"
+    },
+    "dut_1585": {
+      "id": 1585,
+      "name": "Portfolio Copper · mode-d-from-wut-794",
+      "active": true,
+      "execution_mode": "paper",
+      "fulfillment_adapter_key": "dummy_sim",
+      "broker_binding_id": null,
+      "fulfillment_mode": "mode_d",
+      "leap_fulfillment": "none",
+      "fingerprint": null,
+      "trading_strategy_id": 341,
+      "updated_at": "2026-09-24T19:01:16.703283Z"
+    },
+    "kept_1581": {
+      "id": 1581,
+      "name": "Portfolio Copper · from-wut-710",
+      "active": true,
+      "execution_mode": "paper",
+      "fulfillment_adapter_key": "dummy_sim",
+      "broker_binding_id": null,
+      "fulfillment_mode": "mode_c",
+      "leap_fulfillment": "all",
+      "fingerprint": null,
+      "trading_strategy_id": 341,
+      "updated_at": "2026-09-21T20:37:39.177963Z"
+    },
+    "claimants": [
+      1428
+    ]
+  },
+  "after": {
+    "walnut_1428": {
+      "id": 1428,
+      "name": "Portfolio Walnut · 85730621",
+      "active": true,
+      "execution_mode": "paper",
+      "fulfillment_adapter_key": "dummy_sim",
+      "broker_binding_id": null,
+      "fulfillment_mode": "stock",
+      "leap_fulfillment": "none",
+      "fingerprint": "8573062122198dd374e9f924a27aeb01999f3a641af2e66d17ba466148fab0d9",
+      "trading_strategy_id": 266,
+      "updated_at": "2026-09-24T20:07:48.387617Z"
+    },
+    "dut_1585": {
+      "id": 1585,
+      "name": "Portfolio Copper · mode-d-from-wut-794",
+      "active": true,
+      "execution_mode": "paper",
+      "fulfillment_adapter_key": "interactive_broker_trader_api",
+      "broker_binding_id": "bnd_3d6a5020d839c315583277d2",
+      "fulfillment_mode": "mode_d",
+      "leap_fulfillment": "none",
+      "fingerprint": null,
+      "trading_strategy_id": 341,
+      "updated_at": "2026-09-24T20:07:48.389527Z"
+    },
+    "kept_1581": {
+      "id": 1581,
+      "name": "Portfolio Copper · from-wut-710",
+      "active": true,
+      "execution_mode": "paper",
+      "fulfillment_adapter_key": "dummy_sim",
+      "broker_binding_id": null,
+      "fulfillment_mode": "mode_c",
+      "leap_fulfillment": "all",
+      "fingerprint": null,
+      "trading_strategy_id": 341,
+      "updated_at": "2026-09-21T20:37:39.177963Z"
+    },
+    "claimants": [
+      1585
+    ]
+  },
+  "guards": {
+    "walnut_active_paper_dummy_unbound": true,
+    "dut_ibkr_bound_mode_d": true,
+    "kept_1581_unchanged": true,
+    "sole_claimant_1585": true
+  }
+}
