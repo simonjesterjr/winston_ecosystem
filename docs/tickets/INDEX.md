@@ -35,6 +35,8 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P1 | Proposed | [`2026-09-24-teal-indigo-usdu-overdraft.md`](2026-09-24-teal-indigo-usdu-overdraft.md) | Settle open Teal 1584 / Indigo 1583 USDU overdrafts — operator flatten or fund — [autopsy](../analysis/2026-09-22-wv2-dar-paper-trade-autopsy.md) |
+| P3 | Proposed | [`2026-09-24-desk-capital-fit-justification-check.md`](2026-09-24-desk-capital-fit-justification-check.md) | Click the desk Capital fit Justification line |
 | P1 | In progress | [`2026-09-24-shares-ts75-modified-heat-bakeoff.md`](2026-09-24-shares-ts75-modified-heat-bakeoff.md) | Shares-only TS75 modified-heat bakeoff — knobs 3/6/10/10 caps 3/10 — [stamp](../analysis/2026-09-24-stamp-shares-ts75-modified-heat-bakeoff.rb) |
 | P1 | Done | [`2026-09-23-shares-only-ts75-vs-ts77-bakeoff.md`](2026-09-23-shares-only-ts75-vs-ts77-bakeoff.md) | Shares-only TS75 vs TS77 bakeoff (IBKR Level 2 path) — caps 3/10 heat OFF — [stamp](../analysis/2026-09-23-stamp-shares-only-ts75-vs-ts77-bakeoff.rb) |
 | P1 | Proposed | [`2026-09-22-wut-teal-heat-on-rangeerror-4byte-int.md`](2026-09-22-wut-teal-heat-on-rangeerror-4byte-int.md) | WUT Teal/Orange heat-ON PBR ActiveModel::RangeError (4-byte int) — #767–#770 stopped, #771 in scope — [evidence](../analysis/2026-09-22-teal-pbr-767-770-rangeerror-stop.json) · [Orange #771](../analysis/2026-09-23-orange-pbr-771-rangeerror-glance.json) |

@@ -1,10 +1,10 @@
 # Ticket: Min ATR / capital-consumption guard (Turtle / TF spirit)
 
-**Status:** Proposed  
+**Status:** Done  
 **Priority:** P1  
 **Date:** 2026-09-22  
-**Lane:** A (plan + evaluate first; **no implement** until Operator greens after plan)  
-**Implementer:** (deferred — Grok CLI after plan lock)  
+**Lane:** A — Operator locked the rule 2026-09-23. Code is in Winston v2 and Winston Unit Test.  
+**Implementer:** Grok CLI, 2026-09-23  
 **Parent plans:** [`../../plans/spending-capacity-and-leap-fulfillment.md`](../../plans/spending-capacity-and-leap-fulfillment.md) · [`../../plans/trade-fulfillment-engine.md`](../../plans/trade-fulfillment-engine.md)  
 **Sibling:** [`2026-09-04-tf-p3-live-sizing-and-capital-authority.md`](2026-09-04-tf-p3-live-sizing-and-capital-authority.md) (Spending Capacity / Capital Authority into sizer)  
 **Related:** [`2026-09-21-packaging-sub100-share-vs-option-m-band.md`](2026-09-21-packaging-sub100-share-vs-option-m-band.md) (sub-100 share vs option packaging — different axis)
@@ -13,7 +13,21 @@
 
 Evaluate and lock a desk rule that refuses or caps **egregiously capital-consuming** share entries where Turtle / Trend Following (TF) unit sizing is *correct* at 1–2% risk but Average True Range (ATR) / stop distance is so small that share count × price eats most (or more than) free cash — then, only after plan + Operator evaluate, implement the smallest guard.
 
-**DoD (after evaluate):** written law + grill locks (where / when / refuse vs resize) + System One harness; **code out of scope until that lock**.
+**DoD:** locked rule below, plus the side-by-side check in both apps. Broker margin (Special Memorandum Account, buying power) stays on the spending-capacity plan.
+
+## Locked rule (2026-09-23)
+
+Turtle sizing is unchanged. `Operations::CapitalFit` (Winston v2) and `PortfolioBacktest::CapitalFit` (Winston Unit Test) are peers, not one shared object. A backtest passes simulated cash and a short-capacity room. A live or paper book spends free cash on the notional ledger.
+
+1. **Funded long.** A new long’s cash debit cannot exceed free cash. Force cannot override this.
+2. **Diversity heuristic.** On an empty book the first lot may use at most `min(free cash, equity) / portfolio position cap`. Each open lot retires `per-market cap` reserved seats, so the 3rd lot is not still divided by every empty seat, and once the reserve is gone (including the 11th) the add may consume remaining buying power. Correlation caps (6 and 10) stay in the heat gate.
+3. **Small Average True Range.** Max shares = `min(turtle shares, floor(budget / price))`. If that max cannot fund 0.20% of equity at the stop, pass the signal (`capital_fit`).
+4. **Options.** Cap premium × 100 × contracts against the same budget. One contract that costs more than the slice is a pass unless the operator forces with a note.
+5. **Backtest leverage.** `max_leverage` (often 3) is short capacity: about that many dollars of short stock per dollar of equity. It does not let a long borrow. Short-sale proceeds are not tradeable cash for the next long. This is a softer guardrail, not an Interactive Brokers margin engine.
+
+Already-open Teal and Indigo USDU lots are not flattened by this change. While free cash is negative, rule 1 blocks a new long.
+
+Code: `winston_v2/app/services/operations/capital_fit.rb`, draft task generator, confirm guard, desk Justification line. `winston_unit_test/app/services/portfolio_backtest/capital_fit.rb`, entry requirement estimator, single-market position manager (when it sizes itself), long buying power in the leverage check.
 
 ## Context / specimens (2026-09-22 DAR)
 
@@ -53,7 +67,7 @@ Prefer rules that preserve **1R methodology comparability** and do not silently 
 - [ ] Relate to SC / Capital Authority ticket — avoid duplicate gates; document order of checks.  
 - [ ] Write short analysis note under `docs/analysis/` with specimen table + recommendation.  
 - [ ] Promote locks into plan (`spending-capacity-…` or small child plan) + business-context blurb; ADR only if irreversible.  
-- [ ] **Stop.** No PositionSizer / DA code until Operator greens implement.
+- [x] Operator locked 2026-09-23: diversity heuristic, small-ATR max, WUT parity with a different buying-power base. Turtle formula untouched.
 
 ## System One harness
 
@@ -80,7 +94,8 @@ Prefer rules that preserve **1R methodology comparability** and do not silently 
 
 ## Non-goals
 
-- Implementing PositionSizer / Daily Analysis / slate changes in this ticket’s Proposed phase  
+- Replacing Turtle unit math, heat counts, or Working Stop geometry  
+- A full Interactive Brokers margin model (Special Memorandum Account / Regulation T). `max_leverage` is short capacity only.
 - Changing LEAP / standard_call packaging math or ADR-017  
 - Resolving Teal/Indigo `cash_exposure_disagree` flags (separate Forensics/accounting track)  
 - Sub-100 share vs option M-band packaging (sibling ticket)

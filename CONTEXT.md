@@ -224,6 +224,10 @@ _Avoid_: treating settled cash as the enter gate; using the broker’s full buyi
 Winston’s cap on **gross exposure** (long market value plus short market value) versus **Risk Capital** (default two times), configured per **Operational Portfolio** with an optional **Trading Strategy** default. May be stricter than the broker. Exceeding it needs a human per-transaction override; the override still cannot spend more than **Broker Buying Power**.
 _Avoid_: net long-minus-short as the ratio; assuming broker buying power is the Winston cap; baking two-times into Daily Analysis as methodology
 
+**Capital Fit**:
+The check beside Turtle unit sizing that caps the cash a new enter or pyramid may spend. The sizer still computes `signal_share_units`. On an empty book the first lot may use at most one share of today’s min(free cash, risk equity) divided by the portfolio position cap, so one fill cannot spend the whole book. Each open lot retires a market-cap’s worth of that reserve; once the reserve is gone a later add may consume remaining buying power. When Average True Range is so small that the capped share count cannot fund 0.20% of equity at the stop, the signal is passed. A long debit cannot exceed free cash. Listed calls are capped on premium, not share notional. `max_leverage` on a backtest is short capacity, not permission to borrow for a long. Force with a note can override the slice; it cannot override the cash test.
+_Avoid_: treating a 3× gross multiple as tradeable cash; dividing every later add by the remaining slot count; a shared singleton between Winston v2 and Winston Unit Test (the backtest passes simulated cash and short room; the live book spends the notional ledger)
+
 **Spending Capacity**:
 What Winston will actually allow for the next enter or pyramid: the lesser of remaining **Broker Buying Power** and remaining room under the **Leverage Guardrail**, unless a human override is on that ticket. Used after exits, then pyramids, then entries. The broker’s buying-power number is always a hard ceiling.
 _Avoid_: using Spending Capacity as the drawdown denominator (that is **Risk Capital**); human override that ignores a broker reject
@@ -426,6 +430,10 @@ _Avoid_: units=0 confirm; force+note as the only path; silent Plan B on auth fai
 **Plan C (fulfillment)**:
 Last packaging rung on a LEAP-fulfillment recipe: **underlying stock/ETF** at `signal_share_units` when LEAP and the listed long call are both untradeable. On a stock-only recipe there is no separate Plan C — Plan A already is the underlying.
 _Avoid_: silent stock on auth/session failure; calling Plan C a different signal
+
+**Mode D (fulfillment)**:
+A portfolio fulfillment choice beside Mode C, not a fourth Plan A / Plan B / Plan C rung. The book trades the underlying long and short. Each open long has a Session Order Slate opt-in or opt-out for a covered call; the call is never on the entry line, and a short is never offered one. The stock lot and its short call are one Connected Position and unwind together (buy the call back, then sell the stock). Stored as `fulfillment_packaging_policy.fulfillment_mode=mode_d` with `leap_fulfillment=none`. The desk proof is a small unbound test portfolio. Interactive Brokers paper binding comes after that walk.
+_Avoid_: stuffing `mode_d` into `leap_fulfillment`; calling the covered call Plan D or `standard_call`; selling a call against a short; a second Position that increments the pyramid count
 
 **Justification (fulfillment)**:
 Desk workflow panel: Signal → Signal size (underlying shares vs packaged contracts) → Fulfillment preference → Why Plan A won’t → Why Plan B (or Plan C) will. Required when a fallback rung is active (ADR-018).

@@ -99,3 +99,11 @@ Teal P1584 risk **2%**, `atr_multiplier=2`, LEAP-preferred with Plan C stock fal
 ### Recommendation
 **Hold** any “all clear” promote wording. **Ship** to CoS: cash arithmetic OK; LEAP/call packaging internally consistent; **escalate** Teal/Indigo USDU Plan-C oversizing to Operator + existing capital-consumption plan ticket. No Forensics code change.
 
+---
+
+## Addendum — Capital Fit locked 2026-09-23
+
+Operator confirmed the Teal share count: `floor(2% × $28,727.88 / $0.20) = 2,872`. The smell is fully paid stock on a $0.10 N, not a broken multiply. Hold “books healthy.”
+
+Capital Fit is the side check. First lot on an empty book is at most 1/portfolio-cap of today’s min(free cash, risk equity). Later lots retire that reserve (a 3rd lot is not still stuck at 1/10; an 11th may consume what is left). A capped stock whose stop-risk is under 0.20% of equity is passed. Winston Unit Test uses the same divisor and the same small-N max, with tradeable cash for longs and `max_leverage` as short capacity only. See `ecosystem/docs/tickets/2026-09-22-min-atr-capital-consumption-guard.md`.
+
