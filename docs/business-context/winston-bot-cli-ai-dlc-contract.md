@@ -1,7 +1,7 @@
 # Winston bot / CLI / AI-DLC operating contract
 
 **Status:** Active desk law (process)  
-**Date:** 2026-09-21  
+**Date:** 2026-09-24  
 **Owner:** Chief of Staff (orchestrate); Operator (approve discards / lane exceptions)  
 **Related:** [`sawtooth-host-ops-dod.md`](sawtooth-host-ops-dod.md); [`../tickets/2026-09-21-probe-before-promote.md`](../tickets/2026-09-21-probe-before-promote.md); ecosystem `AGENTS.md`
 
@@ -47,12 +47,27 @@ Tickets are the **contract**, not the only interface.
 
 ### Preferred: shared watchable Grok CLI session on sawtooth
 
-1. CoS files/updates the ticket (± Lane A plan) and writes a **`## CLI seed`** block (cwd, monoliths, acceptance, System One checkpoints, “push `main`, no PR, wrap in this stream”).
+1. CoS files/updates the ticket (± Lane A plan) and writes a **`## CLI seed`** block (cwd, monoliths, acceptance, System One checkpoints, **tee every `jev ask` (state + questions + answers) into TUI + wrap**, “push `main`, no PR, wrap in this stream”).
 2. Operator opens a visible terminal on **sawtooth-ai** in the seed cwd and starts Grok Build TUI, e.g.  
    `cd <cwd> && grok "$(sed -n '/^## CLI seed/,/^## /p' path/to/ticket.md | …)"`  
    or paste the seed once into an interactive `grok` session.
 3. **Both watch that TUI** (Operator at the keyboard; CoS follows the session in chat and can feed follow-ups the Operator pastes, or reads `grok export` / session transcript after beats).
 4. Session owns implement + wrap + push. Host pull / probe remains Sawtooth Ops or CoS per host DoD.
+
+### CLI seed — tee Jev System One (default)
+
+Grok CLI thinking blocks are **not** Jev System One. Jev (desk judge via TypeSafe / `jevctl`) runs at harness checkpoints; every Lane A and Lane B seed must **tee** those calls so Operator and CoS can watch.
+
+At every System One checkpoint in the ticket/plan:
+
+1. Print a clear TUI banner: `=== Jev System One ===`
+2. Print the **state** blob (facts / probe JSON / autopsy excerpt) verbatim.
+3. Print each question (Noul / Choice / Score) before calling `jev`.
+4. Run `jev ask` (desk: `jevctl` / `ecosystem/scripts/jev-desk-helpers.sh`); do not silently skip when `TYPESAFE_API_KEY` is set.
+5. Print the JSON answers (and confidence) in the TUI; append the same block to the in-band wrap / ticket Results.
+6. Branch fail-closed on harness pass rules. Deterministic probes run first; Jev judges residual semantic smells only.
+
+If Jev is unavailable, print `Jev skipped: <reason>` and continue only if the ticket allows probe-only; never pretend Jev passed. Prefer `jevctl` over the TypeSafe Python SDK for desk seeds.
 
 ### Fallback: ticket paste
 
@@ -109,6 +124,6 @@ Full guardrails: [`jev-desk-guardrails.md`](jev-desk-guardrails.md) (API vs `jev
 ## Definition of Done for this contract
 
 - [x] Filed under business-context
-- [ ] Winston AI-DLC / filing skills patched to match
+- [x] Winston AI-DLC / filing skills patched to match
 - [ ] Overnight + morning Loop prompts include ticket triage
 - [ ] Next planned Winston change uses Lane A with CLI seed + System One checkpoints

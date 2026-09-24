@@ -1,7 +1,7 @@
 # Jev / TypeSafe desk guardrails (Winston + Grok Bot + Grok CLI)
 
 **Status:** Active process law  
-**Date:** 2026-09-22  
+**Date:** 2026-09-24  
 **Parent:** [`winston-bot-cli-ai-dlc-contract.md`](winston-bot-cli-ai-dlc-contract.md)  
 **External truth:** https://docs.typesafe.ai/llms.txt · https://docs.typesafe.ai/introduction/coding-agents.md  
 
@@ -54,7 +54,8 @@ Credentials: `TYPESAFE_API_KEY` (or OpenRouter / Cloudflare providers via `jev -
 1. **Compress context with `jev compact` when tool-heavy** — drops stale tool calls/results; **keeps text verbatim** (not a summary). Use on long CLI/bot sessions with tool spam. Do **not** compact every short chat turn.
 2. **System One harness on plans / tickets / issues that drive implementation** — Lane A: required in the plan. Lane B: required short checklist on the ticket. Trivial typos / pure doc renames: skip.
 3. **At each harness checkpoint, adjudicate with Jev** — pass **state** (facts, probe JSON, autopsy excerpt) + atomic questions; branch in code/shell on noul/choice/score + confidence. Deterministic probe checks run **first**; Jev judges residual semantic smells.
-4. **`typesafe-ai` skill ≠ auto-Jev** — with `/plan` it only improves how CLI **designs** harnesses and API calls. Someone still must write questions into the ticket/plan and invoke `jev` or the SDK at runtime.
+4. **CLI seeds must tee System One calls** — every Lane A/B `## CLI seed` tees each `jev ask` (state + questions + answers) into the watchable TUI and the in-band wrap. See [`winston-bot-cli-ai-dlc-contract.md`](winston-bot-cli-ai-dlc-contract.md) § CLI seed — tee Jev System One. Grok thinking ≠ Jev.
+5. **`typesafe-ai` skill ≠ auto-Jev** — with `/plan` it only improves how CLI **designs** harnesses and API calls. Someone still must write questions into the ticket/plan and invoke `jev` or the SDK at runtime.
 
 ### Forensics / PBR Ops / CoS
 

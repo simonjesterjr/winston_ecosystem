@@ -26,6 +26,7 @@ Required. Same shape as tickets — see [`../docs/business-context/jev-desk-guar
 | | Noul \| Choice \| Score | | |
 
 **Runner:** `jev ask` / desk helpers / probe wrappers  
+**Tee:** every `jev ask` (state + questions + answers) into TUI + wrap — see contract § CLI seed — tee Jev System One.  
 **On fail:** stop implementation; revise plan or escalate to Operator.
 
 ## Implementation phases

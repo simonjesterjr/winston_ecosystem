@@ -42,8 +42,23 @@ Law: [`../business-context/jev-desk-guardrails.md`](../business-context/jev-desk
 ```
 cwd: /home/johnkoisch/Documents/com/sawtooth
 Lane <A|B>. <one paragraph goal>
-Follow ticket <path>. System One harness above. Push main. In-band wrap.
+Follow ticket <path>. System One harness above.
+Tee every jev ask (state + questions + answers) into TUI + wrap.
+Push main. In-band wrap.
 ```
+
+### CLI seed — tee Jev System One (default)
+
+At every System One checkpoint in this ticket/plan:
+
+1. Print a clear TUI banner: `=== Jev System One ===`
+2. Print the **state** blob (facts / probe JSON / autopsy excerpt) verbatim.
+3. Print each question (Noul / Choice / Score) before calling `jev`.
+4. Run `jev ask` (desk: `jevctl` / `ecosystem/scripts/jev-desk-helpers.sh`); do not silently skip when `TYPESAFE_API_KEY` is set.
+5. Print the JSON answers (and confidence) in the TUI; append the same block to the in-band wrap / ticket Results.
+6. Branch fail-closed on harness pass rules. Deterministic probes run first; Jev judges residual semantic smells only.
+
+If Jev is unavailable, print `Jev skipped: <reason>` and continue only if the ticket allows probe-only; never pretend Jev passed. Prefer `jevctl` over the TypeSafe Python SDK.
 
 ## Non-goals
 
