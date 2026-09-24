@@ -1,0 +1,15 @@
+Mode D desk UAT facts. This walk used a test slate with immediate booking. No Interactive Brokers order was sent.
+portfolio_id: 1585
+fulfillment_mode: "mode_d"
+broker_binding_id: nil
+entry_lines_include_call: false
+opt_in_position_ids: [921]
+opt_out_position_ids: [922, 923]
+short_lines_offered_call: false
+covered_call_journals: [{"leg_state"=>"closed", "position_id"=>921, "slate_choice"=>"opt_in"}, {"leg_state"=>"closed", "position_id"=>921, "slate_choice"=>"opt_in"}]
+buy_to_close_before_stock_exit: true
+open_call_count: 0
+long_lots_opened: 3
+short_lots_opened: 3
+open_positions: 0
+steps: ["A long entry slate line was approved for shares first. That entry line was marked not_on_entry. The covered call was not on the entry line.", "After those shares existed, a separate covered-call slate line was offered and set to opt_in. One covered call was then sold on that long only.", "Two further long lots were pyramided to make 3 long stock lots. Each new long got its own covered-call slate line and it was left opt_out. No second call was sold.", "The exit bought the covered call to close before any long stock lot was marked flat. Open short calls after that exit: 0.", "A short entry was slated with covered_call not_offered. Two short pyramids followed, making 3 short stock lots. No short slate line had opt_in or opt_out. No covered-call journal was booked on a short."]

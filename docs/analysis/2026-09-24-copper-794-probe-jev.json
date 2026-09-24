@@ -1,0 +1,23 @@
+{
+  "command": "ask",
+  "model": "jev-1.13.0",
+  "provider": "typesafe",
+  "answers": {
+    "heat_label_lie": {
+      "type": "noul",
+      "noul": 0.06
+    },
+    "cap_breach": {
+      "type": "noul",
+      "noul": 0.03
+    },
+    "zero_contracts": {
+      "type": "noul",
+      "noul": 0.06
+    }
+  },
+  "usage": {
+    "input_tokens": 458,
+    "output_tokens": 61
+  }
+}

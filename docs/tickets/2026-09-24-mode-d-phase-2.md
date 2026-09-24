@@ -16,7 +16,7 @@
 
 ## Goal
 
-Finish Mode D as one phase. Phases 0 and 1 already land the mode flag, the stock packaging, the unbound test-desk service, and the Daily Analysis covered-call tasks. Phase 2 makes that visible and operable: a person can click the walk, Grok Bot can see which books are Mode D, the desk can replace shares after assignment without selling a new call, and only then does one covered call go to Interactive Brokers (IBKR) paper.
+The unbound Mode D paper book is Winston v2 **#1585** (`Portfolio Copper · mode-d-from-wut-794`). It is not bound. Finish Mode D as one phase. Phases 0 and 1 already land the mode flag, the stock packaging, the unbound test-desk service, and the Daily Analysis covered-call tasks. Phase 2 makes that visible and operable: a person can click the walk, Grok Bot can see which books are Mode D, the desk can replace shares after assignment without selling a new call, and only then does one covered call go to Interactive Brokers (IBKR) paper.
 
 ## Order
 

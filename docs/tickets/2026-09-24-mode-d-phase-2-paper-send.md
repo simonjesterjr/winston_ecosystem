@@ -10,6 +10,10 @@
 **DoD:** One accepted paper order id for a sell of one covered call, then one buy-to-close before the matching stock sale. Winston and the paper account agree the short call is closed before the shares are sold.
 **Origin:** [session report](../session-reports/2026-09-24-1227-mode-d-phase-0-1.md)
 
+## Named so far (2026-09-24 mint — send still blocked)
+
+Unbound paper book is Winston v2 **#1585** `Portfolio Copper · mode-d-from-wut-794` (`leap_fulfillment=none`, `fulfillment_mode=mode_d`, Trading Strategy **#341**, dummy_sim, `broker_binding_id` null). Strategy #341 has a null fingerprint. Do not Send until the desk walk is clickable, the portfolio list emits `fulfillment_mode`, and the operator names the paper binding.
+
 ## Goal
 
 This is the last slice of Phase 2, not a separate phase. It stays blocked until:

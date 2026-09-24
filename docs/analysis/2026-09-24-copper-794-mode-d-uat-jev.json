@@ -1,0 +1,31 @@
+{
+  "command": "ask",
+  "model": "jev-1.13.0",
+  "provider": "typesafe",
+  "answers": {
+    "call_on_opt_in_only": {
+      "type": "noul",
+      "noul": 0.87
+    },
+    "not_on_entry": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "paired_unwind": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "three_lots_each": {
+      "type": "noul",
+      "noul": 0.88
+    },
+    "short_has_no_call": {
+      "type": "noul",
+      "noul": 0.96
+    }
+  },
+  "usage": {
+    "input_tokens": 796,
+    "output_tokens": 98
+  }
+}

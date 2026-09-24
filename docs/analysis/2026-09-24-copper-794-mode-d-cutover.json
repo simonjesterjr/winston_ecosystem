@@ -1,0 +1,142 @@
+{
+  "portfolio_id": 1585,
+  "name": "Portfolio Copper · mode-d-from-wut-794",
+  "seed_name": "Portfolio Copper · mode-d-from-wut-794",
+  "active": true,
+  "trading_strategy_id": 341,
+  "risk_percentage": "1.0",
+  "caps": [
+    3,
+    10
+  ],
+  "leap_fulfillment": "none",
+  "fulfillment_mode": "mode_d",
+  "fulfillment_packaging_policy": {
+    "fulfillment_mode": "mode_d"
+  },
+  "fulfillment_adapter_key": "dummy_sim",
+  "broker_binding_id": null,
+  "wut_backtest_run_id": 794,
+  "successor_of_id": null,
+  "markets": [
+    "AMZN",
+    "GLD",
+    "GOOGL",
+    "JNJ",
+    "MSFT",
+    "PG",
+    "TSLA",
+    "TSM",
+    "WMT",
+    "XLE",
+    "XLV"
+  ],
+  "capital_base": 30000.0,
+  "heat_source": "pcs_copy",
+  "heat": {
+    "unit_risk_fraction": 0.01,
+    "max_units_per_market": 3,
+    "max_units_closely_correlated_same_direction": 6,
+    "max_units_loosely_correlated_same_direction": 10,
+    "max_units_single_direction": 10,
+    "correlation": {
+      "source": "pcs_pairwise",
+      "close_threshold": 0.7,
+      "loose_threshold": 0.4,
+      "window": "methodology"
+    }
+  },
+  "activation": {
+    "ok": true,
+    "forced": true,
+    "reasons": [
+      "identical_books"
+    ],
+    "conflicts": [
+      {
+        "id": 1581,
+        "name": "Portfolio Copper · from-wut-710",
+        "seed_name": "Portfolio Copper",
+        "markets": [
+          "AMZN",
+          "GLD",
+          "GOOGL",
+          "JNJ",
+          "MSFT",
+          "PG",
+          "TSLA",
+          "TSM",
+          "WMT",
+          "XLE",
+          "XLV"
+        ]
+      }
+    ],
+    "message": "activated #1585 \"Portfolio Copper · mode-d-from-wut-794\" (force override vs #1581/identical_books)"
+  },
+  "packaging_long_237": {
+    "type": "stock",
+    "units": 200,
+    "details": {
+      "fulfillment_type": "stock",
+      "fulfillment_mode": "mode_d",
+      "fulfillment_plan_a": "stock",
+      "signal_share_units": 237,
+      "packaged_shares": 200,
+      "covered_call_eligible": true,
+      "covered_call_on_entry": false,
+      "packaging_resolved": true
+    }
+  },
+  "packaging_short_80": {
+    "type": "stock",
+    "units": 80
+  },
+  "kept_1581": {
+    "id": 1581,
+    "name": "Portfolio Copper · from-wut-710",
+    "seed_name": "Portfolio Copper",
+    "active": true,
+    "trading_strategy_id": 341,
+    "risk_percentage": "2.0",
+    "atr_multiplier": "2.0",
+    "stop_strategy": "move_to_last_entry",
+    "max_positions_per_symbol": 4,
+    "max_positions_per_portfolio": 12,
+    "max_pyramid": 4,
+    "leap_fulfillment": "all",
+    "fulfillment_adapter_key": "dummy_sim",
+    "broker_binding_id": null,
+    "wut_backtest_run_id": 710,
+    "successor_of_id": null,
+    "fingerprint": null,
+    "fulfillment_packaging_policy": {
+      "standard_call": {
+        "max_spread_pct": 5.0,
+        "min_open_interest": 0
+      },
+      "packaging_preference": [
+        "leap",
+        "standard_call",
+        "stock"
+      ],
+      "allow_equity_fallback": true
+    },
+    "fulfillment_mode": "mode_c",
+    "markets": [
+      "AMZN",
+      "GLD",
+      "GOOGL",
+      "JNJ",
+      "MSFT",
+      "PG",
+      "TSLA",
+      "TSM",
+      "WMT",
+      "XLE",
+      "XLV"
+    ],
+    "updated_at": "2026-09-21T20:37:39Z"
+  },
+  "container_sha": "1582eccf2713ca5c6ef7446c21d8b77e0122f282"
+}

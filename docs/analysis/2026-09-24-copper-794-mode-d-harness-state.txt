@@ -1,0 +1,40 @@
+New Winston v2 paper Operational Portfolio minted from Winston Unit Test Portfolio Backtest Run 794. No Interactive Brokers bind. TradingStrategy 341 was not edited.
+
+New book id: 1585
+Name: Portfolio Copper · mode-d-from-wut-794
+Kept Mode C book id: 1581
+Kept book name: Portfolio Copper · from-wut-710
+Kept book leap_fulfillment: all
+Kept book fulfillment_mode: mode_c
+Kept book risk_percentage: 2.0
+Kept book wut_backtest_run_id: 710
+Kept book updated_at: 2026-09-21T20:37:39Z
+New book is not id 1581.
+
+New book leap_fulfillment: none
+New book fulfillment_packaging_policy: {"fulfillment_mode":"mode_d"}
+New book fulfillment_mode: mode_d
+New book trading_strategy_id: 341
+New book trading_strategy_name: TurtleV1 S1 Breakout20/10
+New book risk_percentage: 1.0 (one percent)
+New book max_positions_per_symbol: 3
+New book max_positions_per_portfolio: 10
+New book capital_base: 30000
+New book fulfillment_adapter_key: dummy_sim
+New book broker_binding_id: null
+New book markets: AMZN, GLD, GOOGL, JNJ, MSFT, PG, TSLA, TSM, WMT, XLE, XLV
+New book active: true
+New book journals: 0
+New book successor_of_id: null
+
+Runtime heat on the new book, resolved from its own caps because TradingStrategy 341 stores no heat hash. Pair map is the existing Copper books correlation snapshot. Knobs: max_units_per_market 3, closely correlated 6, loosely correlated 10, single direction 10, unit_risk_fraction 0.01.
+
+Portfolio Backtest Run 794 Edge_R is 0.311. That score matches heat-absent run 784. This promote does not claim the heat knobs improved Edge_R.
+
+Mode D test desk walk on book 1585 was rolled back, so the paper book has no TST journals. Walk facts: entry line had no covered call; one covered call sold only on the opt_in long; two later longs stayed opt_out; the exit bought the call to close before the stock was marked flat; open calls after exit 0; 3 long lots and 3 short lots; shorts were not offered a call.
+
+System One scores of that walk: call_on_opt_in_only 0.87, not_on_entry 0.98, paired_unwind 0.98, three_lots_each 0.88, short_has_no_call 0.96. Each is at least 0.85.
+
+Probe-before-promote on run 794 passed. Smell scores (yes would be a failure): heat_label_lie 0.06, cap_breach 0.03, zero_contracts 0.06.
+
+Packaging check on the new book: a 237-share long packages as 200 shares of stock, fulfillment_mode mode_d, covered call not on the entry. An 80-share short packages as 80 shares of stock.

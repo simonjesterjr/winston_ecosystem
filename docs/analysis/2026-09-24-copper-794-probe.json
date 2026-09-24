@@ -1,0 +1,126 @@
+{
+  "at": "2026-09-24 13:02:09 MT",
+  "tool": "probe_before_promote",
+  "versions": [
+    "v1",
+    "v2"
+  ],
+  "ticket": "2026-09-21-probe-before-promote.md",
+  "pbr_ids": [
+    794
+  ],
+  "rows": [
+    {
+      "pbr_id": 794,
+      "found": true,
+      "overall_pass": true,
+      "checks": [
+        {
+          "id": "identity",
+          "version": "v1",
+          "pass": true,
+          "detail": {
+            "portfolio_id": 413,
+            "portfolio_name": "Portfolio Copper",
+            "status": "completed",
+            "trading_strategy_id": 75,
+            "trading_strategy_name": "TurtleV1 S1 Breakout20/10",
+            "risk_percentage": 0.01,
+            "fill_cadence": "resting_stop_touch",
+            "leap_fulfillment": null,
+            "cell_key": "copper_rst_turtle_r01_shares_ts75_heat3_6_10_caps3x10_20260924",
+            "experiment": "shares_ts75_mod_heat_bakeoff_20260924"
+          }
+        },
+        {
+          "id": "heat_intent_vs_reality",
+          "version": "v1",
+          "pass": true,
+          "detail": {
+            "heat_mode": "turtle",
+            "heat_present": true,
+            "heat_enabled": true,
+            "cell_key": "copper_rst_turtle_r01_shares_ts75_heat3_6_10_caps3x10_20260924",
+            "expected": "turtle ⇒ heat hash present and heat_enabled"
+          }
+        },
+        {
+          "id": "position_caps",
+          "version": "v1",
+          "pass": true,
+          "detail": {
+            "available": true,
+            "peak": 9,
+            "breaches": 0,
+            "cap": 10,
+            "max_positions_per_symbol": 3
+          }
+        },
+        {
+          "id": "packaging_contracts",
+          "version": "v1",
+          "pass": true,
+          "detail": {
+            "leap_fulfillment": "",
+            "prefers_option": false,
+            "share_units": null,
+            "contracts_floor": null,
+            "m_band_allow_one": false,
+            "available": true,
+            "events_scanned": 542,
+            "option_events": 0,
+            "stock_or_unflagged_events": 542,
+            "option_entries": 0,
+            "stock_entries": 542,
+            "entries": 542,
+            "zero_contracts_smell": false,
+            "stock_only_despite_leap_pref": false
+          }
+        },
+        {
+          "id": "edge_r_present",
+          "version": "v2",
+          "pass": true,
+          "detail": {
+            "edge_r": 0.311,
+            "n": null
+          }
+        },
+        {
+          "id": "oa_dd_sanity",
+          "version": "v2",
+          "pass": true,
+          "detail": {
+            "skipped": true,
+            "reason": "oa_dd not stamped on results_json"
+          }
+        },
+        {
+          "id": "runner_sha",
+          "version": "v2",
+          "pass": true,
+          "detail": {
+            "container_or_cwd_sha": "8e8d07f",
+            "note": "informational — compare to expected WUT merge when heat-ON"
+          }
+        }
+      ],
+      "jev_state": {
+        "pbr_id": 794,
+        "heat_mode": "turtle",
+        "heat_present": true,
+        "heat_enabled": true,
+        "peak_open": 9,
+        "max_positions_per_portfolio": 10,
+        "open_gt_cap_events": 0,
+        "leap_fulfillment": "",
+        "prefers_option_packaging": false,
+        "share_units": null,
+        "contracts_floor": null,
+        "zero_contracts_smell": false,
+        "stock_only_despite_leap_pref": false
+      }
+    }
+  ],
+  "overall_pass": true
+}

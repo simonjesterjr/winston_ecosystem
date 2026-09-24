@@ -1,8 +1,8 @@
 # Plan: Copper #794 → Mode D paper bind (shares-only TS75)
 
-**Status:** Active  
+**Status:** Done — Winston v2 portfolio #1585, unbound dummy_sim. Interactive Brokers bind is still out of scope.  
 **Date:** 2026-09-24  
-**Tickets:** [`docs/tickets/2026-09-24-copper-794-mode-d-paper-bind.md`](../docs/tickets/2026-09-24-copper-794-mode-d-paper-bind.md)  
+**Tickets:** [`docs/tickets/archive/2026-09-24-copper-794-mode-d-paper-bind.md`](../docs/tickets/archive/2026-09-24-copper-794-mode-d-paper-bind.md)  
 **Lane:** A (plan + System One + Grok CLI)  
 **Operator go:** 2026-09-24 — draft plan, then implement with Grok CLI  
 

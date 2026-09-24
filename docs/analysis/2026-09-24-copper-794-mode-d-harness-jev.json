@@ -1,0 +1,37 @@
+{
+  "command": "ask",
+  "model": "jev-1.13.0",
+  "provider": "typesafe",
+  "answers": {
+    "not_mode_c": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "mode_d_flag": {
+      "type": "noul",
+      "noul": 0.99
+    },
+    "dna_match": {
+      "type": "noul",
+      "noul": 0.97
+    },
+    "desk_uat": {
+      "type": "noul",
+      "noul": 0.96
+    },
+    "promote_framing": {
+      "type": "choice",
+      "choice": "mode_d_shares_candidate",
+      "confidence": 1,
+      "probabilities": {
+        "mode_d_shares_candidate": 1,
+        "mode_c_leap": 0,
+        "heat_knob_win": 0
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 1333,
+    "output_tokens": 127
+  }
+}
