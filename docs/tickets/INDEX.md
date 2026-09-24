@@ -35,7 +35,8 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
-| P1 | Proposed | [`2026-09-23-shares-only-ts75-vs-ts77-bakeoff.md`](2026-09-23-shares-only-ts75-vs-ts77-bakeoff.md) | Shares-only TS75 vs TS77 bakeoff (IBKR Level 2 path) — caps 3/10 heat OFF — [stamp](../analysis/2026-09-23-stamp-shares-only-ts75-vs-ts77-bakeoff.rb) |
+| P1 | In progress | [`2026-09-24-shares-ts75-modified-heat-bakeoff.md`](2026-09-24-shares-ts75-modified-heat-bakeoff.md) | Shares-only TS75 modified-heat bakeoff — knobs 3/6/10/10 caps 3/10 — [stamp](../analysis/2026-09-24-stamp-shares-ts75-modified-heat-bakeoff.rb) |
+| P1 | Done | [`2026-09-23-shares-only-ts75-vs-ts77-bakeoff.md`](2026-09-23-shares-only-ts75-vs-ts77-bakeoff.md) | Shares-only TS75 vs TS77 bakeoff (IBKR Level 2 path) — caps 3/10 heat OFF — [stamp](../analysis/2026-09-23-stamp-shares-only-ts75-vs-ts77-bakeoff.rb) |
 | P1 | Proposed | [`2026-09-22-wut-teal-heat-on-rangeerror-4byte-int.md`](2026-09-22-wut-teal-heat-on-rangeerror-4byte-int.md) | WUT Teal/Orange heat-ON PBR ActiveModel::RangeError (4-byte int) — #767–#770 stopped, #771 in scope — [evidence](../analysis/2026-09-22-teal-pbr-767-770-rangeerror-stop.json) · [Orange #771](../analysis/2026-09-23-orange-pbr-771-rangeerror-glance.json) |
 | P0 | In progress | [`2026-09-21-wut-heat-on-rst-portfolio-limit-bypass.md`](2026-09-21-wut-heat-on-rst-portfolio-limit-bypass.md) | WUT heat-ON RST bypasses combined portfolio_limit — draft WUT [#55](https://github.com/simonjesterjr/winston_unit_test/pull/55) — [autopsy](../analysis/2026-09-21-teal-heat-on-dd-autopsy-763-764.md) |
 | P1 | In progress | [`2026-09-18-cpgw-host-lifecycle-in-ecosystem.md`](2026-09-18-cpgw-host-lifecycle-in-ecosystem.md) | CPGW host lifecycle (restart / systemd / HTTP helper) — CLI restart + control service for Desk/BG/Wv2 |
