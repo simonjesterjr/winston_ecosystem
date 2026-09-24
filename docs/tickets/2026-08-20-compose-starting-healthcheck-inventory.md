@@ -6,6 +6,8 @@
 **Monoliths:** ecosystem compose (DM, WUT, Wv2, BG, AI profile)  
 **See:** [`docs/session-reports/2026-08-19-1505-dm-pending-migration-telegram.md`](../session-reports/2026-08-19-1505-dm-pending-migration-telegram.md); sibling [`2026-08-20-dm-rails-health-up-404.md`](2026-08-20-dm-rails-health-up-404.md)
 
+**Child (P1 elevate 2026-09-24):** [`2026-09-24-compose-container-meaningful-status.md`](2026-09-24-compose-container-meaningful-status.md) — meaningful status beyond perpetual `starting` (Wv2 still Up 2 days starting).
+
 ## Problem
 
 On 2026-08-19 ~15:05 MDT, `./bin/compose ps` showed many long-running containers as `(starting)` while Postgres/Redis were `(healthy)`:
