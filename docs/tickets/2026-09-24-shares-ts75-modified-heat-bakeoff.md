@@ -213,3 +213,6 @@ DNA verified in `results_json`: `heat_mode=turtle`, full heat hash, `instrument_
 - **Clear heat-knob win?** **No** (criterion ≥3/4 books improved or at least not worse with a real delta — here delta = 0 everywhere).
 - **Promote:** **No** — shares-only paper candidate language stays with the prior heat-absent TS75 panel; this panel adds no new Edge_R evidence. No Wv2 promote.
 
+## Follow-up (Operator 2026-09-24)
+
+Mode D paper bind plan: [`2026-09-24-copper-794-mode-d-paper-bind.md`](2026-09-24-copper-794-mode-d-paper-bind.md) · [`../../plans/copper-794-mode-d-paper-bind.md`](../../plans/copper-794-mode-d-paper-bind.md).
