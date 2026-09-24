@@ -199,7 +199,7 @@ No Winston v2 or Broker Gateway source edit this session. The book is a database
 ## 13. Tools & Workflow Notes
 
 - **Skills used:** operator-prose, typesafe-ai (`jev ask`), session-report, wrap
-- **Graphify Graph:** `graphify update ./ecosystem` rebuilt the code graph (no LLM): 12833 nodes, 14615 edges, 930 communities. Doc/paper semantic extraction was not run. Workspace merge of the five existing graphs (ecosystem, data_manager, winston_unit_test, broker_gateway, ai) wrote `graphify-out/graph.json` (18906 nodes, 23323 edges). `winston_v2/graphify-out/graph.json` is missing — omitted, no full rebuild. Graphs were not staged.
+- **Graphify Graph:** `graphify update ./ecosystem` rebuilt the code graph (no LLM) after this report was first saved: 12867 nodes, 14647 edges, 937 communities. Doc/paper semantic extraction was not run. Workspace merge of the five existing graphs (ecosystem, data_manager, winston_unit_test, broker_gateway, ai) wrote `graphify-out/graph.json` (18940 nodes, 23355 edges). `winston_v2/graphify-out/graph.json` is missing — omitted, no full rebuild. Graphs were not staged.
 - **Ponytail flags:** No new heat column and no clone of Trading Strategy #341. The cutover reuses portfolio caps plus `Operations::PortfolioHeat` inference. Close 6 and loose 10 are the existing hardcoded inference, which happens to match the #794 knobs when caps are 3 and 10.
 - **What worked well:** Fail-closed compare of the #1581 snapshot inside the same transaction as the insert.
 - **Friction points:** `probe_before_promote.sh` always overwrites `probe-before-promote-last.*`. Those files were already dirty, so this run copied them aside and restored them.
@@ -209,8 +209,10 @@ No Winston v2 or Broker Gateway source edit this session. The book is a database
 
 ## 14. Follow-up Actions
 
-- [x] Clickable desk, portfolio-list field, assignment replace, and paper send — already filed under phase 2. Paper send now names #1585 and stays blocked.
-- [ ] Operator decides whether #1585 and #1581 should both stay active into the next Daily Analysis — owner: operator
+Operator reply on wrap: **skip all**. No new tickets or tasks from this list.
+
+- [x] Clickable desk, portfolio-list field, assignment replace, and paper send — already filed under phase 2. Left as-is. Paper send names #1585 and stays blocked.
+- [x] Whether #1585 and #1581 both stay active into the next Daily Analysis — skipped. Left in this report only.
 
 ---
 
