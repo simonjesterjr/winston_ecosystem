@@ -1,13 +1,13 @@
 # Ticket: Mode D phase 2 — clickable desk walk before any IBKR binding
 
-**Status:** Proposed
+**Status:** Done
 **Priority:** P1
 **Date:** 2026-09-24
 **Lane:** A
-**Parent:** [Mode D phase 2](2026-09-24-mode-d-phase-2.md)
+**Parent:** [Mode D phase 2](../2026-09-24-mode-d-phase-2.md)
 **Implementer:** Grok CLI
 **DoD:** An operator can open a Winston v2 desk page, run the unbound walk, and see the same facts the spec already asserts. No `place_order`.
-**Origin:** [session report](../session-reports/2026-09-24-1227-mode-d-phase-0-1.md)
+**Origin:** [session report](../../session-reports/2026-09-24-1227-mode-d-phase-0-1.md)
 
 ## Goal
 
@@ -25,10 +25,12 @@ The page uses a small paper portfolio with `fulfillment_mode=mode_d`, `fulfillme
 
 ## Work items
 
-- [ ] Route and page for the unbound walk
-- [ ] Opt-in / opt-out control on each long line
-- [ ] Request spec for the five steps above
-- [ ] Leave `Operations::SessionOrderSlate` (Walnut stops) unchanged
+- [x] Route and page for the unbound walk — `GET/POST /operations/mode_d`
+- [x] Opt-in / opt-out control on each long line
+- [x] Request spec for the five steps above
+- [x] Leave `Operations::SessionOrderSlate` (Walnut stops) unchanged
+
+Landed 2026-09-24. The page books in Winston and does not send. Winston v2 #1585 is bound, so the live page refuses that book. The five-step click path ran in the request spec on an unbound `dummy_sim` book. Jev on the page questions: not_on_entry 0.03, short_clean 0.04, paired_unwind 0.03 (fail if ≥ 0.85). `mode_d_uat_jev.sh` on the walk transcript passed (0.87, 0.98, 0.98, 0.86, 0.96).
 
 ## System One harness
 

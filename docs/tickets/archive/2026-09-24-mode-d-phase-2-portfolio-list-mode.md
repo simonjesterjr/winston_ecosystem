@@ -1,13 +1,13 @@
 # Ticket: Mode D phase 2 — portfolio list tells Grok Bot the fulfillment mode
 
-**Status:** Proposed
+**Status:** Done
 **Priority:** P1
 **Date:** 2026-09-24
 **Lane:** B
-**Parent:** [Mode D phase 2](2026-09-24-mode-d-phase-2.md)
+**Parent:** [Mode D phase 2](../2026-09-24-mode-d-phase-2.md)
 **Implementer:** Grok CLI
 **DoD:** `GET /internal/portfolios` includes `fulfillment_mode` for every portfolio. A Mode D book reads `mode_d`. A current Mode C book still reads `mode_c`. Grok Bot’s `wv2_list_portfolios` shows that field without a new tool.
-**Origin:** [session report](../session-reports/2026-09-24-1227-mode-d-phase-0-1.md)
+**Origin:** [session report](../../session-reports/2026-09-24-1227-mode-d-phase-0-1.md)
 
 ## Goal
 
@@ -17,9 +17,11 @@ This slice is part of Phase 2 so the bot can see the book the desk walk is using
 
 ## Work items
 
-- [ ] Add `fulfillment_mode` to the `/internal/portfolios` JSON
-- [ ] Spec: blank policy + `leap_fulfillment=all` → `mode_c`; blank + `none` → `stock`; explicit `mode_d` → `mode_d`
-- [ ] Do not add a database column
+- [x] Add `fulfillment_mode` to the `/internal/portfolios` JSON
+- [x] Spec: blank policy + `leap_fulfillment=all` → `mode_c`; blank + `none` → `stock`; explicit `mode_d` → `mode_d`
+- [x] Do not add a database column
+
+Landed 2026-09-24. Live `GET /internal/portfolios` includes the field on all 53 books. #1585 reads `mode_d`. #1581 reads `mode_c`. Walnut #1428 reads `stock`. No new column. `wv2_list_portfolios` already returns this payload unchanged.
 
 ## System One harness
 

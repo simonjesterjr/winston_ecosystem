@@ -1,13 +1,13 @@
 # Ticket: Mode D phase 2 — assignment replace on the desk walk
 
-**Status:** Proposed
+**Status:** Done
 **Priority:** P1
 **Date:** 2026-09-24
 **Lane:** A
-**Parent:** [Mode D phase 2](2026-09-24-mode-d-phase-2.md)
+**Parent:** [Mode D phase 2](../2026-09-24-mode-d-phase-2.md)
 **Implementer:** Grok CLI
 **DoD:** The same unbound desk walk can assume an assignment snapshot. If Trend Following (TF) has not exited, it mints a stock-only replace. If TF has exited, it does not. The call is not resold on the replace.
-**Origin:** [session report](../session-reports/2026-09-24-1227-mode-d-phase-0-1.md)
+**Origin:** [session report](../../session-reports/2026-09-24-1227-mode-d-phase-0-1.md)
 
 ## Goal
 
@@ -23,10 +23,12 @@ Rules already locked:
 
 ## Work items
 
-- [ ] Snapshot input on `Operations::ModeD::TestDesk` (and the desk page from the walk ticket)
-- [ ] Replace task is stock only
-- [ ] Spec: trend still on → replace, no call; TF exit the same day → no replace
-- [ ] Attach clock reset asserted on the replacement fill
+- [x] Snapshot input on `Operations::ModeD::TestDesk` (and the desk page from the walk ticket)
+- [x] Replace task is stock only
+- [x] Spec: trend still on → replace, no call; TF exit the same day → no replace
+- [x] Attach clock reset asserted on the replacement fill
+
+Landed 2026-09-24 on the unbound desk. A missing snapshot fact is refused. Trend still on keeps the lot open at zero broker shares and mints a stock-only replace. The same session's Trend Following exit mints no replace. The replacement fill restarts the five-session attach clock, so the next covered-call chance is `too_soon`. Jev: replace included a call 0.06, replace minted on an exit day 0.19 (fail if ≥ 0.85).
 
 ## System One harness
 

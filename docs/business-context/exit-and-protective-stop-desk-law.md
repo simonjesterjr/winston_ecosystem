@@ -41,6 +41,10 @@ Dual doctrine on the scoreboard: **WS pierce** vs **10d channel exit**.
 - **Not** a mandate that every recipe use daily high−2N / low+2N trails
 - **Not** permission to run without an exit strategy if stops exist, or without stops if an exit strategy exists
 
+## Mode D user acceptance (2026-09-25)
+
+A covered call on an open long does not satisfy the protective-stop obligation. The lot stays naked until a Good Till Canceled (GTC) stop is working at the broker. If the broker cancels that stop, Winston must drop `working` on the journal. Detail: [`mode-d-ops-shell-uat.md`](mode-d-ops-shell-uat.md).
+
 ## Related
 
 - Turtle S2 methodology (sticky 20D_BO after max): [`turtle-s2-pyramid-and-working-stop.md`](turtle-s2-pyramid-and-working-stop.md)
