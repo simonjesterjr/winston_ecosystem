@@ -1,6 +1,6 @@
 # Ticket: Wire standard_call flatten / roll DTE to desk tasks
 
-**Status:** Proposed  
+**Status:** Done  
 **Priority:** P1  
 **Date:** 2026-09-20  
 **Mode:** contractor  
@@ -28,6 +28,8 @@ Selector stamps `lifecycle_action` / exercise policy. Nothing in Daily Analysis 
 
 ## Acceptance
 
-- [ ] Lot with DTE < flatten_below_dte gets a flatten task  
-- [ ] DTE in roll_window gets a roll task (optional per policy)  
-- [ ] Confirm does not auto-exercise
+- [x] Lot with DTE < flatten_below_dte gets a flatten task (`task_type=exit`, HITL sell-to-close at option mark; not ExitAtStopService)
+- [x] DTE in roll_window gets a roll task (`task_type=hitl` attention; no roll picker in v1)
+- [x] Confirm does not auto-exercise (copy + `exercise_policy.auto_exercise=false`; no “assignment”)
+
+Mode C dummy_sim only. LEAP knobs keep `flatten_below_dte: nil` so long-dated lots are not flattened at 7 DTE. Idempotent. Bound books skipped until Lane 2 OPT Send exists.
