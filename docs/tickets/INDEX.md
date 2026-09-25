@@ -35,9 +35,9 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
-| P1 | In progress | [`2026-09-24-mode-d-phase-2.md`](2026-09-24-mode-d-phase-2.md) | Mode D phase 2 — desk walk, list field, and assignment done; paper send blocked pending #1585 importer adopt of named fingerprint `d627cd79…` — [report](../session-reports/2026-09-24-1227-mode-d-phase-0-1.md) |
-| P1 | Blocked | [`2026-09-24-mode-d-phase-2-paper-send.md`](2026-09-24-mode-d-phase-2-paper-send.md) | Mode D phase 2 — one paper covered-call send; fingerprint named `d627cd79…`, Send blocked until importer adopt |
-| P1 | Proposed | [`2026-09-25-copper-1585-fingerprint-importer-adopt.md`](2026-09-25-copper-1585-fingerprint-importer-adopt.md) | Copper #1585 — adopt Operator fingerprint `d627cd79…` via PortfolioConfigImporter (unblocks Mode D paper send) — [plan](../../plans/copper-1585-fingerprint-importer-adopt.md) |
+| P1 | In progress | [`2026-09-24-mode-d-phase-2.md`](2026-09-24-mode-d-phase-2.md) | Mode D phase 2 — desk walk, list field, and assignment done; paper send still blocked; #1585 importer adopt stopped on engaged draft journal 2105 — [report](../session-reports/2026-09-24-1227-mode-d-phase-0-1.md) |
+| P1 | Blocked | [`2026-09-24-mode-d-phase-2-paper-send.md`](2026-09-24-mode-d-phase-2-paper-send.md) | Mode D phase 2 — one paper covered-call send; fingerprint named `d627cd79…`; adopt stopped on engaged journal 2105; Send still blocked |
+| P1 | Blocked | [`2026-09-25-copper-1585-fingerprint-importer-adopt.md`](2026-09-25-copper-1585-fingerprint-importer-adopt.md) | Copper #1585 — fingerprint adopt stopped: draft journal 2105 engaged the book before TST clear — [plan](../../plans/copper-1585-fingerprint-importer-adopt.md) |
 | P1 | Proposed | [`2026-09-24-teal-indigo-usdu-overdraft.md`](2026-09-24-teal-indigo-usdu-overdraft.md) | Settle open Teal 1584 / Indigo 1583 USDU overdrafts — operator flatten or fund — [autopsy](../analysis/2026-09-22-wv2-dar-paper-trade-autopsy.md) |
 | P0 | Proposed | [`2026-09-24-desk-capital-fit-justification-check.md`](2026-09-24-desk-capital-fit-justification-check.md) | Click the desk Capital fit Justification line |
 | P1 | Proposed | [`2026-09-24-compose-container-meaningful-status.md`](2026-09-24-compose-container-meaningful-status.md) | Meaningful container deployment status beyond perpetual `starting` — Wv2 Up 2d starting while serving — [parent inventory](2026-08-20-compose-starting-healthcheck-inventory.md) |

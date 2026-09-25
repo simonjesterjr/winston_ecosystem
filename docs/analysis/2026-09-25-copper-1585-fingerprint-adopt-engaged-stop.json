@@ -1,0 +1,82 @@
+{
+  "captured_at": "2026-09-25T15:50:01Z",
+  "outcome": "stopped_before_post",
+  "reason": "Portfolio 1585 became engaged after the clean preflight. TaskGenerator inserted draft journal 2105. TST book was not destroyed. POST /internal/portfolios was not called.",
+  "operator_fingerprint_lock": "d627cd795b410360aff56706dec38759d48f7d32f7cfac4203a29523e2c7c666",
+  "clean_preflight_at": "2026-09-25T15:44:18Z",
+  "clean_preflight_journals": 0,
+  "portfolio_1585": {
+    "id": 1585,
+    "seed_name": "Portfolio Copper · mode-d-from-wut-794",
+    "fingerprint": null,
+    "active": true,
+    "journals": 1,
+    "engaged": true,
+    "positions": 0,
+    "leap_fulfillment": "none",
+    "fulfillment_mode": "mode_d",
+    "broker_binding_id": "bnd_3d6a5020d839c315583277d2",
+    "fulfillment_adapter_key": "interactive_broker_trader_api",
+    "trading_strategy_id": 341,
+    "markets_include_tst": true,
+    "tst_book_id": 2010,
+    "journal": {
+      "id": 2105,
+      "status": "draft",
+      "notes": "UAT fake enter",
+      "market": "MSFT",
+      "created_at": "2026-09-25T15:44:31Z",
+      "source": "Operations::TaskGenerator#create_draft_journal",
+      "executed": false,
+      "log": "winston_v2/log/development.log Journal Create at 2026-09-25 15:44:31.658360"
+    },
+    "task": {
+      "id": 1918,
+      "status": "pending",
+      "task_type": "enter",
+      "journal_id": 2105,
+      "reason": "UAT fake enter"
+    }
+  },
+  "portfolio_1581_unchanged": {
+    "fingerprint": null,
+    "trading_strategy_id": 341,
+    "fulfillment_mode": "mode_c",
+    "leap_fulfillment": "all"
+  },
+  "trading_strategy_341_unchanged": {
+    "name": "TurtleV1 S1 Breakout20/10",
+    "fingerprint": null
+  },
+  "wut_export": {
+    "url": "http://127.0.0.1:3000/internal/portfolio_config?run_id=794",
+    "http": 200,
+    "fingerprint_matches_lock": true,
+    "seed_name": "Portfolio Copper",
+    "markets_include_tst": false,
+    "posted": false
+  },
+  "actions_not_taken": [
+    "Book 2010 destroy",
+    "POST /internal/portfolios",
+    "POST /internal/portfolios/activate",
+    "SQL or update! fingerprint",
+    "Desk Send"
+  ],
+  "jev": {
+    "model": "jev-1.13.0",
+    "provider": "typesafe",
+    "questions": {
+      "preflight_clear": "Before any portfolio import POST, does this state show journal count 0, seed_name exactly Portfolio Copper · mode-d-from-wut-794, TST absent from markets, fulfillment_mode mode_d, leap_fulfillment none, and broker_binding_id bnd_3d6a5020d839c315583277d2?",
+      "no_send": "Did this work Desk-Send an order or SQL-stamp a fingerprint onto a portfolio or trading strategy?"
+    },
+    "answers": {
+      "preflight_clear": { "type": "noul", "noul": 0.04 },
+      "no_send": { "type": "noul", "noul": 0.04 }
+    },
+    "gates": {
+      "preflight_clear": "fail (noul 0.04 < 0.85)",
+      "no_send": "pass inverted rule (noul 0.04 < 0.85, did not Desk-Send or SQL-stamp)"
+    }
+  }
+}

@@ -13,7 +13,7 @@
 2. [Portfolio list emits fulfillment mode](archive/2026-09-24-mode-d-phase-2-portfolio-list-mode.md) — done
 3. [Assignment replace on the same desk](archive/2026-09-24-mode-d-phase-2-assignment-replace.md) — done
 4. [One paper send after the fingerprint is named](2026-09-24-mode-d-phase-2-paper-send.md) — blocked; Operator named `d627cd79…`, Send waits on importer adopt
-5. [Copper #1585 fingerprint importer adopt](2026-09-25-copper-1585-fingerprint-importer-adopt.md) — Proposed (Lane A); unblocks paper-send fingerprint gate
+5. [Copper #1585 fingerprint importer adopt](2026-09-25-copper-1585-fingerprint-importer-adopt.md) — Blocked 2026-09-25: draft journal 2105 engaged #1585 before TST clear; no POST
 
 ## Goal
 

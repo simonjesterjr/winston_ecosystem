@@ -23,7 +23,9 @@ Operator named the TradingStrategy fingerprint from WUT PBR #794 capture (heat +
 - Full: `d627cd795b410360aff56706dec38759d48f7d32f7cfac4203a29523e2c7c666`
 - Short: `d627cd79…`
 
-**Not yet applied on Wv2.** OP #1585 and TS #341 remain null-fingerprint until service-path adopt lands ([`2026-09-25-copper-1585-fingerprint-importer-adopt.md`](2026-09-25-copper-1585-fingerprint-importer-adopt.md) / plan [`../../plans/copper-1585-fingerprint-importer-adopt.md`](../../plans/copper-1585-fingerprint-importer-adopt.md)). **Send stays blocked** until that adopt completes, #1585 is re-activated, and fingerprint is verified on OP + new/found TS (not by writing on shared #341).
+**Not yet applied on Wv2.** OP #1585 and TS #341 remain null-fingerprint until service-path adopt lands ([`2026-09-25-copper-1585-fingerprint-importer-adopt.md`](2026-09-25-copper-1585-fingerprint-importer-adopt.md) / plan [`../../plans/copper-1585-fingerprint-importer-adopt.md`](../../plans/copper-1585-fingerprint-importer-adopt.md)).
+
+**2026-09-25 adopt attempt stopped.** A clean journals=0 snapshot at 15:44:18Z was followed by draft journal **2105** (MSFT, notes `UAT fake enter`, task 1918) from `Operations::TaskGenerator`. The book is engaged. TST was not removed. `POST /internal/portfolios` was not called. No fingerprint write. No Send. **Send stays blocked** until that adopt completes, #1585 is re-activated, and fingerprint is verified on OP + new/found TS (not by writing on shared #341).
 
 ## Goal
 
@@ -41,7 +43,7 @@ The 2026-09-23 BUY of IBM Sep 17 2027 240 call (conid `911969657`) was rejected.
 
 - [x] Operator named portfolio **#1585** and binding `bnd_3d6a5020d839c315583277d2` / DUT070450 (2026-09-24 cutover)
 - [x] Operator named fingerprint `d627cd79…` (full `d627cd795b410360aff56706dec38759d48f7d32f7cfac4203a29523e2c7c666`) on 2026-09-25 — source WUT PBR #794 capture
-- [ ] Service-path adopt of that fingerprint onto #1585 via importer ([`2026-09-25-copper-1585-fingerprint-importer-adopt.md`](2026-09-25-copper-1585-fingerprint-importer-adopt.md)) + re-activate verified before Send
+- [ ] Service-path adopt of that fingerprint onto #1585 via importer ([`2026-09-25-copper-1585-fingerprint-importer-adopt.md`](2026-09-25-copper-1585-fingerprint-importer-adopt.md)) + re-activate verified before Send — 2026-09-25 attempt stopped: draft journal 2105 engaged the book; no POST
 - [ ] Send uses `Adapters::IbkrAdapter#place_order` with `purpose` unchanged: this is an order, not the candidate read
 - [ ] Option intent requires conid; quantity is contracts
 - [ ] Evidence row has conid, asset class, and underlying

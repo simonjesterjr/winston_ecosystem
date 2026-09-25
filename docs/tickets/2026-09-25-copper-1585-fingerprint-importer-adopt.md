@@ -1,6 +1,6 @@
 # Ticket: Copper #1585 — fingerprint adopt via PortfolioConfigImporter
 
-**Status:** Proposed  
+**Status:** Blocked  
 **Priority:** P1  
 **Date:** 2026-09-25  
 **Lane:** A  
@@ -32,14 +32,14 @@ I want #1585's null fingerprint fixed the desk-correct way: service-path adopt t
 
 ## Work items
 
-- [ ] Read-only preflight snapshot: journals=0 / not engaged; exact `seed_name`; Mode D; DUT bind; markets (±TST); #1581/#341 baseline
-- [ ] Clear leftover TST book on #1585 (journals=0 only); re-read markets = Copper 11
-- [ ] Export WUT PBR 794; assert fingerprint == Operator lock; patch `seed_name` + `force_lab_uncapped: true`
-- [ ] `POST /internal/portfolios` — expect `action=adopted`, portfolio id 1585, active false, TS id ≠ 341
-- [ ] `POST /internal/portfolios/activate` with `force=true`
-- [ ] Verify fingerprint on OP + new/found TS; Mode D + bind intact; #1581/#341 unchanged; no Send
-- [ ] Record evidence on paper-send ticket; leave Send blocked until that ticket's remaining gates clear
-- [ ] System One harness (below) tee'd into TUI + wrap
+- [x] Read-only preflight snapshot: journals=0 / not engaged; exact `seed_name`; Mode D; DUT bind; markets (±TST); #1581/#341 baseline — clean at 15:44:18Z, then superseded (see Results)
+- [ ] Clear leftover TST book on #1585 (journals=0 only); re-read markets = Copper 11 — **stopped**: journals became 1 before destroy
+- [ ] Export WUT PBR 794; assert fingerprint == Operator lock; patch `seed_name` + `force_lab_uncapped: true` — export read and lock matched; body not patched or posted
+- [ ] `POST /internal/portfolios` — expect `action=adopted`, portfolio id 1585, active false, TS id ≠ 341 — **not called**
+- [ ] `POST /internal/portfolios/activate` with `force=true` — **not called**
+- [ ] Verify fingerprint on OP + new/found TS; Mode D + bind intact; #1581/#341 unchanged; no Send — siblings untouched because no write; fingerprint still null
+- [x] Record evidence on paper-send ticket; leave Send blocked until that ticket's remaining gates clear
+- [x] System One harness (below) tee'd into TUI + wrap — `preflight_clear` failed closed
 
 ## System One harness
 
@@ -80,6 +80,45 @@ At every System One checkpoint in this ticket/plan:
 6. Branch fail-closed on harness pass rules. Deterministic probes run first; Jev judges residual semantic smells only.
 
 If Jev is unavailable, print `Jev skipped: <reason>` and continue only if the ticket allows probe-only; never pretend Jev passed. Prefer `jevctl` over the TypeSafe Python SDK.
+
+## Results (2026-09-25)
+
+Adopt **did not run**. `POST /internal/portfolios` was not called. No fingerprint write. No Desk Send. TST book **2010** is still on #1585. #1581 and Trading Strategy #341 were not written.
+
+Clean snapshot at `2026-09-25T15:44:18Z` (`docs/analysis/2026-09-25-copper-1585-fingerprint-adopt-preflight.json`): journals 0, not engaged, seed `Portfolio Copper · mode-d-from-wut-794`, Mode D, bind `bnd_3d6a5020d839c315583277d2`, markets included TST.
+
+Thirteen seconds later `Operations::TaskGenerator#create_draft_journal` inserted journal **2105** (MSFT, status `draft`, notes `UAT fake enter`, not executed) and pending task **1918**. Re-read at `2026-09-25T15:50:01Z`: journals 1, `engaged?` true. The TST destroy script aborted on `journals=1` before `destroy!`. Stop evidence: `docs/analysis/2026-09-25-copper-1585-fingerprint-adopt-engaged-stop.json`.
+
+Winston Unit Test `GET /internal/portfolio_config?run_id=794` returned fingerprint `d627cd795b410360aff56706dec38759d48f7d32f7cfac4203a29523e2c7c666` (matches the lock) and seed `Portfolio Copper`. That body was not patched and not posted.
+
+### Jev System One
+
+```
+=== Jev System One ===
+checkpoint: preflight_clear + no_send
+```
+
+State: the stop JSON above (journals 1, TST present, POST not attempted, no SQL fingerprint write).
+
+Questions:
+
+- `preflight_clear` (Noul): Before any portfolio import POST, does this state show journal count 0, seed_name exactly Portfolio Copper · mode-d-from-wut-794, TST absent from markets, fulfillment_mode mode_d, leap_fulfillment none, and broker_binding_id bnd_3d6a5020d839c315583277d2?
+- `no_send` (Noul): Did this work Desk-Send an order or SQL-stamp a fingerprint onto a portfolio or trading strategy?
+
+Answers (`jev-1.13.0`):
+
+```json
+{
+  "preflight_clear": { "type": "noul", "noul": 0.04 },
+  "no_send": { "type": "noul", "noul": 0.04 }
+}
+```
+
+`preflight_clear` 0.04 is below 0.85, so the gate fails and the adopt stays stopped. `no_send` 0.04 is below 0.85, so the inverted fail rule does not trip.
+
+Later checkpoints (`action_adopted`, `fp_lock`, `mode_d_bind`, `siblings_untouched`) were not asked. There is no POST result to judge.
+
+**Resume:** Operator decides whether draft journal 2105 and task 1918 may be removed. Only a journals=0 book can clear TST and adopt. Do not SQL-stamp the fingerprint.
 
 ## Non-goals
 

@@ -1,6 +1,6 @@
 # Plan: Copper #1585 — service-path fingerprint adopt (PBR 794)
 
-**Status:** Active  
+**Status:** Blocked — 2026-09-25 execution stopped before TST clear. Journal 2105 (`draft`, notes `UAT fake enter`) engaged #1585 after a clean journals=0 snapshot. No `POST /internal/portfolios`. See ticket Results.  
 **Date:** 2026-09-25  
 **Tickets:** [`docs/tickets/2026-09-25-copper-1585-fingerprint-importer-adopt.md`](../docs/tickets/2026-09-25-copper-1585-fingerprint-importer-adopt.md) · parent [`docs/tickets/2026-09-24-mode-d-phase-2.md`](../docs/tickets/2026-09-24-mode-d-phase-2.md) · send still blocked [`docs/tickets/2026-09-24-mode-d-phase-2-paper-send.md`](../docs/tickets/2026-09-24-mode-d-phase-2-paper-send.md)  
 **Lane:** A (plan + System One + Grok CLI)  
