@@ -1,9 +1,9 @@
 # Winston bot / CLI / AI-DLC operating contract
 
 **Status:** Active desk law (process)  
-**Date:** 2026-09-24  
+**Date:** 2026-09-25  
 **Owner:** Chief of Staff (orchestrate); Operator (approve discards / lane exceptions)  
-**Related:** [`sawtooth-host-ops-dod.md`](sawtooth-host-ops-dod.md); [`../tickets/2026-09-21-probe-before-promote.md`](../tickets/2026-09-21-probe-before-promote.md); ecosystem `AGENTS.md`
+**Related:** [`sawtooth-host-ops-dod.md`](sawtooth-host-ops-dod.md); [`cursor-model-pool-routing.md`](cursor-model-pool-routing.md); [`../tickets/2026-09-21-probe-before-promote.md`](../tickets/2026-09-21-probe-before-promote.md); ecosystem `AGENTS.md`
 
 Chat is not the record. Git + tickets are the spine.
 
@@ -12,7 +12,7 @@ Chat is not the record. Git + tickets are the spine.
 | Role | Who | Does | Does not |
 |------|-----|------|----------|
 | **Act** | CoS, Sawtooth Ops, PBR Ops, Forensics | Stamp / probe / queue / host DoD, autopsies, smell-tests, promote gates | Own the durable narrative; invent a second trail; default-code Winston |
-| **Code** | **Grok CLI** (default for planned work); **Winston Dev** only for unplanned small/hotfix/issues | Implement against ticket (± plan); push `main`; in-band wrap | Parallel bot + CLI on the same ticket; PR theater as desk default |
+| **Code** | **Cursor cloud agent** for non-host-bound work (default **Cursor Models**); **Grok CLI** for host-bound/watchable work and Winston **Lane A**; **Winston Dev** only for unplanned small/hotfix/issues | Implement against ticket (± plan); push `main`; in-band wrap | Parallel bot + CLI on the same ticket; silently opening an Other Models agent; PR theater as desk default |
 | **Remember** | AI-DLC in `ecosystem/` | Plans, tickets, analysis, session reports, ADRs | Out-of-band Scribe as primary wrap owner |
 | **Judge** | Jev | Screen / verify / System One checkpoints / overnight compact | Replace tickets or host probes |
 
@@ -25,7 +25,7 @@ Always:
 1. **Ticket** first (INDEX row) before a second bot or any coding session.
 2. **Plan** in `ecosystem/plans/` (or ticket-linked plan section) — grill-with-docs against CONTEXT / ADRs / business-context.
 3. **Jev System One harness** written into the plan (state + atomic checkpoints + pass rules) — see jev-desk-guardrails (yes/no or noul questions on observable state), e.g. heat intent vs hash, peak open vs portfolio cap, packaging floor contracts, Edge_R present.
-4. **Implementer = Grok CLI only.** Winston Dev is **not** used on Lane A.
+4. **Implementer route follows the Cursor model-pool routing policy:** prefer a Cursor cloud agent with the default **Cursor Models** pool when the work is not host-bound; use shared Grok CLI on sawtooth for host-bound/watchable work. Winston Dev is **not** used on Lane A.
 5. Checkpoints run at plan gates (before code, after implement, before host promote / pull DoD). Fail closed → stop and update ticket.
 
 ### Lane B — Unplanned small (hotfix / `docs/issues/` / sufficiently small)
@@ -73,9 +73,11 @@ If Jev is unavailable, print `Jev skipped: <reason>` and continue only if the ti
 
 If no shared pane is available, Operator (or CoS via instruction) pastes the CLI seed into a solo `grok` session. Same ticket remains source of truth.
 
-### Not default
+### Route rule
 
-- Cursor Cloud Agent / private worker (PR-oriented, workers often offline) — only when Operator asks.
+- Cursor Cloud Agent / private worker — preferred for work that does not need sawtooth host access, compose, DUT/IBKR, or a watchable TUI; leave it on the default **Cursor Models** pool.
+- Shared Grok CLI on sawtooth — remains the route for host-bound/watchable work and Winston Lane A.
+- Anthropic/OpenAI or another **Other Models** cloud agent — only when the Operator names the exact model/provider; never silently for convenience.
 - CoS inventing Winston patches in chat.
 - Scribe opening a parallel wrap commit after the fact.
 
@@ -117,7 +119,7 @@ Full guardrails: [`jev-desk-guardrails.md`](jev-desk-guardrails.md) (API vs `jev
 | Sawtooth Ops | Host stamps / pulls / DoD |
 | Forensics / PBR Ops | Evidence → `docs/analysis/`; link ticket; do not start Dev |
 | Winston Dev | **Lane B only** (hotfix / issues / small) unless Operator explicitly expands |
-| Grok CLI | **Default implementer**; sole Lane A coder; in-band wrap |
+| Grok CLI | Host-bound/watchable route; sole Lane A coder when host-bound; in-band wrap |
 | Scribe | Optional nag only |
 | Jev | Judge at chokepoints |
 
