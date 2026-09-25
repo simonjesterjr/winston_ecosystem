@@ -1,6 +1,6 @@
 # Ticket: Mode D phase 2 — desk walk, bot visibility, paper send, assignment replace
 
-**Status:** Proposed
+**Status:** In progress
 **Priority:** P1
 **Date:** 2026-09-24
 **Lane:** A
@@ -9,14 +9,15 @@
 **Origin:** [session report](../session-reports/2026-09-24-1227-mode-d-phase-0-1.md)
 **Children:**
 
-1. [Desk walk](2026-09-24-mode-d-phase-2-desk-walk.md)
-2. [Portfolio list emits fulfillment mode](2026-09-24-mode-d-phase-2-portfolio-list-mode.md)
-3. [Assignment replace on the same desk](2026-09-24-mode-d-phase-2-assignment-replace.md)
-4. [One paper send after the book is named](2026-09-24-mode-d-phase-2-paper-send.md)
+1. [Desk walk](archive/2026-09-24-mode-d-phase-2-desk-walk.md) — done
+2. [Portfolio list emits fulfillment mode](archive/2026-09-24-mode-d-phase-2-portfolio-list-mode.md) — done
+3. [Assignment replace on the same desk](archive/2026-09-24-mode-d-phase-2-assignment-replace.md) — done
+4. [One paper send after the fingerprint is named](2026-09-24-mode-d-phase-2-paper-send.md) — blocked; Operator named `d627cd79…`, Send waits on importer adopt
+5. [Copper #1585 fingerprint importer adopt](2026-09-25-copper-1585-fingerprint-importer-adopt.md) — Proposed (Lane A); unblocks paper-send fingerprint gate
 
 ## Goal
 
-The unbound Mode D paper book is Winston v2 **#1585** (`Portfolio Copper · mode-d-from-wut-794`). It is not bound. Finish Mode D as one phase. Phases 0 and 1 already land the mode flag, the stock packaging, the unbound test-desk service, and the Daily Analysis covered-call tasks. Phase 2 makes that visible and operable: a person can click the walk, Grok Bot can see which books are Mode D, the desk can replace shares after assignment without selling a new call, and only then does one covered call go to Interactive Brokers (IBKR) paper.
+Winston v2 **#1585** (`Portfolio Copper · mode-d-from-wut-794`) is the Mode D paper book. It is bound to Interactive Brokers paper DUT070450, Operator named fingerprint `d627cd79…` (full hash on the paper-send ticket), but #1585 is still null-fingerprint until importer adopt — so no order is sent on it. The clickable walk runs on that paper book and writes Winston rows only. Finish Mode D as one phase. Phases 0 and 1 already land the mode flag, the stock packaging, the unbound test-desk service, and the Daily Analysis covered-call tasks. Phase 2 makes that visible and operable: a person can click the walk, Grok Bot can see which books are Mode D, the desk can replace shares after assignment without selling a new call, and only then does one covered call go to Interactive Brokers (IBKR) paper.
 
 ## Order
 

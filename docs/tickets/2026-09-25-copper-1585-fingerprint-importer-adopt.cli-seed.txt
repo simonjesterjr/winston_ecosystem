@@ -1,0 +1,5 @@
+cwd: /home/johnkoisch/Documents/com/sawtooth
+Lane A. Adopt Operator fingerprint d627cd79… (d627cd795b410360aff56706dec38759d48f7d32f7cfac4203a29523e2c7c666) onto Wv2 OP #1585 via POST /internal/portfolios (Operations::PortfolioConfigImporter). Clear TST leftover first. Patch WUT PBR 794 export seed_name to exact #1585 seed + force_lab_uncapped true. Expect action=adopted on 1585; re-activate force=true; verify Mode D + DUT070450 bind; leave #1581/#341 untouched. No SQL fingerprint writes. No Desk Send.
+Follow ticket ecosystem/docs/tickets/2026-09-25-copper-1585-fingerprint-importer-adopt.md and plan ecosystem/plans/copper-1585-fingerprint-importer-adopt.md.
+System One harness on the ticket. Tee every jev ask (state + questions + answers) into TUI + wrap.
+Push ecosystem main. In-band wrap.
