@@ -33,6 +33,13 @@ Paper account DUT070450, binding `bnd_3d6a5020d839c315583277d2`, Winston portfol
 4. Mint one fresh desk draft: 120 XLE, market, day, `source=mode_d_uat`, task type enter. Give the operator the workflow link. Do not send it.
 5. Operator Confirms. On the print: GTC stop parks, covered-call draft appears (1 contract, opt-out). Then lot 2 and lot 3 the same way. Then one short, no call.
 
+## Rules locked 2026-09-25
+
+- No 8% spread gate and no open-interest floor on Mode D. Mode C’s copies of those screens need a design session. They were not an operator lock.
+- After this walk, Day orders go back to the nightly slate. Naked (no working stop) is never acceptable. Covered-call sales stay human confirm. Not every long is written.
+- Trading Strategy #341 is `move_to_last_entry`. A new lot moves the earlier lots’ stops to the newest stop.
+- If the broker cancels or fills an order, Winston drops `working` and the shell shows the gap.
+
 ## Do not
 
 - Treat this walk as finished Mode D integration.

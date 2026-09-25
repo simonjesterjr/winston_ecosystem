@@ -160,10 +160,14 @@
 
 ## 10. Open Questions
 
-- **Does the 8% spread gate return after this walk?** — needs the operator. Blocks: production Mode D chain policy.
-- **Auto-send the GTC stop on every Mode D fill, or Approve-then-send like Walnut?** — needs the operator. Blocks: ADR-019 production.
-- **One stop per symbol, resized on pyramid, or one stop per lot?** — needs the operator.
-- **Did IBKR cancel the 59.25 stop because the call filled?** — not shown. The blotter only shows both stops Cancelled. Blocks: the cancel watcher design.
+Answered by the operator on 2026-09-25, after the wrap. Recorded in ADR-019 and `docs/business-context/mode-d-ops-shell-uat.md`.
+
+- The 8% spread gate does not return for Mode D. Mode C’s 200-contract and 8% screens need a design session. They were not an operator lock.
+- Day orders return to the nightly slate. A lot without a working stop is never acceptable. Covered-call sales stay human confirm.
+- Trading Strategy #341 stays `move_to_last_entry`. Earlier lots take the newest lot’s stop. The user-acceptance hour made that look strange.
+- Winston must match the broker. A cancelled or filled order leaves `working`. A filled call does not prove the stop was cancelled and does not clear naked.
+
+Still open, and not a blocker for resuming the walk: the Mode C design session for those liquidity screens.
 
 ---
 

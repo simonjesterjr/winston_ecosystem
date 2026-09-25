@@ -29,10 +29,11 @@ The operator set these aside or required them during the walk. They are not a si
 - Stock still long **240** XLE. Flatten order **946212659**, GTC limit sell 240 at **61.00**, was PreSubmitted because the exchange was closed.
 - Winston lots 936 (120 at 61.81) and 937 (120 at 62.10) stay open until that sell fills. No pending desk task. Free cash in the book about **$15,099.80**.
 
-## Not locked — needs the operator
+## Operator locks after the walk (2026-09-25)
 
-- Whether the 8% spread gate returns after this walk.
-- Whether production Mode D auto-sends the GTC stop on the fill, or goes back to slate Approve then send.
-- One stop for the whole symbol (resize when a pyramid fills) versus one stop per lot.
-- A watcher that drops `working` when IBKR cancels a stop Winston still holds. The call fill is not, by itself, proof that IBKR cancelled the stop.
-- `outside_rth` on the broker ticket. A market sell while the exchange is closed was rejected. A GTC limit is what rested.
+1. The 8% spread gate does not return for Mode D. The open-interest floor stays off Mode D. Mode C’s 200-contract and 8% screens were not an operator decision. They need a design session before anyone treats them as law. Do not change those Mode C screens until that session.
+2. Day orders (the stock entry and the pyramid adds) go back to the nightly Session Order Slate: Approve, then send. A lot with no working protective stop is never acceptable. The covered-call sale stays a human confirm. Not every long is written.
+3. Pyramid stops stay `move_to_last_entry` on Trading Strategy #341. Earlier lots take the stop of the most recently added lot. The user-acceptance cadence made that look like a one-off resize. It is the strategy’s existing rule, two Average True Range units under the latest fill, Good Till Canceled.
+4. Winston has to match Interactive Brokers. A working journal whose broker order is cancelled or filled must leave `working`. The shell then shows the lot naked if no stop remains, so the operator knows to act at the broker. A filled call does not prove the stop was cancelled and does not clear naked.
+
+`outside_rth` on a market ticket was rejected for this XLE order while the exchange was closed. The resting order was a GTC limit. That flag is not a general overnight switch.

@@ -43,7 +43,7 @@ Dual doctrine on the scoreboard: **WS pierce** vs **10d channel exit**.
 
 ## Mode D user acceptance (2026-09-25)
 
-A covered call on an open long does not satisfy the protective-stop obligation. The lot stays naked until a Good Till Canceled (GTC) stop is working at the broker. If the broker cancels that stop, Winston must drop `working` on the journal. Detail: [`mode-d-ops-shell-uat.md`](mode-d-ops-shell-uat.md).
+A covered call on an open long does not satisfy the protective-stop obligation. The lot stays naked until a Good Till Canceled (GTC) stop is working at the broker. If the broker cancels that stop, Winston must drop `working` on the journal. Copper Trading Strategy #341 is `move_to_last_entry`: earlier lots take the newest lot’s stop. Day orders return to the nightly slate. The call sale stays a human confirm. Detail: [`mode-d-ops-shell-uat.md`](mode-d-ops-shell-uat.md).
 
 ## Related
 
