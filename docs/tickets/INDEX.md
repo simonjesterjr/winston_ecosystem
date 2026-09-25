@@ -35,11 +35,8 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
-| P1 | Proposed | [`2026-09-24-mode-d-phase-2.md`](2026-09-24-mode-d-phase-2.md) | Mode D phase 2 — desk walk, bot visibility, assignment replace, one paper send — [report](../session-reports/2026-09-24-1227-mode-d-phase-0-1.md) |
-| P1 | Proposed | [`2026-09-24-mode-d-phase-2-desk-walk.md`](2026-09-24-mode-d-phase-2-desk-walk.md) | Mode D phase 2 — clickable unbound desk walk |
-| P1 | Proposed | [`2026-09-24-mode-d-phase-2-portfolio-list-mode.md`](2026-09-24-mode-d-phase-2-portfolio-list-mode.md) | Mode D phase 2 — `GET /internal/portfolios` emits `fulfillment_mode` |
-| P1 | Proposed | [`2026-09-24-mode-d-phase-2-assignment-replace.md`](2026-09-24-mode-d-phase-2-assignment-replace.md) | Mode D phase 2 — assignment replace on the desk walk |
-| P1 | Proposed | [`2026-09-24-mode-d-phase-2-paper-send.md`](2026-09-24-mode-d-phase-2-paper-send.md) | Mode D phase 2 — one paper covered-call send after the book is named |
+| P1 | In progress | [`2026-09-24-mode-d-phase-2.md`](2026-09-24-mode-d-phase-2.md) | Mode D phase 2 — desk walk, list field, and assignment done; paper send blocked on the Trading Strategy fingerprint — [report](../session-reports/2026-09-24-1227-mode-d-phase-0-1.md) |
+| P1 | Blocked | [`2026-09-24-mode-d-phase-2-paper-send.md`](2026-09-24-mode-d-phase-2-paper-send.md) | Mode D phase 2 — one paper covered-call send after the fingerprint is named |
 | P1 | Proposed | [`2026-09-24-teal-indigo-usdu-overdraft.md`](2026-09-24-teal-indigo-usdu-overdraft.md) | Settle open Teal 1584 / Indigo 1583 USDU overdrafts — operator flatten or fund — [autopsy](../analysis/2026-09-22-wv2-dar-paper-trade-autopsy.md) |
 | P0 | Proposed | [`2026-09-24-desk-capital-fit-justification-check.md`](2026-09-24-desk-capital-fit-justification-check.md) | Click the desk Capital fit Justification line |
 | P1 | Proposed | [`2026-09-24-compose-container-meaningful-status.md`](2026-09-24-compose-container-meaningful-status.md) | Meaningful container deployment status beyond perpetual `starting` — Wv2 Up 2d starting while serving — [parent inventory](2026-08-20-compose-starting-healthcheck-inventory.md) |

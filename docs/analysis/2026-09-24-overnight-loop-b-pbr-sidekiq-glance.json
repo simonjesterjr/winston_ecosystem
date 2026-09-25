@@ -1,0 +1,163 @@
+{
+  "generated_at_mt": "2026-09-24 21:58:06 MT",
+  "pbrs": [
+    {
+      "id": 743,
+      "status": "completed",
+      "portfolio_id": 412,
+      "updated_at": "2026-09-18 19:07 MT",
+      "edge_r": 17.0985,
+      "oa": 19991.532596425415,
+      "operator_stop": null,
+      "error": ""
+    },
+    {
+      "id": 727,
+      "status": "completed",
+      "portfolio_id": 412,
+      "updated_at": "2026-09-18 14:40 MT",
+      "edge_r": 17.6998,
+      "oa": 19723.28452921362,
+      "operator_stop": null,
+      "error": ""
+    },
+    {
+      "id": 767,
+      "status": "failed",
+      "portfolio_id": 412,
+      "updated_at": "2026-09-22 17:50 MT",
+      "edge_r": null,
+      "oa": null,
+      "operator_stop": null,
+      "error": ""
+    },
+    {
+      "id": 768,
+      "status": "failed",
+      "portfolio_id": 412,
+      "updated_at": "2026-09-22 17:50 MT",
+      "edge_r": null,
+      "oa": null,
+      "operator_stop": null,
+      "error": ""
+    },
+    {
+      "id": 769,
+      "status": "failed",
+      "portfolio_id": 412,
+      "updated_at": "2026-09-22 17:50 MT",
+      "edge_r": null,
+      "oa": null,
+      "operator_stop": null,
+      "error": ""
+    },
+    {
+      "id": 770,
+      "status": "failed",
+      "portfolio_id": 412,
+      "updated_at": "2026-09-22 17:50 MT",
+      "edge_r": null,
+      "oa": null,
+      "operator_stop": null,
+      "error": ""
+    },
+    {
+      "id": 771,
+      "status": "completed",
+      "portfolio_id": 35,
+      "updated_at": "2026-09-23 10:29 MT",
+      "edge_r": -0.1458,
+      "oa": 598.6644939527946,
+      "operator_stop": null,
+      "error": ""
+    },
+    {
+      "id": 788,
+      "status": "completed",
+      "portfolio_id": 7,
+      "updated_at": "2026-09-24 09:39 MT",
+      "edge_r": 0.0879,
+      "oa": 51.72545248933723,
+      "operator_stop": null,
+      "error": ""
+    },
+    {
+      "id": 789,
+      "status": "completed",
+      "portfolio_id": 7,
+      "updated_at": "2026-09-24 09:41 MT",
+      "edge_r": 0.0981,
+      "oa": 96.99387851473725,
+      "operator_stop": null,
+      "error": ""
+    },
+    {
+      "id": 790,
+      "status": "completed",
+      "portfolio_id": 411,
+      "updated_at": "2026-09-24 09:31 MT",
+      "edge_r": 0.0919,
+      "oa": 45.912790967558514,
+      "operator_stop": null,
+      "error": ""
+    },
+    {
+      "id": 791,
+      "status": "completed",
+      "portfolio_id": 411,
+      "updated_at": "2026-09-24 09:33 MT",
+      "edge_r": 0.1138,
+      "oa": 82.81534508369852,
+      "operator_stop": null,
+      "error": ""
+    },
+    {
+      "id": 792,
+      "status": "completed",
+      "portfolio_id": 412,
+      "updated_at": "2026-09-24 09:47 MT",
+      "edge_r": -0.1676,
+      "oa": -53.08479081394282,
+      "operator_stop": null,
+      "error": ""
+    },
+    {
+      "id": 793,
+      "status": "completed",
+      "portfolio_id": 412,
+      "updated_at": "2026-09-24 10:15 MT",
+      "edge_r": 0.0769,
+      "oa": -3.3297636022183967,
+      "operator_stop": null,
+      "error": ""
+    },
+    {
+      "id": 794,
+      "status": "completed",
+      "portfolio_id": 413,
+      "updated_at": "2026-09-24 10:13 MT",
+      "edge_r": 0.311,
+      "oa": 168.5458844033862,
+      "operator_stop": null,
+      "error": ""
+    },
+    {
+      "id": 795,
+      "status": "completed",
+      "portfolio_id": 413,
+      "updated_at": "2026-09-24 10:18 MT",
+      "edge_r": 0.2697,
+      "oa": 215.97668760083533,
+      "operator_stop": null,
+      "error": ""
+    }
+  ],
+  "sidekiq": {
+    "retry_size": 29,
+    "pbr_in_retry": 0,
+    "queues": {
+      "default": 0,
+      "expected_returns": 86245
+    }
+  }
+}
