@@ -1,8 +1,13 @@
 {
   "version": 1,
-  "description": "Hard MCP allowlist + cron duty guards for Cromwell (sessionKey cron:<job-id>). Enforced by nanobot ToolRegistry/AgentProgressHook patch — soft FORBIDDEN prompts are not enough. See issue 2026-07-13 placeholder-path hallucination + 2026-07-20 DAR leak.",
+  "description": "Hard MCP allowlist + cron duty guards for Cromwell (sessionKey cron:<job-id>). Enforced by nanobot ToolRegistry/AgentProgressHook patch \u2014 soft FORBIDDEN prompts are not enough. See issue 2026-07-13 placeholder-path hallucination + 2026-07-20 DAR leak. Policy 2026-09-26: deny long_task + complete_goal on all cron:* (sustained-goal bookkeeping is chat-only; clears leftover goal_state.active at cron before_run). complete_goal({goal,ui_summary}) is the long_task schema \u2014 desk patch returns a one-shot hint + identical-fail CIRCUIT_BREAK.",
   "defaults": {
-    "identical_fail_limit": 2
+    "identical_fail_limit": 2,
+    "builtin_deny": [
+      "long_task",
+      "complete_goal"
+    ],
+    "note_sustained_goal_deny": "long_task/complete_goal denied on every cron job (merged into builtin_deny_set). Do not use sustained-goal tools on scheduled duties."
   },
   "default_for_unlisted_cron_job": {
     "mcp_allow": [],
@@ -10,16 +15,36 @@
   },
   "jobs": {
     "market-snapshot-open": {
-      "mcp_allow": ["wv2_market_snapshot"],
-      "mcp_require": ["wv2_market_snapshot"],
-      "builtin_deny": ["read_file", "write_file", "edit_file"],
+      "mcp_allow": [
+        "wv2_market_snapshot"
+      ],
+      "mcp_require": [
+        "wv2_market_snapshot"
+      ],
+      "builtin_deny": [
+        "read_file",
+        "write_file",
+        "edit_file",
+        "long_task",
+        "complete_goal"
+      ],
       "force_args": {},
       "identical_fail_limit": 2
     },
     "market-snapshot-hourly": {
-      "mcp_allow": ["wv2_market_snapshot"],
-      "mcp_require": ["wv2_market_snapshot"],
-      "builtin_deny": ["read_file", "write_file", "edit_file"],
+      "mcp_allow": [
+        "wv2_market_snapshot"
+      ],
+      "mcp_require": [
+        "wv2_market_snapshot"
+      ],
+      "builtin_deny": [
+        "read_file",
+        "write_file",
+        "edit_file",
+        "long_task",
+        "complete_goal"
+      ],
       "force_args": {},
       "identical_fail_limit": 2
     },
@@ -30,22 +55,49 @@
         "wv2_get_journal",
         "wv2_list_portfolios"
       ],
-      "mcp_require": ["wv2_get_daily_activity_report"],
-      "builtin_deny": ["edit_file", "exec", "list_dir", "find_files"],
-      "read_allow": ["state/"],
-      "write_allow": ["state/"],
+      "mcp_require": [
+        "wv2_get_daily_activity_report"
+      ],
+      "builtin_deny": [
+        "edit_file",
+        "exec",
+        "list_dir",
+        "find_files",
+        "long_task",
+        "complete_goal"
+      ],
+      "read_allow": [
+        "state/"
+      ],
+      "write_allow": [
+        "state/"
+      ],
       "force_args": {
-        "wv2_get_daily_activity_report": { "fetch_only": true }
+        "wv2_get_daily_activity_report": {
+          "fetch_only": true
+        }
       },
       "force_omit": {
-        "wv2_get_daily_activity_report": ["date"]
+        "wv2_get_daily_activity_report": [
+          "date"
+        ]
       },
       "identical_fail_limit": 2
     },
     "dm-sync-events": {
-      "mcp_allow": ["dm_get_cromwell_events"],
-      "mcp_require": ["dm_get_cromwell_events"],
-      "builtin_deny": ["read_file", "write_file", "edit_file"],
+      "mcp_allow": [
+        "dm_get_cromwell_events"
+      ],
+      "mcp_require": [
+        "dm_get_cromwell_events"
+      ],
+      "builtin_deny": [
+        "read_file",
+        "write_file",
+        "edit_file",
+        "long_task",
+        "complete_goal"
+      ],
       "force_args": {},
       "identical_fail_limit": 2
     },
@@ -62,9 +114,17 @@
         "wut_list_portfolios",
         "dm_get_cromwell_events"
       ],
-      "builtin_deny": ["read_file", "write_file", "edit_file"],
+      "builtin_deny": [
+        "read_file",
+        "write_file",
+        "edit_file",
+        "long_task",
+        "complete_goal"
+      ],
       "force_args": {
-        "wv2_get_daily_activity_report": { "fetch_only": true }
+        "wv2_get_daily_activity_report": {
+          "fetch_only": true
+        }
       },
       "identical_fail_limit": 2
     }

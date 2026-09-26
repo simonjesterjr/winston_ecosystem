@@ -32,7 +32,7 @@ def mod(tmp_path, monkeypatch):
     m = _load_mod()
     cfg = {
         "version": 1,
-        "defaults": {"identical_fail_limit": 2},
+        "defaults": {"identical_fail_limit": 2, "builtin_deny": ["long_task", "complete_goal"]},
         "default_for_unlisted_cron_job": {"mcp_allow": []},
         "jobs": {
             "market-snapshot-open": {
@@ -424,3 +424,153 @@ def test_eod_write_allow_via_prepare(mod, monkeypatch):
     assert err is None
     assert "date" not in params
     assert params.get("fetch_only") is True
+
+
+def test_cron_denies_long_task_and_complete_goal(mod, monkeypatch):
+    """cron:* hard-denies sustained-goal tools (policy: deny, not clear-only)."""
+    class ToolRegistry:
+        def prepare_call(self, name, params):
+            return object(), params, None
+
+        def get_definitions(self):
+            return [
+                {"name": "long_task"},
+                {"name": "complete_goal"},
+                {"name": "message"},
+                {"function": {"name": "mcp_winston_wv2_market_snapshot"}},
+            ]
+
+        @staticmethod
+        def _schema_name(schema):
+            fn = schema.get("function")
+            if isinstance(fn, dict) and isinstance(fn.get("name"), str):
+                return fn["name"]
+            return schema.get("name") or ""
+
+        async def execute(self, name, params):
+            return "ok"
+
+    monkeypatch.setattr(mod, "_install_progress_hook_guards", lambda: None)
+    monkeypatch.setattr(mod, "_session_key", lambda: "cron:ecosystem-status-daily")
+    # Ensure job entry exists in test fixture via unknown→default or add key
+    # ecosystem-status-daily not in fixture jobs → uses default_for_unlisted + defaults.builtin_deny
+    mod.install(ToolRegistry)
+    reg = ToolRegistry()
+
+    _t, _p, err = reg.prepare_call(
+        "complete_goal",
+        {"goal": "x", "ui_summary": "y"},
+    )
+    assert err is not None
+    assert "denied" in err.lower() or "sustained-goal" in err.lower()
+    assert "CIRCUIT_BREAK" not in err  # first failure is deny, not break
+
+    _t, _p, err = reg.prepare_call("long_task", {"goal": "do stuff"})
+    assert err is not None
+    assert "denied" in err.lower() or "sustained-goal" in err.lower()
+
+    defs = reg.get_definitions()
+    names = {ToolRegistry._schema_name(s) for s in defs}
+    assert "long_task" not in names
+    assert "complete_goal" not in names
+    assert "message" in names
+
+
+def test_complete_goal_arg_swap_one_shot_hint(mod, monkeypatch):
+    """Unexpected goal/ui_summary on complete_goal → one-shot long_task hint."""
+    class ToolRegistry:
+        def prepare_call(self, name, params):
+            # Simulate stock registry Invalid parameters
+            if name == "complete_goal" and ("goal" in params or "ui_summary" in params):
+                return (
+                    object(),
+                    params,
+                    "Error: Invalid parameters for tool 'complete_goal': unexpected parameter goal",
+                )
+            return object(), params, None
+
+        def get_definitions(self):
+            return []
+
+        @staticmethod
+        def _schema_name(schema):
+            return ""
+
+        async def execute(self, name, params):
+            return "ok"
+
+    monkeypatch.setattr(mod, "_install_progress_hook_guards", lambda: None)
+    # Non-cron chat session — arg-swap UX must fire outside cron deny path
+    monkeypatch.setattr(mod, "_session_key", lambda: "telegram:-1003884714483")
+    mod.install(ToolRegistry)
+    reg = ToolRegistry()
+    mod.reset_turn_state()
+
+    bad = {"goal": "Continue previous task", "ui_summary": "Resuming"}
+    _t, _p, err = reg.prepare_call("complete_goal", bad)
+    assert err is not None
+    assert "long_task" in err
+    assert "recap" in err.lower() or "does not accept" in err
+    assert "CIRCUIT_BREAK" not in err
+
+    # Same signature again → CIRCUIT_BREAK (identical_fail_limit=2)
+    _t, _p, err2 = reg.prepare_call("complete_goal", bad)
+    assert err2 is not None
+    assert "CIRCUIT_BREAK" in err2
+
+
+def test_complete_goal_invalid_arg_circuit_break(mod, monkeypatch):
+    """N identical complete_goal Invalid-parameters (prepare_call path) → CIRCUIT_BREAK."""
+    class ToolRegistry:
+        def prepare_call(self, name, params):
+            return (
+                object(),
+                params,
+                "Error: Invalid parameters for tool 'complete_goal': unexpected parameter goal",
+            )
+
+        def get_definitions(self):
+            return []
+
+        @staticmethod
+        def _schema_name(schema):
+            return ""
+
+        async def execute(self, name, params):
+            return "ok"
+
+    monkeypatch.setattr(mod, "_install_progress_hook_guards", lambda: None)
+    monkeypatch.setattr(mod, "_session_key", lambda: "telegram:chat")
+    mod.install(ToolRegistry)
+    reg = ToolRegistry()
+    mod.reset_turn_state()
+
+    # Params without goal key — hits original_prepare Invalid parameters branch
+    params = {"recap": "x", "goal": "sneaky"}  # has goal → arg-swap path
+    # Use path that goes through Invalid parameters post-original when args look normal
+    # but validator still fails — exercise note_identical_failure via arg-swap (has goal)
+    results = []
+    for _ in range(3):
+        _t, _p, err = reg.prepare_call("complete_goal", {"goal": "same", "ui_summary": "same"})
+        results.append(err)
+
+    assert results[0] is not None and "long_task" in results[0]
+    assert results[1] is not None and "CIRCUIT_BREAK" in results[1]
+    assert results[2] is not None and "CIRCUIT_BREAK" in results[2]
+
+
+def test_builtin_deny_set_merges_defaults_sustained_goal(mod):
+    deny = mod.builtin_deny_set("market-snapshot-hourly")
+    assert "long_task" in deny
+    assert "complete_goal" in deny
+    assert "read_file" in deny
+
+
+def test_complete_goal_helpers(mod):
+    assert mod.complete_goal_has_long_task_args({"goal": "x"})
+    assert mod.complete_goal_has_long_task_args({"ui_summary": "y"})
+    assert not mod.complete_goal_has_long_task_args({"recap": "done"})
+    assert not mod.complete_goal_has_long_task_args({})
+    hint = mod.complete_goal_arg_swap_hint()
+    assert "long_task" in hint
+    assert "complete_goal" in hint

@@ -10,6 +10,14 @@ When session_key is ``cron:<job-id>``:
 5. **mcp_require** — finalize_content rewrites hallucinated completion if required
    MCP tools never succeeded this turn (never invent "stable / no movers").
 6. **No human path-asks** — message tool + final text blocked if they ask for paths.
+7. **Sustained-goal cron policy (deny)** — ``long_task`` and ``complete_goal`` are
+   always denied/no-op on ``cron:*`` (defaults.builtin_deny + hard prepare_call gate).
+   Cron turns also clear any leftover ``goal_state.active`` at ``before_run`` so the
+   sustained-goal injector cannot re-prompt on scheduled duties.
+8. **complete_goal arg-swap UX** — ``complete_goal({goal, ui_summary})`` is the
+   ``long_task`` schema; real ``complete_goal`` is optional ``recap`` only. Wrong
+   args get a one-shot hint pointing to ``long_task``; N identical Invalid-parameter
+   shapes trip CIRCUIT_BREAK (prepare_call path — runner never reaches execute).
 
 Config path (first existing wins):
   1. NANOBOT_CRON_TOOL_ALLOWLIST env
@@ -38,8 +46,17 @@ _fail_counts: ContextVar[dict[str, int] | None] = ContextVar(
     "sawtooth_cron_fail_counts", default=None
 )
 _ok_mcp: ContextVar[set[str] | None] = ContextVar("sawtooth_cron_ok_mcp", default=None)
+# One-shot arg-swap hints already returned this turn (call signatures).
+_arg_swap_hints: ContextVar[set[str] | None] = ContextVar(
+    "sawtooth_complete_goal_arg_swap_hints", default=None
+)
 
 _DEFAULT_IDENTICAL_FAIL_LIMIT = 2
+
+# Always denied on cron:* — sustained goals are chat-thread bookkeeping, not cron duties.
+# (Also listed under defaults.builtin_deny in cron-tool-allowlist.json.)
+_CRON_SUSTAINED_GOAL_TOOLS = frozenset({"long_task", "complete_goal"})
+_COMPLETE_GOAL_LONG_TASK_ARGS = frozenset({"goal", "ui_summary"})
 
 # Docs / textbook placeholders the small model invents after truncation.
 _PLACEHOLDER_PATH_EXACT = frozenset(
@@ -87,6 +104,7 @@ def reset_turn_state() -> None:
     """Clear per-turn counters (call at start of each agent run)."""
     _fail_counts.set({})
     _ok_mcp.set(set())
+    _arg_swap_hints.set(set())
 
 
 def _get_fail_counts() -> dict[str, int]:
@@ -102,6 +120,14 @@ def _get_ok_mcp() -> set[str]:
     if s is None:
         s = set()
         _ok_mcp.set(s)
+    return s
+
+
+def _get_arg_swap_hints() -> set[str]:
+    s = _arg_swap_hints.get()
+    if s is None:
+        s = set()
+        _arg_swap_hints.set(s)
     return s
 
 
@@ -181,9 +207,16 @@ def required_mcp_set(job_id: str) -> set[str]:
 
 
 def builtin_deny_set(job_id: str) -> set[str]:
+    """Job builtin_deny union defaults.builtin_deny union sustained-goal cron deny."""
+    cfg = _load_config()
+    defaults = cfg.get("defaults") or {}
+    default_deny = defaults.get("builtin_deny") or []
     entry = _job_entry(job_id)
     deny = entry.get("builtin_deny") or []
-    return {str(x).strip() for x in deny if str(x).strip()}
+    out = {str(x).strip() for x in default_deny if str(x).strip()}
+    out.update(str(x).strip() for x in deny if str(x).strip())
+    out.update(_CRON_SUSTAINED_GOAL_TOOLS)
+    return out
 
 
 def allow_prefixes(job_id: str, key: str) -> list[str] | None:
@@ -385,8 +418,13 @@ def is_error_result(result: Any) -> bool:
 
 
 def circuit_break_message(job_id: str, name: str, count: int) -> str:
+    scope = (
+        f"cron job '{job_id}'"
+        if job_id and job_id != "non-cron"
+        else "this session"
+    )
     return (
-        f"Error: CIRCUIT_BREAK for cron job '{job_id}': identical failed tool call "
+        f"Error: CIRCUIT_BREAK for {scope}: identical failed tool call "
         f"'{name}' repeated {count} times this turn. STOP retrying. "
         "Do NOT ask the human for a file path or free-form recovery. "
         "If allowed MCP output is already available this turn, format the duty from it. "
@@ -448,6 +486,119 @@ def enforce_cron_final_content(content: str | None, *, session_key: str | None =
     return content
 
 
+def complete_goal_has_long_task_args(params: Any) -> bool:
+    """True when complete_goal was called with long_task's goal/ui_summary schema."""
+    if not isinstance(params, dict):
+        return False
+    return bool(_COMPLETE_GOAL_LONG_TASK_ARGS.intersection(params.keys()))
+
+
+def complete_goal_arg_swap_hint() -> str:
+    return (
+        "Error: complete_goal does not accept 'goal' or 'ui_summary' — that schema belongs "
+        "to long_task. Call long_task({goal, ui_summary?}) to register a sustained objective, "
+        "then complete_goal({recap?}) with an optional recap only when finished. "
+        "Do not retry complete_goal with goal/ui_summary."
+    )
+
+
+def sustained_goal_cron_deny_message(job_id: str, tool_name: str) -> str:
+    return (
+        f"Error: Builtin tool '{tool_name}' is denied for cron job '{job_id}'. "
+        "Sustained-goal tools (long_task / complete_goal) are chat-thread bookkeeping only — "
+        "not for scheduled cron duties. Continue the duty with allowed MCP tools, then finish. "
+        "Do NOT retry long_task or complete_goal on this session."
+    )
+
+
+def note_identical_failure(job_id: str | None, name: str, params: Any) -> str | None:
+    """Increment identical-fail counter; return CIRCUIT_BREAK message when limit hit.
+
+    Used from prepare_call because the runner returns prep errors without calling execute.
+    When job_id is None (non-cron), still circuit-breaks complete_goal arg-swap loops using
+    the default identical_fail_limit.
+    """
+    sig = call_signature(name, params)
+    counts = _get_fail_counts()
+    counts[sig] = counts.get(sig, 0) + 1
+    limit = identical_fail_limit(job_id)
+    if counts[sig] >= limit:
+        jid = job_id or "non-cron"
+        logger.warning(
+            "cron_circuit_break trip job=%s tool=%s count=%s (prepare_call)",
+            jid,
+            name,
+            counts[sig],
+        )
+        return circuit_break_message(jid, name, counts[sig])
+    return None
+
+
+def clear_cron_active_goal_state(session_key: str | None) -> bool:
+    """Best-effort: clear leftover goal_state.active on cron sessions (deny-policy hygiene).
+
+    Returns True when an active goal was cleared. Never raises into the agent loop.
+    """
+    job_id = cron_job_id_from_session_key(session_key)
+    if not job_id or not session_key:
+        return False
+    try:
+        from nanobot.session.goal_state import (
+            GOAL_STATE_KEY,
+            discard_legacy_goal_state_key,
+            goal_state_raw,
+            parse_goal_state,
+            sustained_goal_active,
+        )
+        from nanobot.session.manager import SessionManager
+    except Exception as exc:  # noqa: BLE001
+        logger.debug("cron goal clear: imports unavailable: %s", exc)
+        return False
+
+    candidates = [
+        Path.home() / ".nanobot" / "workspace",
+        Path("/root/.nanobot/workspace"),
+    ]
+    env_ws = os.environ.get("NANOBOT_WORKSPACE", "").strip()
+    if env_ws:
+        candidates.insert(0, Path(env_ws))
+
+    for ws in candidates:
+        try:
+            if not ws.is_dir():
+                continue
+            sm = SessionManager(ws)
+            sess = sm.get_or_create(session_key)
+            if not sustained_goal_active(sess.metadata):
+                return False
+            prior = parse_goal_state(goal_state_raw(sess.metadata)) or {}
+            from datetime import datetime
+
+            sess.metadata[GOAL_STATE_KEY] = {
+                **prior,
+                "status": "completed",
+                "completed_at": datetime.now().isoformat(),
+                "recap": (
+                    f"Sawtooth cron policy: cleared active goal_state on {session_key} "
+                    "(long_task/complete_goal denied on cron duties)."
+                ),
+            }
+            discard_legacy_goal_state_key(sess.metadata)
+            sess.metadata.pop("_sustained_goal_continuation_rounds", None)
+            sm.save(sess)
+            logger.warning(
+                "cron_goal_state_cleared job=%s session=%s",
+                job_id,
+                session_key,
+            )
+            return True
+        except Exception as exc:  # noqa: BLE001
+            logger.debug("cron goal clear failed ws=%s: %s", ws, exc)
+            continue
+    return False
+
+
+
 def install(ToolRegistry: type) -> None:
     """Monkey-patch ToolRegistry + progress-hook finalize for cron duty guards."""
     if getattr(ToolRegistry, "_sawtooth_cron_allowlist_installed", False):
@@ -475,6 +626,19 @@ def install(ToolRegistry: type) -> None:
                     counts.get(sig),
                 )
                 return None, params, circuit_break_message(job_id, tool_name, counts[sig])
+
+            # Sustained-goal tools: always deny on cron:* (policy #7)
+            if tool_name in _CRON_SUSTAINED_GOAL_TOOLS:
+                logger.warning(
+                    "cron_sustained_goal_deny job=%s tool=%s session=%s",
+                    job_id,
+                    tool_name,
+                    session_key,
+                )
+                trip = note_identical_failure(job_id, tool_name, params)
+                if trip:
+                    return None, params, trip
+                return None, params, sustained_goal_cron_deny_message(job_id, tool_name)
 
             # Hard-deny listed builtins (e.g. read_file on market snapshot)
             if is_builtin_denied(job_id, tool_name):
@@ -574,7 +738,52 @@ def install(ToolRegistry: type) -> None:
                 if forced:
                     params.update(forced)
 
-        return original_prepare(self, name, params)
+        # complete_goal arg-swap (long_task schema) — one-shot hint + circuit-break.
+        # Applies on non-cron (and cron only if deny gate somehow skipped).
+        if tool_name == "complete_goal" and complete_goal_has_long_task_args(params):
+            sig = call_signature(tool_name, params)
+            counts = _get_fail_counts()
+            limit = identical_fail_limit(job_id)
+            jid = job_id or "non-cron"
+            if counts.get(sig, 0) >= limit:
+                return None, params, circuit_break_message(jid, tool_name, counts[sig])
+            hints = _get_arg_swap_hints()
+            if sig not in hints:
+                hints.add(sig)
+                note_identical_failure(job_id, tool_name, params)
+                logger.warning(
+                    "complete_goal_arg_swap_hint session=%s job=%s",
+                    session_key,
+                    job_id,
+                )
+                return None, params, complete_goal_arg_swap_hint()
+            # Already hinted this signature this turn — count again → CIRCUIT_BREAK
+            trip = note_identical_failure(job_id, tool_name, params)
+            return None, params, trip or complete_goal_arg_swap_hint()
+
+        tool, out_params, err = original_prepare(self, name, params)
+
+        # Runner calls prepare_call directly and never execute on prep errors —
+        # count Invalid parameters for complete_goal so identical-fail trips.
+        if (
+            err
+            and tool_name == "complete_goal"
+            and isinstance(err, str)
+            and "Invalid parameters" in err
+        ):
+            trip = note_identical_failure(job_id, tool_name, out_params if out_params is not None else params)
+            if trip:
+                return None, out_params, trip
+            if complete_goal_has_long_task_args(params) or (
+                isinstance(err, str) and ("unexpected parameter goal" in err or "ui_summary" in err)
+            ):
+                hints = _get_arg_swap_hints()
+                sig = call_signature(tool_name, params)
+                if sig not in hints:
+                    hints.add(sig)
+                    return None, out_params, complete_goal_arg_swap_hint()
+
+        return tool, out_params, err
 
     def get_definitions(self):  # type: ignore[no-untyped-def]
         definitions = original_get_definitions(self)
@@ -667,6 +876,12 @@ def _install_progress_hook_guards() -> None:
 
     async def before_run(self, context: Any) -> None:  # type: ignore[no-untyped-def]
         reset_turn_state()
+        session_key = (
+            getattr(self, "_session_key", None)
+            or getattr(context, "session_key", None)
+            or _session_key()
+        )
+        clear_cron_active_goal_state(session_key)
         await original_before_run(self, context)
 
     AgentProgressHook.finalize_content = finalize_content  # type: ignore[method-assign]

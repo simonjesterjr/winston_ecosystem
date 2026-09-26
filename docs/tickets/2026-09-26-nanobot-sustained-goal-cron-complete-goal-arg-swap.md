@@ -1,6 +1,6 @@
 # Ticket: Harden nanobot sustained-goal / cron against complete_goal arg swap loop
 
-**Status:** Proposed  
+**Status:** Implemented — pending next scheduled daily observation  
 **Priority:** P2  
 **Date:** 2026-09-26  
 **Lane:** B  
@@ -41,12 +41,12 @@ Tool call: long_task({"goal": "Analyze the error and provide a corrected approac
 
 ## Work items
 
-- [ ] **Cron policy:** deny or auto-noop `long_task` / `complete_goal` on `sessionKey` matching `cron:*` **or** clear `goal_state` at end of every cron turn (pick one durable policy; document in patch README / allowlist comment)
-- [ ] **Validation User Experience (UX):** unexpected `goal` / `ui_summary` on `complete_goal` → one-shot hint pointing the model to `long_task` (do not loop the same Invalid parameters forever)
-- [ ] **Circuit-break:** after **N** identical `Invalid parameters for complete_goal` failures (same tool + same unexpected-arg shape), hard-stop with ops guidance (reuse / extend desk identical-fail pattern in `cron_tool_allowlist.py`)
-- [ ] **Optional HARD RULE** in seeded `AGENTS.md` / `TOOLS.md` — **ticket this text only; do not edit live persona files in this ticket**
-- [ ] **Verify:** next `ecosystem-status-daily` completes without sustained-goal injections / Telegram tool-error spam
-- [ ] In-band wrap + push `ecosystem` `main` (and image/vendor change if the fix lands outside desk patches — note path in Results)
+- [x] **Cron policy:** deny or auto-noop `long_task` / `complete_goal` on `sessionKey` matching `cron:*` **or** clear `goal_state` at end of every cron turn (pick one durable policy; document in patch README / allowlist comment)
+- [x] **Validation User Experience (UX):** unexpected `goal` / `ui_summary` on `complete_goal` → one-shot hint pointing the model to `long_task` (do not loop the same Invalid parameters forever)
+- [x] **Circuit-break:** after **N** identical `Invalid parameters for complete_goal` failures (same tool + same unexpected-arg shape), hard-stop with ops guidance (reuse / extend desk identical-fail pattern in `cron_tool_allowlist.py`)
+- [x] **Optional HARD RULE** in seeded `AGENTS.md` / `TOOLS.md` — **ticket this text only; do not edit live persona files in this ticket**
+- [~] **Verify:** next `ecosystem-status-daily` completes without sustained-goal injections / Telegram tool-error spam
+- [x] In-band wrap + push `ecosystem` `main` (and image/vendor change if the fix lands outside desk patches — note path in Results)
 
 ## System One harness
 
@@ -133,3 +133,54 @@ Fallback (paste-only): `cd` same cwd → paste the ``` CLI seed ``` block once i
 - Changing compose recreate cascade ([`2026-09-17-compose-nanobot-recreate-cascade.md`](2026-09-17-compose-nanobot-recreate-cascade.md))
 - Dual-route Cromwell cron model routing ([`2026-09-17-cromwell-cron-dual-route-3b.md`](2026-09-17-cromwell-cron-dual-route-3b.md))
 - Parallel Grok CLI implement on this ticket unless Operator splits scope in writing
+
+
+## Results
+
+**Shipped:** 2026-09-26 (America/Denver) — Winston Dev Lane B  
+**Policy:** **DENY** `long_task` + `complete_goal` on all `cron:*` (hard `prepare_call` gate + `defaults.builtin_deny` + per-job `builtin_deny`). Companion hygiene: clear leftover `goal_state.active` at cron `before_run` so sustained-goal injector cannot re-prompt. (Not the clear-only alternative.)
+
+**Commit:** `0335740f2ad7de4d27a57b4c1245fd245ac3c390`  
+**Surfaces:** desk only — `ai/nanobot/patches/cron_tool_allowlist.py`, `ai/nanobot/patches/test_cron_tool_allowlist.py`, `ai/schedule/cron-tool-allowlist.json`. No image edits to `nanobot/agent/tools/{long_task,registry,runner}.py`.
+
+**Tests:** `pytest ai/nanobot/patches/test_cron_tool_allowlist.py` → **26 passed** (cron deny, one-shot arg-swap hint, CIRCUIT_BREAK, defaults merge).
+
+**Live verify:** rebuilt `sawtooth_nanobot_cromwell`; in-container probe **PROBE_OK** (cron deny messages, defs filtered, non-cron hint→CIRCUIT_BREAK, `goal_state.status=completed`). `nanobot` `/health` ok after recreate.
+
+**Container recreate (Ops):**
+```bash
+cd /home/johnkoisch/Documents/com/sawtooth
+./bin/compose --profile ai build nanobot_cromwell
+# WARNING: podman-compose --force-recreate nanobot_cromwell cascades Redis/Wv2/Ollama
+# (see docs/tickets/2026-09-17-compose-nanobot-recreate-cascade.md). Prefer a
+# proven non-cascade path when available; this ship used compose recreate and
+# the stack recovered (~20s Redis bounce).
+./bin/compose --profile ai up -d --no-deps --force-recreate nanobot_cromwell
+# Also seed allowlist JSON (workspace mount):
+cp ecosystem/ai/schedule/cron-tool-allowlist.json ai/data/cromwell-bot/workspace/schedule/
+```
+
+**HARD RULE draft (ticket-only — do NOT paste into live AGENTS.md/TOOLS.md in this ticket):**
+```
+HARD RULE — Sustained goals are chat-thread only.
+- Never call long_task or complete_goal on cron:* / scheduled duties.
+- complete_goal accepts optional recap only — never goal/ui_summary (that is long_task).
+- If you meant to start a sustained objective, call long_task({goal, ui_summary?}) first.
+```
+
+**Jev System One (tee):**
+| checkpoint | noul | pass rule |
+|---|---|---|
+| cron_no_sustained_inject | 0.88 | ≥0.85 PASS |
+| complete_goal_arg_hint | 0.89 | ≥0.85 PASS |
+| circuit_break_fires | 0.89 | ≥0.85 PASS |
+| daily_cron_clean | 0.79 (re-ask after PROBE_OK) | ≥0.85 **RESIDUAL** — live probe closed smell path; next 06:00 MT `ecosystem-status-daily` still needed for Telegram spam absence |
+| no_live_persona_edit | 0.03 | FAIL-if-yes → PASS (no live persona edit) |
+| scope_pulse_untouched | 0.03 | FAIL-if-yes → PASS (Pulse untouched) |
+
+Wrap: `ecosystem/.grok/jev-wrap-2026-09-26-complete-goal-arg-swap.md`
+
+**nanobot_cromwell restarted:** yes (rebuild + compose recreate; known cascade briefly bounced Redis/Ollama/Wv2 — recovered).
+
+**Blockers / residual:** `daily_cron_clean` Jev noul 0.79 < 0.85 until next scheduled morning briefing is observed clean on Telegram. Do not claim full Done on that checkpoint alone.
+
