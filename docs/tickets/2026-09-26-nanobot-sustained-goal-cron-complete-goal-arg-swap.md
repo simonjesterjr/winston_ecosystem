@@ -140,7 +140,7 @@ Fallback (paste-only): `cd` same cwd → paste the ``` CLI seed ``` block once i
 **Shipped:** 2026-09-26 (America/Denver) — Winston Dev Lane B  
 **Policy:** **DENY** `long_task` + `complete_goal` on all `cron:*` (hard `prepare_call` gate + `defaults.builtin_deny` + per-job `builtin_deny`). Companion hygiene: clear leftover `goal_state.active` at cron `before_run` so sustained-goal injector cannot re-prompt. (Not the clear-only alternative.)
 
-**Commit:** `0335740f2ad7de4d27a57b4c1245fd245ac3c390`  
+**Commit:** `634c206d02aa958115ded4badac29239c40fb28e`  
 **Surfaces:** desk only — `ai/nanobot/patches/cron_tool_allowlist.py`, `ai/nanobot/patches/test_cron_tool_allowlist.py`, `ai/schedule/cron-tool-allowlist.json`. No image edits to `nanobot/agent/tools/{long_task,registry,runner}.py`.
 
 **Tests:** `pytest ai/nanobot/patches/test_cron_tool_allowlist.py` → **26 passed** (cron deny, one-shot arg-swap hint, CIRCUIT_BREAK, defaults merge).
