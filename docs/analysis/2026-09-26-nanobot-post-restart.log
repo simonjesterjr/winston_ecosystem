@@ -1,0 +1,11 @@
+2026-09-26 14:49:44 | INFO  | - | Tool call: complete_goal({"goal": "Continue the previous task by breaking it into smaller steps and proceeding without recap.", "ui_summary": "Task resumed: No actionable steps defined. Please provide task details to proceed.)
+2026-09-26 14:50:07 | WARNING | - | LLM transient error (attempt 1/3), retrying in 1s: error calling llm: connection error.
+Error in sse_reader
+    with map_exceptions({h11.RemoteProtocolError: RemoteProtocolError}):
+httpcore.RemoteProtocolError: peer closed connection without sending complete message body (incomplete chunked read)
+httpx.RemoteProtocolError: peer closed connection without sending complete message body (incomplete chunked read)
+2026-09-26 14:50:09 | INFO  | - | Registered 19 tools: ['apply_patch', 'run_cli_app', 'complete_goal', 'cron', 'edit_file', 'exec', 'find_files', 'grep', 'list_dir', 'list_exec_sessions', 'long_task', 'message', 'read_file', 'spawn', 'web_fetch', 'web_search', 'write_file', 'write_stdin', 'my']
+2026-09-26 14:50:09 | INFO  | - | Cron service started with 6 jobs
+2026-09-26 14:50:09 | INFO  | - | Outbound dispatcher started
+✓ Health endpoint: http://0.0.0.0:18790/health
+2026-09-26 14:50:09 | INFO  | - | Agent loop started

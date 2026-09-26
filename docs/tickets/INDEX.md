@@ -35,6 +35,7 @@ Backlog view for `ecosystem/docs/tickets/`. **Done / Completed / Superseded** �
 
 | Priority | Status | File | Title |
 |----------|--------|------|-------|
+| P2 | Proposed | [`2026-09-26-nanobot-sustained-goal-cron-complete-goal-arg-swap.md`](2026-09-26-nanobot-sustained-goal-cron-complete-goal-arg-swap.md) | Harden nanobot sustained-goal / cron against complete_goal arg-swap loop — [triage](../analysis/2026-09-26-nanobot-ai-stack-reboot.md) |
 | P1 | Proposed | [`2026-09-25-mode-d-uat-resume.md`](2026-09-25-mode-d-uat-resume.md) | Mode D user acceptance — resume early next week after the XLE flatten fills — [report](../session-reports/2026-09-25-1407-mode-d-uat-ops-shell.md) |
 | P1 | In progress | [`2026-09-24-mode-d-phase-2.md`](2026-09-24-mode-d-phase-2.md) | Mode D phase 2 — desk walk, list field, and assignment done; paper send still blocked; #1585 importer adopt stopped on engaged draft journal 2105 — [report](../session-reports/2026-09-24-1227-mode-d-phase-0-1.md) |
 | P1 | Blocked | [`2026-09-24-mode-d-phase-2-paper-send.md`](2026-09-24-mode-d-phase-2-paper-send.md) | Mode D phase 2 — one paper covered-call send; fingerprint named `d627cd79…`; adopt stopped on engaged journal 2105; Send still blocked |
