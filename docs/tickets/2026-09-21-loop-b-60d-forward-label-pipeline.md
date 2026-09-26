@@ -50,3 +50,8 @@ Host pull 2026-09-20 overnight: true `fwd_60d` blocked by **PCS history depth** 
 ## Overnight progress (2026-09-24 ~22:00 MT)
 
 I refreshed PCS/corr/mid-band evidence in [`../analysis/2026-09-24-overnight-loop-b-pcs-corr-midband.md`](../analysis/2026-09-24-overnight-loop-b-pcs-corr-midband.md). `unlock_fwd_60d` still false (max forward depth still 46 td on Blue/Orange). Mode C pids 411–414 still pbr-only (no `daily_job` corr_v2). Calendar depth from Red-first → container-today = **55 td**; calendar-only 60 td still ≈ **2026-10-02**. Interim `fwd_20d` reinforced on solvent parents.
+
+## Overnight progress (2026-09-25 ~22:00 MT)
+
+I refreshed PCS/corr/mid-band evidence in [`../analysis/2026-09-25-loop-b-overnight-pcs-depth-midband.md`](../analysis/2026-09-25-loop-b-overnight-pcs-depth-midband.md). `unlock_fwd_60d` still false (max forward depth still 46 td on Blue/Orange). Mode C pids 411–414 still pbr-only (no `daily_job` corr_v2; latest still 2026-09-24 for Indigo/Teal/Copper; Slate 2026-09-19). Calendar depth from Red-first → container-today = **55 td** (weekend: container date 2026-09-26 UTC adds no trading day); calendar-only 60 td still ≈ **2026-10-02**. Interim `fwd_20d` reinforced on solvent parents. Mid-band hold intact (Teal PCS 64.89 / Edge_R 17.10).
+

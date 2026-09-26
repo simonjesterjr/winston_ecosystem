@@ -90,3 +90,8 @@ If Jev is unavailable, print `Jev skipped: <reason>` and continue only if the ti
 ## Overnight note (2026-09-24 ~22:00 MT)
 
 I reconfirmed on host `./bin/compose ps`: Rails monoliths + Sidekiq still **Up … (starting)** (Wv2 Up 3 days starting on :3002; WUT Up 37 hours starting) while Redis/Postgreses/Ollama stay **(healthy)**. Specimen still matches DoD. No code change overnight.
+
+## Overnight note (2026-09-25 ~22:00 MT)
+
+I reconfirmed on host `./bin/compose ps`: Rails monoliths + Sidekiq still **Up … (starting)** (WUT Up 2 days starting on :3000; Wv2 Up 4 days starting on :3002; BG Up 4 days starting) while Redis/Postgreses/Ollama stay **(healthy)**. Specimen still matches DoD. No code change overnight.
+
